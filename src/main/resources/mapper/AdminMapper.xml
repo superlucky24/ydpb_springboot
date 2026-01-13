@@ -5,15 +5,15 @@
 
 <mapper namespace="kr.go.ydpb.mapper.AdminMapper">
 
-    <select id="getAllComplaint" resultType="kr.go.ydpb.domain.MemberVO">
+    <select id="getAllComplaint" resultType="kr.go.ydpb.domain.ComplaintVO">
         select * from (select A.* ,Rownum Rnum from (select * from tbl_complaint order by comId desc)A) where Rnum >= #{start} and Rnum <= #{end};
     </select>
 
-    <select id="getOneComplaint" resultType="kr.go.ydpb.domain.MemberVO">
+    <select id="getOneComplaint" resultType="kr.go.ydpb.domain.ComplaintVO">
         SELECT * FROM tbl_complaint WHERE comId = #{comId}
     </select>
 
-    <select id="searchComplaint" resultType="kr.go.ydpb.domain.MemberVO">
+    <select id="searchComplaint" resultType="kr.go.ydpb.domain.ComplaintVO">
         <![CDATA[
         select * from
         (select A.* ,Rownum Rnum from
@@ -22,18 +22,18 @@
         ]]>
     </select>
 
-    <select id="updateComplaint" resultType="kr.go.ydpb.domain.MemberVO">
+    <update id="updateComplaint" resultType="int">
         UPDATE tbl_complaint
         SET
             comAnswer = #{comAnswer}
         WHERE comId = #{comId}
-    </select>
+    </update>
 
-    <select id="deleteComplaint" resultType="kr.go.ydpb.domain.MemberVO">
+    <delete id="deleteComplaint" resultType="int">
         DELETE FROM tbl_complaint WHERE comId = #{comId}
     </select>
 
-    <select id="getMember" resultType="kr.go.ydpb.domain.MemberVO">
+    <delete id="getMember" resultType="kr.go.ydpb.domain.MemberVO">
         SELECT * FROM tbl_member where memId = #{memId} and memPassword = #{memPassword} and memRole= 1
     </select>
 

@@ -1,0 +1,379 @@
+@charset "utf-8";
+
+/* 사이드 메뉴 */
+.side_menu {
+    display: inline;
+    float: left;
+    min-width: 240px;
+    margin: 0;
+    padding: 0;
+    
+}
+.innerbox {    
+    width: 100%;
+    margin: 0 auto;
+    
+}
+
+.side_title {
+    height: 160px;
+    padding: 0 10px;
+    background-color: #4384d4;
+    line-height: 152px;
+    text-align: center;
+
+}
+.side_title_text {
+    display: inline-block;
+    font-size: 28px;
+    color: #fff;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.side_list_menu {
+    border-top: 1px solid #ddd;
+}
+
+
+.side_list {
+    border: 1px solid #dfdfdf;
+}
+
+.side_list_menu div {
+    padding: 17px 40px 19px 25px;
+}
+
+.sub_list {    
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 250ms ease-in-out;
+}
+
+.sub_list.show {
+    padding-left: 35px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    max-height: 500px;
+    border-top: 2px solid #4384d4;
+}
+
+.side_list_menu div {
+    cursor: pointer;
+}
+
+.side_list_menu div span {
+    position: relative;
+    display: inline-block;
+    color: #141414;
+    font-size: 18px;
+    line-height: 18px;
+}
+
+.side_list_menu div span::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 3px;
+    left: 190px;
+    width: 11px;
+    height: 11px;
+    background: url("../images/common/sidemenu_arrow_02.png") no-repeat center;
+    background-size: contain;
+}
+
+.side_list_menu.open div span {
+    color: #3256a5;
+}
+
+.side_list_menu.open div span::after {
+    top: 0;
+    left: 182px;
+    width: 22px;
+    height: 22px;
+    background: url("../images/common/sidemenu_arrow_01.png") no-repeat center;
+    background-size: contain;
+}
+
+.sub_group {
+    text-align: left;
+    display: none;
+}
+
+
+.sub_group_title {
+    font-size: 16px;
+    color: #444;
+    cursor: pointer;
+}
+
+.sub_group_title:hover {
+    color: #0a50a6;
+    font-weight: 600;
+}
+
+.sub_group_title.open {
+    color: #0a50a6;
+    font-weight: 600;
+}
+
+
+.sub_group_title::before {
+    content: "";
+    display: block;
+    position: relative;
+    top: 10px;
+    left: -13px;
+    width: 7px;
+    height: 8px;
+    background: url("../images/common/sidemenu_dot_02.png") no-repeat center;
+    background-size: contain;
+}
+
+.sub_group_title:hover::before {
+    background: url("../images/common/sidemenu_dot_01.png") no-repeat center;
+    background-size: contain;
+}
+.sub_group_title.open::before {
+    background: url("../images/common/sidemenu_dot_01.png") no-repeat center;
+    background-size: contain;
+}
+
+.sub_group_title::after {
+    content: "";
+    display: block;
+    position: relative;
+    top: -15px;
+    left: 180px;
+    width: 9px;
+    height: 9px;
+    background: url("../images/common/side_sprite.png") no-repeat -1px 0px;
+    transition-property: background-position;
+    transition-duration: 250ms;
+    transition-timing-function: ease-in-out;
+}
+.sub_group_title.open::after {
+    background-position-y: -10px;
+    transition-property: background-position;
+    transition-duration: 250ms;
+    transition-timing-function: ease-in-out;
+}
+
+
+.sub_group_list {     
+    padding: 0 !important;
+    font-size: 15px;
+    color: #222;
+    display: block;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 250ms ease-in-out;
+}
+
+.sub_group_list li:hover {
+    color: #0a50a6;
+    font-weight: 600;
+}
+
+
+.sub_group_list.show {
+    max-height: 500px; /* 충분히 큰 값 */    
+}
+
+
+.sub_group_list li {
+    padding-top: 4px;
+    padding-bottom: 5px;
+}
+
+.sub_group_list li::before {
+    content: "";
+    display: block;
+    position: relative;
+    top: 10px;
+    left: 0px;
+    width: 4px;
+    height: 4px;
+    border-radius: 5px;
+    background-color: #b4c3d6;
+}
+
+.sub_group_list li:hover::before {
+    background-color:#0a50a6;
+}
+
+.side_active {
+    color: #0a50a6;
+    font-weight: 600;
+}
+.sub_group_list li.side_active::before {
+    background-color:#0a50a6;
+}
+
+.sub_group_list li a {
+    padding-left: 15px;
+}
+/* /사이드 메뉴 */
+
+/* 보이게 설정 */
+.show {
+    display: block;
+}
+
+/* location */
+.location {
+    height: 109px;
+    margin-bottom: 50px;
+}
+.location_title {
+    margin-bottom: 18px;
+    font-size: 26px;
+}
+.location_path {
+    display: inline-block;
+    height: 20px;
+    margin-right: 13px;
+    color: #7c7c7c;
+    vertical-align: top;
+}
+
+.loc_text {
+    font-size: 16px;
+    margin: 0 6px;
+    cursor: pointer;
+}
+
+.loc_home {
+    color: transparent;
+    font-size: 22px;
+    width: 16px;
+    height: 18px;
+    position: relative;
+    top: 8px;
+    background: url(../images/common/location_home.png) no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
+
+.loc_arrow {
+    color: transparent;
+    font-size: 10px;
+    width: 3px;
+    height: 4px;
+    position: relative;
+    top: 2px;
+    margin: 0 4px 3px;
+    background: url(../images/common/location_arrow.png) no-repeat;
+    background-size: contain;
+}
+
+.location_icon {
+    display: inline-block;
+    margin-top: -3px;
+    vertical-align: top;
+    height: 29px;
+}
+
+.loc_fixed_icon {
+    display: flex;
+}
+
+.loc_fixed_icon li {
+    width: 29px;
+    height: 29px;
+    margin: 0 4px;
+}
+
+.loc_print {
+    color: transparent;
+    width: 29px;
+    height: 29px;
+    position: relative;
+    top: 2px;
+    background: url(../images/common/location_icon_print.png) no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
+
+.icon_sns {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.loc_sns {
+    color: transparent;
+    width: 29px;
+    height: 29px;
+    position: relative;
+    top: 2px;
+    background: url(../images/common/location_icon_link.png) no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
+
+.loc_sns.checked {
+    background: url(../images/common/location_close.png) no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
+
+.sns_list {
+    display: none;
+}
+
+.sns_list.show {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    width: 180px;
+}
+
+.sns_list a {
+    margin: 5px;
+}
+
+.loc_sns_icon1 {
+    color: transparent;
+    width: 29px;
+    height: 29px;
+    position: relative;
+    background: url(../images/common/location_sns_01.png) no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
+.loc_sns_icon2 {
+    color: transparent;
+    width: 29px;
+    height: 29px;
+    position: relative;
+    background: url(../images/common/location_sns_02.png) no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
+.loc_sns_icon3 {
+    color: transparent;
+    width: 29px;
+    height: 29px;
+    position: relative;
+    background: url(../images/common/location_sns_03.png) no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
+.loc_sns_icon4 {
+    color: transparent;
+    width: 29px;
+    height: 29px;
+    position: relative;
+    background: url(../images/common/location_sns_04.png) no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
+.loc_sns_icon5 {
+    color: transparent;
+    width: 29px;
+    height: 29px;
+    position: relative;
+    background: url(../images/common/location_sns_05.png) no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}

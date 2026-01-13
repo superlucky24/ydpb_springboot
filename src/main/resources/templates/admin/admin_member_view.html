@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원정보 관리 | 관리자 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/ydpb.css">
+    <link rel="stylesheet" href="../css/ydpb_community_center_view.css">
+    <script src="../js/jquery-1.12.4.min.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/prefixfree.min.js"></script>
+    <script>const menuName = '회원정보 관리';</script>
+    <script src="../js/ydpb.js"></script>
+</head>
+<body>
+    <div id="wrap">
+        <!-- header -->
+        
+        <!-- //header -->
+
+        <!-- container -->
+        <div class="container">
+            <div class="contents_wrap safe_area">
+                <!-- side menu -->
+                <aside class="side_menu"></aside>
+                <!-- //side menu -->
+
+                <!-- main -->
+                <main>
+                    <!-- location -->
+                    <div class="location">
+                        <div class="location_title">
+                            <h2>회원정보 관리</h2>
+                        </div>
+                    </div>
+                    <!-- location -->
+
+                    <!-- contents -->
+                    <div class="contents" id="board">
+                        <div class="board clearfix">
+                            <div class="bbs_wrap">
+                                <table class="p-table">
+                                    <colgroup>
+                                        <col class="w20p">
+                                        <col>
+                                    </colgroup>
+                                    <tbody class="p-tb">
+                                        <tr>
+                                            <td colspan="2">tester1</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">사용자 이름</th>
+                                            <td>테스터1</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">사용자 생년월일</th>
+                                            <td>2000-01-01</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">사용자 성별</th>
+                                            <td>남자</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                <label for="memPassword">비밀번호</label>
+                                            </th>
+                                            <td>
+                                                <input type="password" name="memPassword" id="memPassword" class="input" maxlength="20" size="40" style="width: 300px" required>
+                                                <button type="button" class="btn btn_write btn_sm" onclick="layerAlert('죄송합니다.&lt;br&gt; 현재 준비중인 메뉴입니다.')">비밀번호 수정</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">주소</th>
+                                            <td>서울시 영등포구 영등포본동</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">일반전화</th>
+                                            <td>02-1111-2222</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">휴대폰</th>
+                                            <td>010-1111-2222</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">이메일</th>
+                                            <td>test@test.com</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">영등포구소식</th>
+                                            <td>받음</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="form_btns_wrap">
+                                    <div class="btns">
+                                        
+                                    </div>
+                                    <div class="btns">
+                                        <a href="member_list.html" class="p-btn">목록 <span class="p-btn_write"></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- //contents -->
+                    
+                </main>
+                <!-- //main -->
+            </div>
+        </div>
+        <!-- //container -->
+
+        <!-- footer -->
+        
+        <!-- //footer -->
+    </div>
+</body>
+</html>

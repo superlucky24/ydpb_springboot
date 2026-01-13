@@ -1,0 +1,238 @@
+@charset "utf-8";
+/* 공통 */
+#board {
+    line-height: 25px;
+    min-height: 300px;
+}
+.clearfix {
+    display: block;
+}
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+div, td, th {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: inherit;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+.bbs_wrap {
+    position: relative;
+    width: 100%;
+    line-height: 1.5;
+}
+span, a {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+ul,ul>li {
+    list-style: none;
+}
+td ul, td li {
+    text-align: left;
+}
+a:link {
+    color: #4c4c4c;
+    text-decoration: none;
+}
+a:visited {
+    text-decoration: none;
+}
+a span {
+    cursor: pointer;
+}
+
+/* p-table */
+.p-table colgroup+tbody tr:first-child td {
+    border-top: 2px solid #222;
+}
+.p-table {
+    table-layout: fixed;
+    position: relative;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2px 0 8px;
+    border-spacing: 0;
+}
+.w20p {
+    width: 20% !important;
+}
+.p-table td, .p-table th {
+    border-bottom: 1px solid #d9d9d9;
+}
+.p-table td {
+    padding: 11px;
+    box-sizing: border-box;
+    vertical-align: middle;
+}
+.p-table th {
+    background: #f6f6f6;
+    position: static;
+    text-align: left;
+    padding: 13px 20px;
+    color: #000;
+    font-weight: 400;
+    vertical-align: middle;
+}
+.td_title {
+    font-size: 1.12em;
+    color: #222;
+    vertical-align: middle;
+}
+.p-table td.td_text {
+    padding-top: 24px;
+    padding-bottom: 24px;
+
+}
+/* p-attach */
+.p-attach_item {
+    margin: 5px 0;
+}
+.p-attach_link {
+    display: inline-block;
+}
+.p-attach_link span {
+    vertical-align: middle;
+}
+.p-pdf_icon {
+    background-image: url(../images/sub/board02.png);
+    background-repeat: no-repeat;
+    width: 22px;
+    height: 22px;
+    position: relative;
+    display: inline-block;
+    margin-right: 2px;
+    font-size: 0;
+    line-height: 0;
+}
+.p-down_icon{
+    background-image: url(../images/sub/board05.png);
+    background-repeat: no-repeat;
+    width: 23px;
+    height: 23px;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+.p-attach_prv {
+    font-size: 15px;
+    line-height: 1;
+    font-weight: 400;
+    text-align: center;
+    position: relative;
+    top: 1px;
+    height: auto;
+    margin-left: 4px;
+    margin-right: 8px;
+    padding: 6px 10px;
+    background-color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid #cdcdcd;
+}
+.p-attach_prv:hover {
+    background: #fafafa;
+}
+.p-prv {
+    background-image: url(../images/sub/board03.png);
+    background-repeat: no-repeat;
+    background-size: 14px 14px;
+    width: 14px;
+    height: 14px;
+    top: 0.5px;
+    margin-left: 6px;
+    max-width: 100%;
+    position: relative;
+    display: inline-block;
+}
+/* p-btn_write */
+.row {
+    display: block;
+    margin-right: -8px;
+    margin-left: -8px;
+}
+.row::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+.margin_t_30 {
+    margin-top: 30px !important;
+}
+.col-12 {
+    width: 100%;
+}
+.col-12, .col-sm-24 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 8px;
+    padding-left: 8px;
+    box-sizing: border-box;
+}
+/* .col-12.col-sm-24 > .right {
+    text-align: right;
+} */
+/* 추가 */
+/* 수정,삭제 버튼과 같이 사용 */
+
+
+.p-btn {
+    padding: 12px 30px;
+    background: #202e70;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #aaa;
+    border-radius: 0;
+    line-height: 1;
+    font-weight: 400;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+.p-btn_write {
+    display: inline-block   ;
+    background-image: url(../images/sub/board06.png);
+    background-size: 16px 14px;
+    width: 16px;
+    height: 14px;
+    margin: 1px 0 0 10px;
+}
+.p-btn:link {
+    color: #fff;
+}
+/* p-post */
+.p-post {
+    border-top: 1px solid #222;
+    margin-top: 50px !important;
+}
+.p-post-move {
+    border-bottom: 1px solid #d1d1d1;
+}
+.p-post-move_title {
+    display: inline-block;
+    width: 15%;
+    padding: 14px 0;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 400;
+    color: #000;
+}
+.p-post-move_link {
+    display: inline-block;
+    overflow: hidden;
+    width: 80%;
+    margin-left: 2%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}

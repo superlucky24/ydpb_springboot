@@ -1,0 +1,153 @@
+@charset "utf-8";
+
+/* 추가 */
+.contents {
+    line-height: 25px;
+}
+ul.ul_common {
+    margin-left: 8px;
+}
+ul.ul_common li {
+    position: relative;
+    margin-top: 6px;
+    padding: 0 0 0 13px;
+    color: #4c4c4c;
+    list-style: none;
+}
+ul.ul_common > li:before {
+    content: "";
+    background-color: #000;
+    position: absolute;
+    left: 0;
+    top: 11px;
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+}
+
+
+.map_info {
+    margin-top: 47px;
+}
+/* 지도 디자인 수정 */
+.root_daum_roughmap {
+    width: 100% !important;
+}
+.root_daum_roughmap.root_daum_roughmap_landing .border1, .root_daum_roughmap.root_daum_roughmap_landing .border2, .root_daum_roughmap.root_daum_roughmap_landing .border3, .root_daum_roughmap.root_daum_roughmap_landing .border4 {
+    border: 0;
+    background-color: transparent;
+}
+/* 지도 아래 컨트롤러 가리기 */
+.hide {
+    display: none !important;
+}
+/* 지도 밑 텍스트 가리기 */
+.cont {
+    display: none !important;
+}
+
+/* 주소 */
+.map_info .map_list.address {
+    position: relative;
+    min-height: 85px;
+    padding: 15px 0 10px 115px;
+    box-sizing: border-box;
+}
+.map_info .map_list.address:before {
+    background-color: #f8ece8;
+    background-image: url(../images/sub/directions_01.png);
+}
+.map_info .map_list:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 85px;
+    height: 85px;
+    border-radius: 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+ul.ul_common li:first-child {
+    margin-top: 0;
+}
+
+/* 지하철 이용시 */
+
+/* 스크린 리더용 */
+.skip {
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background: 0 0;
+    font-size: 0 !important;
+    color: transparent !important;
+    line-height: 0;
+}
+p {
+    display: block;
+}
+.ex_mark {
+    padding-left: 30px;
+    position: relative;
+}
+.ex_mark:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url(../images/sub/ex_mark.png) no-repeat center;
+}
+
+.map_info .map_list.subway {
+    position: relative;
+    min-height: 85px;
+    padding: 15px 0 10px 115px;
+    box-sizing: border-box;
+}
+.map_info .map_list.subway:before {
+    background-color: #e2f9f5;
+    background-image: url(../images/sub/directions_02.png);
+}
+.map_info .map_list:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 85px;
+    height: 85px;
+    border-radius: 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* 버스 이용시 */
+.map_info .map_list.bus {
+    position: relative;
+    min-height: 85px;
+    padding: 15px 0 10px 115px;
+    box-sizing: border-box;
+}
+.map_info .map_list.bus:before {
+    background-color: #ebedfb;
+    background-image: url(../images/sub/directions_03.png);
+}
+.map_info .map_list:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 85px;
+    height: 85px;
+    border-radius: 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+

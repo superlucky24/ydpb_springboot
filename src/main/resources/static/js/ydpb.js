@@ -1,21 +1,6 @@
 $(document).ready(function() {
 
-    // header, search, footer, sidemenu jQuery 인클루드 : 20251218 최상림 추가
-    const pathTempHeader = '/ydpb/header_footer_layout';
-    const pathTempSide = '/ydpb/sidemenu_layout';
-    // 레이아웃 전용 페이지 또는 로그인 관련 페이지가 아닐 때 header, search, footer, sidemenu 추가
-    if(!RegExp(pathTempHeader).test(location.href) && !RegExp(pathTempSide).test(location.href) && !RegExp('/ydpb/member/').test(location.href)) {
-        $('.header').load(pathTempHeader + '.html .header > *');
-        $('.search').load(pathTempHeader + '.html .search > *');
-        $('.side_menu').load(pathTempSide + '.html .side_menu > *');
-        $('.footer').load(pathTempHeader + '.html .footer > *', function() {
-            initUi();
-        });
-    }
-    else {
-        console.log('layout 페이지');
-        initUi();
-    }
+    initUi();
 
 });
 

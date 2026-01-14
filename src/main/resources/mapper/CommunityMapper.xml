@@ -2,9 +2,94 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="kr.go.ydpb.mapper.CommunityMapper">
+    <select id="getList" resultType="kr.go.ydpb.domain.CommnunityMapper">
+	<![CDATA[
+        select * from tbl_community where cmntId > 0 order by cmntId desc
+        ]]>
+	</select>
+    <insert id="insert">
+        insert into tbl_community(cmntId,cmntTitle,cmntContent,memId)
+        values (SEQ_BOARD.nextval, #{cmntTitle}, #{cmntContent}, #{memId})
+    </insert>
+    <insert id="insertSelectKey">
+        <selectKey keyProperty="cmntId" order="BEFORE" resultType="long">
+            select seq_board.nextval from dual
+        </selectKey>
+        insert into tbl_community(cmntId,cmntTitle,cmntContent,memId)
+        values (#{cmntId}, #{cmntTitle}, #{cmntContent}, #{memId})
+    </insert>
 
+    <select id="read" resultType="kr.go.ydpb.domain.CommunityVO">
+        select * from tbl_community where cmntId = #{cmntId}
+    </select>
+    <delete id="delete">
+        delete from tbl_community where cmntId = #{cmntId}
+    </delete>
+    <update id="update">
+        update tbl_community
+        set cmntTitle = #{cmntTitle},
+            cmntContent = #{cmntContent},
+            memId = #{memId},
+            cmntUpdatedate = sysdate
+        where cmntId = #{cmntId}
+    </update>
+    <sql id="criteria">
+        <trim prefix="(" suffix=") AND " prefixOverrides="OR">
+            <!-- typeArr 배열을 순회 하여 제목 or 내용 검색 -->
+            <foreach item='type' collection="typeArr">
+                <!-- 각 조건앞에 OR를 붙이고 첫번째 OR는 trim(제거) -->
+                <trim prefix="OR">
+                    <!-- type 값에 따라 검색 컬럼 분기 -->
+                    <choose>
+                        <!-- 제목 검색 -->
+                        <when test="type == 'T'.toString()">
+                            title like '%'||#{keyword}||'%'
+                        </when>
+                        <!-- 내용 검색 -->
+                        <when test="type == 'C'.toString()">
+                            content like '%'||#{keyword}||'%'
+                        </when>
+                        <!-- 작성자 검색 -->
+                        <when test="type == 'W'.toString()">
+                            writer like '%'||#{keyword}||'%'
+                        </when>
+                    </choose>
+                </trim>
+            </foreach>
+        </trim>
+    </sql>
 
+    <select id="getListWithPaging"
+            resultType="kr.go.ydpb.domain.CommunityVO">
+        <![CDATA[
+	  	select
+	    	cmntId, cmntTitle, cmntContent, memId, cmntDate, cmntUpdatedate
+	  	from
+	      (
+		      select /*+INDEX_DESC(tbl_board pk_board) */
+		        rownum rn, cmntId, cmntTitle, cmntContent, memId, cmntDate, cmntUpdatedate
+		      from
+		        tbl_board
+		      where
+		]]>
+        <!-- <sql>태그의 SQL문 조각 내용 추가 -->
+        <include refid="criteria"></include>
+        <![CDATA[
+		      rownum <= #{pageNum} * #{amount}
+	      	  )
+	      where rn > (#{pageNum} -1) * #{amount}
+		]]>
+    </select>
+    <select id="getTotalCount" resultType="int">
+        select count(*) from
+        tbl_board where
+        <include refid="criteria"></include>
+        cmntId > 0
+    </select>
 
 </mapper>
+
+
+
+

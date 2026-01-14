@@ -1,6 +1,8 @@
 package kr.go.ydpb.controller;
 
+import kr.go.ydpb.domain.Criteria;
 import kr.go.ydpb.domain.MemberVO;
+import kr.go.ydpb.domain.PageDTO;
 import kr.go.ydpb.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping("/member") // 브라우저 주소창에 들어갈 기본 주소
+@RequestMapping("/admin/member") // 브라우저 주소창에 들어갈 기본 주소
 public class AdminMemberController {
 
     @Autowired
@@ -21,12 +23,16 @@ public class AdminMemberController {
 
     // 1. 회원 목록 조회
     @GetMapping("/list")
-    public String list(@RequestParam(value="searchType", required=false) String type,
-                       @RequestParam(value="searchKeyword", required=false) String keyword,
-                       Model model) {
-
-        List<MemberVO> list = memberMapper.getMemberList(type, keyword);
+    public String list(Criteria cri, Model model) {
+        // 1. DB에서 해당 페이지 분량만큼만 가져오기
+        List<MemberVO> list = memberMapper.getMemberList(cri);
         model.addAttribute("list", list);
+
+        // 2. 전체 개수 구하기
+        int total = memberMapper.getTotalCount(cri);
+
+        // 3. PageDTO(계산기)에 넣어 결과표(pageMaker) 만들기
+        model.addAttribute("pageMaker", new PageDTO(cri, total));
 
         return "admin/admin_member_list";
     }

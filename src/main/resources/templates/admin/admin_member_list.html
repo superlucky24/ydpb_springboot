@@ -24,8 +24,8 @@
                             <div class="p-search clearfix">
                                 <div class="p-form-group">
                                     <select name="searchType" class="p-input">
-                                        <option value="memId">아이디</option>
-                                        <option value="memName">이름</option>
+                                        <option value="I">아이디</option>
+                                        <option value="N">이름</option>
                                     </select>
                                     <input name="searchKeyword" class="p-input" type="text">
                                     <span class="p-form-group__btn">
@@ -66,6 +66,32 @@
                         </tr>
                         </tbody>
                     </table>
+                    <!-- 페이징 -->
+                    <div style="text-align: center; margin-top: 20px;">
+                        <ul style="display: inline-flex; list-style: none; padding: 0;">
+
+                            <li th:if="${pageMaker.prev}" style="margin: 0 5px;">
+                                <a th:href="@{/admin/member/list(pageNum=${pageMaker.startPage - 1}, amount=${pageMaker.cri.amount})}"
+                                   style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd;">이전</a>
+                            </li>
+
+                            <li th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}"
+                                style="margin: 0 5px;">
+                                <a th:href="@{/admin/member/list(pageNum=${num}, amount=${pageMaker.cri.amount})}"
+                                   th:text="${num}"
+                                   th:style="${pageMaker.cri.pageNum == num} ?
+                        'text-decoration: none; padding: 5px 10px; border: 1px solid #333; background-color: #f4f4f4; font-weight: bold;' :
+                        'text-decoration: none; padding: 5px 10px; border: 1px solid #ddd; color: #666;'">
+                                </a>
+                            </li>
+
+                            <li th:if="${pageMaker.next}" style="margin: 0 5px;">
+                                <a th:href="@{/admin/member/list(pageNum=${pageMaker.endPage + 1}, amount=${pageMaker.cri.amount})}"
+                                   style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd;">다음</a>
+                            </li>
+
+                        </ul>
+                    </div>
                 </div>
             </main>
         </div>

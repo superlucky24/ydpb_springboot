@@ -19,11 +19,12 @@ public class CommunityServiceImpl implements CommunityService{
 
     @Override
     public void register(CommunityVO board) {
-
+        log.info("register service => {}", board);
+        mapper.insert(board);
     }
 
     @Override
-    public CommunityVO get(Long bno) {
+    public CommunityVO get(Long cmntId) {
         return null;
     }
 
@@ -33,7 +34,7 @@ public class CommunityServiceImpl implements CommunityService{
     }
 
     @Override
-    public boolean remove(Long bno) {
+    public boolean remove(Long cmntId) {
         return false;
     }
 

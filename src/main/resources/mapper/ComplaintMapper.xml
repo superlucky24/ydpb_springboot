@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ydpb.mapper.ComplaintMapper">
+
+    <select id="getAllCount" resultType="int">
+        SELECT count(*) FROM tbl_complaint
+    </select>
+
+    <select id="getAllComplaint" resultType="kr.go.ydpb.domain.ComplaintVO">
+        <![CDATA[
+        select * from
+            (select A.* ,Rownum Rnum from
+                    (select * from tbl_complaint order by comId desc)A)
+        where Rnum >= #{start} and Rnum <= #{end}
+        ]]>
+    </select>
+
+    <!--    페이징 메서드 추가-->
+    <select id="getComplaintWithPaging" resultType="kr.go.ydpb.domain.ComplaintVO">
+		<![CDATA[
+        select
+            comId, comTitle, comDate, comPublic, comStatus, comContent,comAnswer,memId
+        from
+            (
+                select /*+INDEX_DESC(tbl_complaint complaint_ix) */
+                    rownum rn, comId, comTitle, comDate, comPublic, comStatus, comContent,comAnswer,memId
+                from
+                    tbl_complaint
+                where rownum <= #{pageNum} * #{amount}
+            )
+        where rn > (#{pageNum} -1) * #{amount}
+        ]]>
+    </select>
+
+    <select id="getOneComplaint" resultType="kr.go.ydpb.domain.ComplaintVO">
+        SELECT * FROM tbl_complaint WHERE comId = #{comId}
+    </select>
+
+    <select id="searchComplaint" resultType="kr.go.ydpb.domain.ComplaintVO">
+        <![CDATA[
+        select * from
+            (select A.* ,Rownum Rnum from
+                    (select * from tbl_complaint order by comId desc)A)
+        where (Rnum >= #{start} and Rnum <= #{end}) and comTitle LIKE '%'||#{searchKeyword}||'%'
+        ]]>
+    </select>
+
+    <update id="updateComplaint" >
+        UPDATE tbl_complaint
+        SET
+            comAnswer = #{comAnswer}
+        WHERE comId = #{comId}
+    </update>
+
+    <delete id="deleteComplaint">
+        DELETE FROM tbl_complaint WHERE comId = #{comId}
+    </delete>
+
+    <select id="getMember" resultType="kr.go.ydpb.domain.MemberVO">
+        SELECT * FROM tbl_member where memId = #{memId} and memPassword = #{memPassword} and memRole= 1
+    </select>
+
+</mapper>

@@ -5,13 +5,13 @@
     <title>관리자 공통영역 레이아웃</title>
 </head>
 <body>
-  <div id="wrap">
-    <header th:replace="admin_header_footer :: header"></header>
-    <main>
-      <aside th:replace="admin_sidemenu :: side"></aside>
-<!--      본문 내용 추가  -->
-    </main>
-    <footer th:replace="admin_header_footer :: footer"></footer>
-  </div>
+    <div id="wrap">
+        <header th:replace="admin_header_footer :: header"></header>
+        <div class="container">
+            <aside th:replace="admin_sidemenu :: side"></aside>
+            <!--      본문 내용 추가  -->
+        </div>
+        <footer th:replace="admin_header_footer :: footer"></footer>
+    </div>
 </body>
 </html>

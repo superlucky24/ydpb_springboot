@@ -2,9 +2,89 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="kr.go.ydpb.mapper.CommunityMapper">
 
+    <insert id="insert">
+        insert into tbl_community(cmntId, cmntTitle, cmntContent, memId, cmntDepartment, cmntDate)
+        values (SEQ_BOARD.nextval, #{cmntTitle}, #{cmntContent}, #{memId}, #{cmntDepartment}, sysdate)
+    </insert>
+    <insert id="insertSelectKey">
+        <selectKey keyProperty="cmntId" order="BEFORE" resultType="long">
+            select seq_board.nextval from dual
+        </selectKey>
+        insert into tbl_community(cmntId,cmntTitle,cmntContent,memId)
+        values (#{cmntId}, #{cmntTitle}, #{cmntContent}, #{memId})
+    </insert>
 
+    <delete id="delete">
+        delete from tbl_community where cmntId = #{cmntId}
+    </delete>
 
+    <select id="read" resultType="kr.go.ydpb.domain.CommunityVO">
+        select * from tbl_community where cmntId = #{cmntId}
+    </select>
+    <update id="update">
+        update tbl_community
+        set cmntTitle = #{cmntTitle},
+            cmntContent = #{cmntContent},
+            cmntDepartment = #{cmntDepartment},
+            cmntUpdatedate = sysdate
+        where cmntId = #{cmntId}
+    </update>
+
+    <sql id="criteria">
+        <trim prefix="(" suffix=") AND " prefixOverrides="OR">
+            <foreach item='type' collection="typeArr">
+                <trim prefix="OR">
+                    <choose>
+                        <when test="type == 'T'">
+                            cmntTitle like '%'||#{keyword}||'%'
+                        </when>
+                        <when test="type == 'C'">
+                            cmntContent like '%'||#{keyword}||'%'
+                        </when>
+                        <when test="type == 'D'">
+                            cmntDepartment like '%'||#{keyword}||'%'
+                        </when>
+                    </choose>
+                </trim>
+            </foreach>
+        </trim>
+    </sql>
+
+    <select id="getList" resultType="kr.go.ydpb.domain.CommunityVO">
+        <![CDATA[
+    		select
+                cmntId, cmntTitle, cmntDate, cmntUpdatedate, cmntDepartment, cmntContent, cmntCount, memId
+            from (
+                select /*+INDEX_DESC(tbl_community pk_community) */
+                    rownum rn, cmntId, cmntTitle, cmntDate, cmntUpdatedate, cmntDepartment, cmntContent, cmntCount, memId
+                from
+                    tbl_community
+                where
+        ]]>
+        <include refid="criteria"/>
+        <![CDATA[
+            rownum <= #{pageNum} * #{amount}
+         )
+         where
+             rn > (#{pageNum} -1) * #{amount}
+        ]]>
+    </select>
+
+    <select id="getTotalCount" resultType="int">
+        select
+            count(*)
+        from
+            tbl_community
+        where
+        <include refid="criteria"/>
+        <![CDATA[
+            cmntId > 0
+        ]]>
+    </select>
 </mapper>
+
+
+
+

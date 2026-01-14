@@ -44,6 +44,6 @@
 
     <select id="getMember" resultType="kr.go.ydpb.domain.MemberVO">
         SELECT * FROM tbl_member where memId = #{memId} and memPassword = #{memPassword} and memRole= 1
-    </delete>
+    </select>
 
 </mapper>

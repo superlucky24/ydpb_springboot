@@ -7,6 +7,9 @@ import lombok.ToString;
 
 // pageNum 과 amount 값을 전달하는 용도의 클래스
 @Data
+@Getter
+@Setter
+@ToString
 public class Criteria {
     private int pageNum;
     private int amount;

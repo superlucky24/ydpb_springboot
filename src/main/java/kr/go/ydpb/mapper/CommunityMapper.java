@@ -10,4 +10,9 @@ import java.util.List;
 public interface CommunityMapper {
     public int getTotalCount(Criteria cri);
     public List<CommunityVO> getList(Criteria cri);
+    public void insert(CommunityVO board);
+    public void insertSelectKey(CommunityVO board);
+    public CommunityVO read(long bno);
+    public int delete(Long bno);
+    public int update(CommunityVO board);
 }

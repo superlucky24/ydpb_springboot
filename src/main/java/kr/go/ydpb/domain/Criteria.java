@@ -32,6 +32,6 @@ public class Criteria {
         //삼항조건 연산자 사용
         // 입력조건 없이 null이면 배열 생성
         // 있으면 문자열 한 글자씩 분할하여 배열로 리턴
-        return type==null?new String[] {}:type.split("");
+        return searchType==null?new String[] {}:searchType.split("");
     }
 }

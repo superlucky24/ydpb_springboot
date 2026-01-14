@@ -3,11 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.go.ydpb.mapper.CommunityMapper">
-    <select id="getList" resultType="kr.go.ydpb.domain.CommunityVO">
-	<![CDATA[
-        select * from tbl_community where cmntId > 0 order by cmntId desc
-        ]]>
-	</select>
+
     <insert id="insert">
         insert into tbl_community(cmntId, cmntTitle, cmntContent, memId, cmntDepartment, cmntDate)
         values (SEQ_BOARD.nextval, #{cmntTitle}, #{cmntContent}, #{memId}, #{cmntDepartment}, sysdate)
@@ -35,13 +31,11 @@
             cmntUpdatedate = sysdate
         where cmntId = #{cmntId}
     </update>
+
     <sql id="criteria">
         <trim prefix="(" suffix=") AND " prefixOverrides="OR">
-            <!-- typeArr 배열을 순회 하여 제목 or 내용 검색 -->
             <foreach item='type' collection="typeArr">
-                <!-- 각 조건앞에 OR를 붙이고 첫번째 OR는 trim(제거) -->
                 <trim prefix="OR">
-                    <!-- type 값에 따라 검색 컬럼 분기 -->
                     <choose>
                         <when test="type == 'T'">
                             cmntTitle like '%'||#{keyword}||'%'
@@ -49,8 +43,8 @@
                         <when test="type == 'C'">
                             cmntContent like '%'||#{keyword}||'%'
                         </when>
-                        <when test="type == 'W'">
-                            memId like '%'||#{keyword}||'%'
+                        <when test="type == 'D'">
+                            cmntDepartment like '%'||#{keyword}||'%'
                         </when>
                     </choose>
                 </trim>
@@ -58,26 +52,36 @@
         </trim>
     </sql>
 
-    <select id="getListWithPaging" resultType="kr.go.ydpb.domain.CommunityVO">
-        select cmntId, cmntTitle, cmntContent, memId, cmntDepartment, cmntDate, cmntUpdatedate
-        from (
-        select rownum rn, cmntId, cmntTitle, cmntContent, memId, cmntDepartment, cmntDate, cmntUpdatedate
-        from tbl_community
-        where cmntId > 0
-        <if test="typeArr != null and typeArr.size() > 0">
-            <include refid="criteria"/>
-        </if>
-        and rownum <= #{pageNum} * #{amount}
-        )
-        where rn > (#{pageNum} -1) * #{amount}
+    <select id="getList" resultType="kr.go.ydpb.domain.CommunityVO">
+        <![CDATA[
+    		select
+                cmntId, cmntTitle, cmntDate, cmntUpdatedate, cmntDepartment, cmntContent, cmntCount, memId
+            from (
+                select /*+INDEX_DESC(tbl_community pk_community) */
+                    rownum rn, cmntId, cmntTitle, cmntDate, cmntUpdatedate, cmntDepartment, cmntContent, cmntCount, memId
+                from
+                    tbl_community
+                where
+        ]]>
+        <include refid="criteria"/>
+        <![CDATA[
+            rownum <= #{pageNum} * #{amount}
+         )
+         where
+             rn > (#{pageNum} -1) * #{amount}
+        ]]>
     </select>
 
     <select id="getTotalCount" resultType="int">
-        select count(*) from tbl_community
-        where cmntId > 0
-        <if test="typeArr != null and typeArr.size() > 0">
-            <include refid="criteria"/>
-        </if>
+        select
+            count(*)
+        from
+            tbl_community
+        where
+        <include refid="criteria"/>
+        <![CDATA[
+            cmntId > 0
+        ]]>
     </select>
 </mapper>
 

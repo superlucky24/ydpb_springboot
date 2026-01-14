@@ -15,11 +15,11 @@ public interface AdminMapper {
     public ComplaintVO getOneComplaint(int comId);
     public List<ComplaintVO> searchComplaint(String searchKeyword, int start, int end);
     //public int insertComplaint(ComplaintVO cvo);
-    public int updateComplaint(ComplaintVO cvo);
-    public int deleteComplaint(int comId);
+    public void updateComplaint(ComplaintVO cvo);
+    public void deleteComplaint(int comId);
 
     // 회원
-    //public int insertMember(MemberVO mvo);
+    //public void insertMember(MemberVO mvo);
     //public boolean isIdExists(String memId);
     public MemberVO loginMember(String memId, String memPassword);
 

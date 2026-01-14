@@ -7,7 +7,7 @@ import java.sql.Date;
 @Data
 public class CommunityVO {
     private long cmntId;
-    private String cmnttitle;
+    private String cmntTitle;
     private Date cmntDate;
     private Date cmntUpdatedate;
     private String cmntDepartment;

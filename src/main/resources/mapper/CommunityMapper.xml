@@ -3,14 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.go.ydpb.mapper.CommunityMapper">
-    <select id="getList" resultType="kr.go.ydpb.domain.CommnunityMapper">
+    <select id="getList" resultType="kr.go.ydpb.domain.CommunityVO">
 	<![CDATA[
         select * from tbl_community where cmntId > 0 order by cmntId desc
         ]]>
 	</select>
     <insert id="insert">
-        insert into tbl_community(cmntId,cmntTitle,cmntContent,memId)
-        values (SEQ_BOARD.nextval, #{cmntTitle}, #{cmntContent}, #{memId})
+        insert into tbl_community(cmntId, cmnttitle, cmntContent, memId, cmntDepartment, cmntDate)
+        values (SEQ_BOARD.nextval, #{cmnttitle}, #{cmntContent}, #{memId}, #{cmntDepartment}, sysdate)
     </insert>
     <insert id="insertSelectKey">
         <selectKey keyProperty="cmntId" order="BEFORE" resultType="long">
@@ -20,17 +20,18 @@
         values (#{cmntId}, #{cmntTitle}, #{cmntContent}, #{memId})
     </insert>
 
-    <select id="read" resultType="kr.go.ydpb.domain.CommunityVO">
-        select * from tbl_community where cmntId = #{cmntId}
-    </select>
     <delete id="delete">
         delete from tbl_community where cmntId = #{cmntId}
     </delete>
+
+    <select id="read" resultType="kr.go.ydpb.domain.CommunityVO">
+        select * from tbl_community where cmntId = #{cmntId}
+    </select>
     <update id="update">
         update tbl_community
-        set cmntTitle = #{cmntTitle},
+        set cmnttitle = #{cmnttitle},
             cmntContent = #{cmntContent},
-            memId = #{memId},
+            cmntDepartment = #{cmntDepartment},
             cmntUpdatedate = sysdate
         where cmntId = #{cmntId}
     </update>
@@ -42,17 +43,14 @@
                 <trim prefix="OR">
                     <!-- type 값에 따라 검색 컬럼 분기 -->
                     <choose>
-                        <!-- 제목 검색 -->
                         <when test="type == 'T'.toString()">
-                            title like '%'||#{keyword}||'%'
+                            cmnttitle like '%'||#{keyword}||'%'
                         </when>
-                        <!-- 내용 검색 -->
                         <when test="type == 'C'.toString()">
-                            content like '%'||#{keyword}||'%'
+                            cmntContent like '%'||#{keyword}||'%'
                         </when>
-                        <!-- 작성자 검색 -->
                         <when test="type == 'W'.toString()">
-                            writer like '%'||#{keyword}||'%'
+                            memId like '%'||#{keyword}||'%'
                         </when>
                     </choose>
                 </trim>
@@ -63,15 +61,15 @@
     <select id="getListWithPaging"
             resultType="kr.go.ydpb.domain.CommunityVO">
         <![CDATA[
-	  	select
-	    	cmntId, cmntTitle, cmntContent, memId, cmntDate, cmntUpdatedate
-	  	from
-	      (
-		      select /*+INDEX_DESC(tbl_board pk_board) */
-		        rownum rn, cmntId, cmntTitle, cmntContent, memId, cmntDate, cmntUpdatedate
-		      from
-		        tbl_board
-		      where
+	  	select cmntId, cmnttitle, cmntContent, memId, cmntDepartment, cmntDate, cmntUpdatedate
+        from (
+            select rownum rn, cmntId, cmnttitle, cmntContent, memId, cmntDepartment, cmntDate, cmntUpdatedate
+            from tbl_community
+            where
+            <include refid="criteria"/>
+            rownum <= #{pageNum} * #{amount}
+        )
+        where rn > (#{pageNum} -1) * #{amount}
 		]]>
         <!-- <sql>태그의 SQL문 조각 내용 추가 -->
         <include refid="criteria"></include>
@@ -82,9 +80,9 @@
 		]]>
     </select>
     <select id="getTotalCount" resultType="int">
-        select count(*) from
-        tbl_board where
-        <include refid="criteria"></include>
+        select count(*) from tbl_community
+        where
+        <include refid="criteria"/>
         cmntId > 0
     </select>
 

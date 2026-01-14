@@ -43,13 +43,13 @@
                 <trim prefix="OR">
                     <!-- type 값에 따라 검색 컬럼 분기 -->
                     <choose>
-                        <when test="type == 'T'.toString()">
+                        <when test="type == 'T'">
                             cmntTitle like '%'||#{keyword}||'%'
                         </when>
-                        <when test="type == 'C'.toString()">
+                        <when test="type == 'C'">
                             cmntContent like '%'||#{keyword}||'%'
                         </when>
-                        <when test="type == 'W'.toString()">
+                        <when test="type == 'W'">
                             memId like '%'||#{keyword}||'%'
                         </when>
                     </choose>
@@ -58,34 +58,27 @@
         </trim>
     </sql>
 
-    <select id="getListWithPaging"
-            resultType="kr.go.ydpb.domain.CommunityVO">
-        <![CDATA[
-	  	select cmntId, cmntTitle, cmntContent, memId, cmntDepartment, cmntDate, cmntUpdatedate
+    <select id="getListWithPaging" resultType="kr.go.ydpb.domain.CommunityVO">
+        select cmntId, cmntTitle, cmntContent, memId, cmntDepartment, cmntDate, cmntUpdatedate
         from (
-            select rownum rn, cmntId, cmntTitle, cmntContent, memId, cmntDepartment, cmntDate, cmntUpdatedate
-            from tbl_community
-            where
+        select rownum rn, cmntId, cmntTitle, cmntContent, memId, cmntDepartment, cmntDate, cmntUpdatedate
+        from tbl_community
+        where cmntId > 0
+        <if test="typeArr != null and typeArr.size() > 0">
             <include refid="criteria"/>
-            rownum <= #{pageNum} * #{amount}
+        </if>
+        and rownum <= #{pageNum} * #{amount}
         )
         where rn > (#{pageNum} -1) * #{amount}
-		]]>
-        <!-- <sql>태그의 SQL문 조각 내용 추가 -->
-        <include refid="criteria"></include>
-        <![CDATA[
-		      rownum <= #{pageNum} * #{amount}
-	      	  )
-	      where rn > (#{pageNum} -1) * #{amount}
-		]]>
-    </select>
-    <select id="getTotalCount" resultType="int">
-        select count(*) from tbl_community
-        where
-        <include refid="criteria"/>
-        cmntId > 0
     </select>
 
+    <select id="getTotalCount" resultType="int">
+        select count(*) from tbl_community
+        where cmntId > 0
+        <if test="typeArr != null and typeArr.size() > 0">
+            <include refid="criteria"/>
+        </if>
+    </select>
 </mapper>
 
 

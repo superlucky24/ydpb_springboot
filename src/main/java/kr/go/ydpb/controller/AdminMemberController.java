@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -51,14 +52,19 @@ public class AdminMemberController {
                            @RequestParam("memPassword") String memPassword) {
         memberMapper.updatePassword(memId, memPassword);
         // 수정 완료 후 다시 해당 회원의 상세보기로 보냄 (리다이렉트)
-        return "redirect:/member/view?memId=" + memId;
+        return "redirect:/admin/member/view?memId=" + memId;
     }
 
     // 4. 회원 삭제 실행
-    @PostMapping("/delete")
-    public String delete(@RequestParam("memId") String memId) {
+    @GetMapping("/delete")
+    public String delete(@RequestParam("memId") String memId, RedirectAttributes rttr) {
+        // 1. DB 삭제 처리
         memberMapper.deleteMember(memId);
-        // 삭제 완료 후 목록으로 보냄 (리다이렉트)
-        return "redirect:/member/list";
+
+        // 2. 삭제 완료 메시지 (일회성 데이터)
+        rttr.addFlashAttribute("result", "success");
+
+        // 3. 다시 목록으로 리다이렉트 (절대 경로 사용)
+        return "redirect:/admin/member/list";
     }
 }

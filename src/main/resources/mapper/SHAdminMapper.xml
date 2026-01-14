@@ -5,25 +5,21 @@
 
     <select id="getMemberList" resultType="kr.go.ydpb.domain.MemberVO">
         <![CDATA[
-    SELECT
-        memId, memName, memPhone, memEmail, memAddress
+    SELECT memId, memName, memPhone, memEmail, memAddress
     FROM (
-        SELECT
-            rownum rn, memId, memName, memPhone, memEmail, memAddress
+        SELECT rownum rn, memId, memName, memPhone, memEmail, memAddress
         FROM (
-            SELECT
-                memId, memName, memPhone, memEmail, memAddress
-            FROM
-                tbl_member
+            SELECT memId, memName, memPhone, memEmail, memAddress
+            FROM tbl_member
             WHERE
     ]]>
-        <if test="keyword != null and keyword != ''">
+        <if test="searchKeyword != null and searchKeyword != ''">
             <trim prefix="(" suffix=") AND " prefixOverrides="OR">
                 <foreach item='type' collection="typeArr">
                     <trim prefix="OR">
                         <choose>
-                            <when test="type == 'I'.toString()">memId LIKE '%'||#{keyword}||'%'</when>
-                            <when test="type == 'N'.toString()">memName LIKE '%'||#{keyword}||'%'</when>
+                            <when test="type == 'I'.toString()">memId LIKE '%'||#{searchKeyword}||'%'</when>
+                            <when test="type == 'N'.toString()">memName LIKE '%'||#{searchKeyword}||'%'</when>
                         </choose>
                     </trim>
                 </foreach>
@@ -42,13 +38,13 @@
     <select id="getTotalCount" resultType="int">
         SELECT COUNT(*) FROM tbl_member
         WHERE
-        <if test="keyword != null and keyword != ''">
+        <if test="searchKeyword != null and searchKeyword != ''">
             <trim prefix="(" suffix=") AND " prefixOverrides="OR">
                 <foreach item='type' collection="typeArr">
                     <trim prefix="OR">
                         <choose>
-                            <when test="type == 'I'.toString()">memId LIKE '%'||#{keyword}||'%'</when>
-                            <when test="type == 'N'.toString()">memName LIKE '%'||#{keyword}||'%'</when>
+                            <when test="type == 'I'.toString()">memId LIKE '%'||#{searchKeyword}||'%'</when>
+                            <when test="type == 'N'.toString()">memName LIKE '%'||#{searchKeyword}||'%'</when>
                         </choose>
                     </trim>
                 </foreach>

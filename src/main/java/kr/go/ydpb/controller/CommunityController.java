@@ -50,8 +50,8 @@ public class CommunityController {
         }
         rttr.addAttribute("pageNum", cri.getPageNum());
         rttr.addAttribute("amount", cri.getAmount());
-        rttr.addAttribute("type",cri.getType());
-        rttr.addAttribute("keyword",cri.getKeyword());
+        rttr.addAttribute("type",cri.getSearchType());
+        rttr.addAttribute("keyword",cri.getSearchKeyword());
         return "redirect:/board/list";
     }
     @PostMapping("/remove")
@@ -63,8 +63,8 @@ public class CommunityController {
         }
         rttr.addAttribute("pageNum", cri.getPageNum());
         rttr.addAttribute("amount", cri.getAmount());
-        rttr.addAttribute("type",cri.getType());
-        rttr.addAttribute("keyword",cri.getKeyword());
+        rttr.addAttribute("type",cri.getSearchType());
+        rttr.addAttribute("keyword",cri.getSearchKeyword());
         return "redirect:/board/list";
     }
 }

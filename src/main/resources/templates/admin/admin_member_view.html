@@ -47,7 +47,7 @@
                             <tr>
                                 <th scope="row">비밀번호 변경</th>
                                 <td>
-                                    <form th:action="@{/member/updatePw}" method="post" style="display: flex; gap: 5px;">
+                                    <form th:action="@{/admin/member/updatePw}" method="post" style="display: flex; gap: 5px;">
                                         <input type="hidden" name="memId" th:value="${member.memId}">
                                         <input type="password" name="memPassword" class="p-input" style="width: 200px;" placeholder="새 비밀번호 입력" required>
                                         <button type="submit" class="p-button">변경</button>
@@ -59,13 +59,14 @@
 
                         <div class="p_ctrl clearfix" style="margin-top:20px;">
                             <div class="p_control" style="float:left;">
-                                <a th:href="@{/member/list}" class="p-button">목록으로</a>
+                                <a th:href="@{/admin/member/list}" class="p-button">목록으로</a>
                             </div>
+
                             <div class="p_control" style="float:right;">
-                                <form th:action="@{/member/delete}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
-                                    <input type="hidden" name="memId" th:value="${member.memId}">
-                                    <button type="submit" class="p-button" style="background-color: #d9534f; color: white; border:none;">회원 삭제</button>
-                                </form>
+                                <a th:href="@{/admin/member/delete(memId=${member.memId})}"
+                                   class="p-button"
+                                   style="background-color: #d9534f; color: white; border:none; text-decoration: none; display: inline-block; padding: 6px 12px; border-radius: 4px;"
+                                   onclick="return confirm('정말 삭제하시겠습니까?');">회원 삭제</a>
                             </div>
                         </div>
 

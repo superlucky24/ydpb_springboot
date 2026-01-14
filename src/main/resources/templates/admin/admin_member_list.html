@@ -11,8 +11,11 @@
 </head>
 <body>
 <div id="wrap">
+    <header th:replace="admin/common/admin_header_footer :: header"></header>
     <div class="container">
+
         <div class="contents_wrap safe_area">
+            <aside th:replace="admin/common/admin_sidemenu :: side"></aside>
             <main>
                 <div class="location">
                     <div class="location_title"><h2>회원정보 관리</h2></div>
@@ -20,7 +23,7 @@
 
                 <div id="board" class="clearfix">
                     <div id="contents">
-                        <form th:action="@{/member/list}" method="get" class="board_searchform">
+                        <form th:action="@{/admin/member/list}" method="get" class="board_searchform">
                             <div class="p-search clearfix">
                                 <div class="p-form-group">
                                     <select name="searchType" class="p-input">
@@ -54,7 +57,7 @@
                         <tr th:each="member, status : ${list}">
                             <td th:text="${status.count}">1</td>
                             <td>
-                                <a th:href="@{/member/view(memId=${member.memId})}"
+                                <a th:href="@{/admin/member/view(memId=${member.memId})}"
                                    th:text="${member.memId}" style="color:blue; text-decoration:underline;">아이디</a>
                             </td>
                             <td th:text="${member.memName}">이름</td>
@@ -70,9 +73,12 @@
                     <div style="text-align: center; margin-top: 20px;">
                         <ul style="display: inline-flex; list-style: none; padding: 0;">
 
-                            <li th:if="${pageMaker.prev}" style="margin: 0 5px;">
-                                <a th:href="@{/admin/member/list(pageNum=${pageMaker.startPage - 1}, amount=${pageMaker.cri.amount})}"
-                                   style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd;">이전</a>
+                            <li style="margin: 0 5px;">
+                                <a th:if="${pageMaker.prev}"
+                                   th:href="@{/admin/member/list(pageNum=${pageMaker.startPage - 1}, amount=${pageMaker.cri.amount})}"
+                                   style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd;">&laquo;</a>
+                                <span th:unless="${pageMaker.prev}"
+                                      style="padding: 5px 10px; border: 1px solid #eee; color: #ccc;">&laquo;</span>
                             </li>
 
                             <li th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}"
@@ -85,9 +91,12 @@
                                 </a>
                             </li>
 
-                            <li th:if="${pageMaker.next}" style="margin: 0 5px;">
-                                <a th:href="@{/admin/member/list(pageNum=${pageMaker.endPage + 1}, amount=${pageMaker.cri.amount})}"
-                                   style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd;">다음</a>
+                            <li style="margin: 0 5px;">
+                                <a th:if="${pageMaker.next}"
+                                   th:href="@{/admin/member/list(pageNum=${pageMaker.endPage + 1}, amount=${pageMaker.cri.amount})}"
+                                   style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd;">&raquo;</a>
+                                <span th:unless="${pageMaker.next}"
+                                      style="padding: 5px 10px; border: 1px solid #eee; color: #ccc;">&raquo;</span>
                             </li>
 
                         </ul>
@@ -96,6 +105,16 @@
             </main>
         </div>
     </div>
+    <footer th:replace="admin/common/admin_header_footer :: footer"></footer>
 </div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var result = /*[[${result}]]*/ 'default';
+
+    if(result === "success") {
+        alert("삭제되었습니다.");
+    }
+    /*]]>*/
+</script>
 </body>
 </html>

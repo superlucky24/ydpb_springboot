@@ -11,8 +11,8 @@ public class Criteria {
     private int pageNum;
     private int amount;
     // 검색 기능을 위해 추가
-    private String type;
-    private String keyword;
+    private String searchType;
+    private String searchKeyword;
 
     // 생성자를 통해서 기본값 : 한 페이지당 10개로 지정해서 처리
     public Criteria() {

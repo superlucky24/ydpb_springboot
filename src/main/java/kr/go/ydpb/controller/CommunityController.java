@@ -72,18 +72,13 @@ public class CommunityController {
                          @ModelAttribute("cri") Criteria cri,
                          RedirectAttributes rttr) {
 
-        // 수정 시도
-        if (service.modify(board)) {
-            rttr.addFlashAttribute("result", "success");  // 성공 메시지 전달
-        } else {
-            rttr.addFlashAttribute("result", "fail");     // 실패 메시지 전달
-        }
+        // 수정 처리
+        service.modify(board);
 
-        // 수정 후 목록 페이지로 이동
-        rttr.addAttribute("pageNum", cri.getPageNum());
-        rttr.addAttribute("amount", cri.getAmount());
+        // 상세보기로 이동할 때 cmntId 쿼리 파라미터 전달
+        rttr.addAttribute("cmntId", board.getCmntId());
 
-        return "redirect:/admin/community/list";
+        return "redirect:/admin/community/view";
     }
 
     /* 삭제 페이지 */

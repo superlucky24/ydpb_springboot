@@ -18,7 +18,7 @@
 <body>
     <div id="wrap">
         <!-- header -->
-        <header class="header"></header>
+        <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
         <!-- //header -->
 
         <!-- search -->
@@ -87,7 +87,7 @@
                                         </form>
                                     </div>
                                     <div class="btns">
-                                        <a href="#" class="p-btn">
+                                        <a class="p-btn" th:href="@{/admin/community/list}">
                                             목록
                                             <span class="p-btn_write"></span>
                                         </a>

@@ -14,16 +14,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Slf4j
 @Controller
 @AllArgsConstructor
-@RequestMapping("/board/*")
+@RequestMapping("/admin/community/*")
 public class CommunityController {
     private CommunityService service;
     @GetMapping("/list")
-    public void list(Criteria cri, Model model) {
+    public String list(Criteria cri, Model model) {
         log.info("list => {}", cri);
         model.addAttribute("list", service.getList(cri));
         int total = service.getTotal(cri);
         log.info("total => {}", total);
         model.addAttribute("pageMaker", new PageDTO(cri, total));
+        return "admin/admin_community_center_list";
     }//end of list
 
     @PostMapping("/register")

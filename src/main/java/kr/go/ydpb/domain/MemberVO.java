@@ -19,4 +19,6 @@ public class MemberVO {
     private String memEmail;
     private String memNews;
     private int memRole;
+    // 가입일 추가
+    private java.util.Date memRegDate;
 }

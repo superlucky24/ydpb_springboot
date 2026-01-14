@@ -16,6 +16,5 @@ public class CommunityVO {
     private String memId;
 
 
-
 }
 

@@ -1,126 +1,96 @@
-
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>자치회관 게시판 | 관리자 | 영등포본동 주민센터</title>
-    <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/favicon.ico">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/ydpb.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/ydpb_community_center_write.css">
-    <script src="${pageContext.request.contextPath}/js/jquery-1.12.4.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/jquery-3.3.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/prefixfree.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/ydpb.js"></script>
-    <script>const menuName = '자치회관 게시판';</script>
-    <script src="${pageContext.request.contextPath}/js/ydpb_community_center_write.js"></script>
+    <title>자치회관 게시판 | 자치회관 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/ydpb.css">
+    <link rel="stylesheet" href="/css/ydpb_community_center_list.css">
+    <script src="/js/jquery-1.12.4.min.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/prefixfree.min.js"></script>
+    <script src="/js/ydpb.js"></script>
 </head>
 <body>
-    <div id="wrap">
 
-        <!-- container -->
-        <div>
-            <div class="contents_wrap safe_area">
-                <!-- side menu -->
-                <aside class="side_menu"></aside>
-                <!-- //side menu -->
+<div id="wrap">
+    <!-- header -->
+    <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
+    <!-- //header -->
+    <div class="contents_wrap safe_area">
 
-                <!-- main -->
-                <main>
+        <!-- 사이드 메뉴 -->
+        <aside class="side_menu"
+               th:replace="~{/admin/common/admin_sidemenu::side}">
+        </aside>
 
-                    <!-- contents -->
-                    <div class="contents">
-                        <div class="board_write">
-                            <p class="text_alert alert_write"><span class="required_mark">필수항목</span> 표시는 필수 항목 입니다.</p>
-                            <form action="#" method="post" onreset="clearForm(this)">
-                                <table class="table_form">
-                                    <caption class="blind">자치회관 게시판 글쓰기</caption>
-                                    <colgroup>
-                                        <col class="col1">
-                                        <col class="col2">
-                                    </colgroup>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">
-                                                <label for="subject">제목</label>
-                                                <span class="required_mark">필수항목</span>
-                                            </th>
-                                            <td>
-                                                <input type="text" name="subject" id="subject" class="input form_input">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">
-                                                <label for="content">내용</label>
-                                                <span class="required_mark">필수항목</span>
-                                            </th>
-                                            <td>
-                                                <textarea name="content" id="content" class="input" rows="10"></textarea>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">파일</label></th>
-                                            <td>
-                                                <div class="file_group">
-                                                    <div class="file_input">
-                                                        <input type="file" name="file_1" id="file_1" multiple>
-                                                        <span class="input disabled"></span>
-                                                        <button type="button" class="clear_file" title="1번 파일 삭제">1번 파일 삭제</button>
-                                                    </div>
-                                                    <div class="file_btn">
-                                                        <label for="file_1" class="btn btn_primary btn_sm">파일선택</label>
-                                                    </div>
-                                                    <div class="file_option">
-                                                        <div class="checkbox">
-                                                            <input type="checkbox" name="file_opt_1" id="file_opt_1">
-                                                            <label for="file_opt_1">본문삽입</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <input type="text" name="file_text_1" id="file_text_1" class="input form_input" placeholder="첨부 이미지 대체 텍스트 입력">
-                                                <div class="file_group">
-                                                    <div class="file_input">
-                                                        <input type="file" name="file_2" id="file_2" multiple>
-                                                        <span class="input disabled"></span>
-                                                        <button type="button" class="clear_file" title="2번 파일 삭제">2번 파일 삭제</button>
-                                                    </div>
-                                                    <div class="file_btn">
-                                                        <label for="file_2" class="btn btn_primary btn_sm">파일선택</label>
-                                                    </div>
-                                                    <div class="file_option">
-                                                        <div class="checkbox">
-                                                            <input type="checkbox" name="file_opt_2" id="file_opt_2">
-                                                            <label for="file_opt_2">본문삽입</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <input type="text" name="file_text_2" id="file_text_2" class="input form_input" placeholder="첨부 이미지 대체 텍스트 입력">
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="btns">
-                                    <a href="community_center_list.jsp" class="btn btn_default">목록</a>
-                                    <input type="submit" class="btn btn_write" value="저장">
-                                    <input type="reset" class="btn btn_cancel" value="다시쓰기">
-                                </div>
-                            </form>
+        <main>
+            <div class="contents">
+                <div class="board_write">
+
+                    <p class="text_alert alert_write">
+                        <span class="required_mark">필수항목</span> 표시는 필수 항목 입니다.
+                    </p>
+
+                    <!-- 글쓰기 폼 -->
+                    <form th:action="@{/admin/community/register}" method="post">
+
+                        <table class="table_form">
+                            <caption class="blind">자치회관 게시판 글쓰기</caption>
+
+                            <tbody>
+                            <tr>
+                                <th>
+                                    제목 <span class="required_mark">필수</span>
+                                </th>
+                                <td>
+                                    <input type="text"
+                                           name="cmntTitle"
+                                           class="input form_input"
+                                           required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    내용 <span class="required_mark">필수</span>
+                                </th>
+                                <td>
+                                    <textarea name="cmntContent"
+                                              rows="10"
+                                              class="input"
+                                              required></textarea>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>부서</th>
+                                <td>
+                                    <input type="text"
+                                           name="cmntDepartment"
+                                           class="input form_input">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="btns">
+                            <a th:href="@{/admin/community/list}"
+                               class="btn btn_default">목록</a>
+
+                            <button type="submit"
+                                    class="btn btn_write">저장</button>
                         </div>
-                    </div>
-                    <!-- //contents -->
-                    
 
-                </main>
-                <!-- //main -->
+                    </form>
+                </div>
             </div>
-        </div>
-        <!-- //container -->
-
-
+        </main>
     </div>
+</div>
 
-    
 </body>
 </html>

@@ -39,9 +39,11 @@ public class CommunityController {
     /* 글 등록 */
     @PostMapping("/register")
     public String register(CommunityVO board, RedirectAttributes rttr) {
+        board.setMemId("admin"); // 임시 로그인 ID 세팅, 실제 로그인 정보로 바꿀 것
+        log.info("register controller => {}", board);
         service.register(board);
         rttr.addFlashAttribute("result", board.getCmntId());
-        return "redirect:/admin/community/list";
+        return "redirect:/admin/community/list"; // 저장 후 목록으로 이동
     }
 
     /* 상세 보기 */

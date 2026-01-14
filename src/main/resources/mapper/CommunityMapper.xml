@@ -6,11 +6,11 @@
 
     <insert id="insert">
         insert into tbl_community(cmntId, cmntTitle, cmntContent, memId, cmntDepartment, cmntDate)
-        values (SEQ_BOARD.nextval, #{cmntTitle}, #{cmntContent}, #{memId}, #{cmntDepartment}, sysdate)
+        values (seq_community.nextval, #{cmntTitle}, #{cmntContent}, #{memId}, #{cmntDepartment}, sysdate)
     </insert>
     <insert id="insertSelectKey">
         <selectKey keyProperty="cmntId" order="BEFORE" resultType="long">
-            select seq_board.nextval from dual
+            select seq_community.nextval from dual
         </selectKey>
         insert into tbl_community(cmntId,cmntTitle,cmntContent,memId)
         values (#{cmntId}, #{cmntTitle}, #{cmntContent}, #{memId})

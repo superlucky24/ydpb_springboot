@@ -19,23 +19,22 @@ public class CommunityServiceImpl implements CommunityService{
 
     @Override
     public void register(CommunityVO board) {
-        log.info("register service => {}", board);
         mapper.insert(board);
     }
 
     @Override
     public CommunityVO get(Long cmntId) {
-        return null;
+        return mapper.read(cmntId);
     }
 
     @Override
     public boolean modify(CommunityVO board) {
-        return false;
+        return mapper.update(board) == 1;
     }
 
     @Override
     public boolean remove(Long cmntId) {
-        return false;
+        return mapper.delete(cmntId) == 1;
     }
 
     @Override

@@ -65,4 +65,39 @@ public class CommunityController {
         model.addAttribute("board", service.get(cmntId));
         return "admin/admin_community_center_update";
     }
+
+    /* 수정 처리 */
+    @PostMapping("/update")
+    public String update(@ModelAttribute("board") CommunityVO board,
+                         @ModelAttribute("cri") Criteria cri,
+                         RedirectAttributes rttr) {
+
+        // 수정 시도
+        if (service.modify(board)) {
+            rttr.addFlashAttribute("result", "success");  // 성공 메시지 전달
+        } else {
+            rttr.addFlashAttribute("result", "fail");     // 실패 메시지 전달
+        }
+
+        // 수정 후 목록 페이지로 이동
+        rttr.addAttribute("pageNum", cri.getPageNum());
+        rttr.addAttribute("amount", cri.getAmount());
+
+        return "redirect:/admin/community/list";
+    }
+
+    /* 삭제 페이지 */
+    @PostMapping("/delete")
+    public String deleteForm(@RequestParam("cmntId") Long cmntId,
+                             @ModelAttribute("cri") Criteria cri,
+                             RedirectAttributes rttr) {
+        log.info("remove => {}", cmntId);
+
+        if(service.remove(cmntId)) {
+            rttr.addFlashAttribute("result", "success"); // 성공 메시지만 전달
+        }
+
+        // 삭제 후 목록 페이지로 redirect
+        return "redirect:/admin/community/list";
+    }
 }

@@ -102,10 +102,10 @@
                         <div class="page_cou clearfix">
                             <p>
                                 총
-                                <em class="em_black">15</em>
+                                <em class="em_black">[[${pageMaker.total}]]</em>
                                 개 &nbsp;[
-                                <em class="em_b_black">1</em>
-                                / 2 페이지]
+                                <em class="em_b_black">[[${pageMaker.cri.pageNum}]]</em>
+                                / [[${pageMaker.realEnd}]] 페이지]
                             </p>
                         </div>
                         <table class="p_table">
@@ -138,11 +138,18 @@
                         </table>
                         <div class="p_ctrl">
                             <div class="p_control">
-                                <span class="p-link_b">
-                                    <strong title="현재 1페이지" class="p_link active">
-                                        1
-                                    </strong>
-                                    <a href="#" class="p_link">2</a>
+                                <span class="p-link_b" th:each="i : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                                    <th:block th:if="${pageMaker.prev}">
+                                        <a th:href="${pageMaker.startPage -1 }">이전</a>
+                                    </th:block>
+                                    <th:block th:if="${pageMaker.cri.pageNum == i}">
+                                        <strong title="" class="p_link active">
+                                            [[${i}]]
+                                        </strong>
+                                    </th:block>
+                                    <th:block th:if="${pageMaker.cri.pageNum != i}">
+                                        <a th:href="${i}" class="p_link">[[${i}]]</a>
+                                    </th:block>
                                 </span>
                             </div>
                         </div>

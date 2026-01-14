@@ -25,10 +25,11 @@
             comId, comTitle, comDate, comPublic, comStatus, comContent,comAnswer,memId
         from
             (
-                select /*+INDEX_DESC(tbl_complaint complaint_ix) */
+                select /*+INDEX_DESC(tbl_complaint SYS_C007051) */
                     rownum rn, comId, comTitle, comDate, comPublic, comStatus, comContent,comAnswer,memId
                 from
                     tbl_complaint
+
                 where rownum <= #{pageNum} * #{amount}
             )
         where rn > (#{pageNum} -1) * #{amount}

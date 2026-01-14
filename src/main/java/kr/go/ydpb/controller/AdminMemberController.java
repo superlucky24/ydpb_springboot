@@ -21,10 +21,13 @@ public class AdminMemberController {
 
     // 1. 회원 목록 조회
     @GetMapping("/list")
-    public String list(Model model) {
-        List<MemberVO> list = memberMapper.getMemberList();
+    public String list(@RequestParam(value="searchType", required=false) String type,
+                       @RequestParam(value="searchKeyword", required=false) String keyword,
+                       Model model) {
+
+        List<MemberVO> list = memberMapper.getMemberList(type, keyword);
         model.addAttribute("list", list);
-        // 리턴값은 실제 html 파일의 경로입니다.
+
         return "admin/admin_member_list";
     }
 

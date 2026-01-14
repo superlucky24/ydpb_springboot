@@ -9,7 +9,8 @@ import java.util.List;
 @Mapper
 public interface MemberMapper {
     // 1. 회원 전체 목록 (리스트 띄우기)
-    List<MemberVO> getMemberList();
+    List<MemberVO> getMemberList(@Param("type") String type, @Param("keyword") String keyword);
+
 
     // 2. 회원 상세 정보 (클릭했을 때 상세 보기)
     MemberVO getMemberById(String memId);

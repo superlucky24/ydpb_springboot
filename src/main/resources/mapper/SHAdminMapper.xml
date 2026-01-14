@@ -4,7 +4,20 @@
 <mapper namespace="kr.go.ydpb.mapper.MemberMapper">
 
     <select id="getMemberList" resultType="kr.go.ydpb.domain.MemberVO">
-        SELECT * FROM tbl_member ORDER BY memId DESC
+        SELECT * FROM tbl_member
+        <where>
+            <if test="keyword != null and keyword != ''">
+                <choose>
+                    <when test="type == 'memId'">
+                        AND memId LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="type == 'memName'">
+                        AND memName LIKE '%' || #{keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+        ORDER BY memId DESC
     </select>
 
     <select id="getMemberById" resultType="kr.go.ydpb.domain.MemberVO">

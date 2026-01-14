@@ -9,8 +9,8 @@
         ]]>
 	</select>
     <insert id="insert">
-        insert into tbl_community(cmntId, cmnttitle, cmntContent, memId, cmntDepartment, cmntDate)
-        values (SEQ_BOARD.nextval, #{cmnttitle}, #{cmntContent}, #{memId}, #{cmntDepartment}, sysdate)
+        insert into tbl_community(cmntId, cmntTitle, cmntContent, memId, cmntDepartment, cmntDate)
+        values (SEQ_BOARD.nextval, #{cmntTitle}, #{cmntContent}, #{memId}, #{cmntDepartment}, sysdate)
     </insert>
     <insert id="insertSelectKey">
         <selectKey keyProperty="cmntId" order="BEFORE" resultType="long">
@@ -29,7 +29,7 @@
     </select>
     <update id="update">
         update tbl_community
-        set cmnttitle = #{cmnttitle},
+        set cmntTitle = #{cmntTitle},
             cmntContent = #{cmntContent},
             cmntDepartment = #{cmntDepartment},
             cmntUpdatedate = sysdate
@@ -44,7 +44,7 @@
                     <!-- type 값에 따라 검색 컬럼 분기 -->
                     <choose>
                         <when test="type == 'T'.toString()">
-                            cmnttitle like '%'||#{keyword}||'%'
+                            cmntTitle like '%'||#{keyword}||'%'
                         </when>
                         <when test="type == 'C'.toString()">
                             cmntContent like '%'||#{keyword}||'%'
@@ -61,9 +61,9 @@
     <select id="getListWithPaging"
             resultType="kr.go.ydpb.domain.CommunityVO">
         <![CDATA[
-	  	select cmntId, cmnttitle, cmntContent, memId, cmntDepartment, cmntDate, cmntUpdatedate
+	  	select cmntId, cmntTitle, cmntContent, memId, cmntDepartment, cmntDate, cmntUpdatedate
         from (
-            select rownum rn, cmntId, cmnttitle, cmntContent, memId, cmntDepartment, cmntDate, cmntUpdatedate
+            select rownum rn, cmntId, cmntTitle, cmntContent, memId, cmntDepartment, cmntDate, cmntUpdatedate
             from tbl_community
             where
             <include refid="criteria"/>

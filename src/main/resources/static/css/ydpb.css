@@ -808,7 +808,7 @@ button {
 /* common */
 .container {
     padding-top: 41px;
-    /* background: url(../images/common/location_bg.png) no-repeat center top; */
+     background: url(../images/common/location_bg.png) no-repeat center top;
 }
 .safe_area {
     width: 1400px;
@@ -1140,4 +1140,18 @@ textarea.input {
     background: rgba(0, 0, 0, 0.6);
     transform: translateX(-50%);
     z-index: 9999;
+}
+
+/* 관리자 */
+.admin_header .gnb .admin_title {
+    height: 79px;
+    color: #000;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 79px;
+}
+.admin_footer {
+    margin-bottom: 0 !important;
+    padding: 14px 0;
+    text-align: center;
 }

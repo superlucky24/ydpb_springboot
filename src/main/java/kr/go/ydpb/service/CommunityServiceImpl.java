@@ -2,8 +2,10 @@ package kr.go.ydpb.service;
 
 import kr.go.ydpb.domain.CommunityVO;
 import kr.go.ydpb.domain.Criteria;
+import kr.go.ydpb.mapper.CommunityMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +14,9 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 public class CommunityServiceImpl implements CommunityService{
+    @Autowired
+    private CommunityMapper mapper;
+
     @Override
     public void register(CommunityVO board) {
 
@@ -34,11 +39,11 @@ public class CommunityServiceImpl implements CommunityService{
 
     @Override
     public List<CommunityVO> getList(Criteria cri) {
-        return List.of();
+        return mapper.getList(cri);
     }
 
     @Override
     public int getTotal(Criteria cri) {
-        return 0;
+        return mapper.getTotalCount(cri);
     }
 }

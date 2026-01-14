@@ -31,10 +31,10 @@
 
     <delete id="deleteComplaint" resultType="int">
         DELETE FROM tbl_complaint WHERE comId = #{comId}
-    </select>
+    </delete>
 
     <delete id="getMember" resultType="kr.go.ydpb.domain.MemberVO">
         SELECT * FROM tbl_member where memId = #{memId} and memPassword = #{memPassword} and memRole= 1
-    </select>
+    </delete>
 
 </mapper>

@@ -51,6 +51,7 @@ public class CommunityController {
     public String view(@RequestParam("cmntId") Long cmntId,
                        @ModelAttribute("cri") Criteria cri,
                        Model model) {
+        /* 조회수 증가 */
         service.increaseCount(cmntId);
         model.addAttribute("board", service.get(cmntId));
         return "admin/admin_community_center_view";

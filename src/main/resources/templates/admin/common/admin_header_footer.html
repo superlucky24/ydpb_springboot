@@ -18,6 +18,21 @@
 <div id="wrap">
 
     <!-- header -->
+    <header class="header admin_header" th:fragment="admin_header">
+        <div class="gnb">
+            <div class="safe_area">
+                <h1>
+                    <a th:href="@{/}"><img th:src="@{/images/common/header_logo.png}" alt="희망 행복 미래도시 영등포"></a>
+                </h1>
+
+                <!-- 로그아웃 영역 -->
+                <div class="login_area">
+                    <a th:if="${session.memId != null}" th:text="${session.memId} + '님'"></a>
+                    <a th:if="${session.memId != null}" th:href="@{/logout}">로그아웃</a>
+                </div>
+            </div>
+        </div>
+    </header>
     <header class="header admin_header" th:fragment="header">
         <div class="gnb">
             <div class="safe_area">
@@ -31,9 +46,9 @@
 
                 <!-- 관리자 -->
 
-                    <a th:href="@{/admin}" class="admin_menu">관리자메뉴</a>
+                    <a th:href="@{/admin/member/list}" class="admin_menu">관리자메뉴</a>
                     <a>
-                        <b th:text="${id}"></b> 관리자님
+                        <b th:text="${session.memId}"></b>님
                     </a>
 
                 </div>

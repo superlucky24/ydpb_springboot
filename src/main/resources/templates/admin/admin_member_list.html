@@ -1,138 +1,139 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원정보 관리 | 관리자 | 영등포본동 주민센터</title>
-    <link rel="shortcut icon" href="../images/favicon.ico">
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/ydpb.css">
-    <link rel="stylesheet" href="../css/ydpb_community_center_list.css">
-    <script src="../js/jquery-1.12.4.min.js"></script>
-    <script src="../js/jquery-3.3.1.min.js"></script>
-    <script src="../js/prefixfree.min.js"></script>
-    <script>const menuName = '회원정보 관리';</script>
-    <script src="../js/ydpb.js"></script>
+    <title>회원정보 관리 | 관리자</title>
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_list.css}">
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/ydpb.js}"></script>
 </head>
 <body>
-    <div id="wrap">
-        <!-- header -->
-        
-        <!-- //header -->
+<div id="wrap">
+    <header th:replace="admin/common/admin_header_footer :: header"></header>
+    <div class="container">
+        <div class="contents_wrap safe_area">
+            <aside th:replace="admin/common/admin_sidemenu :: side"></aside>
+            <main>
+                <div class="location">
+                    <div class="location_title"><h2>회원정보 관리</h2></div>
+                </div>
 
-        <!-- container -->
-        <div class="container">
-            <div class="contents_wrap safe_area">
-                <!-- side menu -->
-                <aside class="side_menu"></aside>
-                <!-- //side menu -->
+                <div id="board" class="clearfix">
+                    <div id="contents">
+                        <form th:action="@{/admin/member/list}" method="get" class="board_searchform">
+                            <div class="p-search clearfix">
+                                <div class="p-form-group">
+                                    <select name="searchType" class="p-input">
+                                        <option value="I" th:selected="${pageMaker.cri.searchType == 'I'}">아이디</option>
+                                        <option value="N" th:selected="${pageMaker.cri.searchType == 'N'}">이름</option>
+                                        <option value="P" th:selected="${pageMaker.cri.searchType == 'P'}">휴대폰번호</option>
+                                        <option value="E" th:selected="${pageMaker.cri.searchType == 'E'}">이메일 주소</option>
+                                        <option value="D" th:selected="${pageMaker.cri.searchType == 'D'}">가입일</option>
+                                    </select>
+                                    <input name="searchKeyword" th:value="${pageMaker.cri.searchKeyword}" id="searchKeyword" class="p-input" type="text">
 
-                <!-- main -->
-                <main>
-                    <!-- location -->
-                    <div class="location">
-                        <div class="location_title">
-                            <h2>회원정보 관리</h2>
-                        </div>
-                    </div>
-                    <!-- location -->
+                                    <input type="hidden" name="pageNum" value="1">
+                                    <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
 
-                    <!-- contents -->
-                    <div id="board" class="clearfix">
-                        <div id="contents">
-                            <form action="#" class="board_searchform">
-                                <fieldset>
-                                    <legend>게시물검색</legend>
-                                    <div class="p-search clearfix">
-                                        <div class="p-form-group">
-                                            <label for="searchType" class="skip">검색항목선택</label>
-                                            <select name="searchType" id="searchType" title="검색항목선택" class="p-input">
-                                                <option value="title" selected="selected">제목</option>
-                                            </select>
-                                            
-                                            <label for="searchKeyword" class="skip"></label>
-                                            <input name="searchKeyword" id="searchKeyword" class="p-input" type="text" value>
-                                            <span class="p-form-group__btn">
-                                                <input value="검색" type="submit" class="p-button">
-                                            </span>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </form>
-                        </div>
-                        <div class="page_cou clearfix">
-                            <p>
-                                총
-                                <em class="em_black">15</em>
-                                개 &nbsp;[
-                                <em class="em_b_black">1</em>
-                                / 2 페이지]
-                            </p>
-                        </div>
-                        <table class="p_table">
-                            <colgroup>
-                                <col style="width: 10%;">
-                                <col>
-                                <col style="width: 20%;">
-                                <col style="width: 20%;">
-                                <col style="width: 20%;">
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th scope="col">번호</th>
-                                    <th scope="col">사용자 ID</th>
-                                    <th scope="col">사용자 이름</th>
-                                    <th scope="col">휴대폰</th>
-                                    <th scope="col">이메일</th>
-                                </tr>
-                            </thead>
-                            <tbody class="tb_text">
-                                <tr>
-                                    <td>15</td>
-                                    <td><a href="member_view.html">tester3</a></td>
-                                    <td>테스터3</td>
-                                    <td>010-1111-2222</td>
-                                    <td>test@test.com</td>
-                                </tr>
-                                <tr>
-                                    <td>14</td>
-                                    <td><a href="member_view.html">tester2</a></td>
-                                    <td>테스터2</td>
-                                    <td>010-1111-2222</td>
-                                    <td>test@test.com</td>
-                                </tr>
-                                <tr>
-                                    <td>13</td>
-                                    <td><a href="member_view.html">tester1</a></td>
-                                    <td>테스터1</td>
-                                    <td>010-1111-2222</td>
-                                    <td>test@test.com</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="p_ctrl">
-                            <div class="p_control">
-                                <span class="p-link_b">
-                                    <strong title="현재 1페이지" class="p_link active">
-                                        1
-                                    </strong>
-                                    <a href="#" class="p_link">2</a>
-                                </span>
+                                    <span class="p-form-group__btn">
+                                        <input value="검색" type="submit" class="p-button">
+                                    </span>
+                                </div>
                             </div>
+                        </form>
+                    </div>
+
+                    <div class="page_cou clearfix">
+                        <p>
+                            총 <em class="em_black" th:text="${total}">0</em> 개 &nbsp;[
+                            <em class="em_b_black" th:text="${pageMaker.cri.pageNum}">1</em> /
+                            <span th:text="${pageMaker.realEnd}">1</span> 페이지]
+                        </p>
+                    </div>
+
+                    <table class="p_table">
+                        <colgroup>
+                            <col style="width: 7%;">
+                            <col style="width: 15%;">
+                            <col style="width: 15%;">
+                            <col style="width: 18%;">
+                            <col style="width: 30%;">
+                            <col style="width: 15%;">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th scope="col">번호</th>
+                            <th scope="col">사용자 ID</th>
+                            <th scope="col">사용자 이름</th>
+                            <th scope="col">휴대폰</th>
+                            <th scope="col">이메일</th>
+                            <th scope="col">가입일</th>
+                        </tr>
+                        </thead>
+                        <tbody class="tb_text">
+                        <tr th:each="member, status : ${list}">
+                            <td th:text="${total - (pageMaker.cri.pageNum - 1) * pageMaker.cri.amount - status.index}"></td>
+                            <td class="p_sub" style="text-align: center;">
+                                <a th:href="@{/admin/member/view(memId=${member.memId}, pageNum=${pageMaker.cri.pageNum}, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${pageMaker.cri.searchKeyword})}"
+                                   th:text="${member.memId}" style="color:blue; text-decoration:underline;">아이디</a>
+                            </td>
+                            <td th:text="${member.memName}">이름</td>
+                            <td th:text="${member.memPhone}">010-0000-0000</td>
+                            <td th:text="${member.memEmail}">test@test.com</td>
+                            <td><time th:text="${#dates.format(member.memRegDate, 'yyyy-MM-dd')}"></time></td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(list)}">
+                            <td colspan="6" style="text-align:center; padding:30px;">등록된 회원이 없습니다.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="p_ctrl">
+                        <div class="p_control">
+                                <span class="p-link_b">
+                                <a th:if="${pageMaker.realEnd > 10}"
+                                   th:href="@{/admin/member/list(pageNum=1, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${pageMaker.cri.searchKeyword})}"
+                                   class="p_link" title="맨 처음">&lt;&lt;
+                                </a>
+
+                                <a th:if="${pageMaker.realEnd > 10}"
+                                   th:href="@{/admin/member/list(pageNum=${pageMaker.prev ? pageMaker.startPage - 1 : 1}, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${pageMaker.cri.searchKeyword})}"
+                                   class="p_link" title="이전">&lt;
+                                </a>
+
+                                <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                                    <strong th:if="${pageMaker.cri.pageNum == num}" class="p_link active" th:text="${num}"></strong>
+                                    <a th:if="${pageMaker.cri.pageNum != num}"
+                                       th:href="@{/admin/member/list(pageNum=${num}, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${pageMaker.cri.searchKeyword})}"
+                                       class="p_link" th:text="${num}">
+
+                                    </a>
+                                </th:block>
+
+                                <a th:if="${pageMaker.realEnd > 10}"
+                                   th:href="@{/admin/member/list(pageNum=${pageMaker.next ? pageMaker.endPage + 1 : pageMaker.realEnd}, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${pageMaker.cri.searchKeyword})}"
+                                   class="p_link" title="다음">&gt;
+                                </a>
+
+                                <a th:if="${pageMaker.realEnd > 10}"
+                                   th:href="@{/admin/member/list(pageNum=${pageMaker.realEnd}, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${pageMaker.cri.searchKeyword})}"
+                                   class="p_link" title="맨 끝">&gt;&gt;
+                                </a>
+                                </span>
                         </div>
                     </div>
-                    <!-- //contents -->
-                
-                </main>
-                <!-- //main -->
-            </div>
+                </div> </main>
         </div>
-        <!-- //container -->
-
-        <!-- footer -->
-        
-        <!-- //footer -->
     </div>
+    <footer th:replace="admin/common/admin_header_footer :: footer"></footer>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var result = /*[[${result}]]*/ 'default';
+    if(result === "success") { alert("삭제되었습니다."); }
+    /*]]>*/
+</script>
 </body>
 </html>

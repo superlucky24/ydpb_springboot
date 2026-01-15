@@ -16,6 +16,6 @@ public class AdminMapperTests {
     @Test
     public void testGetList(){
         Criteria cri = new Criteria();
-        System.out.println("민원  : "+adminMapper.getAllCount(cri));
+//        System.out.println("민원  : "+adminMapper.getAllCount(cri));
     }
 }

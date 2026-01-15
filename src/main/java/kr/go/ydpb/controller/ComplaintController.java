@@ -62,13 +62,11 @@ public class ComplaintController {
                                   RedirectAttributes rttr) {
         complaintService.deleteComplaint(comId);
 
-
         rttr.addAttribute("pageNum", cri.getPageNum());
         rttr.addAttribute("amount", cri.getAmount());
 
         // 삭제 후 목록
-
-
         return "redirect:/admin/complaint/list";
     }
 }
+

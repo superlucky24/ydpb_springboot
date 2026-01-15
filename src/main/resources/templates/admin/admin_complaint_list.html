@@ -139,10 +139,15 @@
                         <div class="p_ctrl">
                             <div class="p_control">
                                 <span class="p-link_b" >
-                                    <th:block th:if="${pageMaker.prev}">
-                                        <a th:href="${pageMaker.startPage -1 }">이전</a>
+
+                                    <th:block th:if="${pageMaker.prev and pageMaker.realEnd>=10}">
+                                        <a th:href="1"><<</a>
+                                    </th:block>
+                                    <th:block th:if="${pageMaker.prev and pageMaker.realEnd>=10}">
+                                        <a th:href="${pageMaker.startPage -1 }"><</a>
                                     </th:block>
                                     <span th:each="i : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+
                                         <th:block th:if="${pageMaker.cri.pageNum == i}">
                                             <strong title="" class="p_link active">
                                                 [[${i}]]
@@ -152,8 +157,12 @@
                                             <a th:href="${i}" class="p_link">[[${i}]]</a>
                                         </th:block>
                                     </span>
-                                    <th:block th:if="${pageMaker.next}">
-                                        <a th:href="${pageMaker.endPage +1 }">다음</a>
+                                    <th:block th:if="${pageMaker.next and pageMaker.realEnd>=10}">
+                                        <a th:href="${pageMaker.endPage +1 }">></a>
+                                    </th:block>
+
+                                    <th:block th:if="${pageMaker.next and pageMaker.realEnd>=10}">
+                                        <a th:href="${pageMaker.realEnd }">>></a>
                                     </th:block>
                                 </span>
                             </div>
@@ -201,9 +210,9 @@
             //이벤트
             $('.p_ctrl .p_control .p-link_b a').on('click',function(e){
                 e.preventDefault();// 이벤트 차단
-                alert('aa');
+                // alert('aa');
                 actionForm.attr("action","/admin/complaint/list");
-                /* 폼 input name 속성값 pageNum의 value 값을 .paginate_button a href 값으로 변경  */
+                /* 폼 input name 속성값 pageNum의 value 값을 .p-link_b a href 값으로 변경  */
                 actionForm.find("input[name='pageNum']").val($(this).attr("href"));
                 actionForm.submit();
             });
@@ -211,9 +220,9 @@
         // 글 제목 클릭 시 이벤트
             $('.p_sub .move').on('click',function(e){
                 e.preventDefault();// 이벤트 차단
-                alert('bb');
+                // alert('bb');
                 var comId = $(this).data("comid");
-                //move 클래스에 hidden으로 bno값 전송하기 위해 append()사용
+                //move 클래스에 hidden으로 번호 전송하기 위해 append()사용
                 actionForm.append("<input type='hidden' name='comId' value='"
                     + $(this).attr("href")+ "'>");
                 actionForm.attr("action","/admin/complaint/view");

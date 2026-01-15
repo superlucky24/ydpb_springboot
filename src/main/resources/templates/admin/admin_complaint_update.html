@@ -81,9 +81,14 @@
                 <div class="contents">
                     <div class="board_write">
                         <p class="text_alert alert_write"><span class="required_mark">필수항목</span> 표시는 필수 항목 입니다.</p>
-                        <form action="#" method="post" onreset="clearForm(this)">
+                        <form th:action="@{/admin/complaint/update}" method="post" onreset="clearForm(this)">
+<!--                        페이징용 데이터 추가-->
+                            <input type="hidden" name="pageNum" th:value= "${cri.pageNum }"  />
+                            <input type="hidden" name="amount" th:value= "${cri.amount }"  />
+<!--                        수정용 글번호 데이터 추가-->
+                            <input type="hidden" name="comId" th:value= "${complaint.comId }"  />
                             <table class="table_form">
-                                <caption class="blind">자치회관 게시판 글쓰기</caption>
+                                <caption class="blind">민원 게시판 답변</caption>
                                 <colgroup>
                                     <col class="col1">
                                     <col class="col2">
@@ -95,7 +100,8 @@
 <!--                                        <span class="required_mark">필수항목</span>-->
                                     </th>
                                     <td>
-                                        <input type="text" name="comTitle" id="comTitle" class="input form_input" maxlength="300" value="지하철역 미화개선" required>
+                                        <input type="text" name="comTitle" id="comTitle" class="input form_input" maxlength="300"
+                                               th:value="${complaint.getComTitle()}" required disabled>
                                     </td>
                                 </tr>
                                 <tr>
@@ -104,12 +110,13 @@
 <!--                                        <span class="required_mark">필수항목</span>-->
                                     </th>
                                     <td>
-                                        <textarea name="comcontent" id="comcontent" class="input" rows="10" maxlength="4000" required>구로디지털...</textarea>
+                                        <textarea name="comcontent" id="comcontent" class="input" rows="10" maxlength="4000" required disabled
+                                            th:text="${complaint.getComContent()}">구로디지털...</textarea>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">
-                                        <label for="comcontent">답변</label>
+                                        <label for="comAnswer">답변</label>
                                         <span class="required_mark">필수항목</span>
                                     </th>
                                     <td>
@@ -117,7 +124,10 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">처리상황</th>
+                                    <th scope="row">
+                                        처리상황
+                                        <span class="required_mark">필수항목</span>
+                                    </th>
                                     <td>
                                         <div class="radio">
                                             <input type="radio" name="comStatus" id="comStatusIng" value="진행중" checked>
@@ -132,9 +142,9 @@
                                 </tbody>
                             </table>
                             <div class="btns">
-                                <a href="community_center_list.html" class="btn btn_default">목록</a>
-                                <input type="submit" class="btn btn_write" value="저장">
-                                <input type="reset" class="btn btn_cancel" value="삭제">
+                                <button data-oper="list"  type="submit"  class="btn btn_default">목록</button>
+                                <button data-oper="update" type="submit" class="btn btn_write" >저장</button>
+                                <button type="reset" class="btn btn_cancel" >삭제</button>
                             </div>
                         </form>
                     </div>
@@ -164,6 +174,38 @@
     <!-- footer -->
     <footer class="footer" th:replace="admin/common/admin_header_footer :: footer"></footer>
     <!-- //footer -->
+    <!-- 스크립트 추가 -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            //form 태그 할당
+            var formObj = $("form");
+            //이벤트 : button 클릭
+            $('button').on('click',function(e){
+                // alert('버튼 클릭');
+                e.preventDefault();//브라우저 기본 기능 제거
+
+                var operation  = $(this).data("oper");
+                // 콘솔 출력
+                console.log(operation);
+                if(operation ==='list'){
+                    formObj.attr("action","/admin/complaint/list").attr("method","get");
+                    var pageNumTag = $("input[name='pageNum']").clone();
+                    var amountTag = $("input[name='amount']").clone();
+
+                    formObj.empty();
+
+                    formObj.append(pageNumTag);
+                    formObj.append(amountTag);
+
+                }else if(operation ==='update'){
+                    formObj.attr("action","/admin/complaint/update");
+                }
+                console.log(formObj.serialize());
+                // 폼 submit() 실행
+                formObj.submit();
+            });
+        });
+    </script>
 </div>
 </body>
 </html>

@@ -105,12 +105,12 @@
                                         </tr>
                                         <th:block th:if="${complaint.getComAnswer != null}">
                                             <tr>
-                                                <th scope="row">처리상황</th>
-                                                <td th:text="${complaint.getComStatus()}">완료</td>
+                                                <th scope="row" >처리상황</th>
+                                                <td class="com-status" th:text="${complaint.getComStatus()}">완료</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">종합의견</th>
-                                                <td th:text="${complaint.getComAnswer()}">
+                                                <th scope="row" >종합의견</th>
+                                                <td class="com-answer" th:text="${complaint.getComAnswer()}">
                                                     안녕하십니까? 영등포본동 주민센터 민원신청 담당자입니다....
                                                 </td>
                                             </tr>
@@ -175,26 +175,37 @@
         $(document).ready(function() {
             // 폼 할당
             var operForm = $('#operForm');
+
+            var comAnswer = $('.com-answer');
+            console.log(comAnswer.text());
             //속성 선택자 update 선택
             $("button[data-oper='update']").on('click',function(){
-                operForm.attr("action","/admin/complaint/update").submit();
+                if(comAnswer.text().trim() != "" && comAnswer.length != 0 && comAnswer.text() != null)
+                {
+                    console.log("답변이 있음");
+                    alert("답변이 이미 존재하므로 작성 불가");
+                }
+                else{
+                    console.log("답변이 없음");
+                    operForm.attr("action","/admin/complaint/update").submit()
+                }
             })
 
             //속성 선택자 list 선택
             $("button[data-oper='list'] ").on('click',function(){
-                // 목록 페이지는 아무런 데이터도 필요 없음 => bno 값을 삭제
+                // 목록 페이지는 아무런 데이터도 필요 없음 => comId 값을 삭제
                 operForm.find("#comId").remove();
                 operForm.attr("action","/admin/complaint/list");
                 operForm.submit();
-            })
+            });
 
             //remove -> method post 방식으로 바꿔주고 submit
             $("button[data-oper='delete'] ").on('click',function(){
-                alert('delete');
+
                 operForm.attr("action",'/admin/complaint/delete').attr("method","post");
                 operForm.submit();
-            })
-        })
+            });
+        });
     </script>
 </body>
 </html>

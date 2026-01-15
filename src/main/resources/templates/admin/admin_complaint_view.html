@@ -197,7 +197,7 @@
                 if (!confirm("정말 삭제하시겠습니까?")) {
                     return; // 취소 시 종료
                 }
-                operForm.attr("action",'/admin/complaint/delete').attr("method","post");
+                operForm.attr("action",'/admin/complaint/delete').attr("method","get");
                 operForm.submit();
             });
         });

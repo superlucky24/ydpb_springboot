@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("admin")
+@RequestMapping("admin/complaint")
 @AllArgsConstructor
 public class ComplaintController {
     //주입
@@ -23,7 +23,7 @@ public class ComplaintController {
     private ComplaintService complaintService;
 
     //매핑
-    @GetMapping("complaint/list")
+    @GetMapping("list")
     public String complaintList(Model model, Criteria cri){
         model.addAttribute("complaintList", complaintService.getComplaintWithPaging(cri));
         int total = complaintService.getAllCount(cri);
@@ -32,12 +32,20 @@ public class ComplaintController {
         return "admin/admin_complaint_list";
     }
 
-
-    @GetMapping("complaint/view")
+    // 데이터만 가져옴
+    @GetMapping("view")
     public String complaintView(@RequestParam("comId") int comId,
                                 @ModelAttribute("cri") Criteria cri, Model model){
         model.addAttribute("complaint",complaintService.getOneComplaint(comId));
 
         return "admin/admin_complaint_view";
     }
+    @GetMapping("update")
+    public String complaintUpdate(@RequestParam("comId") int comId,
+                                @ModelAttribute("cri") Criteria cri, Model model){
+        model.addAttribute("complaint",complaintService.getOneComplaint(comId));
+
+        return "admin/admin_complaint_update";
+    }
+
 }

@@ -119,7 +119,7 @@
                                 </table>
                                 <div class="form_btns_wrap">
                                     <div class="btns">
-                                        <button data-oper="modify" class="btn btn_bordered update" >답변</button>
+                                        <button data-oper="update" class="btn btn_bordered update" >답변</button>
                                         <button data-oper="delete" class="btn btn_bordered delete">삭제</button>
                                     </div>
                                     <div class="btns">
@@ -175,8 +175,8 @@
         $(document).ready(function() {
             // 폼 할당
             var operForm = $('#operForm');
-            //속성 선택자 modify 선택
-            $("button[data-oper='modify']").on('click',function(){
+            //속성 선택자 update 선택
+            $("button[data-oper='update']").on('click',function(){
                 operForm.attr("action","/admin/complaint/update").submit();
             })
 

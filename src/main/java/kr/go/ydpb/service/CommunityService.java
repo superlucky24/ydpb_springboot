@@ -12,4 +12,5 @@ public interface CommunityService {
     public boolean remove(Long bno);
     public List<CommunityVO> getList(Criteria cri);
     public int getTotal(Criteria cri);
+    void increaseCount(Long cmntId);
 }

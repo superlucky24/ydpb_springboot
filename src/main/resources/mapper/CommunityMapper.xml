@@ -85,6 +85,12 @@
            cmntId > 0
         ]]>
     </select>
+
+    <update id="updateCount">
+        UPDATE tbl_community
+        SET cmntCount = cmntCount + 1
+        WHERE cmntid = #{cmntId}
+    </update>
 </mapper>
 
 

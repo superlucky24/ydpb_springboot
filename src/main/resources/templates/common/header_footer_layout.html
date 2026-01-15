@@ -1465,18 +1465,18 @@
 
                 <!-- 로그인 회원가입 -->
                 <div class="red_box">
-                    <a th:href="@{/login}" class="icon_login">로그인</a>
-                    <a th:href="@{/join}" class="icon_join">회원가입</a>
+                    <a th:if="${session.memId == null}" th:href="@{/login}" class="icon_login">로그인</a>
+                    <a th:if="${session.memId == null}" th:href="@{/join}" class="icon_join">회원가입</a>
 
-                    <!--로그인 시-->
-                    <!--<a th:href="@{logout}" class="icon_logout">로그아웃</a>-->
+                    <a th:if="${session.memId != null}" th:text="${session.memId} + '님'"></a>
+                    <a th:if="${session.memId != null}" th:href="@{/logout}">로그아웃</a>
                 </div>
             </div>
         </div>
         <!-- /GNB -->
+        <div class="header" th:if="${session.admin == 1}" th:insert="~{/admin/common/admin_header_footer::header}"/>
 
-
-    </header>
+    </div>
     <!-- search -->
     <div class="search" th:fragment="search">
         <div id="contents_search">
@@ -1811,6 +1811,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Footer Bottom -->
         <div class="safe_area">
             <div class="footer_logo"><img th:src="@{/images/common/footer_logo.png}" alt="영등포구"></div>
@@ -1851,6 +1852,7 @@
         <div class="black_opacity"></div>
     </footer>
     <!-- //footer -->
+
 
 </div>
 </body>

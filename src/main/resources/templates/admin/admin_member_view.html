@@ -1,123 +1,109 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원정보 관리 | 관리자 | 영등포본동 주민센터</title>
-    <link rel="shortcut icon" href="../images/favicon.ico">
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/ydpb.css">
-    <link rel="stylesheet" href="../css/ydpb_community_center_view.css">
-    <script src="../js/jquery-1.12.4.min.js"></script>
-    <script src="../js/jquery-3.3.1.min.js"></script>
-    <script src="../js/prefixfree.min.js"></script>
-    <script>const menuName = '회원정보 관리';</script>
-    <script src="../js/ydpb.js"></script>
+    <title>회원정보 상세 | 관리자</title>
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_view.css}">
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/ydpb.js}"></script>
 </head>
 <body>
-    <div id="wrap">
-        <!-- header -->
-        
-        <!-- //header -->
+<div id="wrap">
+    <header th:replace="admin/common/admin_header_footer :: header"></header>
 
-        <!-- container -->
-        <div class="container">
-            <div class="contents_wrap safe_area">
-                <!-- side menu -->
-                <aside class="side_menu"></aside>
-                <!-- //side menu -->
+    <div class="container">
+        <div class="contents_wrap safe_area">
+            <aside th:replace="admin/common/admin_sidemenu :: side"></aside>
 
-                <!-- main -->
-                <main>
-                    <!-- location -->
-                    <div class="location">
-                        <div class="location_title">
-                            <h2>회원정보 관리</h2>
-                        </div>
+            <main>
+                <div class="location">
+                    <div class="location_title">
+                        <h2>회원정보 상세 관리</h2>
                     </div>
-                    <!-- location -->
+                </div>
 
-                    <!-- contents -->
-                    <div class="contents" id="board">
-                        <div class="board clearfix">
-                            <div class="bbs_wrap">
-                                <table class="p-table">
-                                    <colgroup>
-                                        <col class="w20p">
-                                        <col>
-                                    </colgroup>
-                                    <tbody class="p-tb">
-                                        <tr>
-                                            <td colspan="2">tester1</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">사용자 이름</th>
-                                            <td>테스터1</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">사용자 생년월일</th>
-                                            <td>2000-01-01</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">사용자 성별</th>
-                                            <td>남자</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">
-                                                <label for="memPassword">비밀번호</label>
-                                            </th>
-                                            <td>
-                                                <input type="password" name="memPassword" id="memPassword" class="input" maxlength="20" size="40" style="width: 300px" required>
-                                                <button type="button" class="btn btn_write btn_sm" onclick="layerAlert('죄송합니다.&lt;br&gt; 현재 준비중인 메뉴입니다.')">비밀번호 수정</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">주소</th>
-                                            <td>서울시 영등포구 영등포본동</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">일반전화</th>
-                                            <td>02-1111-2222</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">휴대폰</th>
-                                            <td>010-1111-2222</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">이메일</th>
-                                            <td>test@test.com</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">영등포구소식</th>
-                                            <td>받음</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="form_btns_wrap">
-                                    <div class="btns">
-                                        
-                                    </div>
-                                    <div class="btns">
-                                        <a href="member_list.html" class="p-btn">목록 <span class="p-btn_write"></span></a>
-                                    </div>
+                <div id="board">
+                    <div class="bbs_wrap">
+                        <table class="p-table" style="width: 100%; border-collapse: collapse;">
+                            <colgroup>
+                                <col style="width: 20%;">
+                                <col>
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th scope="row" style="padding: 15px; background: #f9f9f9; text-align: left; font-weight: 600; color: #333; border-top: 1px solid #d9d9d9; border-bottom: 1px solid #ececec;">사용자 ID</th>
+                                <td th:text="${member.memId}" style="padding: 15px; border-top: 1px solid #d9d9d9; border-bottom: 1px solid #ececec;">아이디</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" style="padding: 15px; background: #f9f9f9; text-align: left; font-weight: 600; color: #333; border-bottom: 1px solid #ececec;">이름</th>
+                                <td th:text="${member.memName}" style="padding: 15px; border-bottom: 1px solid #ececec;">이름</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" style="padding: 15px; background: #f9f9f9; text-align: left; font-weight: 600; color: #333; border-bottom: 1px solid #ececec;">휴대폰</th>
+                                <td th:text="${member.memPhone}" style="padding: 15px; border-bottom: 1px solid #ececec;">010-0000-0000</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" style="padding: 15px; background: #f9f9f9; text-align: left; font-weight: 600; color: #333; border-bottom: 1px solid #ececec;">이메일</th>
+                                <td th:text="${member.memEmail}" style="padding: 15px; border-bottom: 1px solid #ececec;">test@test.com</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" style="padding: 15px; background: #f9f9f9; text-align: left; font-weight: 600; color: #333; border-bottom: 1px solid #ececec;">가입일</th>
+                                <td th:text="${#dates.format(member.memRegDate, 'yyyy-MM-dd HH:mm:ss')}" style="padding: 15px; border-bottom: 1px solid #ececec;">2025-01-15</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" style="padding: 15px; background: #f9f9f9; text-align: left; font-weight: 600; color: #333; border-bottom: 1px solid #ececec;">비밀번호 변경</th>
+                                <td style="padding: 15px; border-bottom: 1px solid #ececec;">
+                                    <form th:action="@{/admin/member/updatePw}" method="post" style="display: flex; align-items: center; gap: 8px;">
+                                        <input type="hidden" name="memId" th:value="${member.memId}">
+                                        <input type="hidden" name="pageNum" th:value="${cri.pageNum}">
+                                        <input type="hidden" name="amount" th:value="${cri.amount}">
+                                        <input type="hidden" name="searchType" th:value="${cri.searchType}">
+                                        <input type="hidden" name="searchKeyword" th:value="${cri.searchKeyword}">
+
+                                        <input type="password" name="memPassword" placeholder="새 비밀번호 입력" required
+                                               style="padding: 5px 10px; border: 1px solid #ccc; width: 200px; height: 38px; box-sizing: border-box;">
+                                        <button type="submit" class="p-btn" style="height: 38px; padding: 0 15px; cursor: pointer;">변경</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row margin_t_30" style="margin-top: 30px;">
+                            <div class="col-12 clearfix">
+                                <div style="float: left;">
+                                    <a th:href="@{/admin/member/list(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       class="p-btn" style="background-color: #666; border-color: #555; color: #fff; text-decoration: none; padding: 10px 20px; display: inline-block;">목록으로</a>
+                                </div>
+                                <div style="float: right;">
+                                    <a th:href="@{/admin/member/delete(memId=${member.memId}, pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       class="p-btn"
+                                       style="background-color: #d9534f; border-color: #d43f3a; color: #fff; text-decoration: none; padding: 10px 20px; display: inline-block;"
+                                       onclick="return confirm('정말 이 회원을 삭제하시겠습니까?');">회원 삭제</a>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
-                    <!-- //contents -->
-                    
-                </main>
-                <!-- //main -->
-            </div>
+                </div>
+            </main>
         </div>
-        <!-- //container -->
-
-        <!-- footer -->
-        
-        <!-- //footer -->
     </div>
+
+    <footer th:replace="admin/common/admin_header_footer :: footer"></footer>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var result = /*[[${result}]]*/ null;
+
+    if(result === "pw_success") {
+        alert("비밀번호가 성공적으로 변경되었습니다.");
+    } else if(result === "pw_fail") {
+        alert("비밀번호 변경에 실패했습니다.");
+    }
+    /*]]>*/
+</script>
 </body>
 </html>

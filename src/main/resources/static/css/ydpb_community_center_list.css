@@ -65,6 +65,9 @@ legend {
     display: flex;
     align-items: center;
 }
+.p-search .p-form-group {
+    justify-content: center;
+}
 .p-search .p-form {
     width: 1px;
     height: 18px;
@@ -112,7 +115,7 @@ select:hover {
 }
 /* 추가 검색 입력영역 너비변경 */
 
-#search_krwd {
+#searchKeyword {
     flex: 1;
     padding: 0 12px;
     margin: 2px 0;
@@ -122,7 +125,7 @@ select:hover {
     box-sizing: border-box;
     border-radius: 5px;
 }
-#search_krwd:hover {
+#searchKeyword:hover {
     border-color: #177ac8;
 }
 .p-search #searchType {
@@ -141,7 +144,7 @@ span {
     width: auto;
 }
 .p-search .p-input,
-#search_krwd,
+#searchKeyword,
 .p-search .p-button {
     height: 42px;
     line-height: 42px;

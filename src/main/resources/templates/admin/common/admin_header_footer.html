@@ -18,7 +18,7 @@
 <div id="wrap">
 
     <!-- header -->
-    <header class="header admin_header" th:fragment="admin_header">
+    <div class="header admin_header" th:fragment="admin_header">
         <div class="gnb">
             <div class="safe_area">
                 <h1>
@@ -28,11 +28,11 @@
                 <!-- 로그아웃 영역 -->
                 <div class="login_area">
                     <a th:if="${session.memId != null}" th:text="${session.memId} + '님'"></a>
-                    <a th:if="${session.memId != null}" th:href="@{/logout}">로그아웃</a>
+                    <a th:if="${session.memId != null}" th:href="@{/logout}" class="icon_logout">로그아웃</a>
                 </div>
             </div>
         </div>
-    </header>
+    </div>
     <header class="header admin_header" th:fragment="header">
         <div class="gnb">
             <div class="safe_area">
@@ -47,9 +47,6 @@
                 <!-- 관리자 -->
 
                     <a th:href="@{/admin/member/list}" class="admin_menu">관리자메뉴</a>
-                    <a>
-                        <b th:text="${session.memId}"></b>님
-                    </a>
 
                 </div>
             </div>

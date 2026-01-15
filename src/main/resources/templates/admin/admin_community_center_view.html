@@ -5,20 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자치회관 게시판 | 자치회관 | 영등포본동 주민센터</title>
-    <link rel="shortcut icon" href="../images/favicon.ico">
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/ydpb.css">
-    <link rel="stylesheet" href="../css/ydpb_community_center_view.css">
-    <script src="../js/jquery-1.12.4.min.js"></script>
-    <script src="../js/jquery-3.3.1.min.js"></script>
-    <script src="../js/prefixfree.min.js"></script>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_view.css}">
+    <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
     <script>const menuName = '자치회관 게시판';</script>
-    <script src="../js/ydpb.js"></script>
+    <script th:src="@{/js/ydpb.js}"></script>
 </head>
 <body>
     <div id="wrap">
         <!-- header -->
-        <header class="header"></header>
+        <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
         <!-- //header -->
 
         <!-- search -->
@@ -34,39 +34,6 @@
 
                 <!-- main -->
                 <main>
-                    <!-- location -->
-                    <!-- <div class="location">
-                        <div class="location_title">
-                            <h2>자치회관 게시판</h2>
-                        </div>
-                        <div class="location_path">
-                            <span class="loc_home"><a href="../index.html">  </a></span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text"><a href="../index.html">동주민센터</a></span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text"><a href="../index.html">영등포본동</a></span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text"><a href="#">자치회관</a></span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text">자치회관 게시판</span>
-                        </div>
-                        <div class="location_icon">
-                            <ul class="loc_fixed_icon">
-                                <li><button type="button" class="loc_print">프린트</button></li>
-                                <li class="icon_sns">
-                                    <button type="button" class="loc_sns">SNS</button>
-                                    <div class="sns_list">
-                                        <a href="#" class="loc_sns_icon1"> </a>
-                                        <a href="#" class="loc_sns_icon2"> </a>
-                                        <a href="#" class="loc_sns_icon3"> </a>
-                                        <a href="#" class="loc_sns_icon4"> </a>
-                                        <a href="#" class="loc_sns_icon5"> </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div> -->
-                    <!-- location -->
 
                     <!-- contents -->
                     <div class="contents" id="board">
@@ -76,11 +43,11 @@
                                     <div class="bbs_count">
                                         <span class="line">
                                             조회수
-                                            <strong>186</strong>
+                                            <strong th:text="${board.cmntCount}"></strong>
                                         </span>
                                         <span>
                                             작성일
-                                            <strong>2025.01.15</strong>
+                                            <strong th:text="${#dates.format(board.cmntDate, 'yyyy-MM-dd')}"></strong>
                                         </span>
                                     </div>
                                 </div>
@@ -89,48 +56,38 @@
                                         <col class="w20p">
                                         <col>
                                     </colgroup>
-                                    <tbody class="p-tb">
+                                    <tbody>
                                         <tr>
-                                            <td colspan="2"><span class="td_title">2024년 하반기 영등포본동 자치회관 운영결과 보고서</span></td>
+                                            <td colspan="2"><span class="td_title" th:text="${board.cmntTitle}"></span></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2" class="td_text">2024년 하반기 영등포본동 자치회관 운영결과 보고서</td>
+                                            <td colspan="2" class="td_text" th:text="${board.cmntContent}"></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">행정동</th>
                                             <td>영등포본동</td>
                                         </tr>
-                                        <tr>
-                                            <th scope="row">파일</th>
-                                            <td>
-                                                <ul class="p-attach">
-                                                    <li class="p-attach_item">
-                                                        <a class="p-attach_link" href="#" alt="첨부파일 다운로드">
-                                                            <span class="p-pdf_icon"></span>
-                                                            <span>반기별 운영 결과보고서 (2024년 하반기) .pdf</span>
-                                                            <span class="p-down_icon" aria-hidden="true"></span>
-                                                        </a>
-                                                        <a href="#" target="_blank" title="새창" class="p-attach_prv">
-                                                            <span class="p-prv"></span>
-                                                            미리보기
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </td>
+                                        <!-- 부서가 있을 때만 표시 -->
+                                        <tr th:if="${board.cmntDepartment != null}">
+                                            <th scope="row">부서</th>
+                                            <td th:text="${board.cmntDepartment}"></td>
                                         </tr>
-                                        <tr>
-                                            <th scope="row" >부서</th>
-                                            <td>영등포본동</td>
-                                        </tr>
+
                                     </tbody>
                                 </table>
                                 <div class="form_btns_wrap">
                                     <div class="btns">
-                                        <a href="#" class="btn btn_bordered update">수정</a>
-                                        <a href="#" class="btn btn_bordered delete">삭제</a>
+                                        <!-- 수정 버튼은 그대로 링크 -->
+                                        <a th:href="@{/admin/community/update(cmntId=${board.cmntId})}" class="btn btn_bordered update">수정</a>
+
+                                        <!-- 삭제 버튼을 form으로 감싸 POST 요청 -->
+                                        <form th:action="@{/admin/community/delete}" method="post" style="display:inline;">
+                                            <input type="hidden" name="cmntId" th:value="${board.cmntId}">
+                                            <button type="submit" class="btn btn_bordered delete">삭제</button>
+                                        </form>
                                     </div>
                                     <div class="btns">
-                                        <a href="#" class="p-btn">
+                                        <a class="p-btn" th:href="@{/admin/community/list}">
                                             목록
                                             <span class="p-btn_write"></span>
                                         </a>

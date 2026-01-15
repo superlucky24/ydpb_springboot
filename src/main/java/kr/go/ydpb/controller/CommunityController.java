@@ -14,57 +14,85 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Slf4j
 @Controller
 @AllArgsConstructor
-@RequestMapping("/admin/community/*")
+@RequestMapping("/admin/community")
 public class CommunityController {
+
     private CommunityService service;
+
+    /* 목록 */
     @GetMapping("/list")
     public String list(Criteria cri, Model model) {
-        log.info("list => {}", cri);
         model.addAttribute("list", service.getList(cri));
-        int total = service.getTotal(cri);
-        log.info("total => {}", total);
-        model.addAttribute("pageMaker", new PageDTO(cri, total));
-        return "admin/admin_community_center_list";
-    }//end of list
+        model.addAttribute("pageMaker",
+                new PageDTO(cri, service.getTotal(cri)));
 
-    @PostMapping("/register")
+        return "admin/admin_community_center_list";
+    }
+
+    /* 글쓰기 페이지 */
+    @GetMapping("/write")
+    public String writeForm(Model model) {
+        model.addAttribute("board", new CommunityVO());
+        return "admin/admin_community_center_write";
+    }
+
+    /* 글 등록 */
+    @PostMapping("/write")
     public String register(CommunityVO board, RedirectAttributes rttr) {
-        log.info("register : {}", board);
+        board.setMemId("admin"); // 임시 로그인 ID 세팅, 실제 로그인 정보로 바꿀 것
+        log.info("register controller => {}", board);
         service.register(board);
-        rttr.addFlashAttribute("result",board.getCmntId());
-        return "redirect:/board/list";
+        rttr.addFlashAttribute("result", board.getCmntId());
+        return "redirect:/admin/community/list"; // 저장 후 목록으로 이동
     }
-    @GetMapping("/register")
-    public void register() {}
-    @GetMapping({"/get","/modify"})
-    public void get(@RequestParam("cmntId") Long cmntId, @ModelAttribute("cri") Criteria cri,
-                    Model model) {
-        log.info("/get or /modify");
-        model.addAttribute("board",service.get(cmntId));
+
+    /* 상세 보기 */
+    @GetMapping("/view")
+    public String view(@RequestParam("cmntId") Long cmntId,
+                       @ModelAttribute("cri") Criteria cri,
+                       Model model) {
+        service.increaseCount(cmntId);
+        model.addAttribute("board", service.get(cmntId));
+        return "admin/admin_community_center_view";
     }
-    @PostMapping("/modify")
-    public String modify(CommunityVO board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
-        log.info("modify => {}", board);
-        if(service.modify(board)) {
-            rttr.addFlashAttribute("result","success");
-        }
-        rttr.addAttribute("pageNum", cri.getPageNum());
-        rttr.addAttribute("amount", cri.getAmount());
-        rttr.addAttribute("type",cri.getSearchType());
-        rttr.addAttribute("keyword",cri.getSearchKeyword());
-        return "redirect:/board/list";
+
+    /* 수정 페이지 */
+    @GetMapping("/update")
+    public String updateForm(@RequestParam("cmntId") Long cmntId,
+                             @ModelAttribute("cri") Criteria cri,
+                             Model model) {
+
+        model.addAttribute("board", service.get(cmntId));
+        return "admin/admin_community_center_update";
     }
-    @PostMapping("/remove")
-    public String remove(@RequestParam("cmntId") Long cmntId, @ModelAttribute("cri") Criteria cri,
+
+    /* 수정 처리 */
+    @PostMapping("/update")
+    public String update(@ModelAttribute("board") CommunityVO board,
+                         @ModelAttribute("cri") Criteria cri,
                          RedirectAttributes rttr) {
+
+        // 수정 처리
+        service.modify(board);
+
+        // 상세보기로 이동할 때 cmntId 쿼리 파라미터 전달
+        rttr.addAttribute("cmntId", board.getCmntId());
+
+        return "redirect:/admin/community/view";
+    }
+
+    /* 삭제 페이지 */
+    @PostMapping("/delete")
+    public String deleteForm(@RequestParam("cmntId") Long cmntId,
+                             @ModelAttribute("cri") Criteria cri,
+                             RedirectAttributes rttr) {
         log.info("remove => {}", cmntId);
+
         if(service.remove(cmntId)) {
-            rttr.addFlashAttribute("result","success");
+            rttr.addFlashAttribute("result", "success"); // 성공 메시지만 전달
         }
-        rttr.addAttribute("pageNum", cri.getPageNum());
-        rttr.addAttribute("amount", cri.getAmount());
-        rttr.addAttribute("type",cri.getSearchType());
-        rttr.addAttribute("keyword",cri.getSearchKeyword());
-        return "redirect:/board/list";
+
+        // 삭제 후 목록 페이지로 redirect
+        return "redirect:/admin/community/list";
     }
 }

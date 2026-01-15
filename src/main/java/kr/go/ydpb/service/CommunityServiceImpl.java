@@ -19,22 +19,22 @@ public class CommunityServiceImpl implements CommunityService{
 
     @Override
     public void register(CommunityVO board) {
-
+        mapper.insert(board);
     }
 
     @Override
-    public CommunityVO get(Long bno) {
-        return null;
+    public CommunityVO get(Long cmntId) {
+        return mapper.read(cmntId);
     }
 
     @Override
     public boolean modify(CommunityVO board) {
-        return false;
+        return mapper.update(board) == 1;
     }
 
     @Override
-    public boolean remove(Long bno) {
-        return false;
+    public boolean remove(Long cmntId) {
+        return mapper.delete(cmntId) == 1;
     }
 
     @Override
@@ -45,5 +45,10 @@ public class CommunityServiceImpl implements CommunityService{
     @Override
     public int getTotal(Criteria cri) {
         return mapper.getTotalCount(cri);
+    }
+
+    @Override
+    public void increaseCount(Long cmntId) {
+        mapper.updateCount(cmntId);
     }
 }

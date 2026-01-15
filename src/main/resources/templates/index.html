@@ -1,0 +1,455 @@
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자치회관 게시판 | 자치회관 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_main.css}">
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script th:src="@{/ydpb.js}"></script>
+    <script th:src="@{/js/ydpb_main.js}"></script>
+</head>
+<body>
+<div id="wrap">
+    <!-- header -->
+    <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
+    <!-- //header -->
+
+    <!-- search -->
+    <div class="search"></div>
+    <!-- //search -->
+
+    <!-- container -->
+    <div class="container">
+        <div class="contents_wrap safe_area">
+            <!-- side menu -->
+            <aside class="side_menu"></aside>
+            <!-- //side menu -->
+
+            <!-- main -->
+            <main>
+                <!-- location -->
+                <div class="location">
+                    <div class="location_title">
+                        <h2>영등포본동 주민센터</h2>
+                    </div>
+                    <div class="location_path">
+                        <span class="loc_home">홈</span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text">동주민센터</span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text">영등포본동</span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text">우리동이야기</span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text">영등포본동 주민센터</span>
+                    </div>
+                    <div class="location_icon">
+                        <ul class="loc_fixed_icon">
+                            <li><button type="button" class="loc_print">프린트</button></li>
+                            <li class="icon_sns">
+                                <button type="button" class="loc_sns">SNS</button>
+                                <div class="sns_list">
+                                    <a href="#" class="loc_sns_icon1">a</a>
+                                    <a href="#" class="loc_sns_icon2">a</a>
+                                    <a href="#" class="loc_sns_icon3">a</a>
+                                    <a href="#" class="loc_sns_icon4">a</a>
+                                    <a href="#" class="loc_sns_icon5">a</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- location -->
+
+                <!-- contents -->
+                <div class="contents">
+                    <div class="main1">
+                        <div class="mainpopup">
+                            <!-- <div class="main_pop_control">
+                                <div class="leftbox">
+                                    <div class="page">
+                                        <span class="current slick-text">1</span>
+                                        <div class="gap">/</div>
+                                        <span class="current total-text">1</span>
+                                    </div>
+                                </div>
+                                <div class="controlbox">
+
+                                </div>
+                            </div> -->
+
+                            <div class="slider_list">
+                                <a href="#"><img src="./images/main/main_01.gif" alt="메인01"></a>
+                            </div>
+                        </div>
+                        <div class="maininfo">
+                            <div class="infobox">
+                                <h3 class="infobox_title">
+                                    영등포본동 주민센터 이용안내
+                                </h3>
+                                <p class="info_tel">02-2670-1049</p>
+                                <p class="office_hour">
+                                    09:00 ~ 18:00(월~금)
+                                    <br>
+                                    (공휴일 제외)
+                                </p>
+                                <div class="info_iconbox">
+                                    <ul>
+                                        <li class="icon1">
+                                            <a href="#">
+                                                    <span class="info_icon rotate_icon">
+
+                                                    </span>
+                                                <span class="info_text1">
+                                                        <div class="underline_text">직원안내</div>
+                                                    </span>
+                                            </a>
+                                        </li>
+                                        <li class="icon2">
+                                            <a href="./sub/location.html">
+                                                    <span class="info_icon rotate_icon">
+
+                                                    </span>
+                                                <span class="info_text2">
+                                                        <div class="underline_text">찾아오시는 길</div>
+                                                    </span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="main2_p">
+                        <div class="main2">
+                            <div class="main2_box">
+                                <a href="#">
+                                    <div class="main2_icon rotate_icon">
+
+                                    </div>
+                                    <div class="main2_text">
+                                        <div class="underline_text">대형폐기물</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="main2_box">
+                                <a href="#">
+                                    <div class="main2_icon rotate_icon">
+
+                                    </div>
+                                    <div class="main2_text">
+                                        <div class="underline_text">채용정보</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="main2_box">
+                                <a href="#">
+                                    <div class="main2_icon rotate_icon">
+
+                                    </div>
+                                    <div class="main2_text">
+                                        <div class="underline_text">정부24</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="main2_box">
+                                <a href="#">
+                                    <div class="main2_icon rotate_icon">
+
+                                    </div>
+                                    <div class="main2_text">
+                                        <div class="underline_text">영등포소식지</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main3">
+                        <section class="main3_box1">
+                            <ul class="main3_title">
+                                <li class="main3_dong checked"><span>우리동 소식</span></li>
+                                <li class="main3_gu"><span>우리구 소식</span></li>
+                            </ul>
+                            <ul class="main3_list">
+                                <li>
+                                    <div class="main3_contents m3dong show">
+                                        <ul>
+                                            <li>
+                                                <a href="#" class="underline_text">
+                                                        <span class="main3_c_title">
+                                                            2025년 농림어업총조사 실시
+                                                        </span>
+                                                    <div class="main3_c_date">2025-12-07</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="underline_text">
+                                                        <span class="main3_c_title">
+                                                            남북 이산가족 공연 안내
+                                                        </span>
+                                                    <div class="main3_c_date">2025-12-05</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="underline_text">
+                                                        <span class="main3_c_title">
+                                                            불법 주방용 오물분쇄기 사용금지 관련 안내
+                                                        </span>
+                                                    <div class="main3_c_date">2025-12-04</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="underline_text">
+                                                        <span class="main3_c_title">
+                                                            영등포본동 주민자치위원 모집 재공고(기간연장)
+                                                        </span>
+                                                    <div class="main3_c_date">2025-12-01</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="underline_text">
+                                                        <span class="main3_c_title">
+                                                            영등포구 통합신청사 주민설명회 개최 안내
+                                                        </span>
+                                                    <div class="main3_c_date">2025-11-26</div>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                        <a href="#" class="main3_more">소식더보기</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="main3_contents m3gu">
+                                        <ul>
+                                            <li>
+                                                <a href="#" class="underline_text">
+                                                        <span class="main3_c_title">
+                                                            2026년 1기 생활과학교실 수강생 추가모집
+                                                        </span>
+                                                    <div class="main3_c_date">2025-12-15</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="underline_text">
+                                                        <span class="main3_c_title">
+                                                            한국교통장애인협회 영등포구지회
+                                                        </span>
+                                                    <div class="main3_c_date">2025-12-15</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="underline_text">
+                                                        <span class="main3_c_title">
+                                                            2025년 영등포구 행정우수사례 최종 선정 결과
+                                                        </span>
+                                                    <div class="main3_c_date">2025-12-15</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="underline_text">
+                                                        <span class="main3_c_title">
+                                                            [영등포아트스퀘어] 2025 현대미술기획전 표면 없는 두께
+                                                        </span>
+                                                    <div class="main3_c_date">2025-12-15</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="underline_text">
+                                                        <span class="main3_c_title">
+                                                            구민이 직접 뽑은 2025년 영등포 주요 뉴스 결과 발표
+                                                        </span>
+                                                    <div class="main3_c_date">2025-12-15</div>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                        <a href="" class="main3_more">소식더보기</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+                        <section class="main3_box2">
+                            <div class="main_titlebox">
+                                <h3>우리동 갤러리</h3>
+                            </div>
+                            <div class="main3_box2_photo">
+                                <a href="#">
+                                    <div class="main_photo_text">
+                                        <span>(12/16)12월 통장연합회 임시회의 개최</span>
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="main_photo_text">
+                                        <span>2026 희망온돌 따뜻한 겨울나기</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div>
+                                <a href="" class="main3_more2">소식더보기</a>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="main4">
+                        <div class="main_titlebox">
+                            <h3>자치회관 프로그램</h3>
+                        </div>
+                        <div class="main4_program_list">
+                            <table class="main4_program">
+                                <thead>
+                                <tr>
+                                    <th>프로그램명</th>
+                                    <th>접수기간</th>
+                                    <th>교육기간</th>
+                                    <th>모집정원</th>
+                                    <th>상태</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><div><a href="#"  class="underline_text">인터넷교실(초급)</a></div></td>
+                                    <td><div>09.22 ~ 09.30</div></td>
+                                    <td><div>10.01 ~ 12.31</div></td>
+                                    <td><div>16</div></td>
+                                    <td>
+                                        <div>
+                                            <div class="state_box">
+                                                <div class="state_text">교육중</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><div><a href="#"  class="underline_text">인터넷교실(중급</a>)</div></td>
+                                    <td><div>09.22 ~ 09.30</div></td>
+                                    <td><div>10.01 ~ 12.31</div></td>
+                                    <td><div>16</div></td>
+                                    <td>
+                                        <div>
+                                            <div class="state_box">
+                                                <div class="state_text">교육중</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><div><a href="#"  class="underline_text">스마트폰활용</a></div></td>
+                                    <td><div>09.22 ~ 09.30</div></td>
+                                    <td><div>10.01 ~ 12.31</div></td>
+                                    <td><div>16</div></td>
+                                    <td>
+                                        <div>
+                                            <div class="state_box">
+                                                <div class="state_text">교육중</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><div><a href="#"  class="underline_text">라인댄스</a></div></td>
+                                    <td><div>09.22 ~ 09.30</div></td>
+                                    <td><div>10.01 ~ 12.31</div></td>
+                                    <td><div>30</div></td>
+                                    <td>
+                                        <div>
+                                            <div class="state_box">
+                                                <div class="state_text">교육중</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><div><a href="#"  class="underline_text">라인댄스</a></div></td>
+                                    <td><div>09.22 ~ 09.30</div></td>
+                                    <td><div>10.01 ~ 12.31</div></td>
+                                    <td><div>30</div></td>
+                                    <td>
+                                        <div>
+                                            <div class="state_box">
+                                                <div class="state_text">교육중</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><div><a href="#"  class="underline_text">라인댄스</a></div></td>
+                                    <td><div>09.22 ~ 09.24</div></td>
+                                    <td><div>10.01 ~ 12.31</div></td>
+                                    <td><div>30</div></td>
+                                    <td>
+                                        <div>
+                                            <div class="state_box">
+                                                <div class="state_text">교육중</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><div><a href="#"  class="underline_text">라인댄스</a></div></td>
+                                    <td><div>09.22 ~ 09.24</div></td>
+                                    <td><div>10.01 ~ 12.31</div></td>
+                                    <td><div>30</div></td>
+                                    <td>
+                                        <div>
+                                            <div class="state_box">
+                                                <div class="state_text">교육중</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><div><a href="#"  class="underline_text">요가교실</a></div></td>
+                                    <td><div>09.22 ~ 09.22</div></td>
+                                    <td><div>10.01 ~ 12.31</div></td>
+                                    <td><div>30</div></td>
+                                    <td>
+                                        <div>
+                                            <div class="state_box">
+                                                <div class="state_text">교육중</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <a href="" class="main4_more">소식더보기</a>
+                    </div>
+                </div>
+                <!-- //contents -->
+
+                <!-- charge info -->
+                <div class="charge_info">
+                    <ul>
+                        <li>
+                            <span class="info_name">담당부서</span>
+                            <span>영등포본동</span>
+                        </li>
+                        <li>
+                            <span class="info_name">담당전화번호</span>
+                            <span>02-2670-1026</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- //charge info -->
+            </main>
+            <!-- //main -->
+        </div>
+    </div>
+    <!-- //container -->
+
+    <!-- footer -->
+    <footer class="footer" th:replace="~{/admin/common/admin_header_footer::footer}"></footer>
+    <!-- //footer -->
+</div>
+</body>
+</html>

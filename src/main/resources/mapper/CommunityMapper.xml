@@ -6,11 +6,11 @@
 
     <insert id="insert">
         insert into tbl_community(cmntId, cmntTitle, cmntContent, memId, cmntDepartment, cmntDate)
-        values (SEQ_BOARD.nextval, #{cmntTitle}, #{cmntContent}, #{memId}, #{cmntDepartment}, sysdate)
+        values (seq_community.nextval, #{cmntTitle}, #{cmntContent}, #{memId}, #{cmntDepartment}, sysdate)
     </insert>
     <insert id="insertSelectKey">
         <selectKey keyProperty="cmntId" order="BEFORE" resultType="long">
-            select seq_board.nextval from dual
+            select seq_community.nextval from dual
         </selectKey>
         insert into tbl_community(cmntId,cmntTitle,cmntContent,memId)
         values (#{cmntId}, #{cmntTitle}, #{cmntContent}, #{memId})
@@ -33,18 +33,18 @@
     </update>
 
     <sql id="criteria">
-        <trim prefix="(" suffix=") AND " prefixOverrides="OR">
-            <foreach item='type' collection="typeArr">
+        <trim prefix="(" suffix=") " prefixOverrides="OR">
+            <foreach item="type" collection="typeArr">
                 <trim prefix="OR">
                     <choose>
-                        <when test="type == 'T'">
-                            cmntTitle like '%'||#{keyword}||'%'
+                        <when test="type == 'T'.toString()">
+                            cmntTitle like '%'||#{searchKeyword}||'%'
                         </when>
-                        <when test="type == 'C'">
-                            cmntContent like '%'||#{keyword}||'%'
+                        <when test="type == 'C'.toString()">
+                            cmntContent like '%'||#{searchKeyword}||'%'
                         </when>
-                        <when test="type == 'D'">
-                            cmntDepartment like '%'||#{keyword}||'%'
+                        <when test="type == 'D'.toString()">
+                            cmntDepartment like '%'||#{searchKeyword}||'%'
                         </when>
                     </choose>
                 </trim>
@@ -54,35 +54,43 @@
 
     <select id="getList" resultType="kr.go.ydpb.domain.CommunityVO">
         <![CDATA[
-    		select
-                cmntId, cmntTitle, cmntDate, cmntUpdatedate, cmntDepartment, cmntContent, cmntCount, memId
-            from (
-                select /*+INDEX_DESC(tbl_community pk_community) */
-                    rownum rn, cmntId, cmntTitle, cmntDate, cmntUpdatedate, cmntDepartment, cmntContent, cmntCount, memId
-                from
-                    tbl_community
-                where
+        select *
+        from (
+        select /*+INDEX_DESC(tbl_community idx_community_cmntDate) */
+        cmntId, cmntTitle, cmntDate, cmntUpdatedate, cmntDepartment, cmntContent, cmntCount, memId,
+        ROW_NUMBER() over (order by cmntDate desc) as rn
+        from tbl_community
         ]]>
-        <include refid="criteria"/>
+        <if test="searchKeyword != null and searchKeyword != ''.toString()">
+            where
+            <include refid="criteria"/>
+        </if>
         <![CDATA[
-            rownum <= #{pageNum} * #{amount}
-         )
-         where
-             rn > (#{pageNum} -1) * #{amount}
+        )
+        where rn > (#{pageNum} - 1) * #{amount} and rn <= #{pageNum} * #{amount}
         ]]>
     </select>
 
     <select id="getTotalCount" resultType="int">
         select
-            count(*)
+        count(*)
         from
-            tbl_community
+        tbl_community
         where
-        <include refid="criteria"/>
+        <if test="searchKeyword != null and searchKeyword != ''.toString()">
+            <include refid="criteria"/>
+            and
+        </if>
         <![CDATA[
-            cmntId > 0
+           cmntId > 0
         ]]>
     </select>
+
+    <update id="updateCount">
+        UPDATE tbl_community
+        SET cmntCount = cmntCount + 1
+        WHERE cmntid = #{cmntId}
+    </update>
 </mapper>
 
 

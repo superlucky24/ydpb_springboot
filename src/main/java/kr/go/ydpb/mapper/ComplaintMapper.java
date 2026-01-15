@@ -11,7 +11,7 @@ public interface ComplaintMapper {
     public int getAllCount(Criteria cri);
     //public List<ComplaintVO> getAllComplaint(int start, int end);
     public ComplaintVO getOneComplaint(int comId);
-    public List<ComplaintVO> searchComplaint(String searchKeyword, int start, int end);
+    //public List<ComplaintVO> searchComplaint(String searchKeyword, int start, int end);
     //public int insertComplaint(ComplaintVO cvo);
     public void updateComplaint(ComplaintVO cvo);
     public void deleteComplaint(int comId);

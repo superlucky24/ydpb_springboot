@@ -34,11 +34,11 @@ public class ComplaintServiceImpl implements ComplaintService {
         return vo;
     }
 
-    @Override
-    public List<ComplaintVO> searchComplaint(String searchKeyword, int start, int end) {
-        List<ComplaintVO> list = complaintMapper.searchComplaint(searchKeyword,start,end);
-        return list;
-    }
+//    @Override
+//    public List<ComplaintVO> searchComplaint(String searchKeyword, int start, int end) {
+//        List<ComplaintVO> list = complaintMapper.searchComplaint(searchKeyword,start,end);
+//        return list;
+//    }
 
     @Override
     public void updateComplaint(ComplaintVO cvo) {

@@ -20,7 +20,6 @@ public class AdminMemberController {
     @Autowired
     private AdminMemberService adminMemberService;
 
-    // 1. 회원 목록 조회
     @GetMapping("/list")
     public String list(Criteria cri, Model model) {
         int total = adminMemberService.getTotalCount(cri);
@@ -30,18 +29,20 @@ public class AdminMemberController {
         return "admin/admin_member_list";
     }
 
-    // 2. 회원 상세 정보
+    // 2. view 컨트롤러에 Criteria 추가 (화이트라벨 에러 방지용)
     @GetMapping("/view")
-    public String view(@RequestParam("memId") String memId, Model model) {
+    public String view(@RequestParam("memId") String memId, Criteria cri, Model model) {
         MemberVO member = adminMemberService.getMemberById(memId);
         model.addAttribute("member", member);
+        model.addAttribute("cri", cri); // HTML에서 `${cri.pageNum}` 등을 쓸 수 있게 함
         return "admin/admin_member_view";
     }
 
-    // 3. 비밀번호 수정 실행
+    // 3. 비밀번호 수정 후 정보 유지
     @PostMapping("/updatePw")
     public String updatePw(@RequestParam("memId") String memId,
                            @RequestParam("memPassword") String memPassword,
+                           Criteria cri, // 페이지 정보 받기
                            RedirectAttributes rttr) {
 
         int count = adminMemberService.updatePassword(memId, memPassword);
@@ -51,17 +52,30 @@ public class AdminMemberController {
         } else {
             rttr.addFlashAttribute("result", "pw_fail");
         }
-        return "redirect:/admin/member/view?memId=" + memId;
+
+        rttr.addAttribute("memId", memId);
+        rttr.addAttribute("pageNum", cri.getPageNum());
+        rttr.addAttribute("amount", cri.getAmount());
+        rttr.addAttribute("searchType", cri.getSearchType());
+        rttr.addAttribute("searchKeyword", cri.getSearchKeyword());
+
+        return "redirect:/admin/member/view";
     }
 
-    // 4. 회원 삭제 실행
+    // 4. 삭제 후 원래 보던 페이지로 이동
     @GetMapping("/delete")
-    public String delete(@RequestParam("memId") String memId, RedirectAttributes rttr) {
+    public String delete(@RequestParam("memId") String memId, Criteria cri, RedirectAttributes rttr) {
         int count = adminMemberService.deleteMember(memId);
 
         if(count == 1) {
             rttr.addFlashAttribute("result", "success");
         }
+
+        rttr.addAttribute("pageNum", cri.getPageNum());
+        rttr.addAttribute("amount", cri.getAmount());
+        rttr.addAttribute("searchType", cri.getSearchType());
+        rttr.addAttribute("searchKeyword", cri.getSearchKeyword());
+
         return "redirect:/admin/member/list";
     }
 }

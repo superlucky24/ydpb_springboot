@@ -76,7 +76,7 @@
                         <tr th:each="member, status : ${list}">
                             <td th:text="${total - (pageMaker.cri.pageNum - 1) * pageMaker.cri.amount - status.index}"></td>
                             <td class="p_sub" style="text-align: center;">
-                                <a th:href="@{/admin/member/view(memId=${member.memId})}"
+                                <a th:href="@{/admin/member/view(memId=${member.memId}, pageNum=${pageMaker.cri.pageNum}, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${pageMaker.cri.searchKeyword})}"
                                    th:text="${member.memId}" style="color:blue; text-decoration:underline;">아이디</a>
                             </td>
                             <td th:text="${member.memName}">이름</td>

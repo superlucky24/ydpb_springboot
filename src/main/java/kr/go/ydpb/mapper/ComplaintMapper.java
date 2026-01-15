@@ -17,4 +17,5 @@ public interface ComplaintMapper {
     public void deleteComplaint(int comId);
     //페이징용 목록 메서드
     public List<ComplaintVO> getComplaintWithPaging(Criteria cri);
+    public int getAllSearchCount(Criteria cri);
 }

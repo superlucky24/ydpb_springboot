@@ -26,6 +26,9 @@ public class ComplaintController {
     public String complaintList(Model model, Criteria cri){
         model.addAttribute("complaintList", complaintService.getComplaintWithPaging(cri));
         int total = complaintService.getAllCount(cri);
+        if(cri.getSearchType()!=null){
+            total = complaintService.getAllSearchCount(cri);
+        }
         model.addAttribute("pageMaker",new PageDTO(cri,total));
 
         return "admin/admin_complaint_list";

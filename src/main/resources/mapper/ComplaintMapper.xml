@@ -6,8 +6,33 @@
 <mapper namespace="kr.go.ydpb.mapper.ComplaintMapper">
 
 <!--   검색용 동적 sql 추가 -->
+    <sql id="criteria2">
+        <where>
+            <trim prefix="(" suffix=") ">
+                    <choose>
+                        <when test="searchType == 'T'.toString()">
+                            COMTITLE LIKE '%'||#{searchKeyword}||'%'
+                        </when>
+                        <when test="searchType == 'I'.toString()">
+                            COMID LIKE #{searchKeyword}
+                        </when>
+                        <when test="searchType == 'P'.toString()">
+                            COMPUBLIC LIKE #{searchKeyword}
+                        </when>
+                        <when test="searchType == 'S'.toString()">
+                            COMSTATUS LIKE #{searchKeyword}
+                        </when>
+                        <when test="searchType == 'D'.toString()">
+                            TO_CHAR(COMDATE,'YYYYMMDD')
+                            LIKE '%'||REPLACE(#{searchKeyword},'-','')||'%'
+                        </when>
+                    </choose>
+            </trim>
+        </where>
+    </sql>
+
     <sql id="criteria">
-        <trim prefix="(" suffix=") AND ">
+            <trim prefix="(" suffix=") ">
                 <choose>
                     <when test="searchType == 'T'.toString()">
                         COMTITLE LIKE '%'||#{searchKeyword}||'%'
@@ -26,7 +51,7 @@
                         LIKE '%'||REPLACE(#{searchKeyword},'-','')||'%'
                     </when>
                 </choose>
-        </trim>
+            </trim>
     </sql>
 
 
@@ -54,17 +79,35 @@
                     rownum rn, comId, comTitle, comDate, comPublic, comStatus, comContent,comAnswer,memId
                 from
                     tbl_complaint
+                where
+                ]]>
+        <if test="searchType != null and searchKeyword != null and searchKeyword != ''">
 
-                where]]>
-        <include refid="criteria"></include>-->
-                    <![CDATA[rownum <= #{pageNum} * #{amount}
+            <include refid="criteria"/> AND
+        </if>
+                    <![CDATA[  rownum <= #{pageNum} * #{amount}
             )
         where rn > (#{pageNum} -1) * #{amount}
         ]]>
     </select>
 
+<!--    검색 결과 갯수 파악-->
+    <select id="getAllSearchCount" resultType="int">
+        <![CDATA[
+    select
+        count(*)
+    from
+        tbl_complaint
+
+    ]]>
+        <include refid="criteria2"/>
+    </select>
+
+
     <select id="getOneComplaint" resultType="kr.go.ydpb.domain.ComplaintVO">
-        SELECT * FROM tbl_complaint WHERE comId = #{comId}
+    <![CDATA[SELECT * FROM tbl_complaint
+                 WHERE ]]>
+            <![CDATA[comId = #{comId}]]>
     </select>
 
 <!--    <select id="searchComplaint" resultType="kr.go.ydpb.domain.ComplaintVO">-->

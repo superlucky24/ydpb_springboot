@@ -57,4 +57,10 @@ public class ComplaintServiceImpl implements ComplaintService {
         List<ComplaintVO> list = complaintMapper.getComplaintWithPaging(cri);
         return list;
     }
+
+    @Override
+    public int getAllSearchCount(Criteria cri) {
+        int total = complaintMapper.getAllSearchCount(cri);
+        return total;
+    }
 }

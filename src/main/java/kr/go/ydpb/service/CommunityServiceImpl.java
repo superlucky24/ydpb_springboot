@@ -46,4 +46,9 @@ public class CommunityServiceImpl implements CommunityService{
     public int getTotal(Criteria cri) {
         return mapper.getTotalCount(cri);
     }
+
+    @Override
+    public void increaseCount(Long cmntId) {
+        mapper.updateCount(cmntId);
+    }
 }

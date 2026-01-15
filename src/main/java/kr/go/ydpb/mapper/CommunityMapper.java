@@ -15,4 +15,5 @@ public interface CommunityMapper {
     public CommunityVO read(long bno);
     public int delete(Long bno);
     public int update(CommunityVO board);
+    void updateCount(Long cmntId);
 }

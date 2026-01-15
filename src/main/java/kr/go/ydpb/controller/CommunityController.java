@@ -30,14 +30,14 @@ public class CommunityController {
     }
 
     /* 글쓰기 페이지 */
-    @GetMapping("/register")
+    @GetMapping("/write")
     public String writeForm(Model model) {
         model.addAttribute("board", new CommunityVO());
         return "admin/admin_community_center_write";
     }
 
     /* 글 등록 */
-    @PostMapping("/register")
+    @PostMapping("/write")
     public String register(CommunityVO board, RedirectAttributes rttr) {
         board.setMemId("admin"); // 임시 로그인 ID 세팅, 실제 로그인 정보로 바꿀 것
         log.info("register controller => {}", board);

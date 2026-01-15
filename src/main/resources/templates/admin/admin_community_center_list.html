@@ -108,9 +108,27 @@
 
                         <div class="p_ctrl" th:if="${pageMaker.total} > 0">
                             <div class="p_control">
-                                <span class="p-link_b" th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
-                                    <strong th:title="|현재 ${num}페이지|" class="p_link active" th:if="${num} == ${pageMaker.cri.pageNum}" th:text="${num}"></strong>
-                                    <a th:href="@{/admin/community/list(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="p_link" th:if="${num} != ${pageMaker.cri.pageNum}" th:text="${num}"></a>
+                                <span class="p-link_b" >
+                                    <a th:if="${pageMaker.realEnd > 10}"
+                                       th:href="@{/admin/community/list(pageNum=1, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       class="p_link" title="맨 처음">&lt;&lt;
+                                    </a>
+                                    <a th:if="${pageMaker.realEnd > 10}"
+                                       th:href="@{/admin/community/list(pageNum=${pageMaker.prev ? pageMaker.startPage - 1 : 1}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       class="p_link" title="이전">&lt;
+                                    </a>
+                                    <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                                        <strong th:title="|현재 ${num}페이지|" class="p_link active" th:if="${num} == ${pageMaker.cri.pageNum}" th:text="${num}"></strong>
+                                        <a th:href="@{/admin/community/list(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="p_link" th:if="${num} != ${cri.pageNum}" th:text="${num}"></a>
+                                    </th:block>
+                                    <a th:if="${pageMaker.realEnd > 10}"
+                                       th:href="@{/admin/community/list(pageNum=${pageMaker.next ? pageMaker.endPage + 1 : pageMaker.realEnd}, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       class="p_link" title="다음">&gt;
+                                    </a>
+                                    <a th:if="${pageMaker.realEnd > 10}"
+                                       th:href="@{/admin/community/list(pageNum=${pageMaker.realEnd}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       class="p_link" title="맨 끝">&gt;&gt;
+                                    </a>
                                 </span>
                             </div>
                         </div>

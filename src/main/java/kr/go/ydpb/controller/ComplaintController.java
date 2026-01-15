@@ -68,5 +68,8 @@ public class ComplaintController {
         // 삭제 후 목록
         return "redirect:/admin/complaint/list";
     }
+
+    //검색
+
 }
 

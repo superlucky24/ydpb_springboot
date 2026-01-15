@@ -7,25 +7,26 @@
 
 <!--   검색용 동적 sql 추가 -->
     <sql id="criteria">
-        <if test="searchKeyword != null and searchKeyword != ''">
-            <choose>
-                <when test="searchType == 'I'.toString()">
-                    AND MEMID LIKE '%'||#{searchKeyword}||'%'
-                </when>
-                <when test="searchType == 'N'.toString()">
-                    AND MEMNAME LIKE '%'||#{searchKeyword}||'%'
-                </when>
-                <when test="searchType == 'P'.toString()">
-                    AND MEMPHONE LIKE '%'||#{searchKeyword}||'%'
-                </when>
-                <when test="searchType == 'E'.toString()">
-                    AND MEMEMAIL LIKE '%'||#{searchKeyword}||'%'
-                </when>
-                <when test="searchType == 'D'.toString()">
-                    AND TO_CHAR(MEMREGDATE, 'YYYYMMDD') LIKE '%'|| REPLACE(#{searchKeyword}, '-', '') ||'%'
-                </when>
-            </choose>
-        </if>
+        <trim prefix="(" suffix=") AND ">
+                <choose>
+                    <when test="searchType == 'T'.toString()">
+                        COMTITLE LIKE '%'||#{searchKeyword}||'%'
+                    </when>
+                    <when test="searchType == 'I'.toString()">
+                        COMID LIKE #{searchKeyword}
+                    </when>
+                    <when test="searchType == 'P'.toString()">
+                        COMPUBLIC LIKE #{searchKeyword}
+                    </when>
+                    <when test="searchType == 'S'.toString()">
+                        COMSTATUS LIKE #{searchKeyword}
+                    </when>
+                    <when test="searchType == 'D'.toString()">
+                        TO_CHAR(COMDATE,'YYYYMMDD')
+                        LIKE '%'||REPLACE(#{searchKeyword},'-','')||'%'
+                    </when>
+                </choose>
+        </trim>
     </sql>
 
 
@@ -54,7 +55,9 @@
                 from
                     tbl_complaint
 
-                where rownum <= #{pageNum} * #{amount}
+                where]]>
+        <include refid="criteria"></include>-->
+                    <![CDATA[rownum <= #{pageNum} * #{amount}
             )
         where rn > (#{pageNum} -1) * #{amount}
         ]]>
@@ -64,15 +67,15 @@
         SELECT * FROM tbl_complaint WHERE comId = #{comId}
     </select>
 
-    <select id="searchComplaint" resultType="kr.go.ydpb.domain.ComplaintVO">
-        <![CDATA[
-        select * from
-            (select A.* ,Rownum Rnum from
-                    (select * from tbl_complaint order by comId desc)A)
-        <include refid="criteria"></include>
-        where (Rnum >= #{start} and Rnum <= #{end}) and comTitle LIKE '%'||#{searchKeyword}||'%'
-        ]]>
-    </select>
+<!--    <select id="searchComplaint" resultType="kr.go.ydpb.domain.ComplaintVO">-->
+<!--        <![CDATA[-->
+<!--        select * from-->
+<!--            (select A.* ,Rownum Rnum from-->
+<!--                    (select * from tbl_complaint order by comId desc)A)-->
+<!--        <include refid="criteria"></include>-->
+<!--        where (Rnum >= #{start} and Rnum <= #{end}) and comTitle LIKE '%'||#{searchKeyword}||'%'-->
+<!--        ]]>-->
+<!--    </select>-->
 
     <update id="updateComplaint" >
         UPDATE tbl_complaint

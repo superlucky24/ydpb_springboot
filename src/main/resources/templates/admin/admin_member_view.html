@@ -5,14 +5,41 @@
     <title>회원정보 상세 | 관리자</title>
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
-    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_list.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_view.css}">
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/ydpb.js}"></script>
+    <style>
+        .p-table th {
+            width: 20%;
+            font-weight: 600 !important; /* 세련된 굵기 적용 */
+            color: #333; /* 텍스트 색상을 살짝 더 진하게 */
+        }
+        .pw-form { display: flex; align-items: center; gap: 8px; }
+        .p-btn.btn-delete { background-color: #d9534f; border-color: #d43f3a; }
+        .p-btn.btn-list { background-color: #666; border-color: #555; }
+
+        .p-table tbody tr:first-child th,
+        .p-table tbody tr:first-child td {
+            border-top: 1px solid #d9d9d9 !important;
+        }
+
+        /* 입력창 디자인 살짝 보정 */
+        .p-input-pw {
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            width: 200px;
+            height: 38px;
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 <body>
 <div id="wrap">
+    <header th:replace="admin/common/admin_header_footer :: header"></header>
+
     <div class="container">
         <div class="contents_wrap safe_area">
+            <aside th:replace="admin/common/admin_sidemenu :: side"></aside>
 
             <main>
                 <div class="location">
@@ -21,58 +48,79 @@
                     </div>
                 </div>
 
-                <div id="board" class="clearfix">
-                    <div id="contents">
-
-                        <table class="p_table"> <colgroup>
-                            <col style="width: 20%;">
-                            <col>
-                        </colgroup>
-                            <tbody class="tb_text"> <tr>
+                <div id="board">
+                    <div class="bbs_wrap">
+                        <table class="p-table">
+                            <colgroup>
+                                <col class="w20p">
+                                <col>
+                            </colgroup>
+                            <tbody>
+                            <tr>
                                 <th scope="row">사용자 ID</th>
-                                <td th:text="${member.memId}">아이디가 나올 자리</td>
+                                <td th:text="${member.memId}">아이디</td>
                             </tr>
                             <tr>
                                 <th scope="row">이름</th>
-                                <td th:text="${member.memName}">이름이 나올 자리</td>
+                                <td th:text="${member.memName}">이름</td>
                             </tr>
                             <tr>
                                 <th scope="row">휴대폰</th>
-                                <td th:text="${member.memPhone}">휴대폰 번호</td>
+                                <td th:text="${member.memPhone}">010-0000-0000</td>
                             </tr>
                             <tr>
                                 <th scope="row">이메일</th>
-                                <td th:text="${member.memEmail}">이메일 주소</td>
+                                <td th:text="${member.memEmail}">test@test.com</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">가입일</th>
+                                <td th:text="${#dates.format(member.memRegDate, 'yyyy-MM-dd HH:mm:ss')}">2025-01-15</td>
                             </tr>
                             <tr>
                                 <th scope="row">비밀번호 변경</th>
                                 <td>
-                                    <form th:action="@{/admin/member/updatePw}" method="post" style="display: flex; gap: 5px;">
+                                    <form th:action="@{/admin/member/updatePw}" method="post" class="pw-form">
                                         <input type="hidden" name="memId" th:value="${member.memId}">
-                                        <input type="password" name="memPassword" class="p-input" style="width: 200px;" placeholder="새 비밀번호 입력" required>
-                                        <button type="submit" class="p-button">변경</button>
+                                        <input type="password" name="memPassword" class="p-input-pw"
+                                               placeholder="새 비밀번호 입력" required>
+                                        <button type="submit" class="p-btn" style="height:38px; padding: 0 15px; font-size: 14px;">변경</button>
                                     </form>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
 
-                        <div class="p_ctrl clearfix" style="margin-top:20px;">
-                            <div class="p_control" style="float:left;">
-                                <a th:href="@{/admin/member/list}" class="p-button">목록으로</a>
-                            </div>
-
-                            <div class="p_control" style="float:right;">
-                                <a th:href="@{/admin/member/delete(memId=${member.memId})}"
-                                   class="p-button"
-                                   style="background-color: #d9534f; color: white; border:none; text-decoration: none; display: inline-block; padding: 6px 12px; border-radius: 4px;"
-                                   onclick="return confirm('정말 삭제하시겠습니까?');">회원 삭제</a>
+                        <div class="row margin_t_30">
+                            <div class="col-12 clearfix">
+                                <div style="float: left;">
+                                    <a th:href="@{/admin/member/list}" class="p-btn btn-list">목록으로</a>
+                                </div>
+                                <div style="float: right;">
+                                    <a th:href="@{/admin/member/delete(memId=${member.memId})}"
+                                       class="p-btn btn-delete"
+                                       onclick="return confirm('정말 이 회원을 삭제하시겠습니까?');">회원 삭제</a>
+                                </div>
                             </div>
                         </div>
-
-                    </div> </div> </main>
+                    </div>
+                </div>
+            </main>
         </div>
     </div>
+
+    <footer th:replace="admin/common/admin_header_footer :: footer"></footer>
 </div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var result = /*[[${result}]]*/ null;
+
+    if(result === "pw_success") {
+        alert("비밀번호가 성공적으로 변경되었습니다.");
+    } else if(result === "pw_fail") {
+        alert("비밀번호 변경에 실패했습니다.");
+    }
+    /*]]>*/
+</script>
 </body>
 </html>

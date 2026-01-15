@@ -46,9 +46,20 @@ public class AdminMemberController {
     // 3. 비밀번호 수정 실행
     @PostMapping("/updatePw")
     public String updatePw(@RequestParam("memId") String memId,
-                           @RequestParam("memPassword") String memPassword) {
-        memberMapper.updatePassword(memId, memPassword);
-        // 수정 완료 후 다시 해당 회원의 상세보기로 보냄
+                           @RequestParam("memPassword") String memPassword,
+                           RedirectAttributes rttr) { // 1. rttr 파라미터 추가
+
+        // Mapper에서 성공 여부를 숫자로 반환 (성공 시 1, 실패 시 0)
+        int count = memberMapper.updatePassword(memId, memPassword);
+
+        // 2. 결과에 따라 플래시 데이터 심기
+        if (count == 1) {
+            rttr.addFlashAttribute("result", "pw_success");
+        } else {
+            rttr.addFlashAttribute("result", "pw_fail");
+        }
+
+        // 3. 수정 완료 후 다시 해당 회원의 상세보기로 보냄
         return "redirect:/admin/member/view?memId=" + memId;
     }
 

@@ -32,7 +32,7 @@
                                         <option value="E" th:selected="${pageMaker.cri.searchType == 'E'}">이메일 주소</option>
                                         <option value="D" th:selected="${pageMaker.cri.searchType == 'D'}">가입일</option>
                                     </select>
-                                    <input name="searchKeyword" th:value="${pageMaker.cri.searchKeyword}" id="searchKeyword" class="p-input" type="text" placeholder="검색어를 입력하세요">
+                                    <input name="searchKeyword" th:value="${pageMaker.cri.searchKeyword}" id="searchKeyword" class="p-input" type="text">
 
                                     <input type="hidden" name="pageNum" value="1">
                                     <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">

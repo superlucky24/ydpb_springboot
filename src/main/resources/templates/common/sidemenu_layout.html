@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영등포본동 주민센터</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script th:src="@{/js/ydpb.js}"></script>
+</head>
+<body>
+    <div id="wrap">
+        <!-- header -->
+        <header class="header"></header>
+        <!-- //header -->
+
+        <!-- search -->
+        <div class="search"></div>
+        <!-- //search -->
+
+        <!-- container -->
+        <div class="container">
+            <div class="contents_wrap safe_area">
+
+                <!-- side menu -->
+                <aside class="side_menu" th:fragment="sidemenu">
+                    <div class="side_title">
+                        <div class="innerbox">
+                            <p class="side_title_text">동주민센터</p>
+                        </div>
+                    </div>
+                    <div class="side_list">
+                        <ul>
+                            <li class="side_list_menu open">
+                                <div><span>영등포본동</span></div>
+                                <ul class="sub_list show">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group show">
+                                        <p class="sub_group_title open">우리동이야기</p>
+                                        <ul class="sub_group_list show">
+                                            <li class="side_active"><a th:href="@{/}">영등포본동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="/ydpb/sub/status.html">일반현황</a></li>
+                                            <li><a th:href="@{/complaint/list}">민원신청</a></li>
+                                            <li><a href="/ydpb/sub/location.html">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group show">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group show">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a th:href="@{/community/list}">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu">
+                                <div><span>영등포동</span></div>
+                                <ul class="sub_list">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동이야기</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">영등포동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="#">일반현황</a></li>
+                                            <li><a href="#">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a href="#">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu">
+                                <div><span>여의동</span></div>
+                                <ul class="sub_list">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동이야기</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">여의동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="#">일반현황</a></li>
+                                            <li><a href="#">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a href="#">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu">
+                                <div><span>당산1동</span></div>
+                                <ul class="sub_list">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동이야기</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">당산1동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="#">일반현황</a></li>
+                                            <li><a href="#">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a href="#">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu">
+                                <div><span>당산2동</span></div>
+                                <ul class="sub_list">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동이야기</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">당산2동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="#">일반현황</a></li>
+                                            <li><a href="#">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a href="#">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu">
+                                <div><span>문래동</span></div>
+                                <ul class="sub_list">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동이야기</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">문래동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="#">일반현황</a></li>
+                                            <li><a href="#">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a href="#">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu">
+                                <div><span>양평1동</span></div>
+                                <ul class="sub_list">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동이야기</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">양평1동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="#">일반현황</a></li>
+                                            <li><a href="#">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a href="#">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu">
+                                <div><span>양평2동</span></div>
+                                <ul class="sub_list">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동이야기</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">양평2동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="#">일반현황</a></li>
+                                            <li><a href="#">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a href="#">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu">
+                                <div><span>신길1동</span></div>
+                                <ul class="sub_list">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동이야기</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">신길1동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="#">일반현황</a></li>
+                                            <li><a href="#">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a href="#">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu">
+                                <div><span>신길3동</span></div>
+                                <ul class="sub_list">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동이야기</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">신길3동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="#">일반현황</a></li>
+                                            <li><a href="#">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a href="#">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu">
+                                <div><span>신길4동</span></div>
+                                <ul class="sub_list">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동이야기</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">신길4동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="#">일반현황</a></li>
+                                            <li><a href="#">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a href="#">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu">
+                                <div><span>신길5동</span></div>
+                                <ul class="sub_list">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동이야기</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">신길5동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="#">일반현황</a></li>
+                                            <li><a href="#">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a href="#">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu">
+                                <div><span>신길6동</span></div>
+                                <ul class="sub_list">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동이야기</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">신길6동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="#">일반현황</a></li>
+                                            <li><a href="#">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a href="#">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu">
+                                <div><span>신길7동</span></div>
+                                <ul class="sub_list">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동이야기</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">신길7동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="#">일반현황</a></li>
+                                            <li><a href="#">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a href="#">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu">
+                                <div><span>대림1동</span></div>
+                                <ul class="sub_list">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동이야기</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">대림1동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="#">일반현황</a></li>
+                                            <li><a href="#">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a href="#">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu">
+                                <div><span>대림2동</span></div>
+                                <ul class="sub_list">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">대림2동</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">대림2동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="#">일반현황</a></li>
+                                            <li><a href="#">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a href="#">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu">
+                                <div><span>대림3동</span></div>                                
+                                <ul class="sub_list">
+                                    <!-- 우리동이야기 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동이야기</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">대림3동 주민센터</a></li>
+                                            <li><a href="#">직원별업무안내</a></li>
+                                            <li><a href="#">일반현황</a></li>
+                                            <li><a href="#">찾아오시는길</a></li>
+                                            <li><a href="#">동유래</a></li>
+                                        </ul>
+                                    </li>
+    
+                                    <!-- 우리동소식 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동소식</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">우리동소식</a></li>
+                                            <li><a href="#">구청소식</a></li>
+                                            <li><a href="#">포토갤러리</a></li>
+                                        </ul>
+                                    </li>
+    
+                                    <!-- 자치회관 -->
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">자치회관</p>
+                                        <ul class="sub_group_list">
+                                            <li><a href="#">자치회관이란?</a></li>
+                                            <li><a href="#">자치회관 게시판</a></li>
+                                            <li><a href="#">주민자치위원</a></li>
+                                            <li><a href="#">프로그램현황</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+                </aside>
+                <!-- //side menu -->
+
+                <!-- main -->
+                <main></main>
+                <!-- //main -->
+            </div>
+        </div>
+        <!-- //container -->
+
+        <!-- footer -->
+        <footer class="footer"></footer>
+        <!-- //footer -->
+    </div>
+</body>
+</html>

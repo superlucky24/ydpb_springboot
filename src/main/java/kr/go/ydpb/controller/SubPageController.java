@@ -6,10 +6,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/sub")
-public class StatusController {
+public class SubPageController {
 
     @GetMapping("/status")
     public String status(){
         return "sub/status";
+    }
+    @GetMapping("/location")
+    public String location() {
+        return "sub/location";
     }
 }

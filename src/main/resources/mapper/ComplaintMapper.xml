@@ -5,6 +5,30 @@
 
 <mapper namespace="kr.go.ydpb.mapper.ComplaintMapper">
 
+<!--   검색용 동적 sql 추가 -->
+    <sql id="criteria">
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <choose>
+                <when test="searchType == 'I'.toString()">
+                    AND MEMID LIKE '%'||#{searchKeyword}||'%'
+                </when>
+                <when test="searchType == 'N'.toString()">
+                    AND MEMNAME LIKE '%'||#{searchKeyword}||'%'
+                </when>
+                <when test="searchType == 'P'.toString()">
+                    AND MEMPHONE LIKE '%'||#{searchKeyword}||'%'
+                </when>
+                <when test="searchType == 'E'.toString()">
+                    AND MEMEMAIL LIKE '%'||#{searchKeyword}||'%'
+                </when>
+                <when test="searchType == 'D'.toString()">
+                    AND TO_CHAR(MEMREGDATE, 'YYYYMMDD') LIKE '%'|| REPLACE(#{searchKeyword}, '-', '') ||'%'
+                </when>
+            </choose>
+        </if>
+    </sql>
+
+
     <select id="getAllCount" resultType="int">
         SELECT count(*) FROM tbl_complaint
     </select>
@@ -45,6 +69,7 @@
         select * from
             (select A.* ,Rownum Rnum from
                     (select * from tbl_complaint order by comId desc)A)
+        <include refid="criteria"></include>
         where (Rnum >= #{start} and Rnum <= #{end}) and comTitle LIKE '%'||#{searchKeyword}||'%'
         ]]>
     </select>
@@ -64,5 +89,6 @@
     <select id="getMember" resultType="kr.go.ydpb.domain.MemberVO">
         SELECT * FROM tbl_member where memId = #{memId} and memPassword = #{memPassword} and memRole= 1
     </select>
+
 
 </mapper>

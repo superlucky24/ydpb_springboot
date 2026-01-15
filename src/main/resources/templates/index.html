@@ -12,13 +12,14 @@
     <link rel="stylesheet" th:href="@{/css/ydpb_main.css}">
     <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
     <script th:src="@{/js/prefixfree.min.js}"></script>
-    <script th:src="@{/ydpb.js}"></script>
+    <script th:src="@{/js/ydpb.js}"></script>
     <script th:src="@{/js/ydpb_main.js}"></script>
 </head>
 <body>
 <div id="wrap">
     <!-- header -->
-    <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
+    <header class="header" th:if="${admin != 1}" th:insert="~{/common/header_footer_layout::header}"></header>
+    <header class="header" th:if="${admin == 1}" th:insert="~{/admin/common/admin_header_footer::header}"></header>
     <!-- //header -->
 
     <!-- search -->
@@ -29,7 +30,7 @@
     <div class="container">
         <div class="contents_wrap safe_area">
             <!-- side menu -->
-            <aside class="side_menu"></aside>
+            <aside class="side_menu" th:insert="~{common/sidemenu_layout::sidemenu}"></aside>
             <!-- //side menu -->
 
             <!-- main -->
@@ -448,7 +449,7 @@
     <!-- //container -->
 
     <!-- footer -->
-    <footer class="footer" th:replace="~{/admin/common/admin_header_footer::footer}"></footer>
+    <footer class="footer" th:insert="~{/common/header_footer_layout::footer}"></footer>
     <!-- //footer -->
 </div>
 </body>

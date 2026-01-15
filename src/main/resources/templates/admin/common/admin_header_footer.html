@@ -19,20 +19,8 @@
 
     <!-- header -->
     <header class="header admin_header" th:fragment="header">
-        <div class="nurizip">
-            <div class="safe_area">
-                <p>이 누리집은 대한민국 공식 전자정부 누리집입니다.</p>
-            </div>
-        </div>
-
         <div class="gnb">
             <div class="safe_area">
-                <h1>
-                    <a th:href="@{/}">
-                        <img src="/images/common/header_logo.png"
-                             alt="희망 행복 미래도시 영등포">
-                    </a>
-                </h1>
 
                 <div class="top_menu">
                     <strong class="admin_title">영등포본동 주민센터 관리자</strong>
@@ -41,31 +29,12 @@
                 <!-- 로그인 영역 -->
                 <div class="login_area">
 
-                    <!-- 로그인 상태 -->
-                    <div th:if="${id != null}">
-                        <!-- 관리자 -->
-                        <div th:if="${isAdmin}">
-                            <a th:href="@{/admin}" class="admin_menu">관리자메뉴</a>
-                            <a th:href="@{/logout}" class="icon_logout">로그아웃</a>
-                            <a>
-                                <b th:text="${id}"></b> 관리자님
-                            </a>
-                        </div>
+                <!-- 관리자 -->
 
-                        <!-- 일반 회원 -->
-                        <div th:if="${!isAdmin}">
-                            <a th:href="@{/logout}" class="icon_logout">로그아웃</a>
-                            <a>
-                                <b th:text="${id}"></b> 님
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- 비로그인 상태 -->
-                    <div th:if="${id == null}">
-                        <a th:href="@{/login}" class="icon_login">로그인</a>
-                        <a th:href="@{/join}" class="icon_join">회원가입</a>
-                    </div>
+                    <a th:href="@{/admin}" class="admin_menu">관리자메뉴</a>
+                    <a>
+                        <b th:text="${id}"></b> 관리자님
+                    </a>
 
                 </div>
             </div>

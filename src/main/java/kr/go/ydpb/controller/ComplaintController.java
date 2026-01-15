@@ -9,10 +9,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("admin/complaint")
@@ -47,5 +44,21 @@ public class ComplaintController {
 
         return "admin/admin_complaint_update";
     }
+    @GetMapping("complaint/delete")
+    public String complaintDelete(@RequestParam("comId") int comId,
+                                  @ModelAttribute ("cri") Criteria cri) {
+        int result= complaintService.deleteComplaint(comId);
+        // 삭제 후 목록
+        String redirectUrl= "/redirect:/admin/complaint/list?pageNum="+cri.getPageNum()
+                    + "&amount="+ cri.getAmount();
+        if(cri.getType() != null&& !cri.getType().isEmpty()){
+            redirectUrl+= "&type"+ cri.getType();
+        }
+        if(cri.getKeyword() != null&& !cri.getKeyword().isEmpty()){
+            redirectUrl+="&keyword"+ cri.getKeyword();
+        }
 
+        redirectUrl+="&result"+result;
+        return redirectUrl;
+    }
 }

@@ -55,4 +55,20 @@ public class ComplaintController {
         rttr.addAttribute("comId", vo.getComId());
         return "redirect:/admin/complaint/view";
     }
+
+    @GetMapping("delete")
+    public String complaintDelete(@RequestParam("comId") int comId,
+                                  @ModelAttribute ("cri") Criteria cri,
+                                  RedirectAttributes rttr) {
+        complaintService.deleteComplaint(comId);
+
+
+        rttr.addAttribute("pageNum", cri.getPageNum());
+        rttr.addAttribute("amount", cri.getAmount());
+
+        // 삭제 후 목록
+
+
+        return "redirect:/admin/complaint/list";
+    }
 }

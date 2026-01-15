@@ -87,6 +87,9 @@
                             <input type="hidden" name="amount" th:value= "${cri.amount }"  />
 <!--                        수정용 글번호 데이터 추가-->
                             <input type="hidden" name="comId" th:value= "${complaint.comId }"  />
+<!--                        검색용 데이터-->
+                            <input name="searchKeyword"  type="hidden" th:value="${cri.searchKeyword }" >
+                            <input name="searchType"  type="hidden" th:value="${cri.searchType }" >
                             <table class="table_form">
                                 <caption class="blind">민원 게시판 답변</caption>
                                 <colgroup>

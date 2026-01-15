@@ -34,9 +34,15 @@ public class ComplaintController {
     // 데이터만 가져옴
     @GetMapping("view")
     public String complaintView(@RequestParam("comId") int comId,
-                                @ModelAttribute("cri") Criteria cri, Model model){
+                                @ModelAttribute("cri") Criteria cri, Model model,
+                                RedirectAttributes rttr){
         model.addAttribute("complaint",complaintService.getOneComplaint(comId));
 
+        rttr.addAttribute("pageNum", cri.getPageNum());
+        rttr.addAttribute("amount", cri.getAmount());
+
+        rttr.addAttribute("pageNum", cri.getSearchKeyword());
+        rttr.addAttribute("amount", cri.getSearchType());
         return "admin/admin_complaint_view";
     }
     @GetMapping("update")
@@ -53,6 +59,9 @@ public class ComplaintController {
         rttr.addAttribute("pageNum", cri.getPageNum());
         rttr.addAttribute("amount", cri.getAmount());
         rttr.addAttribute("comId", vo.getComId());
+
+        rttr.addAttribute("searchKeyword", cri.getSearchKeyword());
+        rttr.addAttribute("searchType", cri.getSearchType());
         return "redirect:/admin/complaint/view";
     }
 
@@ -64,6 +73,9 @@ public class ComplaintController {
 
         rttr.addAttribute("pageNum", cri.getPageNum());
         rttr.addAttribute("amount", cri.getAmount());
+
+        rttr.addAttribute("pageNum", cri.getSearchKeyword());
+        rttr.addAttribute("amount", cri.getSearchType());
 
         // 삭제 후 목록
         return "redirect:/admin/complaint/list";

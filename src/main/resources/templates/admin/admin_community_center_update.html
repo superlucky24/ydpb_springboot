@@ -38,6 +38,10 @@
                     <!-- 업데이트 폼 -->
                     <form th:action="@{/admin/community/update}" method="post">
                         <input type="hidden" name="cmntId" th:value="${board.cmntId}">
+                        <input type="hidden" name="pageNum" th:value="${cri.pageNum}">
+                        <input type="hidden" name="amount" th:value="${cri.amount}">
+                        <input type="hidden" name="searchType" th:value="${cri.searchType}">
+                        <input type="hidden" name="searchKeyword" th:value="${cri.searchKeyword}">
 
                         <table class="table_form">
                             <caption class="blind">자치회관 게시판 글쓰기</caption>
@@ -82,7 +86,7 @@
                         </table>
 
                         <div class="btns">
-                            <a th:href="@{/admin/community/list}" class="btn btn_default">목록</a>
+                            <a th:href="@{/admin/community/list(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="btn btn_default">목록</a>
                             <button type="submit" class="btn btn_write">저장</button>
                         </div>
                     </form>

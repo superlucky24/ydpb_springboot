@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>민원신청 | 우리동이야기 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_view.css}">
+    <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <!--    <script>const menuName = '민원답변';</script>-->
+    <script th:src="@{/js/ydpb.js}"></script>
+</head>
+<body>
+    <div id="wrap">
+        <!-- header -->
+        <header class="header" th:replace="admin/common/admin_header_footer :: header"></header>
+        <!-- //header -->
+
+        <!-- search -->
+        <div class="search"></div>
+        <!-- //search -->
+
+        <!-- container -->
+        <div class="container">
+            <div class="contents_wrap safe_area">
+                <!-- side menu -->
+                <aside class="side_menu" th:replace="admin/common/admin_sidemenu :: side"></aside>
+                <!-- //side menu -->
+
+                <!-- main -->
+                <main>
+                    <!-- location -->
+                    <div class="location">
+                        <div class="location_title">
+                            <h2>영등포본동 민원 상세보기</h2>
+                        </div>
+<!--                        <div class="location_path">-->
+<!--                            <span class="loc_home">홈</span>-->
+<!--                            <span class="loc_arrow">></span>-->
+<!--                            <span class="loc_text">-->
+<!--                                <a href="../../../../../../../박귀환/ydpb-main">동주민센터</a>-->
+<!--                            </span>-->
+<!--                            <span class="loc_arrow">></span>-->
+<!--                            <span class="loc_text">-->
+<!--                                <a href="../../../../../../../박귀환/ydpb-main">영등포본동</a>-->
+<!--                            </span>-->
+<!--                            <span class="loc_arrow">></span>-->
+<!--                            <span class="loc_text">-->
+<!--                                <a href="../../../../../../../박귀환/ydpb-main">우리동이야기</a>-->
+<!--                            </span>-->
+<!--                            <span class="loc_arrow">></span>-->
+<!--                            <span class="loc_text">-->
+<!--                                <a href="civil_complaint_list.html">민원신청</a>-->
+<!--                            </span>-->
+<!--                        </div>-->
+<!--                        <div class="location_icon">-->
+<!--                            <ul class="loc_fixed_icon">-->
+<!--                                <li><button type="button" class="loc_print">프린트</button></li>-->
+<!--                                <li class="icon_sns">-->
+<!--                                    <button type="button" class="loc_sns">SNS</button>-->
+<!--                                    <div class="sns_list">-->
+<!--                                        <a href="#" class="loc_sns_icon1"> </a>-->
+<!--                                        <a href="#" class="loc_sns_icon2"> </a>-->
+<!--                                        <a href="#" class="loc_sns_icon3"> </a>-->
+<!--                                        <a href="#" class="loc_sns_icon4"> </a>-->
+<!--                                        <a href="#" class="loc_sns_icon5"> </a>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+                    </div>
+                    <!-- location -->
+
+                    <!-- contents -->
+                    <div class="contents" id="board">
+                        <div class="board clearfix">
+                            <div class="bbs_wrap">
+                                <div class="bbs_info">
+                                    <div class="bbs_count">
+                                        <span>
+                                            신청일
+                                            <strong th:text="${#dates.format(complaint.comDate,'yyyy.MM.dd')}">2025.07.09</strong>
+
+                                        </span>
+                                    </div>
+                                </div>
+                                <table class="p-table">
+                                    <colgroup>
+                                        <col class="w20p">
+                                        <col>
+                                    </colgroup>
+                                    <tbody class="p-tb">
+                                        <tr>
+                                            <td colspan="2"><span class="td_title" th:text="${complaint.getComTitle()}">지하철역 미화개선</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="td_text" th:text="${complaint.getComContent()}">
+                                                구로디지탈단지역 계단이 미끄럽고 보기에 너무 안 좋습니다...
+                                            </td>
+                                        </tr>
+                                        <th:block th:if="${complaint.getComAnswer != null}">
+                                            <tr>
+                                                <th scope="row">처리상황</th>
+                                                <td th:text="${complaint.getComStatus()}">완료</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">종합의견</th>
+                                                <td th:text="${complaint.getComAnswer()}">
+                                                    안녕하십니까? 영등포본동 주민센터 민원신청 담당자입니다....
+                                                </td>
+                                            </tr>
+                                        </th:block>
+                                    </tbody>
+                                </table>
+                                <div class="form_btns_wrap">
+                                    <div class="btns">
+                                        <a href="civil_complaint_update.html" class="btn btn_bordered update">답변</a>
+                                        <a href="#" class="btn btn_bordered delete">삭제</a>
+                                    </div>
+                                    <div class="btns">
+                                        <a th:href="civil_complaint_list.html" class="p-btn">
+                                            목록
+                                            <span class="p-btn_write"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- //contents -->
+                    
+                    <!-- charge info -->
+<!--                    <div class="charge_info">-->
+<!--                        <ul>-->
+<!--                            <li>-->
+<!--                                <span class="info_name">담당부서</span>-->
+<!--                                <span>영등포본동</span>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <span class="info_name">담당전화번호</span>-->
+<!--                                <span>02-2670-1026</span>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+                    <!-- //charge info -->
+                </main>
+                <!-- //main -->
+            </div>
+        </div>
+        <!-- //container -->
+
+        <!-- footer -->
+        <footer class="footer" th:replace="admin/common/admin_header_footer :: footer"></footer>
+        <!-- //footer -->
+    </div>
+</body>
+</html>

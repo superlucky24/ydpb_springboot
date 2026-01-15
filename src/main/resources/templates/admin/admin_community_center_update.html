@@ -47,10 +47,11 @@
                             <caption class="blind">자치회관 게시판 글쓰기</caption>
                             <tbody>
                             <tr>
-                                <th>제목 <span class="required_mark">필수</span></th>
+                                <th><label for="cmntTitle">제목</label> <span class="required_mark">필수</span></th>
                                 <td>
                                     <input type="text"
                                            name="cmntTitle"
+                                           id="cmntTitle"
                                            class="input form_input"
                                            th:value="${board.cmntTitle}"
                                            required>
@@ -58,9 +59,10 @@
                             </tr>
 
                             <tr>
-                                <th>내용 <span class="required_mark">필수</span></th>
+                                <th><label for="cmntContent">내용</label> <span class="required_mark">필수</span></th>
                                 <td>
                                         <textarea name="cmntContent"
+                                                  id="cmntContent"
                                                   rows="10"
                                                   class="input"
                                                   required
@@ -74,10 +76,11 @@
                             </tr>
 
                             <tr>
-                                <th>부서</th>
+                                <th><label for="cmntDepartment">부서</label></th>
                                 <td>
                                     <input type="text"
                                            name="cmntDepartment"
+                                           id="cmntDepartment"
                                            class="input form_input"
                                            th:value="${board.cmntDepartment}">
                                 </td>

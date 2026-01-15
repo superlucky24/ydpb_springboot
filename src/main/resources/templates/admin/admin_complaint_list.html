@@ -202,7 +202,7 @@
             $('.p_ctrl .p_control .p-link_b a').on('click',function(e){
                 e.preventDefault();// 이벤트 차단
                 alert('aa');
-                // actionForm.attr("action","/admin/complaint/list");
+                actionForm.attr("action","/admin/complaint/list");
                 /* 폼 input name 속성값 pageNum의 value 값을 .paginate_button a href 값으로 변경  */
                 actionForm.find("input[name='pageNum']").val($(this).attr("href"));
                 actionForm.submit();

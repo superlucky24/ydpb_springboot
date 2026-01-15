@@ -256,8 +256,9 @@
         });
 
         /* 검색버튼 이벤트 처리 */
-        var searchForm=  $('.board_searchform');
-        $(".board_searchform button").on('click',function(e){
+        let searchForm=  $('.board_searchform');
+        $(".board_searchform input[type='submit']").on('click',function(e){
+            alert("검색버튼 클릭");
             //option의 select값 선택하지 않았을 때
             // 필터 선택자 사용
             if(!searchForm.find("option:selected").val()){

@@ -143,6 +143,9 @@
                                th:value="${cri.pageNum }"/>
                         <input type="hidden" name="amount" id="amount"
                                th:value="${cri.amount }"/>
+<!--                        검색 데이터-->
+                        <input name="searchKeyword"  type="hidden" th:value="${cri.searchKeyword }" >
+                        <input name="searchType"  type="hidden" th:value="${cri.searchType }" >
                     </form>
                     <!-- //contents -->
                     

@@ -5,29 +5,34 @@
 
     <select id="getMemberList" resultType="kr.go.ydpb.domain.MemberVO">
         <![CDATA[
-    SELECT memId, memName, memPhone, memEmail, memAddress
+    SELECT
+        memId, memName, memPhone, memEmail, memAddress, memRegDate
     FROM (
-        SELECT rownum rn, memId, memName, memPhone, memEmail, memAddress
+        SELECT
+            rownum rn, memId, memName, memPhone, memEmail, memAddress, memRegDate
         FROM (
-            SELECT memId, memName, memPhone, memEmail, memAddress
-            FROM tbl_member
-            WHERE
+            SELECT
+                MEMID as memId,
+                MEMNAME as memName,
+                MEMPHONE as memPhone,
+                MEMEMAIL as memEmail,
+                MEMADDRESS as memAddress,
+                MEMREGDATE as memRegDate
+            FROM TBL_MEMBER
+            WHERE MEMID IS NOT NULL
     ]]>
         <if test="searchKeyword != null and searchKeyword != ''">
-            <trim prefix="(" suffix=") AND " prefixOverrides="OR">
-                <foreach item='type' collection="typeArr">
-                    <trim prefix="OR">
-                        <choose>
-                            <when test="type == 'I'.toString()">memId LIKE '%'||#{searchKeyword}||'%'</when>
-                            <when test="type == 'N'.toString()">memName LIKE '%'||#{searchKeyword}||'%'</when>
-                        </choose>
-                    </trim>
-                </foreach>
-            </trim>
+            <choose>
+                <when test="searchType == 'I'.toString()">
+                    AND MEMID LIKE '%'||#{searchKeyword}||'%'
+                </when>
+                <when test="searchType == 'N'.toString()">
+                    AND MEMNAME LIKE '%'||#{searchKeyword}||'%'
+                </when>
+            </choose>
         </if>
         <![CDATA[
-            memId IS NOT NULL
-            ORDER BY memId DESC
+            ORDER BY MEMREGDATE DESC
         )
         WHERE rownum <= #{pageNum} * #{amount}
     )
@@ -36,21 +41,18 @@
     </select>
 
     <select id="getTotalCount" resultType="int">
-        SELECT COUNT(*) FROM tbl_member
-        WHERE
+        SELECT count(*) FROM TBL_MEMBER
+        WHERE MEMID IS NOT NULL
         <if test="searchKeyword != null and searchKeyword != ''">
-            <trim prefix="(" suffix=") AND " prefixOverrides="OR">
-                <foreach item='type' collection="typeArr">
-                    <trim prefix="OR">
-                        <choose>
-                            <when test="type == 'I'.toString()">memId LIKE '%'||#{searchKeyword}||'%'</when>
-                            <when test="type == 'N'.toString()">memName LIKE '%'||#{searchKeyword}||'%'</when>
-                        </choose>
-                    </trim>
-                </foreach>
-            </trim>
+            <choose>
+                <when test="searchType == 'I'.toString()">
+                    AND MEMID LIKE '%'||#{searchKeyword}||'%'
+                </when>
+                <when test="searchType == 'N'.toString()">
+                    AND MEMNAME LIKE '%'||#{searchKeyword}||'%'
+                </when>
+            </choose>
         </if>
-        memId IS NOT NULL
     </select>
 
     <select id="getMemberById" resultType="kr.go.ydpb.domain.MemberVO">

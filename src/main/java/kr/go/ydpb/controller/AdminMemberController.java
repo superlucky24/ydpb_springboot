@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/member") // 브라우저 주소창에 들어갈 기본 주소
+@RequestMapping("/admin/member")
 public class AdminMemberController {
 
     @Autowired
@@ -25,15 +25,12 @@ public class AdminMemberController {
     // 1. 회원 목록 조회
     @GetMapping("/list")
     public String list(Criteria cri, Model model) {
-        // 1. DB에서 해당 페이지 분량만큼만 가져오기
-        List<MemberVO> list = memberMapper.getMemberList(cri);
-        model.addAttribute("list", list);
 
-        // 2. 전체 개수 구하기
+        // 검색 조건이 포함된 전체 개수
         int total = memberMapper.getTotalCount(cri);
-
-        // 3. PageDTO(계산기)에 넣어 결과표(pageMaker) 만들기
+        model.addAttribute("list", memberMapper.getMemberList(cri));
         model.addAttribute("pageMaker", new PageDTO(cri, total));
+        model.addAttribute("total", total);
 
         return "admin/admin_member_list";
     }
@@ -51,7 +48,7 @@ public class AdminMemberController {
     public String updatePw(@RequestParam("memId") String memId,
                            @RequestParam("memPassword") String memPassword) {
         memberMapper.updatePassword(memId, memPassword);
-        // 수정 완료 후 다시 해당 회원의 상세보기로 보냄 (리다이렉트)
+        // 수정 완료 후 다시 해당 회원의 상세보기로 보냄
         return "redirect:/admin/member/view?memId=" + memId;
     }
 
@@ -61,7 +58,7 @@ public class AdminMemberController {
         // 1. DB 삭제 처리
         memberMapper.deleteMember(memId);
 
-        // 2. 삭제 완료 메시지 (일회성 데이터)
+        // 2. 삭제 완료 메시지
         rttr.addFlashAttribute("result", "success");
 
         // 3. 다시 목록으로 리다이렉트 (절대 경로 사용)

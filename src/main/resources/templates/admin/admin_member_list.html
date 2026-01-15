@@ -27,23 +27,39 @@
                             <div class="p-search clearfix">
                                 <div class="p-form-group">
                                     <select name="searchType" class="p-input">
-                                        <option value="I">아이디</option>
-                                        <option value="N">이름</option>
+                                        <option value="I" th:selected="${pageMaker.cri.searchType == 'I'}">아이디</option>
+                                        <option value="N" th:selected="${pageMaker.cri.searchType == 'N'}">이름</option>
                                     </select>
-                                    <input name="searchKeyword" class="p-input" type="text">
+                                    <input name="searchKeyword" th:value="${pageMaker.cri.searchKeyword}" class="p-input" type="text" placeholder="검색어를 입력하세요">
+
+                                    <input type="hidden" name="pageNum" value="1">
+                                    <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+
                                     <span class="p-form-group__btn">
-                                            <input value="검색" type="submit" class="p-button">
-                                        </span>
+                            <input value="검색" type="submit" class="p-button">
+                        </span>
                                 </div>
                             </div>
                         </form>
                     </div>
 
                     <div class="page_cou clearfix">
-                        <p>총 <em class="em_black" th:text="${#lists.size(list)}">0</em> 개</p>
+                        <p>
+                            총 <em class="em_black" th:text="${total}">0</em> 개 &nbsp;[
+                            <em class="em_b_black" th:text="${pageMaker.cri.pageNum}">1</em> /
+                            <span th:text="${pageMaker.realEnd}">1</span> 페이지]
+                        </p>
                     </div>
 
                     <table class="p_table">
+                        <colgroup>
+                            <col style="width: 7%;">
+                            <col style="width: 15%;">
+                            <col style="width: 15%;">
+                            <col style="width: 18%;">
+                            <col style="width: 30%;">
+                            <col style="width: 15%;">
+                        </colgroup>
                         <thead>
                         <tr>
                             <th scope="col">번호</th>
@@ -51,57 +67,55 @@
                             <th scope="col">사용자 이름</th>
                             <th scope="col">휴대폰</th>
                             <th scope="col">이메일</th>
+                            <th scope="col">가입일</th>
                         </tr>
                         </thead>
                         <tbody class="tb_text">
                         <tr th:each="member, status : ${list}">
-                            <td th:text="${status.count}">1</td>
-                            <td>
+                            <td th:text="${total - (pageMaker.cri.pageNum - 1) * pageMaker.cri.amount - status.index}"></td>
+                            <td class="p_sub" style="text-align: center;">
                                 <a th:href="@{/admin/member/view(memId=${member.memId})}"
                                    th:text="${member.memId}" style="color:blue; text-decoration:underline;">아이디</a>
                             </td>
                             <td th:text="${member.memName}">이름</td>
                             <td th:text="${member.memPhone}">010-0000-0000</td>
                             <td th:text="${member.memEmail}">test@test.com</td>
+                            <td><time th:text="${#dates.format(member.memRegDate, 'yyyy-MM-dd')}"></time></td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(list)}">
-                            <td colspan="5">등록된 회원이 없습니다.</td>
+                            <td colspan="6" style="text-align:center; padding:30px;">등록된 회원이 없습니다.</td>
                         </tr>
                         </tbody>
                     </table>
-                    <!-- 페이징 -->
-                    <div style="text-align: center; margin-top: 20px;">
-                        <ul style="display: inline-flex; list-style: none; padding: 0;">
 
-                            <li style="margin: 0 5px;">
-                                <a th:if="${pageMaker.prev}"
-                                   th:href="@{/admin/member/list(pageNum=${pageMaker.startPage - 1}, amount=${pageMaker.cri.amount})}"
-                                   style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd;">&laquo;</a>
-                                <span th:unless="${pageMaker.prev}"
-                                      style="padding: 5px 10px; border: 1px solid #eee; color: #ccc;">&laquo;</span>
-                            </li>
+                    <div class="p_ctrl">
+                        <div class="p_control">
+        <span class="p-link_b">
+            <a th:if="${pageMaker.realEnd > 10}"
+               th:href="@{/admin/member/list(pageNum=1, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${pageMaker.cri.searchKeyword})}"
+               class="p_link" title="맨 처음">&lt;&lt;</a>
 
-                            <li th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}"
-                                style="margin: 0 5px;">
-                                <a th:href="@{/admin/member/list(pageNum=${num}, amount=${pageMaker.cri.amount})}"
-                                   th:text="${num}"
-                                   th:style="${pageMaker.cri.pageNum == num} ?
-                        'text-decoration: none; padding: 5px 10px; border: 1px solid #333; background-color: #f4f4f4; font-weight: bold;' :
-                        'text-decoration: none; padding: 5px 10px; border: 1px solid #ddd; color: #666;'">
-                                </a>
-                            </li>
+            <a th:if="${pageMaker.realEnd > 10}"
+               th:href="@{/admin/member/list(pageNum=${pageMaker.prev ? pageMaker.startPage - 1 : 1}, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${pageMaker.cri.searchKeyword})}"
+               class="p_link" title="이전">&lt;</a>
 
-                            <li style="margin: 0 5px;">
-                                <a th:if="${pageMaker.next}"
-                                   th:href="@{/admin/member/list(pageNum=${pageMaker.endPage + 1}, amount=${pageMaker.cri.amount})}"
-                                   style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd;">&raquo;</a>
-                                <span th:unless="${pageMaker.next}"
-                                      style="padding: 5px 10px; border: 1px solid #eee; color: #ccc;">&raquo;</span>
-                            </li>
+            <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                <strong th:if="${pageMaker.cri.pageNum == num}" class="p_link active" th:text="${num}"></strong>
+                <a th:if="${pageMaker.cri.pageNum != num}"
+                   th:href="@{/admin/member/list(pageNum=${num}, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${pageMaker.cri.searchKeyword})}"
+                   class="p_link" th:text="${num}"></a>
+            </th:block>
 
-                        </ul>
+            <a th:if="${pageMaker.realEnd > 10}"
+               th:href="@{/admin/member/list(pageNum=${pageMaker.next ? pageMaker.endPage + 1 : pageMaker.realEnd}, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${pageMaker.cri.searchKeyword})}"
+               class="p_link" title="다음">&gt;</a>
+
+            <a th:if="${pageMaker.realEnd > 10}"
+               th:href="@{/admin/member/list(pageNum=${pageMaker.realEnd}, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${pageMaker.cri.searchKeyword})}"
+               class="p_link" title="맨 끝">&gt;&gt;</a>
+        </span>
+                        </div>
                     </div>
-                </div>
             </main>
         </div>
     </div>

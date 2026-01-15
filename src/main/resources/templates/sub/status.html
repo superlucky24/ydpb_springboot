@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>일반현황 | 우리동이야기 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_status.css}">
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script>const menuName = '일반현황';</script>
+    <script th:src="@{/js/ydpb.js}"></script>
+</head>
+<body>
+    <div id="wrap">
+        <!-- header -->
+        <header class="header" th:replace="~{/common/header_footer_layout :: header}"></header>
+        <!-- //header -->
+
+        <!-- search -->
+        <div class="search" th:replace="~{/common/header_footer_layout :: search}"></div>
+        <!-- //search -->
+
+        <!-- container -->
+        <div class="container">
+            <div class="contents_wrap safe_area">
+                <!-- side menu -->
+                <aside class="side_menu" th:replace="~{/common/sidemenu_layout :: sidemenu}"></aside>
+                <!-- //side menu -->
+                
+                <!-- main -->
+                <main>  
+                    <!-- location -->
+                    <div class="location">
+                        <div class="location_title">
+                            <h2>일반현황</h2>
+                        </div>
+                        <div class="location_path">
+                            <span class="loc_home"><a th:href="@{/}">홈</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text"><a th:href="@{/}">동주민센터</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text"><a th:href="@{/}">영등포본동</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text"><a th:href="@{/}">우리동이야기</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text">일반현황</span>
+                        </div>
+                        <div class="location_icon">
+                            <ul class="loc_fixed_icon">
+                                <li><button type="button" class="loc_print">프린트</button></li>
+                                <li class="icon_sns">
+                                    <button type="button" class="loc_sns">SNS</button>
+                                    <div class="sns_list">
+                                        <a th:href="@{/}" class="loc_sns_icon1">a</a>
+                                        <a th:href="@{/}" class="loc_sns_icon2">a</a>
+                                        <a th:href="@{/}" class="loc_sns_icon3">a</a>
+                                        <a th:href="@{/}" class="loc_sns_icon4">a</a>
+                                        <a th:href="@{/}" class="loc_sns_icon5">a</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- location -->
+
+                    <!-- contents -->
+                    <div class="contents">
+                        <h3 class="title">주민센터시설</h3>
+                        <div class="center_box">
+                            <div class="pic_box">
+                                <div class="inner">
+                                    <div class="pic">
+                                        <img th:src="@{/images/sub/status_01.png}" alt="영등포본동 주민센터 이미지">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="center_info">
+                            
+                            <caption>주민센터시설 층별 안내</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">층</th>
+                                    <th scope="col">시설명</th>
+                                    <th scope="col">이용시간</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="top">
+                                    <td>지하1층</td>
+                                    <td>지하주차장</td>
+                                    <td>09:00~18:00</td>
+                                </tr>
+                                <tr>
+                                    <td>1층</td>
+                                    <td>민원실(행정팀, 복지1·2팀), 동장실</td>
+                                    <td>09:00~18:00</td>
+                                </tr>
+                                <tr>
+                                    <td>2층</td>
+                                    <td>예비군동대본부, 다목적회의실</td>
+                                    <td>09:00~18:00</td>
+                                </tr>
+                                <tr>
+                                    <td>3층</td>
+                                    <td>동네사랑방, 작은도서관, 인터넷교실</td>
+                                    <td>09:00~18:00</td>
+                                </tr>
+                                <tr>
+                                    <td>4층</td>
+                                    <td>대강당</td>
+                                    <td>09:00~18:00</td>
+                                </tr>
+                                <tr>
+                                    <td>5층</td>
+                                    <td>체력단련실</td>
+                                    <td>06:00~22:00</td>
+                                </tr>
+                                <tr>
+                                    <td>6층</td>
+                                    <td>직원식당</td>
+                                    <td>미운영</td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                        <p class="ex_mark">
+                                <span class="skip">강조</span>
+                                <strong>장애인 휠체어 전용 화장실 위치: 
+                                    <span class="span_blue">1층(공용)</span>
+                                </strong>
+                        </p>
+
+                        <h3 class="title">동현황</h3>
+                        <ul class="ul_common">
+                            <li>
+                                행정동별 인구, 통반조직
+                                <a th:href="@{/}" class="blank" target="_blank">
+                                    자세히보기
+                                </a>
+                            </li>
+                            <li>면적 : 1.02㎦ (영등포구 면적의 4.15%)</li>
+                            <li>주요기관 및 시설현황(2024. 7. 31. 현재)
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>공공
+                                                <br>
+                                                기관
+                                            </th>
+                                            <th>언론
+                                                <br>
+                                                기관
+                                            </th>
+                                            <th>노인복지
+                                                <br>
+                                                시설
+                                            </th>
+                                            <th>종교
+                                                <br>
+                                                시설
+                                            </th>
+                                            <th>유치원·
+                                                <br>
+                                                어린이집
+                                            </th>
+                                            <th>병·
+                                                <br>
+                                                의원
+                                            </th>
+                                            <th>약국</th>
+                                            <th>학교</th>
+                                            <th>금융</th>
+                                            <th>공원</th>
+                                            <th>시장</th>
+                                            <th>백화점</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="top">
+                                            <td>4</td>
+                                            <td>-</td>
+                                            <td>9</td>
+                                            <td>12</td>
+                                            <td>14</td>
+                                            <td>24</td>
+                                            <td>10</td>
+                                            <td>4</td>
+                                            <td>3</td>
+                                            <td>2</td>
+                                            <td>-</td>
+                                            <td>1</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                        </ul>
+
+                        <h3 class="title">동 연혁</h3>
+                        <dl class="history_info">
+                            <dt>2008.09.01</dt>
+                            <dd class="first_dd">영등포제1동과 신길제2동이 통합하여 영등포본동으로 명칭 변경</dd>
+                            <dt>1975.10.01</dt>
+                            <dd>서울특별시 영등포구 영등포제1동
+                                <br>
+                                서울특별시 영등포구 신길제2동(시조례 제981호)
+                            </dd>
+                            <dt>1959.10.31</dt>
+                            <dd>서울특별시 영등포구 영등포제1동
+                                <br>
+                                서울특별시 영등포구 신광동(시조례 제165호)
+                            </dd>
+                            <dt>1955.04.18</dt>
+                            <dd>서울특별시 영등포구 영등포제1동(시조례 제66호)
+                                <br>
+                                서울특별시 영등포구 신길제2동(시조례 제66호)
+                            </dd>
+                            <dt>1946.10.01</dt>
+                            <dd>서울특별시 영등포구 영등포동부동
+                                <br>
+                                서울특별시 영등포구 신길동
+                            </dd>
+                            <dt>1943.06.10</dt>
+                            <dd>경성부 영등포구역소 영등포정(町)
+                                <br>
+                                경성부 영등포구역소 신길정(町)
+                            </dd>
+                            <dt>1936.02.14</dt>
+                            <dd>경성부 영등포출장소 영등포정(町)
+                                <br>
+                                경성부 영등포출장소 신길정(町)
+                            </dd>
+                            <dt>1917.10.01</dt>
+                            <dd>경기도 시흥군 영등포면 영등포리
+                                <br>
+                                경기도 시흥군 북면 신길리
+                            </dd>
+                            <dt>1914.04.01</dt>
+                            <dd>경기도 시흥군 북면 영등포리(하방아곶리와 중종리를 합침)
+                                <br>
+                                경기도 시흥군 북면 상방아곶리 (신길지역)
+                            </dd>
+                            <dt>1911.04.27</dt>
+                            <dd>경기도 시흥군 하북면 상방아곶리(신길지역)
+                                <br>
+                                경기도 시흥군 하북면 하방아곶리(영등포지역)
+                            </dd>
+                            <dt>조선후기 정조 때</dt>
+                            <dd>경기도 시흥현 하북면 방학호리</dd>
+                            <dt>조선후기 영조 때</dt>
+                            <dd>경기도 금천현 하북면 방학호리</dd>
+                        </dl>
+
+                    
+                        <h3 class="title">전화번호</h3>
+                        <ul class="ul_common">
+                            <li>주 소 : 서울특별시 영등포구 신길로61길 17(영등포동)</li>
+                            <li>전 화 : 02-2670-1049(대표전화)</li>
+                            <li>팩 스 : 02-2670-1050</li>
+                        </ul>
+                        
+
+                    </div>
+                    <!-- //contents -->
+                    
+                    <!-- charge info -->
+                    <div class="charge_info">
+                        <ul>
+                            <li>
+                                <span class="info_name">담당부서</span>
+                                <span>영등포본동</span>
+                            </li>
+                            <li>
+                                <span class="info_name">담당전화번호</span>
+                                <span>02-2670-1026</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- //charge info -->
+                </main>
+                <!-- //main -->
+            </div>
+        </div>
+        <!-- //container -->
+
+        <!-- footer -->
+        <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
+        <!-- //footer -->
+    </div>
+</body>
+</html>

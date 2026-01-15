@@ -57,14 +57,16 @@ Spring MVC 구조를 기반으로 하여 **회원 관리, 자치회관 관리, �
 ---
 
 ## 📂 프로젝트 구조
+<pre>
 src
-┣ controller
-┣ service
-┣ mapper
-┣ domain
-┗ resources
-┣ templates
-┗ mapper
+ ┣ controller
+ ┣ service
+ ┣ mapper
+ ┣ domain
+ ┗ resources
+    ┣ templates
+    ┗ mapper
+</pre>
 
 ---
 

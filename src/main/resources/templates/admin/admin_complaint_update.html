@@ -120,7 +120,8 @@
                                         <span class="required_mark">필수항목</span>
                                     </th>
                                     <td>
-                                        <textarea name="comAnswer" id="comAnswer" class="input" rows="10" maxlength="4000" required></textarea>
+                                        <textarea name="comAnswer" id="comAnswer" class="input" rows="10" maxlength="4000" required
+                                                  th:text="${complaint.getComAnswer()}"></textarea>
                                     </td>
                                 </tr>
                                 <tr>

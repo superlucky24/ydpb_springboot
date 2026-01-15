@@ -180,15 +180,8 @@
             console.log(comAnswer.text());
             //속성 선택자 update 선택
             $("button[data-oper='update']").on('click',function(){
-                if(comAnswer.text().trim() != "" && comAnswer.length != 0 && comAnswer.text() != null)
-                {
-                    console.log("답변이 있음");
-                    alert("답변이 이미 존재하므로 작성 불가");
-                }
-                else{
-                    console.log("답변이 없음");
-                    operForm.attr("action","/admin/complaint/update").submit()
-                }
+                 operForm.attr("action","/admin/complaint/update").submit()
+
             })
 
             //속성 선택자 list 선택

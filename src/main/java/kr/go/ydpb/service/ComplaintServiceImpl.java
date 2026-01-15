@@ -2,7 +2,6 @@ package kr.go.ydpb.service;
 
 import kr.go.ydpb.domain.ComplaintVO;
 import kr.go.ydpb.domain.Criteria;
-import kr.go.ydpb.mapper.AdminMapper;
 import kr.go.ydpb.mapper.ComplaintMapper;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -47,8 +46,9 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
     @Override
-    public void deleteComplaint(int comId) {
+    public int deleteComplaint(int comId) {
         complaintMapper.deleteComplaint(comId);
+        return comId;
     }
 
     //페이징

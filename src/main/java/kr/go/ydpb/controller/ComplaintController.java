@@ -55,5 +55,4 @@ public class ComplaintController {
         rttr.addAttribute("comId", vo.getComId());
         return "redirect:/admin/complaint/view";
     }
-
 }

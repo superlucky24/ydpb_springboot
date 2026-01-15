@@ -12,7 +12,7 @@ public interface ComplaintService {
     public List<ComplaintVO> searchComplaint(String searchKeyword, int start, int end);
     //public int insertComplaint(ComplaintVO cvo);
     public void updateComplaint(ComplaintVO cvo);
-    public void deleteComplaint(int comId);
+    public int deleteComplaint(int comId);
     //페이징용 목록 메서드
     public List<ComplaintVO> getComplaintWithPaging(Criteria cri);
 }

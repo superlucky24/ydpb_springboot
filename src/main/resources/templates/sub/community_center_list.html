@@ -71,7 +71,7 @@
                     <!-- contents -->
                     <div id="board" class="clearfix">
                         <div id="contents">
-                            <form th:action="@{/admin/community/list}" method="get" id="searchForm" class="board_searchform">
+                            <form th:action="@{/community/list}" method="get" id="searchForm" class="board_searchform">
                                 <fieldset>
                                     <legend>게시물검색</legend>
                                     <div class="p-search clearfix">
@@ -143,11 +143,11 @@
                             </div>
                         </div>
                         <div class="board_btm_btns">
-                            <a th:href="@{/admin/community/write}" class="btn btn_write">글쓰기</a>
+                            <a th:href="@{/community/write}" class="btn btn_write">글쓰기</a>
                         </div>
 
                         <!-- form 정보 -->
-                        <form th:action="@{/admin/community/list}" method="get" id="actionForm">
+                        <form th:action="@{/community/list}" method="get" id="actionForm">
                             <input type="hidden" name="cmntId" value="">
                             <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
                             <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
@@ -199,7 +199,7 @@
                 e.preventDefault();
                 actionForm.find('input[name="cmntId"]').val('');
                 actionForm.find('input[name="cmntId"]').val($(this).attr('href'));
-                actionForm.attr('action', '/admin/community/view');
+                actionForm.attr('action', '/community/view');
                 actionForm.submit();
             });
 

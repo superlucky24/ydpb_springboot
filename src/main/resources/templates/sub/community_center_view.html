@@ -16,124 +16,124 @@
     <script th:src="@{/js/ydpb.js}"></script>
 </head>
 <body>
-    <div id="wrap">
-        <!-- header -->
-        <header class="header" th:replace="~{/common/header_footer_layout :: header}"></header>
-        <!-- //header -->
+<div id="wrap">
+    <!-- header -->
+    <header class="header" th:replace="~{/common/header_footer_layout :: header}"></header>
+    <!-- //header -->
 
-        <!-- search -->
-        <div class="search" th:replace="~{/common/header_footer_layout :: search}"></div>
-        <!-- //search -->
+    <!-- search -->
+    <div class="search" th:replace="~{/common/header_footer_layout :: search}"></div>
+    <!-- //search -->
 
-        <!-- container -->
-        <div class="container">
-            <div class="contents_wrap safe_area">
-                <!-- side menu -->
-                <aside class="side_menu" th:replace="~{/common/sidemenu_layout :: sidemenu}"></aside>
-                <!-- //side menu -->
+    <!-- container -->
+    <div class="container">
+        <div class="contents_wrap safe_area">
+            <!-- side menu -->
+            <aside class="side_menu" th:replace="~{/common/sidemenu_layout :: sidemenu}"></aside>
+            <!-- //side menu -->
 
-                <!-- main -->
-                <main>
-                    <!-- location -->
-                    <div class="location">
-                        <div class="location_title">
-                            <h2>자치회관 게시판</h2>
-                        </div>
-                        <div class="location_path">
-                            <span class="loc_home"><a th:href="@{/}">홈</a></span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text"><a th:href="@{/}">동주민센터</a></span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text"><a th:href="@{/}">영등포본동</a></span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text"><a href="#">자치회관</a></span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text">자치회관 게시판</span>
-                        </div>
-                        <div class="location_icon">
-                            <ul class="loc_fixed_icon">
-                                <li><button type="button" class="loc_print">프린트</button></li>
-                                <li class="icon_sns">
-                                    <button type="button" class="loc_sns">SNS</button>
-                                    <div class="sns_list">
-                                        <a href="#" class="loc_sns_icon1">a</a>
-                                        <a href="#" class="loc_sns_icon2">a</a>
-                                        <a href="#" class="loc_sns_icon3">a</a>
-                                        <a href="#" class="loc_sns_icon4">a</a>
-                                        <a href="#" class="loc_sns_icon5">a</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+            <!-- main -->
+            <main>
+                <!-- location -->
+                <div class="location">
+                    <div class="location_title">
+                        <h2>자치회관 게시판</h2>
                     </div>
-                    <!-- location -->
-
-                    <!-- contents -->
-                    <div id="board" class="clearfix">
-
+                    <div class="location_path">
+                        <span class="loc_home"><a th:href="@{/}">홈</a></span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text"><a th:href="@{/}">동주민센터</a></span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text"><a th:href="@{/}">영등포본동</a></span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text"><a href="#">자치회관</a></span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text">자치회관 게시판</span>
                     </div>
-                    <!-- //contents -->
-                    
-                    <!-- charge info -->
-                    <div class="charge_info">
-                        <ul>
-                            <li>
-                                <span class="info_name">담당부서</span>
-                                <span>영등포본동</span>
-                            </li>
-                            <li>
-                                <span class="info_name">담당전화번호</span>
-                                <span>02-2670-1026</span>
+                    <div class="location_icon">
+                        <ul class="loc_fixed_icon">
+                            <li><button type="button" class="loc_print">프린트</button></li>
+                            <li class="icon_sns">
+                                <button type="button" class="loc_sns">SNS</button>
+                                <div class="sns_list">
+                                    <a href="#" class="loc_sns_icon1">a</a>
+                                    <a href="#" class="loc_sns_icon2">a</a>
+                                    <a href="#" class="loc_sns_icon3">a</a>
+                                    <a href="#" class="loc_sns_icon4">a</a>
+                                    <a href="#" class="loc_sns_icon5">a</a>
+                                </div>
                             </li>
                         </ul>
                     </div>
-                    <!-- //charge info -->
-                </main>
-                <!-- //main -->
-            </div>
+                </div>
+                <!-- location -->
+
+                <!-- contents -->
+                <div id="board" class="clearfix">
+
+                </div>
+                <!-- //contents -->
+
+                <!-- charge info -->
+                <div class="charge_info">
+                    <ul>
+                        <li>
+                            <span class="info_name">담당부서</span>
+                            <span>영등포본동</span>
+                        </li>
+                        <li>
+                            <span class="info_name">담당전화번호</span>
+                            <span>02-2670-1026</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- //charge info -->
+            </main>
+            <!-- //main -->
         </div>
-        <!-- //container -->
-
-        <!-- footer -->
-        <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
-        <!-- //footer -->
     </div>
+    <!-- //container -->
 
-    <script>
-        $(document).ready(function() {
-            const actionForm = $('#actionForm');
+    <!-- footer -->
+    <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
+    <!-- //footer -->
+</div>
 
-            // 페이징 번호 이동 이벤트
-            $('.p_control a').on('click', function(e) {
-                e.preventDefault();
-                actionForm.find('input[name="pageNum"]').val($(this).attr('href'));
-                actionForm.submit();
-            });
+<script>
+    $(document).ready(function() {
+        const actionForm = $('#actionForm');
 
-            // 테이블 글 상세보기 이동 이벤트
-            $('.p_table .move').on('click', function(e) {
-                e.preventDefault();
-                actionForm.find('input[name="cmntId"]').val('');
-                actionForm.find('input[name="cmntId"]').val($(this).attr('href'));
-                actionForm.attr('action', '/admin/community/view');
-                actionForm.submit();
-            });
-
-            /* 검색 버튼 이벤트 처리 */
-            const searchForm = $('#searchForm');
-            searchForm.find('.p-button').on('click', function(e) {
-                e.preventDefault();
-                // keyword 값이 없을 때
-                if(!searchForm.find('input[name="searchKeyword"]').val().trim()) {
-                    alert('검색어를 입력해주세요.');
-                    return false;
-                }
-                // 검색 후 페이지번호는 1페이지로 가도록 처리
-                searchForm.find('input[name="pageNum"]').val('1');
-                searchForm.submit();
-            });
-
+        // 페이징 번호 이동 이벤트
+        $('.p_control a').on('click', function(e) {
+            e.preventDefault();
+            actionForm.find('input[name="pageNum"]').val($(this).attr('href'));
+            actionForm.submit();
         });
-    </script>
+
+        // 테이블 글 상세보기 이동 이벤트
+        $('.p_table .move').on('click', function(e) {
+            e.preventDefault();
+            actionForm.find('input[name="cmntId"]').val('');
+            actionForm.find('input[name="cmntId"]').val($(this).attr('href'));
+            actionForm.attr('action', '/community/view');
+            actionForm.submit();
+        });
+
+        /* 검색 버튼 이벤트 처리 */
+        const searchForm = $('#searchForm');
+        searchForm.find('.p-button').on('click', function(e) {
+            e.preventDefault();
+            // keyword 값이 없을 때
+            if(!searchForm.find('input[name="searchKeyword"]').val().trim()) {
+                alert('검색어를 입력해주세요.');
+                return false;
+            }
+            // 검색 후 페이지번호는 1페이지로 가도록 처리
+            searchForm.find('input[name="pageNum"]').val('1');
+            searchForm.submit();
+        });
+
+    });
+</script>
 </body>
 </html>

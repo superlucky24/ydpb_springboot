@@ -108,7 +108,7 @@
                                 </table>
                                 <div class="form_btns_wrap">
                                     <div class="btns">
-                                        <th:block>
+                                        <th:block th:if="${complaint.memId.equals(session.memId) and complaint.getComAnswer == null}">
                                             <button data-oper="update" class="btn btn_bordered update">수정</button>
                                             <button data-oper="delete" class="btn btn_bordered delete">삭제</button>
                                         </th:block>
@@ -128,8 +128,8 @@
                             <input type="hidden" name="comId" id="comId" th:value="${complaint.comId}"/>
                             <input type="hidden" name="pageNum" id="pageNum" th:value="${cri.pageNum }"/>
                             <input type="hidden" name="amount" id="amount" th:value="${cri.amount }">
-                            <input name="searchKeyword"  type="hidden" th:value="${cri.searchKeyword }" >
-                            <input name="searchType" type="hidden" th:value="${cri.searchType }">
+                            <input type="hidden" name="searchType" th:value="${cri.searchType }">
+                            <input type="hidden" name="searchKeyword" th:value="${cri.searchKeyword }" >
                         </form>
                         <!-- //전송용 폼 추가 -->
 
@@ -174,7 +174,7 @@
             //속성 선택자 list 선택
             $("button[data-oper='list'] ").on('click',function(){
                 // 목록 페이지는 아무런 데이터도 필요 없음 => comId 값을 삭제
-                operForm.find("#comId").remove();
+                operForm.find("#comId").empty();
                 operForm.attr("action","/complaint/list");
                 operForm.submit();
             });
@@ -184,7 +184,7 @@
                 if (!confirm("정말 삭제하시겠습니까?")) {
                     return; // 취소 시 종료
                 }
-                operForm.attr("action",'/complaint/delete').attr("method","get");
+                operForm.attr("action",'/complaint/delete').attr("method","post");
                 operForm.submit();
             });
         });

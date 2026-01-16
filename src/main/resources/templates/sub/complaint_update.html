@@ -74,7 +74,13 @@
                     <div class="contents">
                         <div class="board_write">
                             <p class="text_alert alert_write"><span class="required_mark">필수항목</span> 표시는 필수 항목 입니다.</p>
-                            <form action="#" method="post" onreset="clearForm(this)">
+                            <form th:action="@{/complaint/update}" method="post">
+                                <input type="hidden" name="comId" th:value="${complaint.comId}">
+                                <input type="hidden" name="pageNum" th:value="${cri.pageNum}">
+                                <input type="hidden" name="amount" th:value="${cri.amount}">
+                                <input type="hidden" name="searchType" th:value="${cri.searchType}">
+                                <input type="hidden" name="searchKeyword" th:value="${cri.searchKeyword}">
+
                                 <table class="table_form">
                                     <caption class="blind">자치회관 게시판 글쓰기</caption>
                                     <colgroup>
@@ -88,7 +94,7 @@
                                             <span class="required_mark">필수항목</span>
                                         </th>
                                         <td>
-                                            <input type="text" name="comTitle" id="comTitle" class="input form_input" maxlength="300" value="지하철역 미화개선" required>
+                                            <input type="text" name="comTitle" id="comTitle" class="input form_input" maxlength="300" th:value="${complaint.comTitle}" required>
                                         </td>
                                     </tr>
                                     <tr>
@@ -97,20 +103,18 @@
                                             <span class="required_mark">필수항목</span>
                                         </th>
                                         <td>
-                                                <textarea name="comContent" id="comContent" class="input" rows="10" maxlength="4000" required>구로디지탈단지역 계단이 미끄럽고 보기에 너무 안 좋습니다
-녹슨 계단 사진을 찍었는데 첨부가 안되네요
-원광디지털대학교-지밸리로 이어지는 인도 바로 옆에 도로라 우천, 폭설시 너무 위험합니다</textarea>
+                                            <textarea name="comContent" id="comContent" class="input" rows="10" maxlength="4000" th:text="${complaint.comContent}" required></textarea>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th scope="row">공개여부</th>
                                         <td>
                                             <div class="radio">
-                                                <input type="radio" name="comPublic" id="comPublic1" value="1" checked>
+                                                <input type="radio" name="comPublic" id="comPublic1" value="1" th:checked="${complaint.comPublic == 1}">
                                                 <label for="comPublic1">공개</label>
                                             </div>
                                             <div class="radio">
-                                                <input type="radio" name="comPublic" id="comPublic0" value="0">
+                                                <input type="radio" name="comPublic" id="comPublic0" value="0" th:checked="${complaint.comPublic == 0}">
                                                 <label for="comPublic0">비공개</label>
                                             </div>
                                         </td>
@@ -118,7 +122,7 @@
                                     </tbody>
                                 </table>
                                 <div class="btns">
-                                    <a href="#" class="btn btn_default">목록</a>
+                                    <a th:href="@{/complaint/list(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="btn btn_default">목록</a>
                                     <input type="submit" class="btn btn_write" value="저장">
                                     <input type="reset" class="btn btn_cancel" value="다시쓰기">
                                 </div>

@@ -139,27 +139,15 @@
                                         <td class="p_sub ">
                                             <a class="move"
                                                th:href="${complaint.comId}"
-                                               th:if="${complaint.comPublic == 1}"
+                                               th:if="${complaint.comPublic == 1 || complaint.memId.equals(session.memId) || session.admin == 1}"
                                                th:text="${complaint.comTitle}">
                                                 제목 표시
                                             </a>
                                             <a href="javascript:alert('권한이 없습니다.')"
-                                               th:if="${complaint.comPublic == 0}"
+                                               th:if="${complaint.comPublic == 0 && !complaint.memId.equals(session.memId)  && session.admin != 1}"
                                                th:text="${complaint.comTitle}">
                                                 제목 표시
                                             </a>
-
-                                            <!--<a class="move"
-                                               th:href="${complaint.comId}"
-                                               th:if="${complaint.comPublic == 'Y' || complaint.memId == loginId || loginRole == 1}"
-                                               th:text="${complaint.comTitle}">
-                                                제목 표시
-                                            </a>
-                                            <a href="javascript:alert('권한이 없습니다.')"
-                                               th:if="${complaint.comPublic == 'N' && complaint.memId != loginId && loginRole != 1}"
-                                               th:text="${complaint.comTitle}">
-                                                제목 표시
-                                            </a>-->
 
                                         </td>
                                         <td th:text="${#dates.format(complaint.comDate,'yyyy/MM/dd')}"></td>
@@ -207,7 +195,13 @@
                             </div>
 
                             <div class="board_btm_btns">
-                                <a th:href="@{/complaint/write}" class="btn btn_write">글쓰기</a>
+                                <th:block th:if="${session.memId}">
+                                    <a th:href="@{/complaint/write(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="btn btn_write">글쓰기</a>
+                                </th:block>
+                                <th:block th:if="${session.memId == null}">
+                                    <a th:href="@{/login}" id="btn_write_no_auth" class="btn btn_write">글쓰기</a>
+                                </th:block>
+
                             </div>
                         </div>
 
@@ -256,42 +250,57 @@
                 actionForm.attr("action","/complaint/view");
                 actionForm.submit();
             });
-        });
 
-        // 검색 시 입력 값 변경
-        $('.board_searchform').on('submit', function () {
+            // 검색 시 입력 값 변경
+            $('.board_searchform').on('submit', function () {
 
-            let keyword = $('#searchKeyword').val();
-            let type = $('#searchType').val();
-            // 삼항 조건 연산자
-            if(type === 'P'){
-                keyword = ($('input[name="searchKeyword"]').val()==='Y')?1:0;
+                let keyword = $('#searchKeyword').val();
+                let type = $('#searchType').val();
+                // 삼항 조건 연산자
+                if(type === 'P'){
+                    keyword = ($('input[name="searchKeyword"]').val()==='Y')?1:0;
 
+                }
+                console.log('before submit =', $('input[name="searchKeyword"]').val());
+                $('input[name="searchKeyword"]').val(keyword);
+            });
+
+                /* 검색버튼 이벤트 처리 */
+                let searchForm=  $('.board_searchform');
+                $(".board_searchform input[type='submit']").on('click',function(e){
+                // alert("검색버튼 클릭");
+                //option의 select값 선택하지 않았을 때
+                // 필터 선택자 사용
+                if(!searchForm.find("option:selected").val()){
+                    alert('검색종류를 입력하세요');
+                    return false;
+                }
+                // 키워드값이 없을 때 -> 속성 선택자 사용
+                if(!searchForm.find("input[name='searchKeyword']").val()){
+                    alert('키워드를 입력하세요');
+                    return false;
+                }
+                // 검색 후 페이지 번호는 1페이지로 가도록 처리 => 찾아서 pageNum value를 1로 변경
+                searchForm.find("input[name='pageNum']").val("1");
+                e.preventDefault();
+                //폼 전송
+                searchForm.submit();
+            });
+
+            // 로그인 상태 아닐 시 글쓰기 버튼 클릭 이벤트
+            $('#btn_write_no_auth').on('click', function(e) {
+                e.preventDefault();
+                alert('로그인 후에 글쓰기 가능합니다.');
+                location.href = $(this).attr('href');
+            });
+
+            // 오류 메세지 출력
+            let errorMsg = `[[${errorMsg}]]`;
+            if(errorMsg) {
+                alert(errorMsg);
+                history.replaceState({}, null, null);
             }
-            console.log('before submit =', $('input[name="searchKeyword"]').val());
-            $('input[name="searchKeyword"]').val(keyword);
-        });
 
-        /* 검색버튼 이벤트 처리 */
-        let searchForm=  $('.board_searchform');
-        $(".board_searchform input[type='submit']").on('click',function(e){
-            // alert("검색버튼 클릭");
-            //option의 select값 선택하지 않았을 때
-            // 필터 선택자 사용
-            if(!searchForm.find("option:selected").val()){
-                alert('검색종류를 입력하세요');
-                return false;
-            }
-            // 키워드값이 없을 때 -> 속성 선택자 사용
-            if(!searchForm.find("input[name='searchKeyword']").val()){
-                alert('키워드를 입력하세요');
-                return false;
-            }
-            // 검색 후 페이지 번호는 1페이지로 가도록 처리 => 찾아서 pageNum value를 1로 변경
-            searchForm.find("input[name='pageNum']").val("1");
-            e.preventDefault();
-            //폼 전송
-            searchForm.submit();
         });
     </script>
 </body>

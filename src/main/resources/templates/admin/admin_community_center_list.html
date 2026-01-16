@@ -93,13 +93,14 @@
                                     <th scope="col">조회수</th>
                                 </tr>
                             </thead>
-                            <tbody th:if="${pageMaker.total == 0}">
-                                <tr>
+                            <tbody class="tb_text">
+                                <!--/* 데이터 없음 */-->
+                                <tr th:if="${pageMaker.total == 0}">
                                     <td colspan="5" class="no_data">게시글이 없습니다</td>
                                 </tr>
-                            </tbody>
-                            <tbody class="tb_text" th:each="board, iterStat : ${list}" th:object="${board}" th:with="no=${pageMaker.total - ((pageMaker.cri.pageNum - 1) * pageMaker.cri.amount)}">
-                                <tr>
+                                <!--/* //데이터 없음 */-->
+
+                                <tr th:each="board, iterStat : ${list}" th:object="${board}" th:with="no=${pageMaker.total - ((pageMaker.cri.pageNum - 1) * pageMaker.cri.amount)}">
                                     <td th:text="${no - iterStat.index}"></td>
                                     <td class="p_sub">
                                         <a th:href="@{/admin/community/view(cmntId=*{cmntId},pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="move" th:text="*{cmntTitle}"></a>

@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>자치회관 게시판 | 자치회관 | 영등포본동 주민센터</title>
+    <title>민원신청 | 우리동이야기 | 영등포본동 주민센터</title>
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
-    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_view.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_write.css}">
     <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/prefixfree.min.js}"></script>
-    <script>const menuName = '자치회관 게시판';</script>
+    <script>const menuName = '민원신청';</script>
     <script th:src="@{/js/ydpb.js}"></script>
 </head>
 <body>
@@ -37,7 +37,7 @@
                     <!-- location -->
                     <div class="location">
                         <div class="location_title">
-                            <h2>자치회관 게시판</h2>
+                            <h2>영등포본동 주민센터</h2>
                         </div>
                         <div class="location_path">
                             <span class="loc_home">홈</span>
@@ -46,9 +46,11 @@
                             <span class="loc_arrow">></span>
                             <span class="loc_text"><a th:href="@{/}">영등포본동</a></span>
                             <span class="loc_arrow">></span>
-                            <span class="loc_text"><a href="#">자치회관</a></span>
+                            <span class="loc_text"><a th:href="@{/}">우리동이야기</a></span>
                             <span class="loc_arrow">></span>
-                            <span class="loc_text">자치회관 게시판</span>
+                            <span class="loc_text">
+                                <a th:href="@{/}">민원신청</a>
+                            </span>
                         </div>
                         <div class="location_icon">
                             <ul class="loc_fixed_icon">
@@ -69,70 +71,60 @@
                     <!-- location -->
 
                     <!-- contents -->
-                    <div class="contents" id="board">
-                        <div class="board clearfix">
-                            <div class="bbs_wrap">
-                                <div class="bbs_info">
-                                    <div class="bbs_count">
-                                        <span class="line">
-                                            조회수
-                                            <strong th:text="${board.cmntCount}"></strong>
-                                        </span>
-                                        <span>
-                                            작성일
-                                            <strong th:text="${#dates.format(board.cmntDate, 'yyyy-MM-dd')}"></strong>
-                                        </span>
-                                    </div>
-                                </div>
-                                <table class="p-table">
+                    <div class="contents">
+                        <div class="board_write">
+                            <p class="text_alert alert_write"><span class="required_mark">필수항목</span> 표시는 필수 항목 입니다.</p>
+                            <form action="#" method="post" onreset="clearForm(this)">
+                                <table class="table_form">
+                                    <caption class="blind">자치회관 게시판 글쓰기</caption>
                                     <colgroup>
-                                        <col class="w20p">
-                                        <col>
+                                        <col class="col1">
+                                        <col class="col2">
                                     </colgroup>
                                     <tbody>
-                                        <tr>
-                                            <td colspan="2"><span class="td_title" th:text="${board.cmntTitle}"></span></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" class="td_text" th:text="${board.cmntContent}"></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">행정동</th>
-                                            <td>영등포본동</td>
-                                        </tr>
-                                        <!--/* 부서가 있을 때만 표시 */-->
-                                        <tr th:if="${board.cmntDepartment != null}">
-                                            <th scope="row">부서</th>
-                                            <td th:text="${board.cmntDepartment}"></td>
-                                        </tr>
-                                        <!--/* //부서가 있을 때만 표시 */-->
+                                    <tr>
+                                        <th scope="row">
+                                            <label for="comTitle">제목</label>
+                                            <span class="required_mark">필수항목</span>
+                                        </th>
+                                        <td>
+                                            <input type="text" name="comTitle" id="comTitle" class="input form_input" maxlength="300" required>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <label for="comContent">내용</label>
+                                            <span class="required_mark">필수항목</span>
+                                        </th>
+                                        <td>
+                                            <textarea name="comContent" id="comContent" class="input" rows="10" maxlength="4000" required></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">공개여부</th>
+                                        <td>
+                                            <div class="radio">
+                                                <input type="radio" name="comPublic" id="comPublic1" value="1" checked>
+                                                <label for="comPublic1">공개</label>
+                                            </div>
+                                            <div class="radio">
+                                                <input type="radio" name="comPublic" id="comPublic0" value="0">
+                                                <label for="comPublic0">비공개</label>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
-                                <div class="form_btns_wrap">
-                                    <div class="btns"></div>
-                                    <div class="btns">
-                                        <a class="p-btn" th:href="@{/community/list(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}">
-                                            목록
-                                            <span class="p-btn_write"></span>
-                                        </a>
-                                    </div>
+                                <div class="btns">
+                                    <a href="#" class="btn btn_default">목록</a>
+                                    <input type="submit" class="btn btn_write" value="저장">
+                                    <input type="reset" class="btn btn_cancel" value="다시쓰기">
                                 </div>
-                                <ul class="p-post">
-                                    <li class="p-post-move prev">
-                                        <strong class="p-post-move_title">이전글</strong>
-                                        <a href="#" class="p-post-move_link">2025년 상반기 영등포본동 자치회관 운영결과 보고서</a>
-                                    </li>
-                                    <li class="p-post-move next">
-                                        <strong class="p-post-move_title">다음글</strong>
-                                        <a href="#" class="p-post-move_link">2024년 상반기 영등포본동 자치회관 운영결과 보고서</a>
-                                    </li>
-                                </ul>
-                            </div>
+                            </form>
                         </div>
-
                     </div>
                     <!-- //contents -->
-
+                    
                     <!-- charge info -->
                     <div class="charge_info">
                         <ul>

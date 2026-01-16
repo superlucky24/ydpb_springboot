@@ -31,7 +31,7 @@ public class Criteria {
 검색조건을 배열로 만들어서 한번에 처리할 것임
 => 이 메서드를 이용해 MyBatis 동적태그 활용 가능
      */
-    public String[] getTypeArr() {
+    public String[] getSearchTypeArr() {
         //삼항조건 연산자 사용
         // 입력조건 없이 null이면 배열 생성
         // 있으면 문자열 한 글자씩 분할하여 배열로 리턴

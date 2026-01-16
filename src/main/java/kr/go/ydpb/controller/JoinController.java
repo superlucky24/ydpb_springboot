@@ -32,8 +32,6 @@ public class JoinController {
         boolean idExist = joinService.isIdExist(member.getMemId());
         if(!idExist && member.getMemPassword().equals(memPasswordRe)){ // 아이디가 중복되지 않고 비밀번호 일치 시
 
-
-
             joinService.addMember(member);
             rttr.addFlashAttribute("msg",member.getMemName()+"님 회원가입 성공!! 로그인해주세요");
             rttr.addFlashAttribute("member",member);

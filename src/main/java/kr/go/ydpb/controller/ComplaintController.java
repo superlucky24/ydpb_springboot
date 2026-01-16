@@ -13,6 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("admin/complaint")
 @AllArgsConstructor
@@ -24,7 +27,11 @@ public class ComplaintController {
     //매핑
     @GetMapping("list")
     public String complaintList(Model model, Criteria cri){
-        model.addAttribute("complaintList", complaintService.getComplaintWithPaging(cri));
+        List<ComplaintVO> complaintList = complaintService.getComplaintWithPaging(cri);
+        if(complaintList==null){
+            complaintList= new ArrayList<>();
+        }
+        model.addAttribute("complaintList", complaintList);
         int total = complaintService.getAllCount(cri);
         if(cri.getSearchType()!=null){
             total = complaintService.getAllSearchCount(cri);
@@ -44,8 +51,8 @@ public class ComplaintController {
         rttr.addAttribute("pageNum", cri.getPageNum());
         rttr.addAttribute("amount", cri.getAmount());
 
-        rttr.addAttribute("pageNum", cri.getSearchKeyword());
-        rttr.addAttribute("amount", cri.getSearchType());
+        rttr.addAttribute("searchKeyword", cri.getSearchKeyword());
+        rttr.addAttribute("searchType", cri.getSearchType());
         return "admin/admin_complaint_view";
     }
     @GetMapping("update")

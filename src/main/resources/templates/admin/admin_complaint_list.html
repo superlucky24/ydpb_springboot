@@ -132,9 +132,10 @@
                                     <th scope="col">처리상황</th>
                                 </tr>
                             </thead>
-                            <tbody class="tb_text"  th:each="complaint,stat : ${complaintList}">
+                            <tbody class="tb_text" >
 <!--                            반복 구간-->
-                                <tr>
+                                <tr th:each="complaint, stat : ${complaintList}"
+                                    th:if="${complaintList != null and !#lists.isEmpty(complaintList)}">
                                     <td>
                                         [[${pageMaker.total
                                         - ((pageMaker.cri.pageNum - 1) * pageMaker.cri.amount)
@@ -144,6 +145,14 @@
                                     <td th:text="${#dates.format(complaint.comDate,'yyyy/MM/dd')}"></td>
                                     <td th:text="${complaint.comPublic} == 1?'Y':'N'">[[${complaint.comPublic}]]</td>
                                     <td>[[${complaint.comStatus}]]</td>
+                                </tr>
+
+                                <tr th:if="${complaintList == null or #lists.isEmpty(complaintList)}">
+                                    <td></td>
+                                    <td class="p_sub" colspan="1"></td>
+                                    <td colspan="6" style="text-align:center; padding:30px;">
+                                        민원 검색 결과가 없습니다
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

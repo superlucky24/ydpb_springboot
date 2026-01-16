@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ydpb.mapper.ComplaintMapper">
+
+<!--   검색용 동적 sql 추가 -->
+    <sql id="criteria2">
+        <where>
+            <trim prefix="(" suffix=") ">
+                    <choose>
+                        <when test="searchType == 'T'.toString()">
+                            COMTITLE LIKE '%'||#{searchKeyword}||'%'
+                        </when>
+                        <when test="searchType == 'I'.toString()">
+                            COMID LIKE #{searchKeyword}
+                        </when>
+                        <when test="searchType == 'P'.toString()">
+                            COMPUBLIC LIKE #{searchKeyword}
+                        </when>
+                        <when test="searchType == 'S'.toString()">
+                            COMSTATUS LIKE #{searchKeyword}
+                        </when>
+                        <when test="searchType == 'D'.toString()">
+                            TO_CHAR(COMDATE,'YYYYMMDD')
+                            LIKE '%'||REPLACE(#{searchKeyword},'-','')||'%'
+                        </when>
+                    </choose>
+            </trim>
+        </where>
+    </sql>
+
+    <sql id="criteria">
+            <trim prefix="(" suffix=") ">
+                <choose>
+                    <when test="searchType == 'T'.toString()">
+                        COMTITLE LIKE '%'||#{searchKeyword}||'%'
+                    </when>
+                    <when test="searchType == 'I'.toString()">
+                        COMID LIKE #{searchKeyword}
+                    </when>
+                    <when test="searchType == 'P'.toString()">
+                        COMPUBLIC LIKE #{searchKeyword}
+                    </when>
+                    <when test="searchType == 'S'.toString()">
+                        COMSTATUS LIKE #{searchKeyword}
+                    </when>
+                    <when test="searchType == 'D'.toString()">
+                        TO_CHAR(COMDATE,'YYYYMMDD')
+                        LIKE '%'||REPLACE(#{searchKeyword},'-','')||'%'
+                    </when>
+                </choose>
+            </trim>
+    </sql>
+
+
+    <select id="getAllCount" resultType="int">
+        SELECT count(*) FROM tbl_complaint
+    </select>
+
+<!--    <select id="getAllComplaint" resultType="kr.go.ydpb.domain.ComplaintVO">-->
+<!--        <![CDATA[-->
+<!--        select * from-->
+<!--            (select A.* ,Rownum Rnum from-->
+<!--                    (select * from tbl_complaint order by comId desc)A)-->
+<!--        where Rnum >= #{start} and Rnum <= #{end}-->
+<!--        ]]>-->
+<!--    </select>-->
+
+    <!--    페이징 메서드 추가-->
+    <select id="getComplaintWithPaging" resultType="kr.go.ydpb.domain.ComplaintVO">
+		<![CDATA[
+        select
+            comId, comTitle, comDate, comPublic, comStatus, comContent,comAnswer,memId
+        from
+            (
+                select /*+INDEX_DESC(tbl_complaint SYS_C007051) */
+                    rownum rn, comId, comTitle, comDate, comPublic, comStatus, comContent,comAnswer,memId
+                from
+                    tbl_complaint
+                where
+                ]]>
+        <if test="searchType != null and searchKeyword != null and searchKeyword != ''">
+
+            <include refid="criteria"/> AND
+        </if>
+                    <![CDATA[  rownum <= #{pageNum} * #{amount}
+            )
+        where rn > (#{pageNum} -1) * #{amount}
+        ]]>
+    </select>
+
+<!--    검색 결과 갯수 파악-->
+    <select id="getAllSearchCount" resultType="int">
+        <![CDATA[
+    select
+        count(*)
+    from
+        tbl_complaint
+
+    ]]>
+        <include refid="criteria2"/>
+    </select>
+
+
+    <select id="getOneComplaint" resultType="kr.go.ydpb.domain.ComplaintVO">
+    <![CDATA[SELECT * FROM tbl_complaint
+                 WHERE ]]>
+            <![CDATA[comId = #{comId}]]>
+    </select>
+
+<!--    <select id="searchComplaint" resultType="kr.go.ydpb.domain.ComplaintVO">-->
+<!--        <![CDATA[-->
+<!--        select * from-->
+<!--            (select A.* ,Rownum Rnum from-->
+<!--                    (select * from tbl_complaint order by comId desc)A)-->
+<!--        <include refid="criteria"></include>-->
+<!--        where (Rnum >= #{start} and Rnum <= #{end}) and comTitle LIKE '%'||#{searchKeyword}||'%'-->
+<!--        ]]>-->
+<!--    </select>-->
+
+    <update id="updateComplaint" >
+        UPDATE tbl_complaint
+        SET
+            comAnswer = #{comAnswer},
+            comStatus = #{comStatus}
+        WHERE comId = #{comId}
+    </update>
+
+    <delete id="deleteComplaint">
+        DELETE FROM tbl_complaint WHERE comId = #{comId}
+    </delete>
+
+    <select id="getMember" resultType="kr.go.ydpb.domain.MemberVO">
+        SELECT * FROM tbl_member where memId = #{memId} and memPassword = #{memPassword} and memRole= 1
+    </select>
+
+
+</mapper>

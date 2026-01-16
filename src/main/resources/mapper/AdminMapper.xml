@@ -18,6 +18,23 @@
         ]]>
     </select>
 
+<!--    페이징 메서드 추가-->
+    <select id="getComplaintWithPaging" resultType="kr.go.ydpb.domain.ComplaintVO">
+		<![CDATA[
+        select
+            comId, comTitle, comDate, comPublic, comStatus, comContent,comAnswer,memId
+        from
+            (
+                select /*+INDEX_DESC(tbl_complaint complaint_ix) */
+                    rownum rn, comId, comTitle, comDate, comPublic, comStatus, comContent,comAnswer,memId
+                from
+                    tbl_complaint
+                where rownum <= #{pageNum} * #{amount}
+            )
+        where rn > (#{pageNum} -1) * #{amount}
+        ]]>
+    </select>
+
     <select id="getOneComplaint" resultType="kr.go.ydpb.domain.ComplaintVO">
         SELECT * FROM tbl_complaint WHERE comId = #{comId}
     </select>

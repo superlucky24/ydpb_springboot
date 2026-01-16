@@ -32,6 +32,13 @@ public class PageDTO {
         this.prev = this.startPage > 1;
         // 다음(next) 계산 = 다음으로 가는 링크의 경우 realEnd가 끝번호(endPage)보다 큰경우에만 존재
         this.next = this.endPage < this.realEnd;
+
+        if (total == 0) {
+            this.startPage = 1;
+            this.endPage = 1;
+            this.realEnd = 1;
+            return;
+        }
     }
 
 }

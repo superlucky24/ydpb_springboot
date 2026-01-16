@@ -5,20 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>민원답변목록 | 관리자페이지 | 영등포본동 주민센터</title>
-    <link rel="shortcut icon" href="../images/favicon.ico">
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/ydpb.css">
-    <link rel="stylesheet" href="../css/ydpb_community_center_list.css">
-    <script src="../js/jquery-1.12.4.min.js"></script>
-    <script src="../js/jquery-3.3.1.min.js"></script>
-    <script src="../js/prefixfree.min.js"></script>
-    <script>const menuName = '민원답변';</script>
-    <script src="../js/ydpb.js"></script>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_list.css}">
+    <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+<!--    <script>const menuName = '민원답변';</script>-->
+    <script th:src="@{/js/ydpb.js}"></script>
 </head>
 <body>
     <div id="wrap">
         <!-- header -->
-        <header class="header"></header>
+        <header class="header" th:replace="admin/common/admin_header_footer :: header"></header>
         <!-- //header -->
 
         <!-- search -->
@@ -29,7 +29,7 @@
         <div class="container">
             <div class="contents_wrap safe_area">
                 <!-- side menu -->
-                <aside class="side_menu"></aside>
+                <aside class="side_menu" th:replace="admin/common/admin_sidemenu :: side"></aside>
                 <!-- //side menu -->
 
                 <!-- main -->
@@ -37,60 +37,67 @@
                     <!-- location -->
                     <div class="location">
                         <div class="location_title">
-                            <h2>영등포본동 주민센터</h2>
+                            <h2>영등포본동 민원 처리</h2>
                         </div>
-                        <div class="location_path">
-                            <span class="loc_home">홈</span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text">
-                                <a href="..">동주민센터</a>
-                            </span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text">
-                                <a href="..">영등포본동</a>
-                            </span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text">
-                                <a href="..">관리자 페이지</a>
-                            </span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text">
-                                <a href="civil_complaint_list.html">민원답변 목록</a>
-                            </span>
-                        </div>
-                        <div class="location_icon">
-                            <ul class="loc_fixed_icon">
-                                <li><button type="button" class="loc_print">프린트</button></li>
-                                <li class="icon_sns">
-                                    <button type="button" class="loc_sns">SNS</button>
-                                    <div class="sns_list">
-                                        <a href="#" class="loc_sns_icon1">a</a>
-                                        <a href="#" class="loc_sns_icon2">a</a>
-                                        <a href="#" class="loc_sns_icon3">a</a>
-                                        <a href="#" class="loc_sns_icon4">a</a>
-                                        <a href="#" class="loc_sns_icon5">a</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+<!--                        <div class="location_path">-->
+<!--                            <span class="loc_home">홈</span>-->
+<!--                            <span class="loc_arrow">></span>-->
+<!--                            <span class="loc_text">-->
+<!--                                <a href="..">동주민센터</a>-->
+<!--                            </span>-->
+<!--                            <span class="loc_arrow">></span>-->
+<!--                            <span class="loc_text">-->
+<!--                                <a href="..">영등포본동</a>-->
+<!--                            </span>-->
+<!--                            <span class="loc_arrow">></span>-->
+<!--                            <span class="loc_text">-->
+<!--                                <a href="..">관리자 페이지</a>-->
+<!--                            </span>-->
+<!--                            <span class="loc_arrow">></span>-->
+<!--                            <span class="loc_text">-->
+<!--                                <a href="civil_complaint_list.html">민원답변 목록</a>-->
+<!--                            </span>-->
+<!--                        </div>-->
+<!--                        <div class="location_icon">-->
+<!--                            <ul class="loc_fixed_icon">-->
+<!--                                <li><button type="button" class="loc_print">프린트</button></li>-->
+<!--                                <li class="icon_sns">-->
+<!--                                    <button type="button" class="loc_sns">SNS</button>-->
+<!--                                    <div class="sns_list">-->
+<!--                                        <a href="#" class="loc_sns_icon1">a</a>-->
+<!--                                        <a href="#" class="loc_sns_icon2">a</a>-->
+<!--                                        <a href="#" class="loc_sns_icon3">a</a>-->
+<!--                                        <a href="#" class="loc_sns_icon4">a</a>-->
+<!--                                        <a href="#" class="loc_sns_icon5">a</a>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
                     </div>
                     <!-- location -->
 
                     <!-- contents -->
                     <div id="board" class="clearfix">
                         <div id="contents">
-                            <form action="#" class="board_searchform">
+                            <form th:action="@{/admin/complaint/list}" class="board_searchform" method="get">
                                 <fieldset>
                                     <legend>게시물검색</legend>
                                     <div class="p-search clearfix">
                                         <div class="p-form-group">
                                             <label for="searchType" class="skip">검색항목선택</label>
                                             <select name="searchType" id="searchType" title="검색항목선택" class="p-input">
-                                                <option value="title" selected="selected">제목</option>
+                                                <option value="T" th:selected="${pageMaker.cri.searchType == 'T'}">제목</option>
+                                                <option value="I" th:selected="${pageMaker.cri.searchType == 'I'}">글번호</option>
+                                                <option value="P" th:selected="${pageMaker.cri.searchType == 'P'}">공개 여부</option>
+                                                <option value="S" th:selected="${pageMaker.cri.searchType == 'S'}">처리 상황</option>
+                                                <option value="D" th:selected="${pageMaker.cri.searchType == 'D'}">신청일</option>
                                             </select>
                                             
                                             <label for="searchKeyword" class="skip"></label>
-                                            <input name="searchKeyword" id="searchKeyword" class="p-input" type="text" value>
+                                            <input name="searchKeyword" id="searchKeyword" class="p-input" type="text" >
+<!--                                        페이징용 데이터 같이 전송-->
+                                            <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum }"/>
+                                            <input type="hidden" name="amount" th:value="${pageMaker.cri.amount }"/>
                                             <span class="p-form-group__btn">
                                                 <input value="검색" type="submit" class="p-button">
                                             </span>
@@ -102,10 +109,10 @@
                         <div class="page_cou clearfix">
                             <p>
                                 총
-                                <em class="em_black">15</em>
+                                <em class="em_black">[[${pageMaker.total}]]</em>
                                 개 &nbsp;[
-                                <em class="em_b_black">1</em>
-                                / 2 페이지]
+                                <em class="em_b_black">[[${pageMaker.cri.pageNum}]]</em>
+                                / [[${pageMaker.realEnd}]] 페이지]
                             </p>
                         </div>
                         <table class="p_table">
@@ -125,59 +132,89 @@
                                     <th scope="col">처리상황</th>
                                 </tr>
                             </thead>
-                            <tbody class="tb_text">
-                                <tr>
-                                    <td>15</td>
-                                    <td class="p_sub"><a href="civil_complaint_view.html">지하철역 미화개선</a></td>
-                                    <td><time datetime="2025-07-09">2025.07.09</time></td>
-                                    <td>Y</td>
-                                    <td></td>
+                            <tbody class="tb_text" >
+<!--                            반복 구간-->
+                                <tr th:each="complaint, stat : ${complaintList}"
+                                    th:if="${complaintList != null and !#lists.isEmpty(complaintList)}">
+                                    <td>
+                                        [[${pageMaker.total
+                                        - ((pageMaker.cri.pageNum - 1) * pageMaker.cri.amount)
+                                        - stat.index}]]
+                                    </td>
+                                    <td class="p_sub "><a class="move" th:href="${complaint.comId}" >[[${complaint.comTitle}]]</a></td>
+                                    <td th:text="${#dates.format(complaint.comDate,'yyyy/MM/dd')}"></td>
+                                    <td th:text="${complaint.comPublic} == 1?'Y':'N'">[[${complaint.comPublic}]]</td>
+                                    <td>[[${complaint.comStatus}]]</td>
                                 </tr>
-                                <tr>
-                                    <td>14</td>
-                                    <td class="p_sub"><a href="civil_complaint_view.html">지하철역 미화개선</a></td>
-                                    <td><time datetime="2025-07-09">2025.07.09</time></td>
-                                    <td>N</td>
-                                    <td>진행중</td>
-                                </tr>
-                                <tr>
-                                    <td>13</td>
-                                    <td class="p_sub"><a href="civil_complaint_view.html">지하철역 미화개선</a></td>
-                                    <td><time datetime="2025-07-09">2025.07.09</time></td>
-                                    <td>Y</td>
-                                    <td>완료</td>
+
+                                <tr th:if="${complaintList == null or #lists.isEmpty(complaintList)}">
+
+                                    <td colspan="5" class="no_data">
+                                        민원 검색 결과가 없습니다
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="p_ctrl">
                             <div class="p_control">
-                                <span class="p-link_b">
-                                    <strong title="현재 1페이지" class="p_link active">
-                                        1
-                                    </strong>
-                                    <a href="#" class="p_link">2</a>
+                                <span class="p-link_b" >
+
+                                    <th:block th:if="${pageMaker.realEnd>=10}">
+                                        <a th:href="1" class="p_link"><<</a>
+                                    </th:block>
+                                    <th:block th:if="${pageMaker.realEnd>=10 }">
+                                        <a  th:href="${pageMaker.startPage - 1 < 1 ? 1 : pageMaker.startPage - 1}" class="p_link"><</a>
+                                    </th:block>
+                                    <span th:each="i : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+
+                                        <th:block th:if="${pageMaker.cri.pageNum == i}">
+                                            <strong title="" class="p_link active">
+                                                [[${i}]]
+                                            </strong>
+                                        </th:block>
+                                        <th:block th:if="${pageMaker.cri.pageNum != i}">
+                                            <a th:href="${i}" class="p_link">[[${i}]]</a>
+                                        </th:block>
+                                    </span>
+                                    <th:block th:if="${pageMaker.realEnd>=10}">
+                                        <a th:href="${pageMaker.endPage +1 }" class="p_link">></a>
+                                    </th:block>
+
+                                    <th:block th:if="${pageMaker.realEnd>=10}">
+                                        <a th:href="${pageMaker.realEnd }" class="p_link">>></a>
+                                    </th:block>
                                 </span>
                             </div>
                         </div>
-                        <div class="board_btm_btns">
-                            <a href="civil_complaint_write.html" class="btn btn_write">글쓰기</a>
-                        </div>
+<!--                        <div class="board_btm_btns">-->
+<!--                            <a href="admin/complaint/write" class="btn btn_write">글쓰기</a>-->
+<!--                        </div>-->
                     </div>
+<!--                데이터 전송용 폼-->
+                    <form id="actionForm" th:href="@{/admin/complaint/list}" method="get">
+                        <!-- hidden pageNum, amount 값 전송-->
+                        <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum }"/>
+                        <input type="hidden" name="amount" th:value="${pageMaker.cri.amount }"/>
+
+<!--                     검색용 데이터 같이 전송-->
+                        <input name="searchKeyword"  type="hidden" th:value="${pageMaker.cri.searchKeyword }" >
+                        <input name="searchType"  type="hidden" th:value="${pageMaker.cri.searchType }" >
+                    </form>
                     <!-- //contents -->
                     
                     <!-- charge info -->
-                    <div class="charge_info">
-                        <ul>
-                            <li>
-                                <span class="info_name">담당부서</span>
-                                <span>영등포본동</span>
-                            </li>
-                            <li>
-                                <span class="info_name">담당전화번호</span>
-                                <span>02-2670-1026</span>
-                            </li>
-                        </ul>
-                    </div>
+<!--                    <div class="charge_info">-->
+<!--                        <ul>-->
+<!--                            <li>-->
+<!--                                <span class="info_name">담당부서</span>-->
+<!--                                <span>영등포본동</span>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <span class="info_name">담당전화번호</span>-->
+<!--                                <span>02-2670-1026</span>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
                     <!-- //charge info -->
                 </main>
                 <!-- //main -->
@@ -186,8 +223,71 @@
         <!-- //container -->
 
         <!-- footer -->
-        <footer class="footer"></footer>
+        <footer class="footer" th:replace="admin/common/admin_header_footer :: footer"></footer>
         <!-- //footer -->
     </div>
+    <script>
+        $(document).ready(function(){
+        // 페이지 번호 클릭 시 이벤트
+            var actionForm=	$('#actionForm');
+            //이벤트
+            $('.p_ctrl .p_control .p-link_b a').on('click',function(e){
+                e.preventDefault();// 이벤트 차단
+                // alert('aa');
+                actionForm.attr("action","/admin/complaint/list");
+                /* 폼 input name 속성값 pageNum의 value 값을 .p-link_b a href 값으로 변경  */
+                actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+                actionForm.submit();
+            });
+
+        // 글 제목 클릭 시 이벤트
+            $('.p_sub .move').on('click',function(e){
+                e.preventDefault();// 이벤트 차단
+                // alert('bb');
+                var comId = $(this).data("comid");
+                //move 클래스에 hidden으로 번호 전송하기 위해 append()사용
+                actionForm.append("<input type='hidden' name='comId' value='"
+                    + $(this).attr("href")+ "'>");
+                actionForm.attr("action","/admin/complaint/view");
+                actionForm.submit();
+            });
+        });
+
+        // 검색 시 입력 값 변경
+        $('.board_searchform').on('submit', function () {
+
+            let keyword = $('#searchKeyword').val();
+            let type = $('#searchType').val();
+            // 삼항 조건 연산자
+            if(type === 'P'){
+                keyword = ($('input[name="searchKeyword"]').val()==='Y')?1:0;
+
+            }
+            console.log('before submit =', $('input[name="searchKeyword"]').val());
+            $('input[name="searchKeyword"]').val(keyword);
+        });
+
+        /* 검색버튼 이벤트 처리 */
+        let searchForm=  $('.board_searchform');
+        $(".board_searchform input[type='submit']").on('click',function(e){
+            // alert("검색버튼 클릭");
+            //option의 select값 선택하지 않았을 때
+            // 필터 선택자 사용
+            if(!searchForm.find("option:selected").val()){
+                alert('검색종류를 입력하세요');
+                return false;
+            }
+            // 키워드값이 없을 때 -> 속성 선택자 사용
+            if(!searchForm.find("input[name='searchKeyword']").val()){
+                alert('키워드를 입력하세요');
+                return false;
+            }
+            // 검색 후 페이지 번호는 1페이지로 가도록 처리 => 찾아서 pageNum value를 1로 변경
+            searchForm.find("input[name='pageNum']").val("1");
+            e.preventDefault();
+            //폼 전송
+            searchForm.submit();
+        });
+    </script>
 </body>
 </html>

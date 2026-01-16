@@ -8,4 +8,6 @@ import java.lang.reflect.Member;
 @Mapper
 public interface JoinMapper {
     public void insertMember(MemberVO vo);
+//    아이디 중복 확인
+    public int countById(String memId);
 }

@@ -19,4 +19,9 @@ public class JoinServiceImpl implements JoinService{
     public void addMember(MemberVO vo) {
         joinMapper.insertMember(vo);
     }
+
+    @Override
+    public boolean isIdExist(String memId) {
+        return joinMapper.countById(memId) > 0;
+    }
 }

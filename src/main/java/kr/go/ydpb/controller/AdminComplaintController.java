@@ -3,7 +3,6 @@ package kr.go.ydpb.controller;
 import kr.go.ydpb.domain.ComplaintVO;
 import kr.go.ydpb.domain.Criteria;
 import kr.go.ydpb.domain.PageDTO;
-import kr.go.ydpb.service.AdminService;
 import kr.go.ydpb.service.ComplaintService;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -19,7 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping("admin/complaint")
 @AllArgsConstructor
-public class ComplaintController {
+public class AdminComplaintController {
     //주입
     @Setter(onMethod_ = @Autowired)
     private ComplaintService complaintService;

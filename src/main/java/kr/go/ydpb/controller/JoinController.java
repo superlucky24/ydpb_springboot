@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collections;
 import java.util.Map;
+import java.time.LocalDate;
 
 @Controller
 @AllArgsConstructor
@@ -22,7 +23,10 @@ public class JoinController {
 
     @GetMapping("join")
     public String join( Model model){
-        model.addAttribute("member",new MemberVO());
+        MemberVO member = new MemberVO();
+        member.setMemGender("남");
+        member.setMemNews("Y");
+        model.addAttribute("member",member);
         return "member/join";
     }
 
@@ -30,6 +34,12 @@ public class JoinController {
     public String doJoin(@ModelAttribute MemberVO member , RedirectAttributes rttr, @RequestParam("memPasswordRe") String memPasswordRe){
 
         boolean idExist = joinService.isIdExist(member.getMemId());
+        if (member.getMemBirth() != null &&
+            member.getMemBirth().toLocalDate().isAfter(LocalDate.now())) {
+
+            rttr.addFlashAttribute("msg", "생년월일은 오늘 이후일 수 없습니다.");
+            return "redirect:/member/join";
+        }
         if(!idExist && member.getMemPassword().equals(memPasswordRe)){ // 아이디가 중복되지 않고 비밀번호 일치 시
 
             joinService.addMember(member);

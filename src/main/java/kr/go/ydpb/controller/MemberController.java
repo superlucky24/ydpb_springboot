@@ -18,7 +18,6 @@ public class MemberController {
 
     private MemberService service;
 
-
     @GetMapping("/login")
     public String Login() {
         return "member/login"; // 로그인 HTML 경로

@@ -74,7 +74,13 @@
                     <div class="contents">
                         <div class="board_write">
                             <p class="text_alert alert_write"><span class="required_mark">필수항목</span> 표시는 필수 항목 입니다.</p>
-                            <form action="#" method="post" onreset="clearForm(this)">
+                            <form th:action="@{/complaint/write}" method="post">
+                                <input type="hidden" name="memId" th:value="${session.memId}">
+                                <input type="hidden" name="pageNum" th:value="${cri.pageNum}">
+                                <input type="hidden" name="amount" th:value="${cri.amount}">
+                                <input type="hidden" name="searchType" th:value="${cri.searchType}">
+                                <input type="hidden" name="searchKeyword" th:value="${cri.searchKeyword}">
+
                                 <table class="table_form">
                                     <caption class="blind">자치회관 게시판 글쓰기</caption>
                                     <colgroup>
@@ -116,7 +122,7 @@
                                     </tbody>
                                 </table>
                                 <div class="btns">
-                                    <a href="#" class="btn btn_default">목록</a>
+                                    <a th:href="@{/complaint/list(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="btn btn_default">목록</a>
                                     <input type="submit" class="btn btn_write" value="저장">
                                     <input type="reset" class="btn btn_cancel" value="다시쓰기">
                                 </div>
@@ -149,5 +155,16 @@
         <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
         <!-- //footer -->
     </div>
+
+    <script>
+        $(document).ready(function() {
+            // 오류 메세지 출력
+            let errorMsg = `[[${errorMsg}]]`;
+            if(errorMsg) {
+                alert(errorMsg);
+                history.replaceState({}, null, null);
+            }
+        });
+    </script>
 </body>
 </html>

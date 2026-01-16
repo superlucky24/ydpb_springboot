@@ -132,10 +132,14 @@
                                     <th scope="col">처리상황</th>
                                 </tr>
                             </thead>
-                            <tbody class="tb_text"  th:each="complaint : ${complaintList}">
+                            <tbody class="tb_text"  th:each="complaint,stat : ${complaintList}">
 <!--                            반복 구간-->
                                 <tr>
-                                    <td>[[${complaint.comId}]]</td>
+                                    <td>
+                                        [[${pageMaker.total
+                                        - ((pageMaker.cri.pageNum - 1) * pageMaker.cri.amount)
+                                        - stat.index}]]
+                                    </td>
                                     <td class="p_sub "><a class="move" th:href="${complaint.comId}" >[[${complaint.comTitle}]]</a></td>
                                     <td th:text="${#dates.format(complaint.comDate,'yyyy/MM/dd')}"></td>
                                     <td th:text="${complaint.comPublic} == 1?'Y':'N'">[[${complaint.comPublic}]]</td>

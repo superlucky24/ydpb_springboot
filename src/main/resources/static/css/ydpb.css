@@ -1125,6 +1125,12 @@ textarea.input {
     vertical-align: middle;
     background: url(../images/member/asterisk.png) no-repeat center;
 }
+table tr .no_data {
+    padding: 50px 0;
+    color: #ec6d65;
+    text-align: center;
+    background: #f9f9f9;
+}
 
 /* 레이어 경고창 */
 .layer_alert {

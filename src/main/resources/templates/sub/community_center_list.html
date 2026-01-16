@@ -115,24 +115,29 @@
                                 <col style="width: 10%;">
                             </colgroup>
                             <thead>
-                            <tr>
-                                <th scope="col">번호</th>
-                                <th scope="col">제목</th>
-                                <th scope="col">부서</th>
-                                <th scope="col">작성일</th>
-                                <th scope="col">조회수</th>
-                            </tr>
+                                <tr>
+                                    <th scope="col">번호</th>
+                                    <th scope="col">제목</th>
+                                    <th scope="col">부서</th>
+                                    <th scope="col">작성일</th>
+                                    <th scope="col">조회수</th>
+                                </tr>
                             </thead>
+                            <tbody th:if="${pageMaker.total == 0}">
+                                <tr>
+                                    <td colspan="5" class="no_data">게시글이 없습니다</td>
+                                </tr>
+                            </tbody>
                             <tbody class="tb_text" th:each="board, iterStat : ${list}" th:object="${board}" th:with="no=${pageMaker.total - ((pageMaker.cri.pageNum - 1) * pageMaker.cri.amount)}">
-                            <tr>
-                                <td th:text="${no - iterStat.index}"></td>
-                                <td class="p_sub">
-                                    <a th:href="@{/community/view(cmntId=*{cmntId},pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="move" th:text="*{cmntTitle}"></a>
-                                </td>
-                                <td th:text="*{cmntDepartment}"></td>
-                                <td><time th:datetime="*{cmntDate}" th:text="${#dates.format(board.cmntDate, 'yyyy.MM.dd')}"></time></td>
-                                <td th:text="*{cmntCount}"></td>
-                            </tr>
+                                <tr>
+                                    <td th:text="${no - iterStat.index}"></td>
+                                    <td class="p_sub">
+                                        <a th:href="@{/community/view(cmntId=*{cmntId},pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="move" th:text="*{cmntTitle}"></a>
+                                    </td>
+                                    <td th:text="*{cmntDepartment}"></td>
+                                    <td><time th:datetime="*{cmntDate}" th:text="${#dates.format(board.cmntDate, 'yyyy.MM.dd')}"></time></td>
+                                    <td th:text="*{cmntCount}"></td>
+                                </tr>
                             </tbody>
                         </table>
 

@@ -93,6 +93,11 @@
                                     <th scope="col">조회수</th>
                                 </tr>
                             </thead>
+                            <tbody th:if="${pageMaker.total == 0}">
+                                <tr>
+                                    <td colspan="5" class="no_data">게시글이 없습니다</td>
+                                </tr>
+                            </tbody>
                             <tbody class="tb_text" th:each="board, iterStat : ${list}" th:object="${board}" th:with="no=${pageMaker.total - ((pageMaker.cri.pageNum - 1) * pageMaker.cri.amount)}">
                                 <tr>
                                     <td th:text="${no - iterStat.index}"></td>

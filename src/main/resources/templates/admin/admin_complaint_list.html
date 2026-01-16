@@ -147,11 +147,11 @@
                             <div class="p_control">
                                 <span class="p-link_b" >
 
-                                    <th:block th:if="${pageMaker.prev and pageMaker.realEnd>=10}">
-                                        <a th:href="1"><<</a>
+                                    <th:block th:if="${pageMaker.realEnd>=10}">
+                                        <a th:href="1" class="p_link"><<</a>
                                     </th:block>
-                                    <th:block th:if="${pageMaker.prev and pageMaker.realEnd>=10}">
-                                        <a th:href="${pageMaker.startPage -1 }"><</a>
+                                    <th:block th:if="${pageMaker.realEnd>=10 }">
+                                        <a  th:href="${pageMaker.startPage - 1 < 1 ? 1 : pageMaker.startPage - 1}" class="p_link"><</a>
                                     </th:block>
                                     <span th:each="i : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
 
@@ -164,12 +164,12 @@
                                             <a th:href="${i}" class="p_link">[[${i}]]</a>
                                         </th:block>
                                     </span>
-                                    <th:block th:if="${pageMaker.next and pageMaker.realEnd>=10}">
-                                        <a th:href="${pageMaker.endPage +1 }">></a>
+                                    <th:block th:if="${pageMaker.realEnd>=10}">
+                                        <a th:href="${pageMaker.endPage +1 }" class="p_link">></a>
                                     </th:block>
 
-                                    <th:block th:if="${pageMaker.next and pageMaker.realEnd>=10}">
-                                        <a th:href="${pageMaker.realEnd }">>></a>
+                                    <th:block th:if="${pageMaker.realEnd>=10}">
+                                        <a th:href="${pageMaker.realEnd }" class="p_link">>></a>
                                     </th:block>
                                 </span>
                             </div>
@@ -258,7 +258,7 @@
         /* 검색버튼 이벤트 처리 */
         let searchForm=  $('.board_searchform');
         $(".board_searchform input[type='submit']").on('click',function(e){
-            alert("검색버튼 클릭");
+            // alert("검색버튼 클릭");
             //option의 select값 선택하지 않았을 때
             // 필터 선택자 사용
             if(!searchForm.find("option:selected").val()){

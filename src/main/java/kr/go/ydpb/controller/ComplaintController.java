@@ -77,8 +77,8 @@ public class ComplaintController {
         rttr.addAttribute("pageNum", cri.getPageNum());
         rttr.addAttribute("amount", cri.getAmount());
 
-        rttr.addAttribute("pageNum", cri.getSearchKeyword());
-        rttr.addAttribute("amount", cri.getSearchType());
+        rttr.addAttribute("searchKeyword", cri.getSearchKeyword());
+        rttr.addAttribute("searchType", cri.getSearchType());
 
         // 삭제 후 목록
         return "redirect:/admin/complaint/list";

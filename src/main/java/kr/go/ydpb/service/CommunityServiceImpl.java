@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @AllArgsConstructor
@@ -19,8 +21,30 @@ public class CommunityServiceImpl implements CommunityService{
     private CommunityMapper mapper;
 
     @Override
-    public void register(CommunityVO board, MultipartFile uploadFile) {
+    public void register(CommunityVO board, MultipartFile file1, MultipartFile file2) {
         mapper.insert(board);
+
+        String uploadDir = "C:/yoonsungmin/ydpb_springboot/upload";
+
+        if (file1 != null && !file1.isEmpty()) {
+            saveFile(file1, uploadDir);
+        }
+        if (file2 != null && !file2.isEmpty()) {
+            saveFile(file2, uploadDir);
+        }
+    }
+
+    private void saveFile(MultipartFile file, String uploadDir) {
+        String originalName = file.getOriginalFilename();
+        String uuid = UUID.randomUUID().toString();
+        String saveName = uuid + "_" + originalName;
+
+        try {
+            file.transferTo(new File(uploadDir, saveName));
+            log.info("파일 저장 완료: {}", saveName);
+        } catch (Exception e) {
+            throw new RuntimeException("파일 저장 실패", e);
+        }
     }
 
     @Override

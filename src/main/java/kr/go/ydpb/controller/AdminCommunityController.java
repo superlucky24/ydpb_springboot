@@ -39,17 +39,29 @@ public class AdminCommunityController {
 
     /* 글 등록 */
     @PostMapping("/write")
-    public String register(CommunityVO board, @RequestParam("uploadFile") MultipartFile uploadFile, RedirectAttributes rttr) {
+    public String register(
+            CommunityVO board,
+            @RequestParam("file_1") MultipartFile file1,
+            @RequestParam("file_2") MultipartFile file2,
+            RedirectAttributes rttr) {
+
 
         log.info("register controller => {}", board);
-        log.info("파일명 => {}", uploadFile.getOriginalFilename());
-        log.info("파일 크기 => {}", uploadFile.getSize());
 
-        service.register(board, uploadFile);
+        if (!file1.isEmpty()) {
+            log.info("file1 => {}", file1.getOriginalFilename());
+        }
+        if (!file2.isEmpty()) {
+            log.info("file2 => {}", file2.getOriginalFilename());
+        }
+
+        service.register(board, file1, file2);
 
         rttr.addFlashAttribute("result", board.getCmntId());
-        return "redirect:/admin/community/list"; // 저장 후 목록으로 이동
+        return "redirect:/admin/community/list";
     }
+
+
 
     /* 상세 보기 */
     @GetMapping("/view")

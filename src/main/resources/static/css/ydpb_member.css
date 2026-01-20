@@ -465,3 +465,11 @@
     -webkit-appearance: auto;
     -moz-appearance: auto;
 }
+
+/* 추가 0120 귀환 */
+.cautionText{
+    color: red;
+}
+.cautionBorder{
+    border-color: red;
+}

@@ -19,6 +19,7 @@ public class JoinServiceImpl implements JoinService{
 
     @Override
     public void addMember(MemberVO vo) {
+
         //테스트를 위해 암호화 기능 주석 처리
         //vo.setMemPassword(encoder.encode(vo.getMemPassword()));
         joinMapper.insertMember(vo);

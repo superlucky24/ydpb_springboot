@@ -13,7 +13,7 @@ Spring MVC 구조를 기반으로 하여 **회원 관리, 자치회관 관리, �
 - **Backend**: Spring Boot, Spring MVC  
 - **Persistence**: MyBatis  
 - **Database**:  Oracle Database Express Edition (XE) Release 11.2.0.2.0 (11gR2)
-- **Frontend**: Thymeleaf, HTML/CSS  
+- **Frontend**: Thymeleaf, HTML/CSS , javaScript
 - **IDE**: IntelliJ 
 - **Version Control**: Git & GitHub  
 

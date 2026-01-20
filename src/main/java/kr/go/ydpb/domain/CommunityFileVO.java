@@ -13,5 +13,5 @@ public class CommunityFileVO {
     private String uploadPath;
 
     private String altText;      // 대체 텍스트
-    private String insertYn;     // 'Y' / 'N' 형태로 저장하는 게 편함
+    private String insertYn;     // 'Y' / 'N' 형태
 }

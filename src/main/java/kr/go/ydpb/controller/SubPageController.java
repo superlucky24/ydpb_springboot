@@ -12,12 +12,19 @@ public class SubPageController {
     public String status(){
         return "sub/status";
     }
+
     @GetMapping("/location")
     public String location() {
         return "sub/location";
     }
+
     @GetMapping ("/complaint_sector")
     public String complaintSector(){
         return "sub/complaint_sector";
     }
+
+    @GetMapping("/hunjang")
+    public String hunjang(){ return "sub/hunjang";}
+
+
 }

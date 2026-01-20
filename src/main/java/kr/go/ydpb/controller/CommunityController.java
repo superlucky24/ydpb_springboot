@@ -4,6 +4,7 @@ import kr.go.ydpb.domain.Criteria;
 import kr.go.ydpb.domain.PageDTO;
 import kr.go.ydpb.service.CommunityService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,11 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @RequestMapping("/community/*")
 public class CommunityController {
+    @Autowired
     private CommunityService service;
 
     /* 목록 */
     @GetMapping("/list")
-    public String list(Criteria cri, Model model) {
+    public String list(@ModelAttribute("cri") Criteria cri, Model model) {
         model.addAttribute("list", service.getList(cri));
         model.addAttribute("pageMaker", new PageDTO(cri, service.getTotal(cri)));
         return "sub/community_center_list";
@@ -27,6 +29,7 @@ public class CommunityController {
     public String view(@RequestParam("cmntId") Long cmntId, @ModelAttribute("cri") Criteria cri, Model model) {
         service.increaseCount(cmntId);
         model.addAttribute("board", service.get(cmntId));
+        model.addAttribute("cri", cri);
         return "sub/community_center_view";
     }
 }

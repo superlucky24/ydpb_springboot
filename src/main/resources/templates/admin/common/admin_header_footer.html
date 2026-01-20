@@ -47,6 +47,7 @@
                 <!-- 관리자 -->
 
                     <a th:href="@{/admin/member/list}" class="admin_menu">관리자메뉴</a>
+                    <a th:if="${session.memId != null} && ${session.admin == 1}" th:href="@{/admin/member/list}" class="admin_menu">관리자메뉴</a>
 
                 </div>
             </div>

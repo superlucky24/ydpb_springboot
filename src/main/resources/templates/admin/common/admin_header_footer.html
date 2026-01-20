@@ -18,24 +18,17 @@
 <div id="wrap">
 
     <!-- header -->
-    <div class="header admin_header" th:fragment="admin_header">
-        <div class="gnb">
-            <div class="safe_area">
-                <h1>
-                    <a th:href="@{/}"><img th:src="@{/images/common/header_logo.png}" alt="희망 행복 미래도시 영등포"></a>
-                </h1>
 
-                <!-- 로그아웃 영역 -->
-                <div class="login_area">
-                    <a th:if="${session.memId != null}" th:text="${session.memId} + '님'"></a>
-                    <a th:if="${session.memId != null}" th:href="@{/logout}" class="icon_logout">로그아웃</a>
-                </div>
-            </div>
-        </div>
-    </div>
     <header class="header admin_header" th:fragment="header">
         <div class="gnb">
             <div class="safe_area">
+                <h1 th:if="${isAdminPage}">
+                    <a th:href="@{/}" class="admin_menu">
+                        <img th:src="@{/images/common/header_logo.png}" alt="희망 행복 미래도시 영등포">
+                    </a>
+                </h1>
+
+
 
                 <div class="top_menu">
                     <strong class="admin_title">영등포본동 주민센터 관리자</strong>
@@ -46,8 +39,15 @@
 
                 <!-- 관리자 -->
 
-                    <a th:href="@{/admin/member/list}" class="admin_menu">관리자메뉴</a>
+                    <a th:if="${isAdminPage}"
+                       th:href="@{/admin/member/list}"
+                       class="admin_menu"
+                       style="background-image:url('/images/sub/blank.png');">
+                        관리자메뉴
+                    </a>
 
+                    <a th:if="${isAdminPage}" th:text="${session.memId} + '님'"></a>
+                    <a th:if="${isAdminPage}" th:href="@{/logout}" class="icon_logout">로그아웃</a>
                 </div>
             </div>
         </div>

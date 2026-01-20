@@ -10,46 +10,13 @@ Spring MVC 구조를 기반으로 하여 **회원 관리, 자치회관 관리, �
 ---
 
 ## 🛠 사용 기술
-- **Backend**: Spring Boot, Spring MVC  
-- **Persistence**: MyBatis  
-- **Database**:  Oracle Database Express Edition (XE) Release 11.2.0.2.0 (11gR2)
-- **Frontend**: Thymeleaf, HTML/CSS , javaScript
-- **IDE**: IntelliJ 
-- **Version Control**: Git & GitHub  
+- **Backend**: ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat&logo=springboot&logoColor=white) <img src="https://img.shields.io/badge/SpringMVC-8FFF00?style=flat&logo=SpringMVC&logoColor=000000"/>  <img src="https://img.shields.io/badge/JAVA-8F0000?style=flat&logo=Java&logoColor=4479A1"/>
+- **Persistence**: ![MyBatis](https://img.shields.io/badge/MyBatis-000000?style=flat)  
+- **Database**:  <img src="https://img.shields.io/badge/Oracle-F80000?style=flat&logo=Oracle&logoColor=4479A1"/> Oracle Database Express Edition (XE) Release 11.2.0.2.0 (11gR2) 
+- **Frontend**: ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-005F0F?style=flat&logo=thymeleaf)  ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)  ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+- **IDE**: ![IntelliJ](https://img.shields.io/badge/IntelliJ-000000?style=flat&logo=intellijidea) 
+- **Version Control**: ![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github)  
 
-## 🛠 Tech Stack
-
-### Backend
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" width="40"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" width="40"/>
-
-### Persistence
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mybatis/mybatis-original.svg" width="40"/>
-
-### Database
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg" width="40"/>
-
-### Frontend
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" width="40"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="40"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="40"/>
-
-### Tools
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/intellij/intellij-original.svg" width="40"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" width="40"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="40"/>
-
-
-## 🛠 Tech Stack
-
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat&logo=springboot&logoColor=white)
-![MyBatis](https://img.shields.io/badge/MyBatis-000000?style=flat)
-![Oracle](https://img.shields.io/badge/Oracle-Oracle-red?style=flat&logo=oracle)
-![Thymeleaf](https://img.shields.io/badge/Thymeleaf-005F0F?style=flat&logo=thymeleaf)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
-![IntelliJ](https://img.shields.io/badge/IntelliJ-000000?style=flat&logo=intellijidea)
-![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github)
 
 ---
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -1470,13 +1470,17 @@
 
                     <a th:if="${session.memId != null}" th:text="${session.memId} + '님'"></a>
                     <a th:if="${session.memId != null}" th:href="@{/logout}" class="icon_logout">로그아웃</a>
+                    <a th:if="${session.admin == 1}" th:href="@{/admin/member/list}" class="admin_menu" style="background-image:url('/images/sub/blank.png');">관리자메뉴</a>
+
+
                 </div>
             </div>
         </div>
         <!-- /GNB -->
-        <div class="header" th:if="${session.admin == 1}" th:insert="~{/admin/common/admin_header_footer::header}"/>
-
+        <header class="header" th:if="${session.admin == 1}" th:insert="~{/admin/common/admin_header_footer::header}"></header>
+    </header>
     </div>
+
     <!-- search -->
     <div class="search" th:fragment="search">
         <div id="contents_search">
@@ -1518,7 +1522,9 @@
             </div>
         </div>
     </div>
+
     <!-- //search -->
+
     <!-- //header -->
 
     <!-- container -->

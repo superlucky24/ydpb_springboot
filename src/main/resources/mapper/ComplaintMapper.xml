@@ -136,5 +136,19 @@
         SELECT * FROM tbl_member where memId = #{memId} and memPassword = #{memPassword} and memRole= 1
     </select>
 
+    <insert id="insertComplaint">
+        INSERT INTO tbl_complaint (comId, comTitle, comPublic, comContent, memId)
+        VALUES (seq_complaint.nextval, #{comTitle}, #{comPublic}, #{comContent}, #{memId})
+    </insert>
+
+    <update id="updateComplaintUser" >
+        UPDATE tbl_complaint
+        SET
+            comTitle = #{comTitle},
+            comPublic = #{comPublic},
+            comContent = #{comContent}
+        WHERE comId = #{comId}
+    </update>
+
 
 </mapper>

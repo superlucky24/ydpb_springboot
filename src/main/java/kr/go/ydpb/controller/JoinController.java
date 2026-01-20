@@ -1,5 +1,6 @@
 package kr.go.ydpb.controller;
 
+import jakarta.validation.Valid;
 import kr.go.ydpb.domain.MemberVO;
 import kr.go.ydpb.service.JoinService;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -31,7 +33,10 @@ public class JoinController {
     }
 
     @PostMapping("join")
-    public String doJoin(@ModelAttribute MemberVO member , RedirectAttributes rttr, @RequestParam("memPasswordRe") String memPasswordRe){
+    public String doJoin(@Valid MemberVO member ,
+                         BindingResult bindingResult,
+                         RedirectAttributes rttr,
+                         @RequestParam("memPasswordRe") String memPasswordRe){
 
         boolean idExist = joinService.isIdExist(member.getMemId());
         if (member.getMemBirth() != null &&
@@ -40,7 +45,7 @@ public class JoinController {
             rttr.addFlashAttribute("msg", "생년월일은 오늘 이후일 수 없습니다.");
             return "redirect:/member/join";
         }
-        if(!idExist && member.getMemPassword().equals(memPasswordRe)){ // 아이디가 중복되지 않고 비밀번호 일치 시
+        if(!idExist && member.getMemPassword().equals(memPasswordRe) && !bindingResult.hasErrors()){ // 아이디가 중복되지 않고 비밀번호 일치 시
 
             joinService.addMember(member);
             rttr.addFlashAttribute("msg",member.getMemName()+"님 회원가입 성공!! 로그인해주세요");
@@ -48,7 +53,7 @@ public class JoinController {
             return "redirect:/";
         }
         else{// 중복 아이디 존재하거나 비밀번호 불일치
-            rttr.addFlashAttribute( "msg","회원가입 실패 : 아이디 중복");
+            rttr.addFlashAttribute( "msg","회원가입 실패 : 다시 가입해주세요");
             return "redirect:/member/join";
         }
         //추후 수정

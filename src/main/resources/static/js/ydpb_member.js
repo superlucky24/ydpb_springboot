@@ -32,6 +32,9 @@ function execDaumPostcode() {
 
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
             document.getElementById("memAddress").value = roadAddr;
+
+            // 0120 이벤트 연결용 추가 귀환
+            document.getElementById("memAddress").dispatchEvent(new Event("input"));
         }
     }).open();
 }

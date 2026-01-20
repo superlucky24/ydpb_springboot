@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class CommunityServiceImpl implements CommunityService{
     private CommunityMapper mapper;
 
     @Override
-    public void register(CommunityVO board) {
+    public void register(CommunityVO board, MultipartFile uploadFile) {
         mapper.insert(board);
     }
 

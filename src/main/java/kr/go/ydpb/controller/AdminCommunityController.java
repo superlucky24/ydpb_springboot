@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
@@ -38,10 +39,14 @@ public class AdminCommunityController {
 
     /* 글 등록 */
     @PostMapping("/write")
-    public String register(CommunityVO board, RedirectAttributes rttr) {
-        board.setMemId("admin"); // 임시 로그인 ID 세팅, 실제 로그인 정보로 바꿀 것
+    public String register(CommunityVO board, @RequestParam("uploadFile") MultipartFile uploadFile, RedirectAttributes rttr) {
+
         log.info("register controller => {}", board);
-        service.register(board);
+        log.info("파일명 => {}", uploadFile.getOriginalFilename());
+        log.info("파일 크기 => {}", uploadFile.getSize());
+
+        service.register(board, uploadFile);
+
         rttr.addFlashAttribute("result", board.getCmntId());
         return "redirect:/admin/community/list"; // 저장 후 목록으로 이동
     }

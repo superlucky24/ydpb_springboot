@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>분야별민원 | 우리동이야기 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_complaint_sector.css}">
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script>const menuName = '분야별민원';</script>
+    <script th:src="@{/js/ydpb.js}"></script>
+</head>
+<body>
+    <div id="wrap">
+        <!-- header -->
+        <header class="header" th:replace="~{/common/header_footer_layout :: header}"></header>
+        <!-- //header -->
+
+        <!-- search -->
+        <div class="search" th:replace="~{/common/header_footer_layout :: search}"></div>
+        <!-- //search -->
+
+        <!-- container -->
+        <div class="container">
+            <div class="contents_wrap safe_area">
+                <!-- side menu -->
+                <aside class="side_menu" th:replace="~{/common/sidemenu_layout :: sidemenu}"></aside>
+                <!-- //side menu -->
+
+                <!-- main -->
+                <main>
+                    <!-- location -->
+                    <div class="location">
+                        <div class="location_title">
+                            <h2>여권개요</h2>
+                        </div>
+                        <div class="location_path">
+                            <span class="loc_home"><a th:href="@{/}">홈</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text"><a th:href="@{/}">민원안내</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text"><a th:href="@{/}">분야별민원</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text"><a th:href="@{/}">여권</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text">여권개요</span>
+                        </div>
+                        <div class="location_icon">
+                            <ul class="loc_fixed_icon">
+                                <li><button type="button" class="loc_print">프린트</button></li>
+                                <li class="icon_sns">
+                                    <button type="button" class="loc_sns">SNS</button>
+                                    <div class="sns_list">
+                                        <a th:href="@{/}" class="loc_sns_icon1">a</a>
+                                        <a th:href="@{/}" class="loc_sns_icon2">a</a>
+                                        <a th:href="@{/}" class="loc_sns_icon3">a</a>
+                                        <a th:href="@{/}" class="loc_sns_icon4">a</a>
+                                        <a th:href="@{/}" class="loc_sns_icon5">a</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- location -->
+                    <!-- contents -->
+                    <div class="contents">
+                        <div class="box icon">
+                            <div class="box_wrap">
+                                <div class="box_title">여권개요</div>
+                                    <p>
+                                        <span class="em_blue">2020.12.21.(월)</span>
+                                        부터 우리나라 여권이
+                                        <span class="em_red">주민등록번호(뒷자리)없이 발급</span>
+                                        됩니다. 여권과 함께
+                                        <span class="em_blue">여권정보증명서</span>
+                                        를 제시하면
+                                        <span class="em_blue">신분증으로 활용</span>
+                                        할 수 있습니다.
+                                    </p>
+                                    <p>
+                                        2008.8.25(월) 전자여권제 시행과 동시에 여권의 대리신청이 불가하며
+                                        주소지에 관계없이 서울시 모든 구청 및 전국 모든 여권사무대행기관에서 여권접수 가능합니다.
+                                    </p>
+                                    <div class="magin_t_15">
+                                        <span class="magin_t_15 magin_l_5">
+                                            <a href="#" target="_blank" class="btn arrow type1">
+                                            외교부 여권안내 홈페이지 바로가기
+                                            </a>
+                                        </span>
+                                        <span class="magin_t_15 magin_l_5">
+                                            <a href="#" target="_blank" class="btn arrow type1">
+                                            정부24(온라인) 신청 진행상태 조회
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3>업무시간</h3>
+                            <p class="blt">
+                                월~금 09:00~18:00(화요일은 09:00~20:00)
+                                <span class="skip">강조</span>
+                                <span class="em_red">
+                                * 민원실 대기현황 영등포구홈페이지 실시간 조회 가능(여권발급량에 따라 18시 이전에
+                                접수가 조기 마감될 수 있으니 유념하시기 바랍니다.)
+                                </span>
+                            </p>
+                            <h3>화요 저녁민원처리제 운영</h3>
+                            <ul class="bu">
+                                <li>
+                                    운영시간 : 매주 화요일 09:00 ~ 20:00
+                                </li>
+                                <li>
+                                    업무내용 : 여권접수 및 교부
+                                </li>
+                                <li>
+                                    서비스 개요 : 전자여권의 본인직접신청제로 인해 근무시간 중 업무처리가
+                                    곤란한 직장인 등을 위하여 근무시간 이후에도 민원업무를 처리
+                                </li>
+                                <li>
+                                    이용방법 : 사전예약없이 화요일 (09:00 ~ 20:00)에 방문하여 업무처리
+                                    <span class="skip">강조</span>
+                                    <span class="em_red">
+                                        여권접수는 19:30까지 순번대기표 수령자만 가능
+                                        (* 대기인원이 많으면 조기 마감됨)
+                                    </span>
+                                </li>
+                            </ul>
+                            <h3>여권개요</h3>
+                            <h4>여권발급 대상</h4>
+                            <p class="blt">
+                                대한민국 국적을 보유하고 여권법령에 의한 여권발급 거부 또는 제한 대상이 아닌 자
+                            </p>
+                            <h4>복수여권</h4>
+                            <p class="blt">
+                                유효기간 중 횟수에 제한 없이 여행을 할 수 있는 여권으로 10년 이내의 유효기간 부여.
+                                단, 18세 미만자에 대하여는 유효기간 5년 이내의 여권 발급
+                            </p>
+                            <h4>단수여권</h4>
+                            <ul class="bu">
+                                <li>1회에 한하여 여행을 할 수 있는 여권으로 1년의 유효기간 부여</li>
+                                <li>
+                                    여권명의인이 귀국(여행 출발지 국가로의 재입국)하였을 때 여권 유효기간 존속여부에
+                                    불문하고 효력이 상실됨
+                                </li>
+                            </ul>
+                            <h4>관용여권</h4>
+                            <p class="blt">
+                                여행목적과 신분에 따라 외교부장관이 관용여권의 발급이 필요하다고 인정하는 자에게
+                                발급하는 여권 (유효기간 5년)
+                            </p>
+                            <h4>긴급여권(비전자 단수여권)</h4>
+                            <p class="blt">
+                                여권을 발급 받을 시간적 여유가 없을 정도로 긴급한 사유가 있는 누구나 신청 가능
+                            </p>
+                            <p class="blt">
+                                제출서류 및 여권수수료
+                            </p>
+                            <div class="table_scroll">
+                                <table class="table">
+                                    <colgroup>
+                                        <col style="width:15%">
+                                        <col style="width:45%">
+                                        <col style="width:40%">
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">구분</th>
+                                            <th scope="col">제출서류</th>
+                                            <th scope="col">수수료</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text_center">공통</td>
+                                            <td>
+                                                <ul class="bu">
+                                                    <li>여권발급신청서</li>
+                                                    <li>여권용 사진 1장</li>
+                                                    <li>가족관계기록사항에 관한 증명서</li>
+                                                    <li>신분증</li>
+                                                    <li>긴급여권 신청 사유서</li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="2">
+                                                <ul class="bu">
+                                                    <li>
+                                                        친족 사망 또는 위독 관련 증빙서류 제출 시 15,000원 ,
+                                                        미제출 시 48,000원
+                                                    </li>
+                                                    <li>
+                                                        여권발급 신청 후 6개월 이내 증빙서류 제출 시 33,000원 환불
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text_center">필요시 추가</td>
+                                            <td>
+                                                <ul class="bu">
+                                                    <li>
+                                                        긴급여권 수수료 환급 신청서
+                                                    </li>
+                                                    <li>
+                                                        친족 사망 또는 위독에 대한 사유를 증명할 수 있는 서류
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <ul class="bu">
+                                <li class="warning">
+                                    긴급여권 발급 대상에 포함되지 않는 경우
+                                    <ul>
+                                        <li>본인여부 확인이 불가능한 사람</li>
+                                        <li>5년 이내에 3회 이상 분실자</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <h3>여권발급 신청방법[본인직접 신청제]</h3>
+                            <p class="warning em_red">
+                            <span class="skip">강조</span>
+                                2008. 8.25일부터 여권은 본인이 신청 접수하여야 합니다.
+                            </p>
+                            <h4>적용범위</h4>
+                            <p class="blt">여권 신청 전반(신규, 재발급 등)</p>
+                            <h4>본인직접 신청의 예외</h4>
+                            <ul class="bu">
+                                <li>
+                                    의학적 사유 : 본인이 직접 신청할 수 없을 정도의 신체적, 정신적 질병,
+                                    장애나 사고 등이 있는 경우(증빙서류 제출)
+                                </li>
+                                <li>
+                                    연 령 : 18세 미만의 미성년자
+                                </li>
+                            </ul>
+                            <h4>대리인 구비서류 / 대리인의 범위(미성년자)</h4>
+                            <h5>법정대리인(친권자, 후견인)</h5>
+                            <ul class="bu">
+                                <li>법정대리인 동의서</li>
+                                <li>방문한 법정대리인 신분증</li>
+                            </ul>
+                            <h5>본인이나 배우자의 2촌 이내의 친족으로서 18세 이상인 사람</h5>
+                            <ul class="bu">
+                                <li>법정대리인 동의서</li>
+                                <li>인감증명서(또는 본인서명사실확인서, 전자본인서명확인서)</li>
+                                <li>위임장 및 위임한 사람(법정대리인)의 신분증(사본 가능)</li>
+                                <li>방문한 대리인의 신분증</li>
+                                <li>
+                                    가족관계기록사항 관한 증명서 또는 친족관계에 관한
+                                    법원의 결정문
+                                </li>
+                            </ul>
+                            <h4>여권발급 수수료</h4>
+                            <p class="blt">
+                                신용카드 납부도 가능(매주 화요일 야간 접수시에도 가능)
+                                <span class="skip">강조</span>
+                                <span class="em_red">
+                                    * 2024.7.1.이후부터 성인 및 8세이상 수수료 3,000원 인하
+                                </span>
+                            </p>
+                            <div class="table_scroll">
+                                <table class="table text_center">
+                                <caption>
+                                    여권발급 수수료 - 여권종류. 유효기간, 수수료(여권(58면),
+                                    여권(24면)), 대상 정보제공
+                                </caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col" rowspan="2">종류</th>
+                                        <th scope="col" colspan="2" rowspan="2">구분</th>
+                                        <th scope="col" colspan="2">여권발급 등에 관한 수수료</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col">여권(58면)</th>
+                                        <th scope="col">여권(26면)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="3">전자여권</td>
+                                        <td rowspan="2">복수여권</td>
+                                        <td>10년</td>
+                                        <td>50,000원</td>
+                                        <td>47,000원</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5년</td>
+                                        <td>
+                                            42,000원
+                                            <br>
+                                            (8세 미만: 33,000원)
+                                        </td>
+                                        <td>
+                                            39,000원
+                                            <br>
+                                            (8세 미만: 30,000원)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>단수여권</td>
+                                        <td>1년 이내</td>
+                                        <td colspan="2">15,000원</td>
+                                    </tr>
+                                    <tr>
+                                        <td>비전자여권</td>
+                                        <td>긴급여권</td>
+                                        <td>1년 이내</td>
+                                        <td colspan="2">
+                                            48.000원 (친족사망 또는 위독 관련 서류 제출시:15,000원)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="4">기타</td>
+                                        <td colspan="2">여행증명서</td>
+                                        <td colspan="2">23,000원</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">남은 유효기간 부여 여권</td>
+                                        <td colspan="2">25,000원</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">기재사항 변경</td>
+                                        <td colspan="2">5,000원</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">여권 사실증명</td>
+                                        <td colspan="2">1,000원</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="h3_with_a">
+                            <h3>여권사진규격안내</h3>
+                            <a href="#" target="_blank" class="btn arrow type1 small">
+                                여권사진보기
+                            </a>
+                        </div>
+                        <h3>교부시 구비서류</h3>
+                        <ul class="bu">
+                            <li>
+                                본인 수령(미성년자 제외) : 신분증(주민등록증,운전면허증,여권), 접수증
+                                <br>
+                                <span class="warning em_red">
+                                    <span class="skip">강조</span>
+                                    학생증, 임시운전면허증 등은 신분증으로 사용불가
+                                </span>
+                            </li>
+                            <li>
+                                대리인 수령 : 여권명의인 신분증(사본가능), 대리인 신분증, 접수증
+                            </li>
+                            <li>
+                                미성년자의 부모(법정대리인(친권자)) 수령 : 방문한 부 또는 모의 신분증, 접수증
+                            </li>
+                            <li>
+                                미성년자의 친권이 없는 부 또는 모가 수령 : 법정대리인(친권자)의 위임장 및
+                                신분증(사본가능), 방문하는 부 또는 모의 신분증, 접수증
+                            </li>
+                            <li>
+                                미성년자의 기타 대리인 수령 : 법정대리인의 위임장 및 신분증(사본가능),
+                                대리인 신분증, 접수증
+                            </li>
+                        </ul>
+                        <h3>참고사항</h3>
+                        <ul class="bu">
+                            <li>
+                                신분증이 없으면 여권을 수령할 수 없습니다
+                            </li>
+                            <li>
+                                온라인 신청자는 반드시 본인의 신분증을 지참하고 직접 방문하여야
+                                교부가능(대리수령 불가)
+                            </li>
+                            <li>
+                                유효기간 만료 또는 분실등으로 효력이 상실된 신분증(여권 포함)은
+                                신분증으로 인정하지 않습니다
+                                <br>
+                                <span class="warning em_red">
+                                    <span class="skip">강조</span>
+                                    발급된 여권은 발급일로부터 6개월 이내에 찾아가지 않으면 효력이
+                                    상실되어 폐기함
+                                </span>
+                            </li>
+                            <li>
+                                <span class="skip">강조</span>
+                                <span class="em_red">
+                                    유효기간이 남아있는 여권이 있는 상태에서 새로운 여권을 발급받으려면
+                                    유효기간이 남아있는 기존 여권을 반드시 반납해야 합니다(새로운 여권이
+                                    발급되어 수령 시 반납). 새로운 여권이 발급되면 여권번호는 바뀝니다.
+                                </span>
+                            </li>
+                        </ul>
+                        <div class="temp_box type2 one_line">
+                            <div class="box_wrap">
+                                근거법령 : 여권법 시행규칙 제7조
+                            </div>
+                        </div>
+                        <h3>
+                            여권발급 신청서 작성 시 유의 사항
+                        </h3>
+                        <p class="warning">
+                            <span class="skip">강조</span>
+                            본인 신청발급 원칙(단,미성년자는 법정대리인이 신청)
+                        </p>
+                        <ul class="bu">
+                            <li>
+                                신청서를 다운받아 작성하실 경우 반드시 컬러프린터로 인쇄하여
+                                사용할 수 있으며, 반드시 본인이 직접 정자체로 기재(워드로 작성 불인정)
+                            </li>
+                            <li>
+                                여권발급 신청서는 반드시 흑색 펜으로 기재(컬러 펜이나 연필 사용 금지)
+                            </li>
+                            <li>
+                                신청서를 접거나 훼손하시면 안 됩니다.
+                            </li>
+                            <li>
+                                신청서에 꼭 기재하여야 할 사항
+                                <ul>
+                                    <li>
+                                        성 인 : 한글 성명, 주민등록번호, 로마자성명(신규,변경),
+                                        신청인 전화번호, 긴급연락처(신청인 외)
+                                    </li>
+                                    <li>
+                                        미성년자 : 한글성명, 주민등록번호, 로마자성명(신규,변경),
+                                        신청인 전화번호, 긴급연락처(신청인 외), 미성년자 및 신청법정대리인
+                                        한글 성명, 주민등록번호, 주소
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                로마자성명은 추후 변경이 엄격히 제한되므로 신중히 기재하고,
+                                로마자 성(姓)은 가족의 성과 일치시키도록 권장
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- //contents -->
+
+                    <!-- charge info -->
+                    <div class="charge_info">
+                        <ul>
+                            <li>
+                                <span class="info_name">담당부서</span>
+                                <span>영등포본동</span>
+                            </li>
+                            <li>
+                                <span class="info_name">담당전화번호</span>
+                                <span>02-2670-1026</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- //charge info -->
+                </main>
+                <!-- //main -->
+            </div>
+        </div>
+        <!-- //container -->
+
+        <!-- footer -->
+        <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
+        <!-- //footer -->
+    </div>
+</body>
+</html>

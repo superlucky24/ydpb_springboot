@@ -1477,7 +1477,7 @@
             </div>
         </div>
         <!-- /GNB -->
-        <header class="header" th:insert="~{/admin/common/admin_header_footer::header}"></header>
+        <header class="header" th:if="${session.admin == 1}" th:insert="~{/admin/common/admin_header_footer::header}"></header>
     </header>
     </div>
 

@@ -1,0 +1,205 @@
+@charset "utf-8";
+/* 추가한 css들 */
+
+
+/* 리스트 */
+.ul_common {
+    margin: 0 0 0 8px;
+    padding: 2px 0 5px;
+}
+
+.ul_common li,
+.blt {
+    position: relative;
+    margin-top: 6px;
+    padding: 0 0 0 13px;
+    color: #4c4c4c;
+}
+
+.blt {
+    margin: 6px 0 0 8px;
+}
+
+.ul_common > li::before,
+.blt::before {
+    position: absolute;
+    left: 0;
+    top: 11px;
+    display: inline-block;
+    content: "";
+    width: 4px;
+    height: 4px;
+    background-color: #000;
+}
+.ul_common li:first-child {
+    margin-top: 0;
+}
+
+
+.contents h4 {
+    margin-top: 30px;
+}
+
+h4, .h4 {
+    margin: 15px 0 15px 0;
+    color: #356bbe;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* 일반 테두리 박스 */
+.box.icon {
+    min-height: 164px;
+}
+.contents .box.icon .box_wrap:before {
+    background: url(../images/sub/hunjang_img1.png) no-repeat;
+}
+.box.icon .box_wrap:before {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    content: '';
+
+}
+
+
+.box {
+    position: relative;
+    margin: 10px 0;
+    padding: 35px;
+    border: solid 1px #979fa8;
+}
+
+.box.icon .box_wrap {
+    position: relative;
+    padding-left: 140px;
+    word-break: keep-all;
+}
+
+.box .box_title {
+    margin-bottom: 22px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1d1d1d;
+    word-break: keep-all;
+}
+
+/* 박스아래 h3 */
+.box.icon + h3 {
+    margin-top: 60px;
+}
+
+
+
+.temp_box.type1 {
+    padding: 25px;
+    background-color: #f4f7fc;
+    font-size: 16px;
+    line-height: 25px;
+    color: #4c4c4c;
+}
+
+.contents .temp_box.type1 {
+    margin-bottom: 40px;
+}
+.contents .temp_box.type1 li {
+    display: block;
+    width: 50%;
+    float: left;
+}
+
+
+/* li 앞에 숫자박스 넣기 */
+
+.num {
+    margin: 0 0 0 8px;
+    padding: 2px 0 5px 0;
+}
+
+
+ol {
+    overflow: hidden;
+    position: relative;
+    counter-reset: number;
+}
+
+ol.num > li:before {
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    top: 4px;
+    width: 22px;
+    height: 22px;
+    line-height: 20px;
+    background: #6d6d6d;
+    font-size: 13px;
+    color: #fff;
+    text-align: center;
+}
+
+ol>li:before {
+    content: counter(number, decimal);
+}
+
+.num > li {
+    position: relative;
+    margin: 7px 0;
+    padding: 3px 0 0 30px;
+    line-height: 20px;
+}
+
+ol>li {
+    counter-increment: number;
+}
+
+/* 연보라배경 박스 */
+.contents .temp_box.type4 {
+    margin-top: 35px;
+}
+.contents .temp_box.type4 .temp_box_wrap {
+    padding: 30px 50px 20px 50px;
+}
+.temp_box.type4 .temp_box_wrap {
+    padding: 30px 80px 20px 50px;
+    border-radius: 30px;
+    background: #fff;
+}
+
+.temp_box.type4 {
+    margin-top: 50px;
+    background-color: #f4f4fd;
+    margin-bottom: 88px;
+    padding: 60px;
+}
+
+.temp_box.type4 .temp_box_wrap ul {
+    margin-bottom: -5px;
+}
+
+.contents .temp_box.type4 .temp_box_wrap li {
+    padding-left: 17px;
+}
+
+.temp_box.type4 .temp_box_wrap li {
+    margin-top: 17px;
+    padding-bottom: 20px;
+    padding-left: 40px;
+    border-bottom: 1px dotted #000;
+}
+.temp_box.type4 .temp_box_wrap li:last-child {
+    border-bottom: 0;
+}
+
+ul.bu li {
+    position: relative;
+    margin-top: 6px;
+    padding: 0 0 0 13px;
+    color: #4c4c4c;
+    list-style: none;
+}
+.temp_box.type4 .temp_box_wrap li:before {
+    top: 9px;
+}

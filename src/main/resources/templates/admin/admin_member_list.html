@@ -85,7 +85,7 @@
                             <td><time th:text="${#dates.format(member.memRegDate, 'yyyy-MM-dd')}"></time></td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(list)}">
-                            <td colspan="6" style="text-align:center; padding:30px;">등록된 회원이 없습니다.</td>
+                            <td colspan="6" class="no_data">등록된 회원이 없습니다.</td>
                         </tr>
                         </tbody>
                     </table>

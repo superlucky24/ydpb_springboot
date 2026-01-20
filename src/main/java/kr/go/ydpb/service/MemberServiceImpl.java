@@ -20,10 +20,12 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public MemberVO Login(String memId, String memPassword) {
         MemberVO member =Mapper.Login(memId);
-        boolean passCheck =encoder.matches(memPassword, member.getMemPassword()); // 입력받은 값과 해싱된 비밀번호 비교
+
+        // 암호화된 비밀번호와 비교 기능 추가
+        boolean passCheck =encoder.matches(memPassword, member.getMemPassword());
         if(member != null
                 && Objects.equals(memId, member.getMemId())
-                && memPassword.equals(member.getMemPassword())) { // Objects.equals(memId, member.getMemId()) ?
+                && passCheck) { // Objects.equals(memId, member.getMemId()) ?
             return member;
         }
         return null;

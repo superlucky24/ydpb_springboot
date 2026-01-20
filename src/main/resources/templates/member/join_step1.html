@@ -75,7 +75,7 @@
                                         대한민국 국민이면 누구나 회원으로<br>
                                         가입하실 수 있습니다.
                                     </p>
-                                    <button type="button" class="btn">가입하기</button>
+                                    <button type="button" id="btnAuthPhone" class="btn">가입하기</button>
                                 </div>
                                 <div class="classify_box">
                                     <strong>어린이회원</strong>
@@ -96,5 +96,24 @@
         </div>
         <!-- //member container -->
     </div>
+
+    <script>
+        $('#btnAuthPhone').on('click', function() {
+            const url = "/authform";
+            const windowName = "전화 인증";
+            const width = 480;
+            const height = 700;
+            const left = (screen.width - width) / 2;
+            const top = (screen.height - height) / 2;
+            const options = `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`;
+            const newWindow = window.open(url, windowName, options);
+
+            if (newWindow) {
+                newWindow.focus(); // 새 창이 열리면 포커스
+            } else {
+                alert("팝업이 차단되었습니다.");
+            }
+        });
+    </script>
 </body>
 </html>

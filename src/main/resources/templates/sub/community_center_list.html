@@ -40,7 +40,7 @@
                             <h2>자치회관 게시판</h2>
                         </div>
                         <div class="location_path">
-                            <span class="loc_home"><a th:href="@{/}">홈</a></span>
+                            <span class="loc_home">홈</span>
                             <span class="loc_arrow">></span>
                             <span class="loc_text"><a th:href="@{/}">동주민센터</a></span>
                             <span class="loc_arrow">></span>
@@ -88,7 +88,7 @@
                                             <input type="hidden" name="pageNum" th:value="${cri.pageNum}">
                                             <input type="hidden" name="amount" th:value="${cri.amount}">
                                             <span class="p-form-group__btn">
-                                                <input value="검색" type="button" class="p-button">
+                                                <input type="submit" class="p-button" value="검색">
                                             </span>
                                         </div>
                                     </div>
@@ -123,13 +123,14 @@
                                     <th scope="col">조회수</th>
                                 </tr>
                             </thead>
-                            <tbody th:if="${pageMaker.total == 0}">
-                                <tr>
+                            <tbody class="tb_text">
+                            <!--/* 데이터 없음 */-->
+                                <tr th:if="${pageMaker.total == 0}">
                                     <td colspan="5" class="no_data">게시글이 없습니다</td>
                                 </tr>
-                            </tbody>
-                            <tbody class="tb_text" th:each="board, iterStat : ${list}" th:object="${board}" th:with="no=${pageMaker.total - ((pageMaker.cri.pageNum - 1) * pageMaker.cri.amount)}">
-                                <tr>
+                            <!--/* //데이터 없음 */-->
+
+                                <tr th:each="board, iterStat : ${list}" th:object="${board}" th:with="no=${pageMaker.total - ((pageMaker.cri.pageNum - 1) * pageMaker.cri.amount)}">
                                     <td th:text="${no - iterStat.index}"></td>
                                     <td class="p_sub">
                                         <a th:href="@{/community/view(cmntId=*{cmntId},pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="move" th:text="*{cmntTitle}"></a>
@@ -145,23 +146,23 @@
                             <div class="p_control">
                                 <span class="p-link_b" >
                                     <a th:if="${pageMaker.realEnd > 10}"
-                                       th:href="@{/admin/community/list(pageNum=1, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       th:href="@{/community/list(pageNum=1, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
                                        class="p_link" title="맨 처음">&lt;&lt;
                                     </a>
                                     <a th:if="${pageMaker.realEnd > 10}"
-                                       th:href="@{/admin/community/list(pageNum=${pageMaker.prev ? pageMaker.startPage - 1 : 1}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       th:href="@{/community/list(pageNum=${pageMaker.prev ? pageMaker.startPage - 1 : 1}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
                                        class="p_link" title="이전">&lt;
                                     </a>
                                     <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
                                         <strong th:title="|현재 ${num}페이지|" class="p_link active" th:if="${num} == ${pageMaker.cri.pageNum}" th:text="${num}"></strong>
-                                        <a th:href="@{/admin/community/list(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="p_link" th:if="${num} != ${cri.pageNum}" th:text="${num}"></a>
+                                        <a th:href="@{/community/list(pageNum=${num}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="p_link" th:if="${num} != ${cri.pageNum}" th:text="${num}"></a>
                                     </th:block>
                                     <a th:if="${pageMaker.realEnd > 10}"
-                                       th:href="@{/admin/community/list(pageNum=${pageMaker.next ? pageMaker.endPage + 1 : pageMaker.realEnd}, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       th:href="@{/community/list(pageNum=${pageMaker.next ? pageMaker.endPage + 1 : pageMaker.realEnd}, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${cri.searchKeyword})}"
                                        class="p_link" title="다음">&gt;
                                     </a>
                                     <a th:if="${pageMaker.realEnd > 10}"
-                                       th:href="@{/admin/community/list(pageNum=${pageMaker.realEnd}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       th:href="@{/community/list(pageNum=${pageMaker.realEnd}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
                                        class="p_link" title="맨 끝">&gt;&gt;
                                     </a>
                                 </span>

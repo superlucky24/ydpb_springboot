@@ -18,9 +18,8 @@ public interface CommunityService {
             String fileOpt2
     );
 
-    CommunityVO get(Long bno);
+    CommunityVO get(Long cmntId);
 
-    // 수정 시 파일 처리까지 포함
     boolean modify(
             CommunityVO board,
             MultipartFile file1,
@@ -29,14 +28,12 @@ public interface CommunityService {
             String fileText2,
             String fileOpt1,
             String fileOpt2,
-            String deleteFileIds
+            List<Long> deleteFileIds
     );
 
-    // 삭제 시 파일 삭제까지 포함
-    boolean remove(Long bno);
+    boolean remove(Long cmntId);
 
     List<CommunityVO> getList(Criteria cri);
     int getTotal(Criteria cri);
     void increaseCount(Long cmntId);
 }
-

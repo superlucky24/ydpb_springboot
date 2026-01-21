@@ -193,6 +193,7 @@ ol>li {
     border-bottom: 0;
 }
 
+
 ul.bu li {
     position: relative;
     margin-top: 6px;
@@ -202,4 +203,12 @@ ul.bu li {
 }
 .temp_box.type4 .temp_box_wrap li:before {
     top: 9px;
+}
+
+/* 결제페이지용 css */
+
+.temp_box.type1 .box_wrap .ul_common {
+        overflow: hidden;
+        position: relative;
+
 }

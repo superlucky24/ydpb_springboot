@@ -1,5 +1,6 @@
 package kr.go.ydpb.controller;
 
+import jakarta.servlet.http.HttpSession;
 import kr.go.ydpb.domain.CommunityVO;
 import kr.go.ydpb.domain.Criteria;
 import kr.go.ydpb.domain.PageDTO;
@@ -53,14 +54,20 @@ public class AdminCommunityController {
             @RequestParam(value = "file_text_2", required = false) String fileText2,
             @RequestParam(value = "file_opt_1", required = false) String fileOpt1,
             @RequestParam(value = "file_opt_2", required = false) String fileOpt2,
-            RedirectAttributes rttr
+            RedirectAttributes rttr,
+            HttpSession session
     ) {
+
+        // 세션에서 memId 가져오기
+        String memId = (String) session.getAttribute("memId");
+        board.setMemId(memId);
 
         service.register(board, file1, file2, fileText1, fileText2, fileOpt1, fileOpt2);
         rttr.addFlashAttribute("result", board.getCmntId());
 
         return "redirect:/admin/community/list";
     }
+
 
     /* =========================
        상세보기
@@ -105,6 +112,14 @@ public class AdminCommunityController {
             @ModelAttribute("cri") Criteria cri,
             RedirectAttributes rttr
     ) {
+
+
+
+        // 1. 기존 게시글 조회
+        CommunityVO existing = service.get(board.getCmntId());
+
+        // 2. 기존 memId 유지
+        board.setMemId(existing.getMemId());
 
         service.modify(
                 board,

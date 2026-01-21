@@ -67,6 +67,21 @@
                                             <th scope="row">행정동</th>
                                             <td>영등포본동</td>
                                         </tr>
+
+                                        <tr th:if="${board.files != null and #lists.size(board.files) > 0}">
+                                            <th scope="row">파일</th>
+                                            <td>
+                                                <div class="file_group">
+                                                    <ul class="file_list">
+                                                        <li th:each="file : ${board.files}">
+                                                            <a th:href="@{/admin/community/download(fileId=${file.fileId})}"
+                                                               th:text="${file.fileName}"></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+
                                         <!-- 부서가 있을 때만 표시 -->
                                         <tr th:if="${board.cmntDepartment != null}">
                                             <th scope="row">부서</th>

@@ -15,11 +15,13 @@ public class SubPageController {
 
     @GetMapping("/location")
     public String location() {
+
         return "sub/location";
     }
 
     @GetMapping ("/complaint_sector")
     public String complaintSector(){
+
         return "sub/complaint_sector";
     }
 

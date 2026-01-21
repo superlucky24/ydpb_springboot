@@ -37,12 +37,13 @@
                 <div class="auth_form auth_form_jumin">
                     <div class="jumin_before">
                         <label for="memJumin1" class="blind">생년월일 입력</label>
-                        <input type="tel" name="memJumin1" id="memJumin1" class="input" maxlength="6" placeholder="생년월일6자리">
+                        <input type="number" name="memJumin1" id="memJumin1" class="input" placeholder="생년월일6자리">
+                        <input type="hidden" name="memBirth" id="memBirth" value="" readonly>
                     </div>
                     <span class="hyphen">-</span>
                     <div class="jumin_after">
                         <label for="memJumin2" class="blind">성별 입력</label>
-                        <input type="tel" name="memJumin2" id="memJumin2" class="input" maxlength="1">
+                        <input type="number" name="memJumin2" id="memJumin2" class="input">
                         <div class="hide_number">
                             <i></i>
                             <i></i>
@@ -59,10 +60,13 @@
             <div class="auth_box" id="authStep3">
                 <div class="auth_form">
                     <label for="phoneNumberOrigin" class="blind">전화번호 입력</label>
-                    <input type="tel" name="phoneNumberOrigin" id="phoneNumberOrigin" class="input" maxlength="11" placeholder="01012345678" value="01012345678">
+                    <input type="number" name="phoneNumberOrigin" id="phoneNumberOrigin" class="input" data-check="ok" placeholder="01012345678" value="01012345678">
                 </div>
                 <input type="hidden" id="phoneNumber" value="+821012345678" maxlength="13">
-                <button id="sendCodeBtn" class="btn_auth">인증번호 전송</button>
+                <button id="sendCodeBtn" class="btn_auth">
+                    <span>인증번호 전송</span>
+                    <i class="spin"></i>
+                </button>
             </div>
 
             <div id="recaptchaContainer"></div>
@@ -76,7 +80,10 @@
             <div class="auth_form auth_form_code active">
                 <label for="verificationCode" class="blind">인증번호 입력</label>
                 <input type="text" name="verificationCode" id="verificationCode" class="input" placeholder="123456" value="123456">
-                <button id="verifyCodeBtn" class="btn_auth">인증번호 확인</button>
+                <button id="verifyCodeBtn" class="btn_auth">
+                    <span>인증번호 확인</span>
+                    <i class="spin"></i>
+                </button>
             </div>
         </section>
         <p class="auth_text" id="status"></p>

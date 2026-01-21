@@ -87,6 +87,13 @@
                                     <a href="#" class="btn">가입하기</a>
                                 </div>
                             </div>
+
+                            <form th:action="@{/joinStep3}" method="post" id="joinForm">
+                                <input type="hidden" id="memName" name="memName">
+                                <input type="hidden" id="memBirth" name="memBirth">
+                                <input type="hidden" id="memPhone" name="memPhone">
+                                <input type="hidden" id="memGender" name="memGender">
+                            </form>
                         </div>
                         <!-- //join_step1 -->
                     </div>
@@ -114,6 +121,22 @@
                 alert("팝업이 차단되었습니다.");
             }
         });
+
+        // 인증 후 전달하는 데이터 받는 함수
+        function receiveData(data) {
+            // 이름
+            $('#memName').val(data.name);
+
+            // 생년월일
+            $('#memBirth').val(data.birth);
+
+            // 휴대폰 번호
+            $('#memPhone').val(data.phone);
+
+            // 성별
+            let gender = Number(data.gender)%2 == 1 ? '남' : '여';
+            $('#memGender').val(gender);
+        }
     </script>
 </body>
 </html>

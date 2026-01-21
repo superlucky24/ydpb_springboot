@@ -13,34 +13,40 @@
 
     let confirmationResult;
 
+    // reCAPTCHA 생성
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptchaContainer', {
+        size: 'invisible',
+        callback: (response) => {
+            console.log("reCAPTCHA solved");
+        }
+    });
+
+    const appVerifier = window.recaptchaVerifier;
+
     // 인증번호 전송
     function sendCode() {
         const phoneNumber = document.getElementById("phoneNumber").value;
-
-        // reCAPTCHA 생성
-        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptchaContainer', {
-            size: 'invisible',
-            callback: (response) => {
-                console.log("reCAPTCHA solved");
-            }
-        });
-
-        const appVerifier = window.recaptchaVerifier;
+        $('#sendCodeBtn').addClass('loading');
 
         firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
             .then((result) => {
                 confirmationResult = result;
                 document.getElementById("status").innerText = "인증번호 전송 완료!";
+                $('#authSec1').hide();
+                $('#authSec2').show();
+                $('#sendCodeBtn').removeClass('loading');
             })
             .catch((error) => {
                 console.error(error);
                 document.getElementById("status").innerText = "오류: " + error.message;
+                $('#sendCodeBtn').removeClass('loading');
             });
     }
 
     // 인증번호 확인
     function verifyCode() {
         const code = document.getElementById("verificationCode").value;
+        $('#verifyCodeBtn').addClass('loading');
 
         confirmationResult.confirm(code)
             .then((result) => {
@@ -56,30 +62,49 @@
                     }).then(res => {
                         if (res.ok) {
                             document.getElementById("status").innerText = "서버 인증 완료!";
+
+                            // 인증 성공 시 부모창으로 데이터 전송 및 현재 창 닫기
+                            if (window.opener && !window.opener.closed) {
+                                const data = {
+                                    name: $('#memName').val(),
+                                    birth: $('#memBirth').val(),
+                                    gender: $('#memJumin2').val(),
+                                    phone: $('#phoneNumberOrigin').val()
+                                }
+                                window.opener.receiveData(data);
+                            }
+                            window.close();
                         } else {
                             document.getElementById("status").innerText = "서버 인증 실패!";
                         }
+                        $('#verifyCodeBtn').removeClass('loading');
                     });
                 });
             })
             .catch((error) => {
                 console.error(error);
                 document.getElementById("status").innerText = "인증번호 확인 실패!";
+                $('#verifyCodeBtn').removeClass('loading');
             });
     }
 
     $('#sendCodeBtn').on('click', function() {
+        if($(this).hasClass('loading')) {
+            return false;
+        }
         sendCode();
     });
     $('#verifyCodeBtn').on('click', function() {
+        if($(this).hasClass('loading')) {
+            return false;
+        }
         verifyCode();
     });
 
     // 이름 입력 체크
-    $('#memName').on('keyup', function() {
-        let val = this.value;
+    $('#memName').on('input', function() {
         let textBox = $('.auth_text[data-match="'+ this.id +'"]');
-        this.value = val.replace(/[^\p{L}]/gu, '');
+        this.value = this.value.replace(/[^\p{L}]/gu, '');
         if(this.value) {
             $(this).attr('data-check', 'ok');
             $('#authTitle').html('<b>생년월일\/성별</b>을<br>입력해 주세요');
@@ -93,19 +118,64 @@
     });
 
     // 주민번호 앞자리 체크
-    $('#memJumin1').on('keyup', function() {
-        let val = this.value;
+    $('#memJumin1').on('input', function() {
         let textBox = $('.auth_text[data-match="'+ this.id +'"]');
-        this.value = val.replace(/[^\p{N}]/gu, '');
-        if(this.value.size > 5) {
+        this.value = this.value.slice(0, 6);
+        if(this.value.length > 5 && !normalizeWithCheck(this.value).wasInvalid) {
             $(this).attr('data-check', 'ok');
-            $('#authTitle').html('<b>휴대폰번호</b>를<br>입력해 주세요');
-            $('#authStep3').show();
+            $('#memBirth').val(normalizeWithCheck(this.value).normalized);
             textBox.empty();
+            if($('#memJumin2').attr('data-check') == 'ok') {
+                $('#authStep3').show();
+                $('#authTitle').html('<b>휴대폰번호</b>를<br>입력해 주세요');
+            }
         }
         else {
             $(this).attr('data-check', 'fail');
-            textBox.text('생년월일을 정확히 입력해주세요');
+            textBox.text('정확한 생년월일을 입력해주세요');
+        }
+    });
+
+    // 생년월일 체크
+    function normalizeWithCheck(input) {
+        const formatted = input.replace(/(\d{2})(\d{2})(\d{2})/, "$1/$2/$3");
+        const [yy, mm, dd] = formatted.split('/').map(Number);
+        const year = yy < 50 ? 2000 + yy : 1900 + yy;
+        const date = new Date(Date.UTC(year, mm - 1, dd));
+        const changed =
+            date.getMonth() !== mm - 1 ||
+            date.getDate() !== dd;
+
+        return {
+            normalized: date.toISOString().slice(0, 10),
+            wasInvalid: changed
+        };
+    }
+
+    // 주민번호 뒷자리 체크
+    $('#memJumin2').on('input', function() {
+        this.value = this.value.replace(/[^1-4]/gu, '').slice(0, 1);
+        if(this.value.length > 0) {
+            $(this).attr('data-check', 'ok');
+            if($('#memJumin1').attr('data-check') == 'ok') {
+                $('#authStep3').show();
+            }
+        }
+        else {
+            $(this).attr('data-check', 'fail');
+        }
+    });
+
+    // 전화번호 입력창 체크
+    $('#phoneNumberOrigin').on('input', function() {
+        this.value = this.value.slice(0, 11);
+        let val = this.value;
+        $('#phoneNumber').val(val.replace(/^0/, '+82'));
+        if(this.value.length > 10) {
+            $(this).attr('data-check', 'ok');
+        }
+        else {
+            $(this).attr('data-check', 'fail');
         }
     });
 })();

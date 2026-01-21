@@ -87,6 +87,63 @@
         SET cmntCount = cmntCount + 1
         WHERE cmntid = #{cmntId}
     </update>
+
+    <!-- 이전글 -->
+    <select id="getPrev" resultType="kr.go.ydpb.domain.CommunityVO">
+        select *
+        from (
+        select *
+        from tbl_community
+        <where>
+            cmntid = #{cmntId}
+            <if test="cri.searchKeyword != null and cri.searchKeyword != ''">
+                and
+                <choose>
+                    <when test="cri.searchType == 'T'">
+                        cmntTitle like '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                    <when test="cri.searchType == 'C'">
+                        cmntContent like '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                    <when test="cri.searchType == 'D'">
+                        cmntDepartment like '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+        order by cmntId desc
+        )
+        where rownum = 1
+    </select>
+
+    <!-- 다음글 -->
+    <select id="getNext" resultType="kr.go.ydpb.domain.CommunityVO">
+        select *
+        from (
+        select *
+        from tbl_community
+        <where>
+            cmntId > #{cmntId}
+            <if test="cri.searchKeyword != null and cri.searchKeyword != ''">
+                and
+                <choose>
+                    <when test="cri.searchType == 'T'">
+                        cmntTitle like '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                    <when test="cri.searchType == 'C'">
+                        cmntContent like '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                    <when test="cri.searchType == 'D'">
+                        cmntDepartment like '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+        order by cmntId asc
+        )
+        where rownum = 1
+    </select>
+
 </mapper>
 
 

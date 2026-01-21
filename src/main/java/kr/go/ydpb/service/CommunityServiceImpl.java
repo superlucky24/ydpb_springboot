@@ -54,12 +54,14 @@ public class CommunityServiceImpl implements CommunityService {
         }
 
         if (file1 != null && !file1.isEmpty()) {
-            saveFile(file1, board.getCmntId(), fileText1, fileOpt1);
+            saveFile(file1, board.getCmntId(), fileText1, fileOpt1, board);
         }
 
         if (file2 != null && !file2.isEmpty()) {
-            saveFile(file2, board.getCmntId(), fileText2, fileOpt2);
+            saveFile(file2, board.getCmntId(), fileText2, fileOpt2, board);
         }
+
+        mapper.update(board);
     }
 
     // ===========================
@@ -110,11 +112,11 @@ public class CommunityServiceImpl implements CommunityService {
 
         // 2) 새 파일 저장
         if (file1 != null && !file1.isEmpty()) {
-            saveFile(file1, board.getCmntId(), fileText1, fileOpt1);
+            saveFile(file1, board.getCmntId(), fileText1, fileOpt1, board);
         }
 
         if (file2 != null && !file2.isEmpty()) {
-            saveFile(file2, board.getCmntId(), fileText2, fileOpt2);
+            saveFile(file2, board.getCmntId(), fileText2, fileOpt2, board);
         }
 
         return mapper.update(board) == 1;
@@ -153,7 +155,8 @@ public class CommunityServiceImpl implements CommunityService {
             MultipartFile file,
             Long cmntId,
             String altText,
-            String insertOpt
+            String insertOpt,
+            CommunityVO board
     ) {
 
         try {
@@ -177,10 +180,23 @@ public class CommunityServiceImpl implements CommunityService {
 
             fileMapper.insert(fileVO);
 
+            // 본문 삽입 처리: 'Y'일 경우 본문에 이미지를 삽입
+            if ("Y".equals(fileVO.getInsertYn())) {
+
+                if (board.getCmntContent() == null) {
+                    board.setCmntContent("");
+                }
+
+                String imgTag = "<img src='/admin/community/download?fileId=" + fileVO.getFileId() + "' alt='" + altText + "' />";
+                board.setCmntContent(board.getCmntContent() + "<br/>" + imgTag);
+            }
+
         } catch (Exception e) {
             throw new RuntimeException("파일 저장 실패", e);
         }
     }
+
+
 
     // ===========================
     // 기본 조회
@@ -205,5 +221,20 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public void increaseCount(Long cmntId) {
         mapper.updateCount(cmntId);
+    }
+
+    @Override
+    public CommunityFileVO getFile(Long fileId) {
+        return fileMapper.read(fileId);
+    }
+
+    @Override
+    public CommunityVO getPrev(Long cmntId) {
+        return mapper.getPrev(cmntId);
+    }
+
+    @Override
+    public CommunityVO getNext(Long cmntId) {
+        return mapper.getNext(cmntId);
     }
 }

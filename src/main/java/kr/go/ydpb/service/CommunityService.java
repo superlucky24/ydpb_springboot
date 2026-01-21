@@ -1,5 +1,6 @@
 package kr.go.ydpb.service;
 
+import kr.go.ydpb.domain.CommunityFileVO;
 import kr.go.ydpb.domain.CommunityVO;
 import kr.go.ydpb.domain.Criteria;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,4 +37,8 @@ public interface CommunityService {
     List<CommunityVO> getList(Criteria cri);
     int getTotal(Criteria cri);
     void increaseCount(Long cmntId);
+    CommunityFileVO getFile(Long fileId);
+    CommunityVO getPrev(Long cmntId);
+    CommunityVO getNext(Long cmntId);
+
 }

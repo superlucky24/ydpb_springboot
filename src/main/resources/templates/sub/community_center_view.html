@@ -94,11 +94,27 @@
                                             <td colspan="2"><span class="td_title" th:text="${board.cmntTitle}"></span></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2" class="td_text" th:text="${board.cmntContent}"></td>
+                                            <td colspan="2" class="td_text" th:utext="${board.cmntContent}"></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">행정동</th>
                                             <td>영등포본동</td>
+                                        </tr>
+
+                                        <tr th:if="${board.files != null and #lists.size(board.files) > 0}">
+                                            <th scope="row">파일</th>
+                                            <td>
+                                                <div class="file_group">
+                                                    <ul class="file_list">
+                                                        <li th:each="file : ${board.files}">
+                                                            <a th:href="@{/admin/community/download(fileId=${file.fileId})}"
+                                                               th:text="${file.fileName}"></a>
+                                                            <a th:href="@{/admin/community/downloadAttachment(fileId=${file.fileId})}"
+                                                               class="btn btn_download">다운로드</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <!--/* 부서가 있을 때만 표시 */-->
                                         <tr th:if="${board.cmntDepartment != null}">
@@ -120,11 +136,15 @@
                                 <ul class="p-post">
                                     <li class="p-post-move prev">
                                         <strong class="p-post-move_title">이전글</strong>
-                                        <a href="#" class="p-post-move_link">2025년 상반기 영등포본동 자치회관 운영결과 보고서</a>
+                                        <a th:href="@{/admin/community/view(cmntId=${prev.cmntId})}"
+                                           class="p-post-move_link"
+                                           th:text="${prev.cmntTitle}"></a>
                                     </li>
                                     <li class="p-post-move next">
                                         <strong class="p-post-move_title">다음글</strong>
-                                        <a href="#" class="p-post-move_link">2024년 상반기 영등포본동 자치회관 운영결과 보고서</a>
+                                        <a th:href="@{/admin/community/view(cmntId=${next.cmntId})}"
+                                           class="p-post-move_link"
+                                           th:text="${next.cmntTitle}"></a>
                                     </li>
                                 </ul>
                             </div>

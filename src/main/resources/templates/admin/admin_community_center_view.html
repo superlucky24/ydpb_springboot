@@ -61,7 +61,7 @@
                                             <td colspan="2"><span class="td_title" th:text="${board.cmntTitle}"></span></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2" class="td_text" th:text="${board.cmntContent}"></td>
+                                            <td colspan="2" class="td_text" th:utext="${board.cmntContent}"></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">행정동</th>
@@ -76,6 +76,8 @@
                                                         <li th:each="file : ${board.files}">
                                                             <a th:href="@{/admin/community/download(fileId=${file.fileId})}"
                                                                th:text="${file.fileName}"></a>
+                                                            <a th:href="@{/admin/community/downloadAttachment(fileId=${file.fileId})}"
+                                                               class="btn btn_download">다운로드</a>
                                                         </li>
                                                     </ul>
                                                 </div>

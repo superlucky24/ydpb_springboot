@@ -1,6 +1,7 @@
 package kr.go.ydpb.controller;
 
 import jakarta.servlet.http.HttpSession;
+import kr.go.ydpb.domain.CommunityFileVO;
 import kr.go.ydpb.domain.CommunityVO;
 import kr.go.ydpb.domain.Criteria;
 import kr.go.ydpb.domain.PageDTO;
@@ -15,6 +16,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+
+import java.io.File;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -162,5 +174,91 @@ public class AdminCommunityController {
         rttr.addAttribute("searchKeyword", cri.getSearchKeyword());
 
         return "redirect:/admin/community/list";
+    }
+
+    /*이미지 추가 관련 메서드 */
+    @GetMapping("/download")
+    public ResponseEntity<Resource> downloadFile(@RequestParam("fileId") Long fileId) {
+
+        CommunityFileVO fileVO = service.getFile(fileId); // 1) 서비스에서 파일 조회
+
+        if (fileVO == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        File file = new File(
+                fileVO.getUploadPath(),
+                fileVO.getUuid() + "_" + fileVO.getFileName()
+        );
+
+        if (!file.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Resource resource = new FileSystemResource(file);
+
+        // 파일명 인코딩
+        String encodedFileName = URLEncoder.encode(fileVO.getFileName(), StandardCharsets.UTF_8);
+
+        // 확장자에 따라 MIME 타입 자동 지정
+        MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
+        try {
+            String mimeType = Files.probeContentType(file.toPath());
+            if (mimeType != null) {
+                mediaType = MediaType.parseMediaType(mimeType);
+            }
+        } catch (Exception e) {
+            // 무시
+        }
+
+        String contentDisposition = "inline; filename=\"" + encodedFileName + "\"";
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+                .contentType(mediaType)
+                .body(resource);
+    }
+
+    /*이미지 다운로드 */
+    @GetMapping("/downloadAttachment")
+    public ResponseEntity<Resource> downloadAttachment(@RequestParam("fileId") Long fileId) {
+
+        CommunityFileVO fileVO = service.getFile(fileId);
+
+        if (fileVO == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        File file = new File(
+                fileVO.getUploadPath(),
+                fileVO.getUuid() + "_" + fileVO.getFileName()
+        );
+
+        if (!file.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Resource resource = new FileSystemResource(file);
+
+        String encodedFileName = URLEncoder.encode(fileVO.getFileName(), StandardCharsets.UTF_8)
+                .replaceAll("\\+", "%20");
+
+        MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
+        try {
+            String mimeType = Files.probeContentType(file.toPath());
+            if (mimeType != null) {
+                mediaType = MediaType.parseMediaType(mimeType);
+            }
+        } catch (Exception e) {
+            // 무시
+        }
+
+        // 여기만 inline -> attachment로 변경
+        String contentDisposition = "attachment; filename=\"" + encodedFileName + "\"";
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+                .contentType(mediaType)
+                .body(resource);
     }
 }

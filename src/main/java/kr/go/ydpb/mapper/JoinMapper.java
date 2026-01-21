@@ -10,4 +10,9 @@ public interface JoinMapper {
     public void insertMember(MemberVO vo);
 //    아이디 중복 확인
     public int countById(String memId);
+
+//    네이버, 카카오 로그인용
+    MemberVO findById(String memId);
+    void insertOtherMember(MemberVO member);
+
 }

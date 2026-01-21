@@ -53,4 +53,6 @@ public class MemberVO {
     private int memRole;
     // 가입일 추가
     private java.util.Date memRegDate;
+
+    private String loginType;
 }

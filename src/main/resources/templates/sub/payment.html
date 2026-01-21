@@ -12,8 +12,8 @@
   <link rel="stylesheet" th:href="@{/css/ydpb_status.css}">
   <link rel="stylesheet" th:href="@{/css/ydpb_SHAdd.css}">
 
-<!-- 결제용 스크립트 -->
-  <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<!-- 결제용 스크립트 API V2버젼 -->
+  <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 
   <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
   <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
@@ -79,28 +79,56 @@
 </div>
 
 <script th:inline="javascript">
-  function goPayment() {
-    if(!confirm("결제를 진행하시겠습니까?")) return;
+  async function goPayment() {
+    // 1. 진행 여부 확인
+    if (!confirm("결제를 진행하시겠습니까?")) return;
 
-    const IMP = window.IMP;
-    IMP.init("imp67061263"); // 포트원 공용 테스트 가맹점 식별코드
+    try {
+      // 2. PortOne V2 결제 요청 함수 호출
+      const response = await PortOne.requestPayment({
+        storeId: "store-b4f6c958-2d99-4d7c-bc10-7ce431dab851", // store ID
+        channelKey: "channel-key-ff34e2fa-6621-4673-be89-daf679a0d7f5", // 결제 채널키
+        paymentId: "order_" + new Date().getTime(), // 매번 고유해야 하는 주문번호
+        orderName: "민원 수수료 결제",
+        totalAmount: 10, // 최소 단위
+        currency: "CURRENCY_KRW",
+        payMethod: "EASY_PAY", // 간편결제 방식
+        easyPay: {
+          giftCertificateType: "KAKAOPAY" // 카카오페이 지정
+        },
+        customer: {
+          fullName: "홍길동",
+          phoneNumber: "010-1234-5678"
+        }
+      });
 
-    IMP.request_pay({
-      pg: "kakaopay.TC0ONETIME", // 카카오페이 테스트
-      pay_method: "card",
-      merchant_uid: "order_" + new Date().getTime(), // 고유 주문번호
-      name: "민원 수수료 결제",
-      amount: 1500,
-      buyer_name: "홍길동"
-    }, function (rsp) {
-      if (rsp.success) {
-        alert("결제가 성공적으로 완료되었습니다.");
-        // 결제 성공 시 이동할 서브 페이지 경로 (필요에 따라 수정)
-        location.href = "/sub/status";
-      } else {
-        alert("결제에 실패하였습니다. 사유: " + rsp.error_msg);
+      // 3. 결제창을 닫거나 오류가 발생했을 때 처리
+      if (response.code != null) {
+        // response.code가 존재하면 결제 실패/취소 상태입니다.
+        return alert("결제 실패 사유: " + response.message);
       }
-    });
+
+      // 4. 결제 성공 시 서버로 데이터 전송 (검증 및 DB 저장)
+      const verifyResponse = await fetch("/api/payment/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          paymentId: response.paymentId
+        })
+      });
+
+      if (verifyResponse.ok) {
+        alert("결제가 성공적으로 완료되었습니다!");
+        location.href = "/sub/status"; // 성공 시 이동할 페이지
+      } else {
+        alert("결제는 성공했으나 서버 저장에 실패했습니다.");
+      }
+
+    } catch (error) {
+      // 네트워크 에러나 예상치 못한 시스템 에러 처리
+      console.error(error);
+      alert("결제 요청 중 오류가 발생했습니다.");
+    }
   }
 </script>
 </body>

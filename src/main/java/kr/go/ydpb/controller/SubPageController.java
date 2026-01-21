@@ -26,5 +26,8 @@ public class SubPageController {
     @GetMapping("/hunjang")
     public String hunjang(){ return "sub/hunjang";}
 
-
+    @GetMapping("/payment")
+    public String paymentPage() {
+        return "sub/payment";
+    }
 }

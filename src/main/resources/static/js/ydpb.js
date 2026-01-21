@@ -142,7 +142,7 @@ function initUi() {
                 $mySideMenu.addClass('open');
                 $mySubList.addClass('show');
 
-                // 4. [중요] 새로 추가한 민원안내 구조(sub_complaint)와 영등포본동 구조 모두 강제 노출
+                // 4.새로 추가한 민원안내 구조(sub_complaint)와 영등포본동 구조 모두 강제 노출
                 $mySubList.find('> ul > li, > .sub_group, > .sub_complaint, > li').addClass('show');
 
                 // 5. 3뎁스 리스트 처리

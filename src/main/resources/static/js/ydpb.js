@@ -78,7 +78,7 @@ function initUi() {
         $thisSubList.toggleClass('show');
 
         if ($thisSubList.hasClass('show')) {
-            $thisSubList.find('> ul > li, > .sub_group, > .sub_complaint').addClass('show');
+            $thisSubList.find('> ul > li, > .sub_group, > .sub_complaint, > li').addClass('show');
         }
     });
 
@@ -103,6 +103,8 @@ function initUi() {
         if (typeof menuName != 'undefined' && menuName.trim() != '') {
 
             const locationPathText = $('.location_path').text().trim();
+
+            // 1. 이름이 일치하는 메뉴 검색 (새로 추가한 a 태그 내부 텍스트까지 포함)
             const $allPotentialTargets = $('.side_list_menu a, .sub_group_title, .sub_complaint_title').filter(function () {
                 return $(this).text().trim() === menuName;
             });
@@ -119,30 +121,40 @@ function initUi() {
             if (!$target && $allPotentialTargets.length > 0) $target = $allPotentialTargets.first();
 
             if ($target && $target.length > 0) {
+                // 초기화
                 $('.side_list_menu').removeClass('open');
                 $('.sub_list, .sub_group, .sub_complaint, .sub_group_list').removeClass('show');
                 $('.sub_group_title, .sub_complaint_title').removeClass('open side_active');
                 $('.side_list_menu li').removeClass('side_active');
+
+                // 2. 강조 처리 (a 태그면 부모 li 또는 p 강조)
                 if ($target.is('a')) {
                     $target.closest('li').addClass('side_active');
+                    $target.closest('.sub_complaint_title').addClass('side_active open');
                 } else {
                     $target.addClass('side_active open');
                 }
+
+                // 3. 부모 계층 역추적 오픈
                 const $mySubList = $target.closest('.sub_list');
                 const $mySideMenu = $target.closest('.side_list_menu');
 
                 $mySideMenu.addClass('open');
                 $mySubList.addClass('show');
 
+                // 4. [중요] 새로 추가한 민원안내 구조(sub_complaint)와 영등포본동 구조 모두 강제 노출
+                $mySubList.find('> ul > li, > .sub_group, > .sub_complaint, > li').addClass('show');
+
+                // 5. 3뎁스 리스트 처리
                 const $myGroupList = $target.closest('.sub_group_list');
                 if ($myGroupList.length > 0) {
                     $myGroupList.addClass('show');
-                    $myGroupList.prev('.sub_group_title, .sub_complaint_title').addClass('open'); // 부모 타이틀 열기
+                    $myGroupList.prev().addClass('open side_active');
                 }
+
                 if ($target.hasClass('sub_group_title') || $target.hasClass('sub_complaint_title')) {
                     $target.next('.sub_group_list').addClass('show');
                 }
-                $mySubList.find('> ul > li, > .sub_group, > .sub_complaint').addClass('show');
             }
         }
     });

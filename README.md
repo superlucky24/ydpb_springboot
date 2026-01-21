@@ -7,6 +7,8 @@ Spring 기반 웹 프로젝트
 본 프로젝트는 **영등포본동 동주민센터의 행정 업무를 전산화**하기 위한 웹 기반 관리 시스템입니다.  
 Spring MVC 구조를 기반으로 하여 **회원 관리, 자치회관 관리, 민원 처리 기능**을 구현하는 것을 목표로 합니다.(추후에 기능 추가 예정)
 
+노션
+https://www.notion.so/2ee0a893b88c8004b637f0cbc3c1baf9?source=copy_link
 ---
 
 ## 🛠 사용 기술
@@ -27,10 +29,6 @@ Spring MVC 구조를 기반으로 하여 **회원 관리, 자치회관 관리, �
 - 페이징 처리 기능  
 - Spring MVC 기반 요청/응답 구조  
 
----
-
-프로젝트 노션
-https://www.notion.so/2ee0a893b88c8004b637f0cbc3c1baf9?source=copy_link
 
 ---
 

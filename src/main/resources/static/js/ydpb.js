@@ -10,28 +10,27 @@ $(document).ready(function() {
  */
 function initUi() {
     // 링크 # 처리한 a 태그 클릭 이벤트 시 경고창 출력 : 20251216 최상림 추가
-    $('a[href="#"]').click(function(e) {
+    $('a[href="#"]').click(function (e) {
         e.preventDefault();
         layerAlert('죄송합니다.<br> 현재 준비중인 메뉴입니다.');
     });
 
     // 액션 # 처리한 form 태그 submit 이벤트 시 경고창 출력 : 20251216 최상림 추가
-    $('form[action="#"]').submit(function(e) {
+    $('form[action="#"]').submit(function (e) {
         e.preventDefault();
         layerAlert('죄송합니다.<br> 현재 준비중인 메뉴입니다.');
     });
-    
+
     // 헤더,푸터 251218 박귀환 추가
     // Header 
     // .global_menu .top_func 클릭 스크립트
-    $('.top_func > li .active_box button').on('click',function () {
+    $('.top_func > li .active_box button').on('click', function () {
 
         //active 클래스가 있으면
-        if($(this).hasClass('active')){
+        if ($(this).hasClass('active')) {
             $(this).removeClass('active');
             $(this).next().slideUp();
-        }
-        else{//active 클래스가 없으면
+        } else {//active 클래스가 없으면
             // 모든 active 클래스 제거 및 리스트 숨김
             $('.top_func > li .active_box button').removeClass('active');
             $('.top_func > li .active_box button').next().slideUp();
@@ -50,15 +49,14 @@ function initUi() {
         $('.top_menu > ul > li').removeClass('active');
         $('.black_opacity').hide();
     });
-    
+
     // Footer
-    $('.site_list .active_box button').on('click',function () {
+    $('.site_list .active_box button').on('click', function () {
         //active 클래스가 있으면
-        if($(this).hasClass('active')){
+        if ($(this).hasClass('active')) {
             $(this).removeClass('active');
             $(this).next().slideUp();
-        }
-        else{//active 클래스가 없으면
+        } else {//active 클래스가 없으면
             // 모든 active 클래스 제거 및 리스트 숨김
             $('.site_list .active_box button').removeClass('active');
             $('.site_list .active_box button').next().slideUp();
@@ -68,54 +66,86 @@ function initUi() {
         }
     });
 
-    // 사이드메뉴 클릭 이벤트 : 20251218 윤성민 추가
-    $('.side_list_menu>div').on('click', function(){        
-        $(this).parent('.side_list_menu').siblings().removeClass('open');
-        $(this).parent().siblings().find('.sub_list').removeClass('show');
-        $(this).parent().siblings().find('.sub_group').removeClass('show');
-        $(this).parent().siblings().find('.sub_complaint').removeClass('show');
-        $(this).next('.sub_list').toggleClass('show');
-        $(this).next().find('.sub_group').toggleClass('show');
-        $(this).next().find('.sub_complaint').toggleClass('show');
-        $(this).parent().toggleClass('open');
+// 사이드메뉴 클릭 이벤트 : 20251218 윤성민 추가 / 최연수 20260120 민원안내 추가
+    $('.side_list_menu > div').on('click', function () {
+        const $thisMenu = $(this).parent('.side_list_menu');
+        const $thisSubList = $(this).next('.sub_list');
+
+        $thisMenu.siblings().removeClass('open').find('.sub_list').removeClass('show');
+        $thisMenu.siblings().find('.sub_group, .sub_complaint').removeClass('show');
+
+        $thisMenu.toggleClass('open');
+        $thisSubList.toggleClass('show');
+
+        if ($thisSubList.hasClass('show')) {
+            $thisSubList.find('> ul > li, > .sub_group, > .sub_complaint').addClass('show');
+        }
     });
 
-    $('.sub_group_title').on('click', function(){
+    $(document).on('click', '.sub_group_title, .sub_complaint_title', function () {
         $('.sub_group_title').not(this).removeClass('open');
         $('.sub_complaint_title').not(this).removeClass('open');
         $('.sub_group_list').not($(this).next('.sub_group_list')).removeClass('show');
+
         $(this).toggleClass('open');
         $(this).next('.sub_group_list').toggleClass('show');
     });
 
-    // 로케이션 공유 버튼 클릭 이벤트 : 20251219 윤성민 추가
-    $('.loc_sns').on('click', function() {
+// 로케이션 공유 버튼 클릭 이벤트 : 20251219 윤성민 추가
+    $('.loc_sns').on('click', function () {
         $(this).toggleClass('checked');
         $('.sns_list').toggleClass('show');
     });
 
-    // menuName 변수가 있을 경우 해당 값에 해당하는 사이드메뉴 열기 : 20251218 최상림 추가
-    // 사이드메뉴를 jQuery load 메소드로 추가하고, 해당 페이지 메뉴 항목을 열기 위한 코드
-    if(typeof menuName != 'undefined' && menuName.trim() != '') {
-        console.log('현재 메뉴명 => ' + menuName);
-        const subList = $('.side_list .side_list_menu').eq(0).children('.sub_list');
-        const subGroupListItems = subList.find('.sub_group_list > li');
-        let thisItem;
-        for(let i = 0; i < subGroupListItems.length; i++) {
-            if(menuName == subGroupListItems.eq(i).find('a').text().trim()) {
-                thisItem = subGroupListItems.eq(i);
-                break;
+// menuName 변수가 있을 경우 해당 값에 해당하는 사이드메뉴 열기 : 20251218 최상림 추가
+// 민원안내 이벤트 추가 및 로직 수정: 20260120 최연수
+    $(window).on('load', function () {
+        if (typeof menuName != 'undefined' && menuName.trim() != '') {
+
+            const locationPathText = $('.location_path').text().trim();
+            const $allPotentialTargets = $('.side_list_menu a, .sub_group_title, .sub_complaint_title').filter(function () {
+                return $(this).text().trim() === menuName;
+            });
+
+            let $target = null;
+            $allPotentialTargets.each(function() {
+                const containerTitle = $(this).closest('.side_list_menu').find('> div span').text().trim();
+                if (locationPathText.includes(containerTitle)) {
+                    $target = $(this);
+                    return false;
+                }
+            });
+
+            if (!$target && $allPotentialTargets.length > 0) $target = $allPotentialTargets.first();
+
+            if ($target && $target.length > 0) {
+                $('.side_list_menu').removeClass('open');
+                $('.sub_list, .sub_group, .sub_complaint, .sub_group_list').removeClass('show');
+                $('.sub_group_title, .sub_complaint_title').removeClass('open side_active');
+                $('.side_list_menu li').removeClass('side_active');
+                if ($target.is('a')) {
+                    $target.closest('li').addClass('side_active');
+                } else {
+                    $target.addClass('side_active open');
+                }
+                const $mySubList = $target.closest('.sub_list');
+                const $mySideMenu = $target.closest('.side_list_menu');
+
+                $mySideMenu.addClass('open');
+                $mySubList.addClass('show');
+
+                const $myGroupList = $target.closest('.sub_group_list');
+                if ($myGroupList.length > 0) {
+                    $myGroupList.addClass('show');
+                    $myGroupList.prev('.sub_group_title, .sub_complaint_title').addClass('open'); // 부모 타이틀 열기
+                }
+                if ($target.hasClass('sub_group_title') || $target.hasClass('sub_complaint_title')) {
+                    $target.next('.sub_group_list').addClass('show');
+                }
+                $mySubList.find('> ul > li, > .sub_group, > .sub_complaint').addClass('show');
             }
         }
-        if(thisItem.length > 0) {
-            subGroupListItems.removeClass('side_active');
-            subList.find('.sub_group_list.show').removeClass('show');
-            subList.find('.sub_group_title.open').removeClass('open');
-            thisItem.addClass('side_active');
-            thisItem.closest('.sub_group_list').addClass('show');
-            thisItem.closest('.sub_group_list').siblings('.sub_group_title').addClass('open');
-        }
-    }
+    });
 }
 
 /**

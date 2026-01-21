@@ -25,7 +25,6 @@ public class FirebaseConfig {
             // 이미 초기화 되어있으면 재초기화 방지
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
-                System.out.println("✅ Firebase 초기화 완료");
             }
 
         } catch (IOException e) {

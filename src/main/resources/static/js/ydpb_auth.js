@@ -95,12 +95,22 @@
     }
 
     $('#sendCodeBtn').on('click', function() {
+        // 로딩 중일 때 이벤트 중지
         if($(this).hasClass('loading')) {
             return false;
         }
+
+        // 입력값 오류 있을 시 전송 실패
+        const resultCount = $('#authSec1 input[data-check="fail"]').length;
+        if(resultCount > 0) {
+            document.getElementById("status").innerText = "입력정보를 다시 확인해주세요!";
+            return false;
+        }
+
         sendCode();
     });
     $('#verifyCodeBtn').on('click', function() {
+        // 로딩 중일 때 이벤트 중지
         if($(this).hasClass('loading')) {
             return false;
         }
@@ -111,7 +121,8 @@
     $('#memName').on('input', function() {
         let textBox = $('.auth_text[data-match="'+ this.id +'"]');
         this.value = this.value.replace(/[^\p{L}]/gu, '');
-        if(this.value) {
+        let isPassed = /^(?:[가-힣]{1,16}|[A-Za-z]{1,50})$/.test(this.value);
+        if(this.value && isPassed) {
             $(this).attr('data-check', 'ok');
             $('#authTitle').html('<b>생년월일\/성별</b>을<br>입력해 주세요');
             $('#authStep2').show();
@@ -119,7 +130,7 @@
         }
         else {
             $(this).attr('data-check', 'fail');
-            textBox.text('이름을 입력해주세요');
+            textBox.text('올바른 이름을 입력해주세요.');
         }
     });
 
@@ -127,10 +138,20 @@
     $('#memJumin1').on('input', function() {
         let textBox = $('.auth_text[data-match="'+ this.id +'"]');
         this.value = this.value.slice(0, 6);
+
         if(this.value.length > 5 && !normalizeWithCheck(this.value).wasInvalid) {
             $(this).attr('data-check', 'ok');
-            $('#memBirth').val(normalizeWithCheck(this.value).normalized);
+            const birthDate = normalizeWithCheck(this.value).normalized
+            $('#memBirth').val(birthDate);
             textBox.empty();
+
+            const today = toDateOnly(new Date());
+            const target = toDateOnly(new Date(birthDate));
+            if(today <= target) {
+                $(this).attr('data-check', 'fail');
+                textBox.text('오늘 이전 날짜를 입력해주세요.');
+            }
+
             if($('#memJumin2').attr('data-check') == 'ok') {
                 $('#authStep3').show();
                 $('#authTitle').html('<b>휴대폰번호</b>를<br>입력해 주세요');
@@ -138,7 +159,7 @@
         }
         else {
             $(this).attr('data-check', 'fail');
-            textBox.text('정확한 생년월일을 입력해주세요');
+            textBox.text('정확한 생년월일을 입력해주세요.');
         }
     });
 
@@ -156,6 +177,15 @@
             normalized: date.toISOString().slice(0, 10),
             wasInvalid: changed
         };
+    }
+
+    // 년월일 Date 타입으로 반환
+    function toDateOnly(date) {
+        return new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate()
+        );
     }
 
     // 주민번호 뒷자리 체크

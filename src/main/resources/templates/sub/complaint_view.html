@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>자치회관 게시판 | 자치회관 | 영등포본동 주민센터</title>
+    <title>민원신청 | 우리동이야기 | 영등포본동 주민센터</title>
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
@@ -12,7 +12,7 @@
     <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/prefixfree.min.js}"></script>
-    <script>const menuName = '자치회관 게시판';</script>
+    <script>const menuName = '민원신청';</script>
     <script th:src="@{/js/ydpb.js}"></script>
 </head>
 <body>
@@ -37,7 +37,7 @@
                     <!-- location -->
                     <div class="location">
                         <div class="location_title">
-                            <h2>자치회관 게시판</h2>
+                            <h2>영등포본동 주민센터</h2>
                         </div>
                         <div class="location_path">
                             <span class="loc_home">홈</span>
@@ -46,9 +46,11 @@
                             <span class="loc_arrow">></span>
                             <span class="loc_text"><a th:href="@{/}">영등포본동</a></span>
                             <span class="loc_arrow">></span>
-                            <span class="loc_text"><a href="#">자치회관</a></span>
+                            <span class="loc_text"><a th:href="@{/}">우리동이야기</a></span>
                             <span class="loc_arrow">></span>
-                            <span class="loc_text">자치회관 게시판</span>
+                            <span class="loc_text">
+                                <a th:href="@{/complaint/list}">민원신청</a>
+                            </span>
                         </div>
                         <div class="location_icon">
                             <ul class="loc_fixed_icon">
@@ -74,13 +76,9 @@
                             <div class="bbs_wrap">
                                 <div class="bbs_info">
                                     <div class="bbs_count">
-                                        <span class="line">
-                                            조회수
-                                            <strong th:text="${board.cmntCount}"></strong>
-                                        </span>
                                         <span>
-                                            작성일
-                                            <strong th:text="${#dates.format(board.cmntDate, 'yyyy-MM-dd')}"></strong>
+                                            신청일
+                                            <strong th:text="${#dates.format(complaint.comDate,'yyyy.MM.dd')}">날짜 표시</strong>
                                         </span>
                                     </div>
                                 </div>
@@ -89,50 +87,55 @@
                                         <col class="w20p">
                                         <col>
                                     </colgroup>
-                                    <tbody>
+                                    <tbody class="p-tb">
                                         <tr>
-                                            <td colspan="2"><span class="td_title" th:text="${board.cmntTitle}"></span></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" class="td_text" th:text="${board.cmntContent}"></td>
+                                            <td colspan="2"><span class="td_title" th:text="${complaint.getComTitle()}">제목 표시</span></td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">행정동</th>
-                                            <td>영등포본동</td>
+                                            <td colspan="2" class="td_text" th:text="${complaint.getComContent()}">내용 표시</td>
                                         </tr>
-                                        <!--/* 부서가 있을 때만 표시 */-->
-                                        <tr th:if="${board.cmntDepartment != null}">
-                                            <th scope="row">부서</th>
-                                            <td th:text="${board.cmntDepartment}"></td>
-                                        </tr>
-                                        <!--/* //부서가 있을 때만 표시 */-->
+                                        <th:block th:if="${complaint.getComAnswer != null}">
+                                            <tr>
+                                                <th scope="row">처리상황</th>
+                                                <td class="com-status" th:text="${complaint.getComStatus()}">처리상황 표시</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">종합의견</th>
+                                                <td class="com-answer" th:text="${complaint.getComAnswer()}">종합의견 표시</td>
+                                            </tr>
+                                        </th:block>
                                     </tbody>
                                 </table>
                                 <div class="form_btns_wrap">
-                                    <div class="btns"></div>
                                     <div class="btns">
-                                        <a class="p-btn" th:href="@{/community/list(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}">
+                                        <th:block th:if="${complaint.memId.equals(session.memId) and complaint.getComAnswer == null}">
+                                            <button data-oper="update" class="btn btn_bordered update">수정</button>
+                                            <button data-oper="delete" class="btn btn_bordered delete">삭제</button>
+                                        </th:block>
+                                    </div>
+                                    <div class="btns">
+                                        <button data-oper="list" class="p-btn">
                                             목록
                                             <span class="p-btn_write"></span>
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
-                                <ul class="p-post">
-                                    <li class="p-post-move prev">
-                                        <strong class="p-post-move_title">이전글</strong>
-                                        <a href="#" class="p-post-move_link">2025년 상반기 영등포본동 자치회관 운영결과 보고서</a>
-                                    </li>
-                                    <li class="p-post-move next">
-                                        <strong class="p-post-move_title">다음글</strong>
-                                        <a href="#" class="p-post-move_link">2024년 상반기 영등포본동 자치회관 운영결과 보고서</a>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
 
+                        <!-- 전송용 폼 추가 -->
+                        <form th:action="@{/complaint/update}" method="get" id="operForm">
+                            <input type="hidden" name="comId" id="comId" th:value="${complaint.comId}"/>
+                            <input type="hidden" name="pageNum" id="pageNum" th:value="${cri.pageNum }"/>
+                            <input type="hidden" name="amount" id="amount" th:value="${cri.amount }">
+                            <input type="hidden" name="searchType" th:value="${cri.searchType }">
+                            <input type="hidden" name="searchKeyword" th:value="${cri.searchKeyword }" >
+                        </form>
+                        <!-- //전송용 폼 추가 -->
+
                     </div>
                     <!-- //contents -->
-
+                    
                     <!-- charge info -->
                     <div class="charge_info">
                         <ul>
@@ -157,5 +160,34 @@
         <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
         <!-- //footer -->
     </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // 폼 할당
+            let operForm = $('#operForm');
+
+            //속성 선택자 update 선택
+            $("button[data-oper='update']").on('click',function(){
+                operForm.attr("action","/complaint/update").submit();
+            })
+
+            //속성 선택자 list 선택
+            $("button[data-oper='list'] ").on('click',function(){
+                // 목록 페이지는 아무런 데이터도 필요 없음 => comId 값을 삭제
+                operForm.find("#comId").empty();
+                operForm.attr("action","/complaint/list");
+                operForm.submit();
+            });
+
+            //remove -> method post 방식으로 바꿔주고 submit
+            $("button[data-oper='delete'] ").on('click',function(){
+                if (!confirm("정말 삭제하시겠습니까?")) {
+                    return; // 취소 시 종료
+                }
+                operForm.attr("action",'/complaint/delete').attr("method","post");
+                operForm.submit();
+            });
+        });
+    </script>
 </body>
 </html>

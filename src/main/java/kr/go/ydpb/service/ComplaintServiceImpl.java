@@ -63,4 +63,14 @@ public class ComplaintServiceImpl implements ComplaintService {
         int total = complaintMapper.getAllSearchCount(cri);
         return total;
     }
+
+    @Override
+    public int insertComplaint(ComplaintVO cvo) {
+        return complaintMapper.insertComplaint(cvo);
+    }
+
+    @Override
+    public void updateComplaintUser(ComplaintVO cvo) {
+        complaintMapper.updateComplaintUser(cvo);
+    }
 }

@@ -38,7 +38,11 @@
             })
             .catch((error) => {
                 console.error(error);
-                document.getElementById("status").innerText = "오류: " + error.message;
+                let errorMsg = error.message;
+                if(/invalid-phone-number/.test(errorMsg)) {
+                    errorMsg = "유효한 전화번호가 아닙니다";
+                }
+                document.getElementById("status").innerText = "오류: " + errorMsg;
                 $('#sendCodeBtn').removeClass('loading');
             });
     }
@@ -62,6 +66,8 @@
                     }).then(res => {
                         if (res.ok) {
                             document.getElementById("status").innerText = "서버 인증 완료!";
+
+                            console.log(res.json());
 
                             // 인증 성공 시 부모창으로 데이터 전송 및 현재 창 닫기
                             if (window.opener && !window.opener.closed) {

@@ -88,7 +88,7 @@
                                 </div>
                             </div>
 
-                            <form th:action="@{/joinStep3}" method="post" id="joinForm">
+                            <form th:action="@{/member/joinstep2}" method="post" id="joinForm">
                                 <input type="hidden" id="memName" name="memName">
                                 <input type="hidden" id="memBirth" name="memBirth">
                                 <input type="hidden" id="memPhone" name="memPhone">
@@ -106,7 +106,7 @@
 
     <script>
         $('#btnAuthPhone').on('click', function() {
-            const url = "/authform";
+            const url = "/member/authform";
             const windowName = "전화 인증";
             const width = 480;
             const height = 700;
@@ -124,18 +124,12 @@
 
         // 인증 후 전달하는 데이터 받는 함수
         function receiveData(data) {
-            // 이름
             $('#memName').val(data.name);
-
-            // 생년월일
             $('#memBirth').val(data.birth);
-
-            // 휴대폰 번호
             $('#memPhone').val(data.phone);
-
-            // 성별
             let gender = Number(data.gender)%2 == 1 ? '남' : '여';
             $('#memGender').val(gender);
+            $('#joinForm').submit();
         }
     </script>
 </body>

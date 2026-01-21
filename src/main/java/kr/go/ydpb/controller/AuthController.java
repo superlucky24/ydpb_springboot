@@ -25,7 +25,10 @@ public class AuthController {
         String uid = token.getUid();
         String phoneNumber = token.getClaims().get("phone_number").toString();
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(Map.of(
+                "uid", uid,
+                "phoneNumber", phoneNumber
+        ));
     }
 
 }

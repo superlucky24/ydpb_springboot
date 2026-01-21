@@ -66,4 +66,23 @@ public class JoinController {
         boolean available = !joinService.isIdExist(memId); // 존재하면 false
         return Collections.singletonMap("available", available);
     }
+
+    // 회원가입 1단계
+    /*@GetMapping("/join")
+    public String joinStep1() {
+        return "member/join_step1";
+    }*/
+
+    // 인증 팝업
+    @GetMapping("/authform")
+    public String authForm() {
+        return "member/auth_form";
+    }
+
+    // 회원가입 2단계
+    @PostMapping("/joinstep2")
+    public String joinStep2(@ModelAttribute("member") MemberVO member) {
+        member.setMemNews("Y");
+        return "member/join";
+    }
 }

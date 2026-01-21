@@ -46,16 +46,5 @@ public class MemberController {
         session.invalidate();   // 세션 전체 삭제
         return "redirect:/";    // 메인 페이지로 이동
     }
-
-    @GetMapping("/joinstep1")
-    public String joinStep1() {
-        return "member/join_step1";
-    }
-
-    @GetMapping("/authform")
-    public String authForm() {
-        return "member/auth_form";
-    }
-
-
+    
 }

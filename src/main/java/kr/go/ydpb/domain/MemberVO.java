@@ -34,7 +34,7 @@ public class MemberVO {
     private String memAddressDetail;
 
     @Pattern(
-            regexp = "^(02|031|032|033|041|042|043|044|051|052|053|054|055|061|062|063|064)\\d{7,8}$",
+            regexp = "^$|^(02|031|032|033|041|042|043|044|051|052|053|054|055|061|062|063|064)\\d{7,8}$",
             message = "유효한 유선전화 번호를 입력해주세요."
     )
     private String memTel;

@@ -76,10 +76,16 @@ function initUi() {
         $('.top_menu > ul > li').removeClass('active');
         $(this).parent().addClass('active');
         $('.black_opacity').show();
+
+        // 관리자 헤더 숨기기 20260122 윤성민 추가
+        $('#adminHeader').hide();
     });
     $('.top_menu > ul > li').on('mouseleave', function () {
         $('.top_menu > ul > li').removeClass('active');
         $('.black_opacity').hide();
+
+        // 관리자 헤더 다시 보이기 20260122 윤성민 추가
+        $('#adminHeader').show();
     });
     
     // Footer

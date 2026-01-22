@@ -22,11 +22,13 @@ public class SecurityConfig  {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
+                        .requestMatchers("/admin/**").hasRole("ADMIN") //관리자 접근
+
+                        .requestMatchers( //비로그인 접근
                                 "/",                 // 메인
                                 "/login",             // 커스텀 로그인 페이지
                                 "/oauth2/**",         // OAuth2 인증 엔드포인트
-                                "/member/join",
+                                "/member/**",
                                 "/complaint/**",
                                 "/community/**",
                                 "/css/**", "/js/**", "/images/**"

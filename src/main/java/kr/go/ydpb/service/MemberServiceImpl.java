@@ -4,6 +4,7 @@ import kr.go.ydpb.domain.MemberVO;
 import kr.go.ydpb.mapper.MemberMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,4 +31,5 @@ public class MemberServiceImpl implements MemberService{
         }
         return null;
     }
+
 }

@@ -36,6 +36,7 @@ public class MemberController {
         if (loginMember != null) {
             session.setAttribute("memId", loginMember.getMemId());
             session.setAttribute("admin", loginMember.getMemRole());
+
             return "redirect:/"; // 메인 페이지 이동
         }
 

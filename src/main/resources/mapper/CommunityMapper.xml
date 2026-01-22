@@ -33,56 +33,52 @@
     </update>
 
     <sql id="criteria">
-        <trim prefix="(" suffix=") " prefixOverrides="OR">
-            <foreach item="type" collection="typeArr">
-                <trim prefix="OR">
-                    <choose>
-                        <when test="type == 'T'.toString()">
-                            cmntTitle like '%'||#{searchKeyword}||'%'
-                        </when>
-                        <when test="type == 'C'.toString()">
-                            cmntContent like '%'||#{searchKeyword}||'%'
-                        </when>
-                        <when test="type == 'D'.toString()">
-                            cmntDepartment like '%'||#{searchKeyword}||'%'
-                        </when>
-                    </choose>
-                </trim>
-            </foreach>
-        </trim>
+        <choose>
+            <when test="searchType == 'T'.toString()">
+                cmntTitle like '%'||#{searchKeyword}||'%'
+            </when>
+            <when test="searchType == 'C'.toString()">
+                cmntContent like '%'||#{searchKeyword}||'%'
+            </when>
+            <when test="searchType == 'D'.toString()">
+                cmntDepartment like '%'||#{searchKeyword}||'%'
+            </when>
+        </choose>
     </sql>
 
     <select id="getList" resultType="kr.go.ydpb.domain.CommunityVO">
         <![CDATA[
         select *
         from (
-        select /*+INDEX_DESC(tbl_community idx_community_cmntDate) */
-        cmntId, cmntTitle, cmntDate, cmntUpdatedate, cmntDepartment, cmntContent, cmntCount, memId,
-        ROW_NUMBER() over (order by cmntDate desc) as rn
-        from tbl_community
+            select /*+INDEX_DESC(tbl_community SYS_C007039) */
+                cmntId, cmntTitle, cmntDate, cmntUpdatedate, cmntDepartment, cmntContent, cmntCount, memId,
+                ROW_NUMBER() over (order by cmntId desc) as rn
+            from
+                tbl_community
         ]]>
-        <if test="searchKeyword != null and searchKeyword != ''.toString()">
-            where
-            <include refid="criteria"/>
-        </if>
+            <if test="searchKeyword != null and searchKeyword != ''.toString()">
+                where
+                <include refid="criteria"/>
+            </if>
         <![CDATA[
         )
-        where rn > (#{pageNum} - 1) * #{amount} and rn <= #{pageNum} * #{amount}
+        where
+            rn > (#{pageNum} - 1) * #{amount} and rn <= #{pageNum} * #{amount}
         ]]>
     </select>
 
     <select id="getTotalCount" resultType="int">
         select
-        count(*)
+            count(*)
         from
-        tbl_community
+            tbl_community
         where
         <if test="searchKeyword != null and searchKeyword != ''.toString()">
             <include refid="criteria"/>
             and
         </if>
         <![CDATA[
-           cmntId > 0
+            cmntId > 0
         ]]>
     </select>
 

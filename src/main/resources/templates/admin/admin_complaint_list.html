@@ -199,6 +199,8 @@
 <!--                     검색용 데이터 같이 전송-->
                         <input name="searchKeyword"  type="hidden" th:value="${pageMaker.cri.searchKeyword }" >
                         <input name="searchType"  type="hidden" th:value="${pageMaker.cri.searchType }" >
+
+<!--                        <input type="hidden" name="comId" id="comIdInput">-->
                     </form>
                     <!-- //contents -->
                     
@@ -246,6 +248,8 @@
                 // alert('bb');
                 var comId = $(this).data("comid");
                 //move 클래스에 hidden으로 번호 전송하기 위해 append()사용
+                // $("#comIdInput").val($(this).attr("href"));
+                actionForm.find("input[name='comId']").remove();
                 actionForm.append("<input type='hidden' name='comId' value='"
                     + $(this).attr("href")+ "'>");
                 actionForm.attr("action","/admin/complaint/view");

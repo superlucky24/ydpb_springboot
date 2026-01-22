@@ -4,6 +4,7 @@ import kr.go.ydpb.domain.Criteria;
 import kr.go.ydpb.domain.MemberVO;
 import kr.go.ydpb.mapper.AdminMemberMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
 public class AdminMemberServiceImpl implements AdminMemberService {
 
     private final AdminMemberMapper adminMemberMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public List<MemberVO> getMemberList(Criteria cri) {
@@ -25,7 +27,11 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 
     @Override
     public int updatePassword(String memId, String memPassword) {
-        return adminMemberMapper.updatePassword(memId, memPassword);
+        // 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(memPassword);
+
+        // 암호화된 비밀번호 저장
+        return adminMemberMapper.updatePassword(memId, encodedPassword);
     }
 
     @Override

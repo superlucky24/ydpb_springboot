@@ -1,5 +1,6 @@
 package kr.go.ydpb.service;
 
+import kr.go.ydpb.domain.KakaoUserResponse;
 import kr.go.ydpb.domain.MemberVO;
 import kr.go.ydpb.domain.NaverUserResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -30,18 +32,53 @@ public class CustomOAuth2UserService  implements OAuth2UserService<OAuth2UserReq
         OAuth2User oauth2User =
                 new DefaultOAuth2UserService().loadUser(userRequest);
 
-        Map<String, Object> response =
-                (Map<String, Object>) oauth2User.getAttributes().get("response");
+        String registrationId =
+                userRequest.getClientRegistration().getRegistrationId();
+
+        Map<String, Object> response = new HashMap<>(oauth2User.getAttributes());
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        NaverUserResponse.Response naverUser =
-                objectMapper.convertValue(response, NaverUserResponse.Response.class);
+        MemberVO member = null;
+        Map<String, Object> attributes = new HashMap<>(oauth2User.getAttributes());
+        String nameAttributeKey = null;
+//      네이버 로그인 처리
+        if ("naver".equals(registrationId)) {
 
-        NaverUserResponse nur = new NaverUserResponse();
+            attributes = (Map<String, Object>) oauth2User.getAttributes().get("response");
 
-        // DB 연동
-        MemberVO member = joinService.naverLoginOrJoin(naverUser);
+            NaverUserResponse.Response naverUser =
+                    objectMapper.convertValue(attributes, NaverUserResponse.Response.class);
+
+            member = joinService.naverLoginOrJoin(naverUser);
+
+            nameAttributeKey = "id";
+        }
+
+//      카카오 로그인 처리
+        else if ("kakao".equals(registrationId)) {
+
+            Map<String, Object> kakaoAccount =
+                    (Map<String, Object>) oauth2User.getAttributes().get("kakao_account");
+
+            Map<String, Object> profile =
+                    (Map<String, Object>) kakaoAccount.get("profile");
+
+            KakaoUserResponse kakaoUser = new KakaoUserResponse(
+                    oauth2User.getAttribute("id").toString(),
+                    (String) profile.get("nickname"),
+                    (String) kakaoAccount.get("email")
+            );
+
+            member = joinService.kakaoLoginOrJoin(kakaoUser);
+
+            attributes.put("name", (String)profile.get("nickname"));
+            nameAttributeKey = "id";
+        }
+        else {
+            throw new OAuth2AuthenticationException("지원하지 않는 OAuth 제공자: " + registrationId);
+        }
+
         String role = switch (member.getMemRole()) {
             case 0 -> "ROLE_USER";
             case 1 -> "ROLE_ADMIN";
@@ -50,7 +87,7 @@ public class CustomOAuth2UserService  implements OAuth2UserService<OAuth2UserReq
         System.out.println("### OAuth ROLE = " + role);
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(role)),
-                response,
+                attributes,
                 "id"
         );
     }

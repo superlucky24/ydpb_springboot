@@ -46,27 +46,27 @@ public class NaverController {
 //    }
 
     //네이버 로그아웃
-    @GetMapping("/naver/logout")
-    public String naverLogout(
-            @AuthenticationPrincipal OAuth2User oAuth2User,
-            HttpSession session
-    ) {
-
-        String accessToken = (String) session.getAttribute("NAVER_ACCESS_TOKEN");
-
-        if (accessToken != null) {
-            // 네이버 토큰 삭제 요청
-            String url = "https://nid.naver.com/oauth2.0/token"
-                    + "?grant_type=delete"
-                    + "&client_id=9KcfO7UpD8oqiXNlCdAq"
-                    + "&client_secret=FAuvwARm60"
-                    + "&access_token=" + accessToken
-                    + "&service_provider=NAVER";
-
-            // RestTemplate 또는 WebClient 호출
-        }
-
-        session.invalidate(); // 이중 안전
-        return "redirect:/";
-    }
+//    @GetMapping("/naver/logout")
+//    public String naverLogout(
+//            @AuthenticationPrincipal OAuth2User oAuth2User,
+//            HttpSession session
+//    ) {
+//
+//        String accessToken = (String) session.getAttribute("NAVER_ACCESS_TOKEN");
+//
+//        if (accessToken != null) {
+//            // 네이버 토큰 삭제 요청
+//            String url = "https://nid.naver.com/oauth2.0/token"
+//                    + "?grant_type=delete"
+//                    + "&client_id="
+//                    + "&client_secret="
+//                    + "&access_token=" + accessToken
+//                    + "&service_provider=NAVER";
+//
+//            // RestTemplate 또는 WebClient 호출
+//        }
+//
+//        session.invalidate(); // 이중 안전
+//        return "redirect:/";
+//    }
 }

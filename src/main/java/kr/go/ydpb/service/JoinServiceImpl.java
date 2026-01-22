@@ -40,10 +40,10 @@ public class JoinServiceImpl implements JoinService{
     @Override
     public MemberVO kakaoLoginOrJoin(KakaoUserResponse kakaoUser) {
 
-        Long kakaoId = kakaoUser.getId();
+        String kakaoId = kakaoUser.getId();
 
         // 1 카카오 ID 기준 회원 조회
-        MemberVO member = joinMapper.findById(kakaoId+"");
+        MemberVO member = joinMapper.findById(kakaoId);
 
         // 2 기존 회원이면 그대로 로그인
         if (member != null) {
@@ -56,11 +56,11 @@ public class JoinServiceImpl implements JoinService{
         newMember.setLoginType("KAKAO");
 
         newMember.setMemName(
-                kakaoUser.getKakaoAccount().getProfile().getNickname()
+                kakaoUser.getNickname()
         );
 
         newMember.setMemEmail(
-                kakaoUser.getKakaoAccount().getEmail()
+                kakaoUser.getEmail()
         );
 
         // 비밀번호는 사용 안 함 (NOT NULL 대응)

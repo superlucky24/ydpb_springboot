@@ -38,3 +38,6 @@ out/
 
 #
 src/main/resources/application.properties
+
+# api 키 값 설정
+src/main/resources/application-secret.properties

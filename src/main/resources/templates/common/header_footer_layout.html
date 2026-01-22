@@ -1474,10 +1474,8 @@
                 </div>
 
                 <div class="red_box" sec:authorize="isAuthenticated()">
-
                     <a th:text="${#authentication.principal.attributes['name']}"></a>
                     <a th:href="@{/logout}" class="icon_logout">로그아웃</a>
-
                 </div>
             </div>
         </div>

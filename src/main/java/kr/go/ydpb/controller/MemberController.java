@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import kr.go.ydpb.domain.MemberVO;
 import kr.go.ydpb.service.MemberService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MemberController {
 
     private MemberService service;
-
 
     @GetMapping("/login")
     public String Login() {

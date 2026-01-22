@@ -2,24 +2,14 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>수수료 결제 | 민원안내 | 영등포본동 주민센터</title>
-
-  <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+  <title>가족관계증명서 신청 | 영등포본동 주민센터</title>
   <link rel="stylesheet" th:href="@{/css/reset.css}">
   <link rel="stylesheet" th:href="@{/css/ydpb.css}">
   <link rel="stylesheet" th:href="@{/css/ydpb_status.css}">
   <link rel="stylesheet" th:href="@{/css/ydpb_SHAdd.css}">
-
-<!-- 결제용 스크립트 API V2버젼 -->
-  <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
-
-  <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
   <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
-  <script th:src="@{/js/prefixfree.min.js}"></script>
-  <script>const menuName = '수수료 결제';</script>
   <script th:src="@{/js/ydpb.js}"></script>
+  <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 </head>
 <body>
 <div id="wrap">
@@ -32,102 +22,96 @@
 
       <main>
         <div class="location">
-          <div class="location_title">
-            <h2>수수료 결제</h2>
-          </div>
+          <div class="location_title"><h2>가족관계증명서 신청</h2></div>
           <div class="location_path">
             <span class="loc_home"><a th:href="@{/}">홈</a></span>
             <span class="loc_arrow">></span>
-            <span class="loc_text"><a th:href="@{/}">민원안내</a></span>
+            <span class="loc_text">민원안내</span>
             <span class="loc_arrow">></span>
-            <span class="loc_text">수수료 결제</span>
+            <span class="loc_text">가족관계증명서</span>
           </div>
         </div>
 
         <div class="contents">
-          <h3 class="title">신청 서비스 수수료 결제</h3>
-
-          <div class="box icon">
+          <div class="box icon family">
             <div class="box_wrap">
-              <div class="box_title">온라인 결제 안내</div>
-              <p>민원 서류 발급을 위한 수수료 결제 단계입니다. 아래 결제 정보를 확인하신 후 결제하기 버튼을 클릭하여 주시기 바랍니다.</p>
+              <div class="box_title">발급 안내</div>
+              <p>본 서비스는 로그인 후 이용 가능하며, 수수료 결제 완료 즉시 발급 프로세스가 진행됩니다.</p>
             </div>
           </div>
 
-          <div class="temp_box type1" style="margin-top: 20px;">
-            <div class="box_wrap">
-              <ul class="ul_common">
-                <li><strong>결제 항목 :</strong> 민원 서류 발급 수수료</li>
-                <li><strong>결제 금액 :</strong> <span style="color:#e63946; font-weight:bold; font-size: 18px;">1,500원</span></li>
-                <li><strong>결제 수단 :</strong> 카카오페이 (간편결제)</li>
-              </ul>
+          <h3 class="title">온라인 신청 정보 확인</h3>
+
+          <div class="temp_box type1">
+            <div class="temp_box_wrap">
+              <table class="table_form"> <colgroup>
+                <col style="width:25%;">
+                <col style="width:75%;">
+              </colgroup>
+                <tbody>
+                <tr>
+                  <th>신청인 ID</th>
+                  <td><strong th:text="${session.memId}">-</strong></td>
+                </tr>
+                <tr>
+                  <th>신청 서류</th>
+                  <td>가족관계증명서 (1부)</td>
+                </tr>
+                <tr>
+                  <th>결제 금액</th>
+                  <td><span style="color:#e9463c; font-weight:700; font-size:1.8rem;">1,000원</span></td>
+                </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
-          <div style="text-align: center; margin-top: 40px;">
-            <button type="button" onclick="goPayment()"
-                    style="padding:15px 50px; background:#004ea2; color:#fff; border:none; cursor:pointer; font-size:16px; font-weight:bold; border-radius:3px;">
-              카카오페이로 결제하기
+          <div class="form_btns_wrap" style="justify-content: center;">
+            <button type="button" onclick="goPayment()" class="btn btn_write" style="width:280px; height:50px; font-size:1.8rem;">
+              결제 및 신청서 제출
             </button>
           </div>
         </div>
       </main>
     </div>
   </div>
-
   <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
 </div>
 
 <script th:inline="javascript">
+  // 로그인 체크 알림창 우선 실행
+  (function() {
+    const memId = [[${session.memId}]];
+    if (!memId) {
+      alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
+      location.href = "/login";
+    }
+  })();
+
   async function goPayment() {
-    // 1. 진행 여부 확인
-    if (!confirm("결제를 진행하시겠습니까?")) return;
+    if (!confirm("가족관계증명서 발급 수수료 1,000원을 결제하시겠습니까?")) return;
 
     try {
-      // 2. PortOne V2 결제 요청 함수 호출
       const response = await PortOne.requestPayment({
-        storeId: "store-b4f6c958-2d99-4d7c-bc10-7ce431dab851", // store ID
-        channelKey: "channel-key-ff34e2fa-6621-4673-be89-daf679a0d7f5", // 결제 채널키
-        paymentId: "order_" + new Date().getTime(), // 매번 고유해야 하는 주문번호
-        orderName: "민원 수수료 결제",
-        totalAmount: 10, // 최소 단위
+        storeId: "store-b4f6c958-2d99-4d7c-bc10-7ce431dab851",
+        channelKey: "channel-key-ff34e2fa-6621-4673-be89-daf679a0d7f5",
+        paymentId: "DOC_" + new Date().getTime(),
+        orderName: "가족관계증명서 발급 수수료",
+        totalAmount: 1000, //
         currency: "CURRENCY_KRW",
-        payMethod: "EASY_PAY", // 간편결제 방식
-        easyPay: {
-          giftCertificateType: "KAKAOPAY" // 카카오페이 지정
-        },
-        customer: {
-          fullName: "홍길동",
-          phoneNumber: "010-1234-5678"
-        }
+        payMethod: "EASY_PAY",
+        easyPay: { giftCertificateType: "KAKAOPAY" },
+        customer: { fullName: [[${session.memId}]] }
       });
 
-      // 3. 결제창을 닫거나 오류가 발생했을 때 처리
-      if (response.code != null) {
-        // response.code가 존재하면 결제 실패/취소 상태입니다.
-        return alert("결제 실패 사유: " + response.message);
-      }
+      if (response.code != null) return alert("결제 실패: " + response.message);
 
-      // 4. 결제 성공 시 서버로 데이터 전송 (검증 및 DB 저장)
-      const verifyResponse = await fetch("/api/payment/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          paymentId: response.paymentId
-        })
-      });
-
-      if (verifyResponse.ok) {
-        alert("결제가 성공적으로 완료되었습니다!");
-        location.href = "/sub/status"; // 성공 시 이동할 페이지
-      } else {
-        alert("결제는 성공했으나 서버 저장에 실패했습니다.");
-      }
+      // 결제 성공 시 발급 완료 페이지로 이동
+      alert("결제가 완료되었습니다! 발급 페이지로 이동합니다.");
+      location.href = "/sub/complete";
 
     } catch (error) {
-      // 네트워크 에러나 예상치 못한 시스템 에러 처리
-      console.error(error);
-      alert("결제 요청 중 오류가 발생했습니다.");
+      alert("결제 오류 발생");
     }
   }
 </script>

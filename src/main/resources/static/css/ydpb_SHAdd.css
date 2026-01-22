@@ -65,6 +65,11 @@ h4, .h4 {
 
 }
 
+/* 서류제출용 이미지 css추가 */
+.box.icon.family .box_wrap:before {
+    background-image: url("../images/sub/document_print.png") !important;
+}
+
 
 .box {
     position: relative;

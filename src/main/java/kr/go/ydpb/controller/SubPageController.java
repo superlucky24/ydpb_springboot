@@ -32,4 +32,9 @@ public class SubPageController {
     public String paymentPage() {
         return "sub/payment";
     }
+    @GetMapping("/complete")
+    public String documentComplete() {
+        return "sub/document_complete";
+    }
+
 }

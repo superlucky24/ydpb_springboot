@@ -1475,12 +1475,10 @@
 
                 </div>
             </div>
-        </div>1
+        </div>
         <!-- /GNB -->
         <div class="header" id="adminHeader" th:if="${session.admin == 1}" th:insert="~{/admin/common/admin_header_footer::header}"></div>
     </header>
-
-    </div>
 
     <!-- search -->
     <div class="search" th:fragment="search">
@@ -1491,9 +1489,10 @@
                         <div>
                             <!-- 날씨 -->
 
-                            <div class="weather">
+                            <div class="weather" id="weather_wrap">
                                 <div class="icon">
-                                    <img th:src="@{/images/common/weather_04.png}" alt="" class="WEATHER_ICON"></div>
+                                    <img th:src="@{/images/common/weather_04.png}" id="weather_temperature_img" alt="날씨 이미지" class="WEATHER_ICON" th:data-path="@{/images/common/}">
+                                </div>
                                 <div>
                                     <p>
                                         <span id="weather_temperature_num">4.1˚C</span>
@@ -1859,7 +1858,9 @@
         <div class="black_opacity"></div>
     </footer>
     <!-- //footer -->
+
 </div>
+<!-- //wrap -->
     <script>
         $(document).ready(function (){
             // 로그인 상태 아닐 시 글쓰기 버튼 클릭 이벤트

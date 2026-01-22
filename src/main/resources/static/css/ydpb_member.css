@@ -454,3 +454,22 @@
 .join_form .btns .btn {
     padding: 7px 24px;
 }
+
+/* 추가 0116 귀환 */
+.hide{
+    display: none;
+}
+
+#memTel1{
+    appearance: auto;
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+}
+
+/* 추가 0120 귀환 */
+.cautionText{
+    color: red;
+}
+.cautionBorder{
+    border-color: red;
+}

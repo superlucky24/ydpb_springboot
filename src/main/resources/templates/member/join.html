@@ -14,13 +14,18 @@
     <script th:src="@{/js/ydpb.js}"></script>
     <script th:src="@{/js/ydpb_member.js}"></script>
 </head>
+<th:block th:if="${msg !=null}" >
+    <script th:inline="javascript">
+        alert([[${msg}]]);
+    </script>
+</th:block>
 <body>
     <div id="wrap" class="member_wrap">
         <!-- member header -->
         <header class="member_header">
             <div class="header_inner">
                 <h1>
-                    <a href="../"><span class="blind">영등포구</span></a><b>통합로그인</b>
+                    <a th:href="@{/}"><span class="blind">영등포구</span></a><b>통합로그인</b>
                 </h1>
                 <p>영등포구청 홈페이지를 방문해주신 여러분 환영합니다</p>
             </div>
@@ -66,7 +71,7 @@
                                 <span>가입완료</span>
                             </li>
                         </ol>
-                        <form th:action="@{/member/join}" method="post" class="join_form" th:object="${member}">
+                        <form th:action="@{/member/join}" method="post" class="join_form" th:object="${member}" id="join_form">
                             <table class="table_form">
                                 <colgroup>
                                     <col class="col1">
@@ -79,9 +84,14 @@
                                             <span class="required_mark">필수</span>
                                         </th>
                                         <td>
-                                            <input type="text" th:field="*{memId}" id="memId" class="input input_auto" maxlength="20" size="40" required>
-                                            <button type="button" class="btn btn_write btn_sm" onclick="layerAlert('죄송합니다.<br> 현재 준비중인 메뉴입니다.')">중복확인</button>
-                                            <p>※ ID는 20자리 이하로 입력하셔야 합니다.</p>
+                                            <input type="text" th:field="*{memId}" id="memId" class="input input_auto" maxlength="20" minlength="6" size="40" required>
+                                            <button type="button" class="btn btn_write btn_sm"  id="id_check_btn" >중복확인</button>
+                                            <span id="id_result"></span>
+                                            <p class="id_message">※ 아이디를 입력해주세요.</p>
+                                            <p class="failure_message">※ 아이디는 6자 이상 20자 이하여야 합니다.</p>
+                                            <p class="failure_message2">※ 아이디는 영어 소문자 또는 숫자만 가능하고 소문자로 시작해야 합니다.</p>
+                                            <p class="id_message2">※ 입력 완료 후 중복확인을 해주세요.</p>
+<!--                                            <p>※ ID는 20자리 이하로 입력하셔야 합니다.</p>-->
                                         </td>
                                     </tr>
                                     <tr>
@@ -90,7 +100,10 @@
                                             <span class="required_mark">필수</span>
                                         </th>
                                         <td>
-                                            <input type="text" th:field="*{memName}" id="memName" class="input input_auto" maxlength="20" size="40" required>
+                                            <input type="text" th:field="*{memName}" id="memName" class="input input_auto" maxlength="50" size="50" required>
+
+                                            <p class="name_msg1">※ 이름을 입력해주세요</p>
+                                            <p class="name_msg2">※ 최대 한글 16자, 영문 50자까지 입력 가능(특수기호, 공백 사용 불가)</p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -103,7 +116,7 @@
                                         <th scope="row">사용자 성별</th>
                                         <td>
                                             <div class="radio">
-                                                <input type="radio" th:field="*{memGender}" id="memGenderM" value="남">
+                                                <input type="radio" th:field="*{memGender}" id="memGenderM" value="남" th:checked>
                                                 <label for="memGenderM">남</label>
                                             </div>
                                             <div class="radio">
@@ -116,10 +129,12 @@
                                         <th scope="row">
                                             <label for="memPassword">비밀번호</label>
                                             <span class="required_mark">필수</span>
+
                                         </th>
                                         <td>
-                                            <input type="password" th:field="*{memPassword}" id="memPassword" class="input input_auto" maxlength="20" size="40" required>
-                                            <p>※ 비밀번호는 20자리 이하로 입력하셔야 합니다.</p>
+                                            <input type="password" th:field="*{memPassword}" id="memPassword" class="input input_auto" maxlength="20" minlength="8"  size="40" required>
+                                            <p class="strongPassword_message1">※ 비밀번호는 8자리 이상 20자리 이하 영어,특수문자,숫자를 포함해야 합니다.</p>
+<!--                                            <p>※ 비밀번호는 20자리 이하로 입력하셔야 합니다.</p>-->
                                         </td>
                                     </tr>
                                     <tr>
@@ -128,7 +143,9 @@
                                             <span class="required_mark">필수</span>
                                         </th>
                                         <td>
-                                            <input type="password" name="memPasswordRe" id="memPasswordRe" class="input input_auto" maxlength="20" size="40" required>
+                                            <input type="password" name="memPasswordRe" id="memPasswordRe" class="input input_auto" maxlength="20" minlength="8" size="40" required>
+                                            <span id="error_msg"></span>
+                                            <p class="strongPassword_message2">※ 비밀번호는 8자리 이상 20자리 이하 영어,특수문자,숫자를 포함해야 합니다.</p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -141,27 +158,33 @@
                                             <button type="button" class="btn btn_cancel btn_sm" onclick="execDaumPostcode()">주소찾기</button>
                                             <span class="text_alert">우편번호 검색창이 새창으로 열립니다.</span>
                                             <input type="text" th:field="*{memAddress}" id="memAddress" class="input" maxlength="200" placeholder="주소" readonly required>
-                                            <input type="text" th:field="*{memAddressDetail}" id="memAddressDetail" class="input" maxlength="300" placeholder="상세주소">
+
+                                            <input type="text" th:field="*{memAddressDetail}" id="memAddressDetail" class="input" maxlength="300" placeholder="상세주소" disabled>
+                                            <p class="addr_msg">※ 주소찾기 버튼 클릭하고 우편번호 선택하신 뒤 상세주소 입력해주세요  </p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th scope="row">일반전화</th>
                                         <td>
-                                            <input type="text" th:field="*{memTel1}" id="memTel1" class="input input_auto" maxlength="3" size="3">-
-                                            <input type="text" th:field="*{memTel2}" id="memTel2" class="input input_auto" maxlength="4" size="4">-
-                                            <input type="text" th:field="*{memTel3}" id="memTel3" class="input input_auto" maxlength="4" size="4">
+                                            <input type="text" name="memTel" id="memTel" th:field="*{memTel}" class="input input_auto " maxlength="11" size="15"
+                                                   inputmode="numeric"  >
+                                            <p class="tel_msg">※ 일반 전화번호를 입력해주세요(- 없이 숫자만)</p>
                                         </td>
                                     </tr>
+
                                     <tr>
                                         <th scope="row">
                                             휴대폰
                                             <span class="required_mark">필수</span>
                                         </th>
                                         <td>
-                                            <input type="text" th:field="*{memPhone1}" id="memPhone1" class="input input_auto" maxlength="3" size="3" required>-
-                                            <input type="text" th:field="*{memPhone2}" id="memPhone2" class="input input_auto" maxlength="4" size="4" required>-
-                                            <input type="text" th:field="*{memPhone3}" id="memPhone3" class="input input_auto" maxlength="4" size="4" required>
+                                            <input type="text" name="memPhone" id="memPhone" th:field="*{memPhone}" class="input input_auto" maxlength="11" size="15" required >
+
+                                            <p class="phone_msg">※ 휴대폰 번호를 입력해주세요(- 없이 숫자만)</p>
                                         </td>
+
+<!--                                        <input type="hidden" th:field="*{memTel}" id="memTel">-->
+<!--                                        <input type="hidden" th:field="*{memPhone}" id="memPhone">-->
                                     </tr>
                                     <tr>
                                         <th scope="row">
@@ -169,16 +192,20 @@
                                             <span class="required_mark">필수</span>
                                         </th>
                                         <td>
-                                            <input type="text" th:field="*{memEmail1}" id="memEmail1" class="input input_auto" required>
-                                            @
-                                            <input type="text" th:field="*{memEmail2}" id="memEmail2" class="input input_auto" required>
+                                            <input type="text" name="memEmail" th:field="*{memEmail}"  id="memEmail" class="input input_auto" required>
+
+                                            <p class="email_msg ">※ 이메일을 입력해주세요</p>
+<!--                                            @-->
+<!--                                            <input type="text" name="memEmail2" id="memEmail2" class="input input_auto" required>-->
                                         </td>
                                     </tr>
+<!--                                    <input type="hidden" th:field="*{memEmail}" id="memEmail">-->
+
                                     <tr>
                                         <th scope="row">영등포구소식</th>
                                         <td>
                                             <div class="radio">
-                                                <input type="radio" th:field="*{memNews}" id="memNewsY" value="Y">
+                                                <input type="radio" th:field="*{memNews}" id="memNewsY" value="Y" th:checked>
                                                 <label for="memNewsY">받음</label>
                                             </div>
                                             <div class="radio">
@@ -190,7 +217,7 @@
                                 </tbody>
                             </table>
                             <div class="btns">
-                                <input type="submit" class="btn btn_write" value="회원가입">
+                                <input type="submit" onclick="setNum()" class="btn btn_write" value="회원가입">
                             </div>
                         </form>
                     </div>
@@ -200,5 +227,394 @@
         </div>
         <!-- //member container -->
     </div>
+<!--    전화번호, 이메일 하나의 데이터로 합치는 스크립트-->
+    <script >
+        function setNum() {
+            document.getElementById("memTel").value =
+                document.getElementById("memTel1").value +
+                document.getElementById("memTel2").value +
+                document.getElementById("memTel3").value;
+
+            document.getElementById("memPhone").value =
+                document.getElementById("memPhone1").value +
+                document.getElementById("memPhone2").value +
+                document.getElementById("memPhone3").value;
+
+            // document.getElementById("memEmail").value =
+            //     document.getElementById("memEmail1").value + "@" +
+            //     document.getElementById("memEmail2").value ;
+        }
+
+        // 비밀번호 일치 확인
+        document.getElementById('join_form').addEventListener('submit', function(e){
+            const pw = document.getElementById('memPassword').value;
+            const pwConfirm = document.getElementById('memPasswordRe').value;
+            if(pw !== pwConfirm){
+                e.preventDefault();
+                document.getElementById('error_msg').textContent = "비밀번호가 일치하지 않습니다";
+                alert("비밀번호가 일치하지 않습니다");
+            }
+        });
+
+
+        //아이디 중복 확인
+        $('#id_check_btn').click(function() {
+            let memId = $('#memId').val();
+            if(!memId){
+                alert("아이디를 입력해주세요");
+                $('.id_message2').text("※ 입력 완료 후 중복확인을 해주세요.").css('color','red');
+                return;
+            }
+            if(idLength(memId) && onlyNumberAndEnglish(memId)) {
+                $.ajax({
+                    url: '/member/checkId',
+                    type: 'get',
+                    data: {memId: memId},
+                    success: function (res) {
+                        if (res.available) {
+                            $('#id_result').text("사용 가능한 아이디").css('color', 'green');
+                            alert("사용 가능한 아이디입니다");
+                            $('.id_message2').text("사용 가능한 아이디입니다.").css('color', 'green');
+                        } else {
+                            $('#id_result').text("이미 사용 중인 아이디").css('color', 'red');
+                            alert("이미 사용 중인 아이디입니다");
+                            $('.id_message2').text("이미 사용 중인 아이디입니다. 다른 아이디로 중복확인 해주세요").css('color', 'red');
+                        }
+                    },
+                    error: function () {
+                        $('#id_result').text("서버 오류").css('color', 'orange');
+                        alert("서버 오류 발생");
+                    }
+                });
+            }
+            else{
+                $('.id_message2').text("규칙에 맞게 아이디를 입력해주세요").css('color', 'red');
+            }
+        });
+
+//유효성 검사
+        // 요소 가져오기
+        let inputMemId = document.querySelector('#memId');
+        let inputMemPassword = document.querySelector('#memPassword');
+        let inputMemPasswordRe = document.querySelector('#memPasswordRe');
+
+        // 메시지용 요소
+        let idMessage = document.querySelector('.id_message');
+        let failureMessage1 = document.querySelector('.failure_message'); //id 글자수 제한
+        let failureMessage2 = document.querySelector('.failure_message2'); //id 언어 제한
+        let strongPasswordMessage = document.querySelector('.strongPassword_message1'); // 비밀번호 제한
+        let strongPasswordMessage2 = document.querySelector('.strongPassword_message2'); // 비밀번호 제한
+        // 유효성 검사 함수
+        //아이디 글자 수 제한 (6글자 이상, 20글자 이하)
+        function idLength(value) {
+            return value.length >= 6 && value.length <= 20
+        }
+        // 아이디 영어 또는 숫자만 가능
+        function onlyNumberAndEnglish(str) {
+            //return /^[A-Za-z0-9][A-Za-z0-9]*$/.test(str);
+            return /^[a-z][a-z0-9]+$/.test(str);
+        }
+
+        //비밀번호 8글자 이상, 영문, 숫자, 특수문자 사용
+        function strongPassword (str) {
+            return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/.test(str);
+        }
+
+    //ID
+        inputMemId.addEventListener("keyup", function () {
+            console.log("ID 입력 이벤트 실행");
+            if (inputMemId.value.length !== 0) {
+
+                idMessage.classList.add("hide");
+                if (!onlyNumberAndEnglish(inputMemId.value)) {
+                    failureMessage1.classList.add('hide');
+                    failureMessage2.classList.remove('hide');
+                    failureMessage2.classList.add('cautionText');
+                    inputMemId.classList.add('cautionBorder');
+
+                }
+                if (!idLength(inputMemId.value)) {
+                    failureMessage1.classList.remove('hide');
+                    failureMessage2.classList.add('hide');
+                    failureMessage1.classList.add('cautionText');
+                    inputMemId.classList.add('cautionBorder');
+                }
+                if(idLength(inputMemId.value) && onlyNumberAndEnglish(inputMemId.value)){
+                    failureMessage1.classList.add('hide');
+                    failureMessage2.classList.add('hide');
+                    inputMemId.classList.remove('cautionBorder');
+                    failureMessage1.classList.remove('cautionText');
+                    failureMessage2.classList.remove('cautionText');
+                }
+
+            } else {
+                idMessage.classList.remove("hide");
+                idMessage.classList.add("cautionText");
+                failureMessage1.classList.remove('hide');
+                failureMessage2.classList.remove('hide');
+                inputMemId.classList.remove('cautionBorder');
+                failureMessage1.classList.remove('cautionText');
+                failureMessage2.classList.remove('cautionText');
+            }
+        });
+
+
+//비밀번호 유효성 검사
+        inputMemPassword.addEventListener("keyup", function () {
+            console.log("ID 입력 이벤트 실행");
+
+            if (inputMemPassword.value.length !== 0) {
+
+                if (!strongPassword(inputMemPassword.value)) {
+                    strongPasswordMessage.textContent ="※ 비밀번호는 8자리 이상 20자리 이하 영어,특수문자,숫자를 포함해야 합니다.";
+                    strongPasswordMessage.classList.add("cautionText");
+                    inputMemPassword.classList.add("cautionBorder");
+                }
+                else{
+                    // strongPasswordMessage.classList.add('hide');
+                    strongPasswordMessage.textContent ="※ 비밀번호 입력 완료";
+                    strongPasswordMessage.classList.remove("cautionText");
+                    inputMemPassword.classList.remove("cautionBorder");
+                }
+            } else {
+                strongPasswordMessage.classList.remove('hide');
+
+                strongPasswordMessage.textContent ="※ 비밀번호는 8자리 이상 20자리 이하 영어,특수문자,숫자를 포함해야 합니다.";
+                strongPasswordMessage.classList.add("cautionText");
+                inputMemPassword.classList.add("cautionBorder");
+            }
+        });
+
+        inputMemPasswordRe.addEventListener("keyup", function () {
+            console.log("ID 입력 이벤트 실행");
+
+            if (inputMemPasswordRe.value.length !== 0) {
+
+                if (!strongPassword(inputMemPasswordRe.value)) {
+                    strongPasswordMessage2.classList.remove('hide');
+                    strongPasswordMessage2.textContent ="※ 비밀번호는 8자리 이상 20자리 이하 영어,특수문자,숫자를 포함해야 합니다.";
+                    strongPasswordMessage2.classList.add("cautionText");
+                    inputMemPasswordRe.classList.add("cautionBorder");
+
+                }
+                else{
+                    // strongPasswordMessage2.classList.add('hide');
+                    strongPasswordMessage2.textContent ="※ 비밀번호 입력 완료";
+                    strongPasswordMessage2.classList.remove("cautionText");
+                    inputMemPasswordRe.classList.remove("cautionBorder");
+                    if(inputMemPassword.value !=="" && inputMemPassword.value !== inputMemPasswordRe.value ){
+                        strongPasswordMessage2.textContent ="※ 비밀번호가 일치하지 않습니다.";
+                        strongPasswordMessage2.classList.add("cautionText");
+                        inputMemPasswordRe.classList.add("cautionBorder");
+                    }
+                }
+            } else {
+                strongPasswordMessage2.classList.remove('hide');
+                strongPasswordMessage2.textContent ="※ 비밀번호는 8자리 이상 20자리 이하 영어,특수문자,숫자를 포함해야 합니다.";
+                strongPasswordMessage2.classList.add("cautionText");
+                inputMemPasswordRe.classList.add("cautionBorder");
+            }
+        });
+
+// 이름 유효성 검사
+        function isValidName(name) {
+            return /^(?:[가-힣]{1,16}|[A-Za-z]{1,50})$/.test(name);
+        }
+        let memName = document.getElementById("memName");
+        let name_msg1 = document.querySelector(".name_msg1");
+        let name_msg2 = document.querySelector(".name_msg2");
+        memName.addEventListener("keyup",function (){
+           let name = memName.value;
+           if(isValidName(name)){
+               name_msg1.textContent="※ 이름 입력 완료";
+               name_msg1.classList.remove("cautionText");
+               name_msg2.classList.remove("cautionText");
+               memName.classList.remove("cautionBorder");
+           }
+           else{
+               if(name===""){
+                   name_msg1.textContent="※ 이름을 반드시 입력해주세요!";
+                   name_msg1.classList.add("cautionText");
+               }
+               else{
+                   name_msg1.textContent="※ 올바른 이름을 입력해주세요.";
+                   memName.classList.add("cautionBorder");
+                   name_msg1.classList.add("cautionText");
+                   name_msg2.classList.add("cautionText");
+               }
+           }
+
+        });
+
+
+//생년월일 유효성
+        const birthInput = document.getElementById("memBirth");
+
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+
+        const todayStr = `${yyyy}-${mm}-${dd}`;
+
+        // 오늘 이후 날짜 선택 불가
+        birthInput.setAttribute("max", todayStr)
+
+//주소
+        let memAddress = document.getElementById("memAddress");
+        let memAddressDetail = document.getElementById("memAddressDetail");
+        let addr_msg = document.querySelector(".addr_msg");
+        document.addEventListener("DOMContentLoaded", function () {
+
+            console.log(memAddress);
+            console.log(memAddressDetail);
+            console.log(addr_msg);
+            if (!memAddress || !memAddressDetail) {
+                console.error("주소 input 요소를 찾을 수 없습니다.");
+                return;
+            }
+            memAddressDetail.disabled = true;
+
+            memAddress.addEventListener("input", function () {
+                console.log("주소 입력 리스너 ");
+                console.log(memAddress.value);
+                if (memAddress.value.trim() !== "") {
+                    console.log("주소값 입력됨");
+                    memAddressDetail.disabled = false;
+                    addr_msg.textContent = "※ 기본주소 입력 완료, 상세 주소를 입력해주세요";
+                    memAddressDetail.focus();
+                } else {
+                    console.log("주소값 입력 안됨");
+                    memAddressDetail.disabled = true;
+                    memAddressDetail.value = "";
+                    addr_msg.textContent = "※ 주소찾기 버튼을 눌러 기본 주소를 먼저 선택해주세요.";
+                }
+            });
+
+            memAddressDetail.addEventListener("blur", function () {
+                let addrDetail = memAddressDetail.value;
+                if (addrDetail === "") {
+                    addr_msg.textContent = "※ 상세주소를 반드시 입력해주세요";
+                    addr_msg.classList.add("cautionText");
+                    memAddressDetail.classList.add("cautionBorder");
+                } else {
+                    addr_msg.textContent = "※ 상세주소 입력 완료";
+                    addr_msg.classList.remove("cautionText");
+                    memAddressDetail.classList.remove("cautionBorder");
+                }
+            });
+        });
+// 전화번호 유효성 검사
+        function isValidTel(value) {
+            return /^(02|031|032|033|041|042|043|044|051|052|053|054|055|061|062|063|064)\d{7,8}$/.test(value);
+        }
+
+        const memTel = document.querySelector("#memTel");
+        let tel_msg = document.querySelector(".tel_msg");
+        memTel.addEventListener("keyup", function(){
+
+            const tel = memTel.value;
+            if(isValidTel(tel)){
+                tel_msg.textContent ="※ 일반전화 입력 완료";
+
+                tel_msg.classList.remove("cautionText");
+                memTel.classList.remove("cautionBorder");
+            }
+            else{
+                if(tel === ""){
+                    tel_msg.textContent ="※ 전화번호를 입력해주세요";
+                    // tel_msg.classList.add("cautionText");
+                    // memTel.classList.add("cautionBorder");
+                }
+                else{
+                    tel_msg.textContent ="※ 올바른 번호를 입력해주세요.";
+                    tel_msg.classList.add("cautionText");
+                    memTel.classList.add("cautionBorder");
+                }
+
+            }
+        });
+
+// 핸드폰 번호 유효성 검사
+        function isValidPhone(value) {
+            return /^(010)\d{8}$/.test(value);
+        }
+
+        const memPhone = document.querySelector("#memPhone");
+        let phone_msg = document.querySelector(".phone_msg");
+        memPhone.addEventListener("keyup", function(){
+
+            const phone = memPhone.value;
+            if(isValidPhone(phone)){
+                phone_msg.textContent ="※ 휴대폰 번호 입력 완료";
+
+                phone_msg.classList.remove("cautionText");
+                memPhone.classList.remove("cautionBorder");
+            }
+            else{
+                if(phone === ""){
+                    phone_msg.textContent ="※ 휴대폰 번호를 반드시 입력해주세요";
+                    phone_msg.classList.add("cautionText");
+                    memPhone.classList.add("cautionBorder");
+                }
+                else{
+                    phone_msg.textContent ="※ 올바른 번호를 입력해주세요.";
+                    phone_msg.classList.add("cautionText");
+                    memPhone.classList.add("cautionBorder");
+                }
+
+            }
+        });
+
+//이메일 유효성 검사
+        // function isValidEmail1(value) {
+        //     return /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i.test(value);
+        // }
+
+        function isValidEmail(email) {
+
+            const emailCheck = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+
+            // 공백 방지
+            if (!email ) {
+                return false;
+            }
+
+            return emailCheck.test(email) ;
+        }
+
+        let memEmail = document.getElementById("memEmail");
+        let emailMsg = document.querySelector(".email_msg");
+
+        memEmail.addEventListener('keyup',function(){
+            let email = memEmail.value;
+            // console.log(email);
+            // console.log(emailMsg);
+            if (isValidEmail(email)) {
+                console.log("이메일 아이디 형식 OK");
+                // alert("이메일 형식 OK");
+                memEmail.classList.remove("cautionBorder");
+                // emailMsg.classList.add("hide");
+                emailMsg.classList.remove("cautionText");
+
+                emailMsg.textContent = "※ 이메일 입력 완료";
+            }
+            else {
+                console.log("이메일 아이디 형식 오류");
+                // alert("아이디에는 영문, 숫자, . _ - 만 입력할 수 있습니다.\n숫자, 영어소문자, 영어대문자로 시작\n특수문자는 없거나 하나만 포함");
+                memEmail.classList.add("cautionBorder");
+                emailMsg.classList.remove("hide");
+                emailMsg.classList.add("cautionText");
+                if(email==="") {
+                    emailMsg.textContent = "※ 이메일을 반드시 입력해주세요";
+                }
+                else{
+                    emailMsg.textContent = "※ 이메일 형식이 올바르지 않습니다.";
+                }
+            }
+        });// 이메일 검사 끝
+
+
+    </script>
 </body>
 </html>

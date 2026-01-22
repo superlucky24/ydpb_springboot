@@ -15,6 +15,11 @@
     <script th:src="@{/js/ydpb.js}"></script>
     <script th:src="@{/js/ydpb_main.js}"></script>
 </head>
+<th:block th:if="${msg !=null}" >
+    <script th:inline="javascript">
+        alert([[${msg}]]);
+    </script>
+</th:block>
 <body>
 <div id="wrap">
     <!-- header -->

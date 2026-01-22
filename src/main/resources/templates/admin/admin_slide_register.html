@@ -1,0 +1,22 @@
+<form action="#" th:action="@{/admin/slide/register}" method="post" enctype="multipart/form-data">
+
+    <label>제목</label>
+    <input type="text" name="title" />
+
+    <label>링크</label>
+    <input type="text" name="linkUrl" />
+
+    <label>순서</label>
+    <input type="number" name="sortOrder" value="1" />
+
+    <label>노출</label>
+    <select name="useYn">
+        <option value="Y">노출</option>
+        <option value="N">비노출</option>
+    </select>
+
+    <label>이미지</label>
+    <input type="file" name="file" />
+
+    <button type="submit">등록</button>
+</form>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.go.ydpb.mapper.MainSlideMapper">
+
+    <select id="getSlideList" resultType="kr.go.ydpb.domain.MainSlideVO">
+        SELECT slide_id, title, image_path, link_url
+        FROM tbl_main_slide
+        ORDER BY sort_order ASC
+    </select>
+
+    <insert id="insert">
+        INSERT INTO tbl_main_slide (
+            slide_id, title, image_path, link_url, sort_order, use_yn
+        ) VALUES (
+                     seq_main_slide.nextval,
+                     #{title},
+                     #{imagePath},
+                     #{linkUrl},
+                     #{sortOrder},
+                     #{useYn}
+                 )
+    </insert>
+
+</mapper>

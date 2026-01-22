@@ -18,4 +18,15 @@ $(document).ready(function(){
         $('.sns_list').toggleClass('show');
     });
 
+
+    $('.slider_list').slick({
+        autoplay: true,
+        autoplaySpeed: 4000,
+        dots: true,
+        arrows: true,
+        infinite: true,
+        fade: true
+    });
+
+
 });

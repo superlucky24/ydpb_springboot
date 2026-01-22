@@ -27,6 +27,9 @@ public class SecurityConfig  {
                                 "/",                 // 메인
                                 "/login",             // 커스텀 로그인 페이지
                                 "/oauth2/**",         // OAuth2 인증 엔드포인트
+                                "/member/join",
+                                "/complaint/**",
+                                "/community/**",
                                 "/css/**", "/js/**", "/images/**"
                         ).permitAll()
                         .anyRequest().authenticated()

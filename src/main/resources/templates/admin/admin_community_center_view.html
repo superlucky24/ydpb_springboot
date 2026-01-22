@@ -61,12 +61,29 @@
                                             <td colspan="2"><span class="td_title" th:text="${board.cmntTitle}"></span></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2" class="td_text" th:text="${board.cmntContent}"></td>
+                                            <td colspan="2" class="td_text" th:utext="${board.cmntContent}"></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">행정동</th>
                                             <td>영등포본동</td>
                                         </tr>
+
+                                        <tr th:if="${board.files != null and #lists.size(board.files) > 0}">
+                                            <th scope="row">파일</th>
+                                            <td>
+                                                <div class="file_group">
+                                                    <ul class="file_list">
+                                                        <li th:each="file : ${board.files}">
+                                                            <a th:href="@{/admin/community/download(fileId=${file.fileId})}"
+                                                               th:text="${file.fileName}"></a>
+                                                            <a th:href="@{/admin/community/downloadAttachment(fileId=${file.fileId})}"
+                                                               class="btn btn_download">다운로드</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+
                                         <!-- 부서가 있을 때만 표시 -->
                                         <tr th:if="${board.cmntDepartment != null}">
                                             <th scope="row">부서</th>

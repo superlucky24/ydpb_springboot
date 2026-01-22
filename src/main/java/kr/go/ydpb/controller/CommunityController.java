@@ -29,6 +29,8 @@ public class CommunityController {
     public String view(@RequestParam("cmntId") Long cmntId, @ModelAttribute("cri") Criteria cri, Model model) {
         service.increaseCount(cmntId);
         model.addAttribute("board", service.get(cmntId));
+        model.addAttribute("prev", service.getPrev(cmntId, cri));
+        model.addAttribute("next", service.getNext(cmntId, cri));
         return "sub/community_center_view";
     }
 }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ydpb.mapper.CommunityFileMapper">
+
+    <!-- 파일 등록 -->
+    <insert id="insert">
+        <selectKey keyProperty="fileId" order="BEFORE" resultType="long">
+            select seq_community_file.nextval from dual
+        </selectKey>
+        insert into tbl_community_file (
+        file_id,
+        cmnt_id,
+        uuid,
+        file_name,
+        upload_path,
+        alt_text,
+        insert_yn
+        ) values (
+        #{fileId},
+        #{cmntId},
+        #{uuid},
+        #{fileName},
+        #{uploadPath},
+        #{altText},
+        #{insertYn}
+        )
+    </insert>
+
+    <!-- 단일 파일 조회 -->
+    <select id="read" resultType="kr.go.ydpb.domain.CommunityFileVO">
+        select
+            file_id   as fileId,
+            cmnt_id   as cmntId,
+            uuid,
+            file_name as fileName,
+            upload_path as uploadPath,
+            alt_text as altText,
+            insert_yn as insertYn
+        from tbl_community_file
+        where file_id = #{fileId}
+    </select>
+
+    <!-- 게시글별 파일 목록 -->
+    <select id="getFilesByCmntId" resultType="kr.go.ydpb.domain.CommunityFileVO">
+        select
+            file_id   as fileId,
+            cmnt_id   as cmntId,
+            uuid,
+            file_name as fileName,
+            upload_path as uploadPath,
+            alt_text as altText,
+            insert_yn as insertYn
+        from tbl_community_file
+        where cmnt_id = #{cmntId}
+        order by file_id
+    </select>
+
+    <!-- 게시글별 파일 삭제 -->
+    <delete id="deleteFileByCmntId">
+        delete from tbl_community_file
+        where cmnt_id = #{cmntId}
+    </delete>
+
+    <!-- 파일 단건 삭제 -->
+    <delete id="deleteFileByFileId">
+        delete from tbl_community_file
+        where file_id = #{fileId}
+    </delete>
+
+    <!-- ✅ 파일 개수 조회 (핵심) -->
+    <select id="countByCmntId" resultType="int">
+        select count(*)
+        from tbl_community_file
+        where cmnt_id = #{cmntId}
+    </select>
+
+</mapper>

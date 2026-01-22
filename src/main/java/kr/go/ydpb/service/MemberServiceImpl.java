@@ -4,6 +4,7 @@ import kr.go.ydpb.domain.MemberVO;
 import kr.go.ydpb.mapper.MemberMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -12,15 +13,19 @@ import java.util.Objects;
 @AllArgsConstructor
 @Service
 public class MemberServiceImpl implements MemberService{
+    private final BCryptPasswordEncoder encoder; //암호화용 필드
 
     private MemberMapper Mapper;
 
     @Override
     public MemberVO Login(String memId, String memPassword) {
-        MemberVO member = Mapper.Login(memId);
+        MemberVO member =Mapper.Login(memId);
+
+        // 암호화된 비밀번호와 비교 기능 추가
+        boolean passCheck =encoder.matches(memPassword, member.getMemPassword());
         if(member != null
                 && Objects.equals(memId, member.getMemId())
-                && Objects.equals(memPassword, member.getMemPassword())) {
+                && passCheck) { // Objects.equals(memId, member.getMemId()) ?
             return member;
         }
         return null;

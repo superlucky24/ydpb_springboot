@@ -37,7 +37,7 @@
                     </p>
 
                     <!-- 글쓰기 폼 -->
-                    <form th:action="@{/admin/community/write}" method="post">
+                    <form th:action="@{/admin/community/write}" method="post" >
 
                         <table class="table_form">
                             <caption class="blind">자치회관 게시판 글쓰기</caption>
@@ -64,6 +64,46 @@
                                               rows="10"
                                               class="input"
                                               required></textarea>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">파일</th>
+                                <td>
+                                    <div class="file_group">
+                                        <div class="file_input">
+                                            <input type="file" name="file_1" id="file_1" >
+                                            <span class="input disabled"></span>
+                                            <button type="button" class="clear_file" title="1번 파일 삭제">1번 파일 삭제</button>
+                                        </div>
+                                        <div class="file_btn">
+                                            <label for="file_1" class="btn btn_primary btn_sm">파일선택</label>
+                                        </div>
+                                        <div class="file_option">
+                                            <div class="checkbox">
+                                                <input type="checkbox" name="file_opt_1" id="file_opt_1">
+                                                <label for="file_opt_1">본문삽입</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="text" name="file_text_1" id="file_text_1" class="input form_input" placeholder="첨부 이미지 대체 텍스트 입력">
+                                    <div class="file_group">
+                                        <div class="file_input">
+                                            <input type="file" name="file_2" id="file_2" >
+                                            <span class="input disabled"></span>
+                                            <button type="button" class="clear_file" title="2번 파일 삭제">2번 파일 삭제</button>
+                                        </div>
+                                        <div class="file_btn">
+                                            <label for="file_2" class="btn btn_primary btn_sm">파일선택</label>
+                                        </div>
+                                        <div class="file_option">
+                                            <div class="checkbox">
+                                                <input type="checkbox" name="file_opt_2" id="file_opt_2">
+                                                <label for="file_opt_2">본문삽입</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="text" name="file_text_2" id="file_text_2" class="input form_input" placeholder="첨부 이미지 대체 텍스트 입력">
                                 </td>
                             </tr>
 

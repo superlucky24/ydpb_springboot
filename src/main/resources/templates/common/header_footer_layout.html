@@ -1466,7 +1466,7 @@
                 <!-- 로그인 회원가입 -->
                 <div class="red_box">
                     <a th:if="${session.memId == null}" th:href="@{/login}" class="icon_login">로그인</a>
-                    <a th:if="${session.memId == null}" th:href="@{/join}" class="icon_join">회원가입</a>
+                    <a th:if="${session.memId == null}" th:href="@{/member/join}" class="icon_join">회원가입</a>
 
                     <a th:if="${session.memId != null}" th:text="${session.memId} + '님'"></a>
                     <a th:if="${session.memId != null}" th:href="@{/logout}" class="icon_logout">로그아웃</a>
@@ -1477,8 +1477,9 @@
             </div>
         </div>1
         <!-- /GNB -->
-        <header class="header" th:if="${session.admin == 1}" th:insert="~{/admin/common/admin_header_footer::header}"></header>
+        <div class="header" id="adminHeader" th:if="${session.admin == 1}" th:insert="~{/admin/common/admin_header_footer::header}"></div>
     </header>
+
     </div>
 
     <!-- search -->

@@ -1,5 +1,6 @@
 package kr.go.ydpb.config;
 
+import kr.go.ydpb.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,18 +15,35 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig  {
+    private final CustomOAuth2UserService customOAuth2UserService;
+
 
     @Bean
-    public BCryptPasswordEncoder  passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, CustomOAuth2UserService customOAuth2UserService) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
+                        .requestMatchers(
+                                "/",                 // 메인
+                                "/login",             // 커스텀 로그인 페이지
+                                "/oauth2/**",         // OAuth2 인증 엔드포인트
+                                "/css/**", "/js/**", "/images/**"
+                        ).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .oauth2Login(oauth -> oauth
+                        .loginPage("/login")
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService)
+                        )
+                        .defaultSuccessUrl("/", true)
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/naver/logout")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
                 )
                 .formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable());

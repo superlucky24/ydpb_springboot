@@ -1,7 +1,9 @@
 package kr.go.ydpb.service;
 
+import jakarta.servlet.http.HttpSession;
 import kr.go.ydpb.domain.KakaoUserResponse;
 import kr.go.ydpb.domain.MemberVO;
+import kr.go.ydpb.domain.NaverUserResponse;
 import kr.go.ydpb.mapper.JoinMapper;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -19,6 +21,7 @@ public class JoinServiceImpl implements JoinService{
     @Setter(onMethod_ = @Autowired)
     private JoinMapper joinMapper;
 
+    private final HttpSession session;
 
     @Override
     public void addMember(MemberVO vo) {
@@ -63,8 +66,34 @@ public class JoinServiceImpl implements JoinService{
         // 비밀번호는 사용 안 함 (NOT NULL 대응)
         newMember.setMemPassword(encoder.encode(UUID.randomUUID().toString()));
 
-        joinMapper.insertOtherMember(newMember);
+        joinMapper.insertKaKaoMember(newMember);
 
         return newMember;
+    }
+// 네이버 로그인
+    @Override
+    public MemberVO naverLoginOrJoin(NaverUserResponse.Response naverUser) {
+        MemberVO naverMember = joinMapper.findById(naverUser.getId());
+        System.out.println("핸드폰 번호 : "+ naverUser.getMobile());
+        String phone = naverUser.getMobile();
+        if (phone != null) {
+            phone = phone.replace("-", "");
+        }
+        if(naverMember==null){
+            naverMember = new MemberVO();//조회된 값 없으면 생성
+
+            naverMember.setMemId(naverUser.getId());
+            naverMember.setMemName(naverUser.getName());
+            naverMember.setMemEmail(naverUser.getEmail());
+            naverMember.setMemPhone(phone);
+            naverMember.setMemPassword(encoder.encode(UUID.randomUUID().toString()));
+
+            joinMapper.insertNaverMember(naverMember);
+        }
+
+        session.setAttribute("memId",naverMember.getMemId());
+        session.setAttribute("admin",naverMember.getMemRole());
+        session.setAttribute("loginMember",naverMember);
+        return naverMember;
     }
 }

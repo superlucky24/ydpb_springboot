@@ -38,7 +38,7 @@
         WHERE MEMID = #{memId}
     </select>
 
-    <insert id="insertOtherMember" parameterType="kr.go.ydpb.domain.MemberVO">
+    <insert id="insertKaKaoMember" parameterType="kr.go.ydpb.domain.MemberVO">
         INSERT INTO tbl_member (
             MEMID,
             MEMNAME,
@@ -53,7 +53,28 @@
              'KAKAO',
              #{memPassword},
              0
-                 )
+         )
     </insert>
+
+    <insert id="insertNaverMember" parameterType="kr.go.ydpb.domain.MemberVO">
+        INSERT INTO tbl_member (
+            MEMID,
+            MEMNAME,
+            MEMEMAIL,
+            LOGINTYPE,
+            MEMPASSWORD,
+            MEMPHONE,
+            memRole
+        ) VALUES (
+             #{memId},
+             #{memName},
+             #{memEmail},
+             'NAVER',
+             #{memPassword},
+             #{memPhone},
+             0
+         )
+    </insert>
+
 
 </mapper>

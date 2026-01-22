@@ -5,7 +5,9 @@ import jakarta.servlet.http.HttpSession;
 import kr.go.ydpb.domain.MemberVO;
 import kr.go.ydpb.service.MemberService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,5 +48,6 @@ public class MemberController {
         session.invalidate();   // 세션 전체 삭제
         return "redirect:/";    // 메인 페이지로 이동
     }
+
 
 }

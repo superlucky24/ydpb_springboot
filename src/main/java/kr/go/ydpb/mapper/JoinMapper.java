@@ -13,6 +13,7 @@ public interface JoinMapper {
 
 //    네이버, 카카오 로그인용
     MemberVO findById(String memId);
-    void insertOtherMember(MemberVO member);
+    void insertKaKaoMember(MemberVO member);
+    void insertNaverMember(MemberVO member);
 
 }

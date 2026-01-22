@@ -56,6 +56,7 @@ public class KakaoController {
         //로그인 세션처리
         session.setAttribute("memId",loginMember.getMemId());
         session.setAttribute("admin",loginMember.getMemRole());
+        session.setAttribute("loginMember",loginMember);
 
         return "redirect:/";
     }

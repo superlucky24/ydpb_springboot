@@ -11,6 +11,7 @@ import java.sql.Date;
 @Data
 public class MemberVO {
 
+
     @NotBlank(message = "아이디는 필수입니다.")
     @Pattern(regexp = "^[a-z][a-z0-9]{5,19}$",
             message = "아이디는 영문 소문자와 숫자 조합 6~20자여야 합니다.")

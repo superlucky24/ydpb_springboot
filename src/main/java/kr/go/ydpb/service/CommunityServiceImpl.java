@@ -197,7 +197,6 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
 
-
     // ===========================
     // 기본 조회
     // ===========================
@@ -229,12 +228,16 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
-    public CommunityVO getPrev(Long cmntId) {
-        return mapper.getPrev(cmntId);
+    public CommunityVO getPrev(Long cmntId, Criteria cri) {
+        return mapper.getPrev(cmntId, cri);
     }
 
     @Override
-    public CommunityVO getNext(Long cmntId) {
-        return mapper.getNext(cmntId);
+    public CommunityVO getNext(Long cmntId, Criteria cri) {
+        return mapper.getNext(cmntId, cri);
     }
 }
+
+
+
+

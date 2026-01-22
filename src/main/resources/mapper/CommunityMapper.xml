@@ -90,59 +90,64 @@
 
     <!-- 이전글 -->
     <select id="getPrev" resultType="kr.go.ydpb.domain.CommunityVO">
-        select *
-        from (
-        select *
-        from tbl_community
+        SELECT *
+        FROM (
+        SELECT
+        cmntId,
+        cmntTitle
+        FROM tbl_community
         <where>
-            cmntid = #{cmntId}
+            cmntId &gt; #{cmntId}
             <if test="cri.searchKeyword != null and cri.searchKeyword != ''">
-                and
+                AND
                 <choose>
                     <when test="cri.searchType == 'T'">
-                        cmntTitle like '%'||#{cri.searchKeyword}||'%'
+                        cmntTitle LIKE '%'||#{cri.searchKeyword}||'%'
                     </when>
                     <when test="cri.searchType == 'C'">
-                        cmntContent like '%'||#{cri.searchKeyword}||'%'
+                        cmntContent LIKE '%'||#{cri.searchKeyword}||'%'
                     </when>
                     <when test="cri.searchType == 'D'">
-                        cmntDepartment like '%'||#{cri.searchKeyword}||'%'
+                        cmntDepartment LIKE '%'||#{cri.searchKeyword}||'%'
                     </when>
                 </choose>
             </if>
         </where>
-        order by cmntId desc
+        ORDER BY cmntId ASC
         )
-        where rownum = 1
+        WHERE ROWNUM = 1
     </select>
 
     <!-- 다음글 -->
     <select id="getNext" resultType="kr.go.ydpb.domain.CommunityVO">
-        select *
-        from (
-        select *
-        from tbl_community
+        SELECT *
+        FROM (
+        SELECT
+        cmntId,
+        cmntTitle
+        FROM tbl_community
         <where>
-            cmntId > #{cmntId}
+            cmntId &lt; #{cmntId}
             <if test="cri.searchKeyword != null and cri.searchKeyword != ''">
-                and
+                AND
                 <choose>
                     <when test="cri.searchType == 'T'">
-                        cmntTitle like '%'||#{cri.searchKeyword}||'%'
+                        cmntTitle LIKE '%'||#{cri.searchKeyword}||'%'
                     </when>
                     <when test="cri.searchType == 'C'">
-                        cmntContent like '%'||#{cri.searchKeyword}||'%'
+                        cmntContent LIKE '%'||#{cri.searchKeyword}||'%'
                     </when>
                     <when test="cri.searchType == 'D'">
-                        cmntDepartment like '%'||#{cri.searchKeyword}||'%'
+                        cmntDepartment LIKE '%'||#{cri.searchKeyword}||'%'
                     </when>
                 </choose>
             </if>
         </where>
-        order by cmntId asc
+        ORDER BY cmntId DESC
         )
-        where rownum = 1
+        WHERE ROWNUM = 1
     </select>
+
 
 </mapper>
 

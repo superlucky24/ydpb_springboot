@@ -38,7 +38,7 @@ public interface CommunityService {
     int getTotal(Criteria cri);
     void increaseCount(Long cmntId);
     CommunityFileVO getFile(Long fileId);
-    CommunityVO getPrev(Long cmntId);
-    CommunityVO getNext(Long cmntId);
 
+    CommunityVO getPrev(Long cmntId, Criteria cri);
+    CommunityVO getNext(Long cmntId, Criteria cri);
 }

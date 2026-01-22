@@ -134,19 +134,22 @@
                                     </div>
                                 </div>
                                 <ul class="p-post">
-                                    <li class="p-post-move prev">
+                                    <li class="p-post-move prev" th:if="${prev != null}" th:object="${prev}">
                                         <strong class="p-post-move_title">이전글</strong>
-                                        <a th:href="@{/admin/community/view(cmntId=${prev.cmntId})}"
+                                        <a th:href="@{/community/view(cmntId=*{cmntId})}"
                                            class="p-post-move_link"
-                                           th:text="${prev.cmntTitle}"></a>
+                                           th:text="*{cmntTitle}"></a>
                                     </li>
-                                    <li class="p-post-move next">
+
+                                    <li class="p-post-move next" th:if="${next != null}" th:object="${next}">
                                         <strong class="p-post-move_title">다음글</strong>
-                                        <a th:href="@{/admin/community/view(cmntId=${next.cmntId})}"
+                                        <a th:href="@{/community/view(cmntId=*{cmntId})}"
                                            class="p-post-move_link"
-                                           th:text="${next.cmntTitle}"></a>
+                                           th:text="*{cmntTitle}"></a>
                                     </li>
                                 </ul>
+
+
                             </div>
                         </div>
 

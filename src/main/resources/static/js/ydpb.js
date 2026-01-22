@@ -20,7 +20,38 @@ function initUi() {
         e.preventDefault();
         layerAlert('죄송합니다.<br> 현재 준비중인 메뉴입니다.');
     });
-    
+
+    // **파일명 표시 로직 추가** 260121 윤성민 추가
+    bindFileNameDisplay("file_1");
+    bindFileNameDisplay("file_2");
+    $('form').on('submit', function(e) {
+        const fileInputs = $('input[type="file"]');
+
+        // 파일이 하나라도 있으면 multipart 설정
+        const hasFile = fileInputs.toArray().some(input => input.value !== "");
+
+        // 파일이 있으면 enctype 설정, 없으면 enctype 제거
+        if (hasFile) {
+            $(this).attr('enctype', 'multipart/form-data');
+        } else {
+            $(this).removeAttr('enctype');
+        }
+
+        // 빈 파일 input은 name 속성 제거
+        fileInputs.each(function() {
+            if (!$(this).val()) {
+                $(this).removeAttr('name');
+            }
+        });
+    });
+
+
+
+
+
+
+
+
     // 헤더,푸터 251218 박귀환 추가
     // Header 
     // .global_menu .top_func 클릭 스크립트
@@ -45,10 +76,16 @@ function initUi() {
         $('.top_menu > ul > li').removeClass('active');
         $(this).parent().addClass('active');
         $('.black_opacity').show();
+
+        // 관리자 헤더 숨기기 20260122 윤성민 추가
+        $('#adminHeader').hide();
     });
     $('.top_menu > ul > li').on('mouseleave', function () {
         $('.top_menu > ul > li').removeClass('active');
         $('.black_opacity').hide();
+
+        // 관리자 헤더 다시 보이기 20260122 윤성민 추가
+        $('#adminHeader').show();
     });
     
     // Footer
@@ -135,4 +172,21 @@ function layerAlert(text) {
             });
         }, delayTime);
     }
+}
+
+/* 260121 윤성민 추가 파일 업로드 관련 */
+function bindFileNameDisplay(fileInputId) {
+    const fileInput = $("#" + fileInputId);
+
+    fileInput.on("change", function () {
+        const fileName = this.files && this.files.length ? this.files[0].name : "";
+        // input disabled span에 파일명 표시
+        $(this).siblings("span.input").text(fileName);
+    });
+
+    // 삭제 버튼 기능
+    fileInput.closest(".file_group").find(".clear_file").on("click", function () {
+        fileInput.val("");
+        fileInput.siblings("span.input").text("");
+    });
 }

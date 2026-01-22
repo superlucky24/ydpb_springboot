@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>찾아오시는길 | 우리동이야기 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_location.css}">
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script>const menuName = '찾아오시는길';</script>
+    <script th:src="@{/js/ydpb.js}"></script>
+</head>
+<body>
+    <div id="wrap">
+        <!-- header -->
+        <header class="header" th:replace="~{/common/header_footer_layout :: header}"></header>
+        <!-- //header -->
+
+        <!-- search -->
+        <div class="search" th:replace="~{/common/header_footer_layout :: search}"></div>
+        <!-- //search -->
+
+        <!-- container -->
+        <div class="container">
+            <div class="contents_wrap safe_area">
+                <!-- side menu -->
+                <aside class="side_menu" th:replace="~{/common/sidemenu_layout :: sidemenu}"></aside>
+                <!-- //side menu -->
+
+                <!-- main -->
+                <main>
+                    <!-- location -->
+                    <div class="location">
+                        <div class="location_title">
+                            <h2>찾아오시는길</h2>
+                        </div>
+                        <div class="location_path">
+                            <span class="loc_home"><a th:href="@{/}">홈</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text"><a th:href="@{/}">동주민센터</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text"><a th:href="@{/}">영등포본동</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text"><a th:href="@{/}">우리동이야기</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text">찾아오시는길</span>
+                        </div>
+                        <div class="location_icon">
+                            <ul class="loc_fixed_icon">
+                                <li><button type="button" class="loc_print">프린트</button></li>
+                                <li class="icon_sns">
+                                    <button type="button" class="loc_sns">SNS</button>
+                                    <div class="sns_list">
+                                        <a th:href="@{/}" class="loc_sns_icon1">a</a>
+                                        <a th:href="@{/}" class="loc_sns_icon2">a</a>
+                                        <a th:href="@{/}" class="loc_sns_icon3">a</a>
+                                        <a th:href="@{/}" class="loc_sns_icon4">a</a>
+                                        <a th:href="@{/}" class="loc_sns_icon5">a</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- location -->
+
+                    <!-- contents -->
+                    <div class="contents">
+                        <div class="location_map">
+                            <!-- * 카카오맵 - 지도퍼가기 -->
+                            <!-- 1. 지도 노드 -->
+                            <div id="daumRoughmapContainer1765775888659" class="root_daum_roughmap root_daum_roughmap_landing"></div>
+    
+                            <!--
+                                2. 설치 스크립트
+                                * 지도 퍼가기 서비스를 2개 이상 넣을 경우, 설치 스크립트는 하나만 삽입합니다.
+                            -->
+                            <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+    
+                            <!-- 3. 실행 스크립트 -->
+                            <script charset="UTF-8">
+                                new daum.roughmap.Lander({
+                                    "timestamp" : "1765775888659",
+                                    "key" : "ebztz6hmb7z",
+                                    "mapWidth" : "",
+                                    "mapHeight" : "500"
+                                }).render();
+                            </script>
+                        </div>
+                        <div class="map_info">
+                            <h3 class="title">
+                                주소
+                            </h3>
+                            <div class="map_list address">
+                                <ul class="ul_common">
+                                    <li>
+                                        서울특별시 영등포구 신길로61길 17 영등포본동 주민센터
+                                    </li>
+                                    <li>
+                                        지번주소 : 영등포동 592-70
+                                    </li>
+                                </ul>
+                            </div>
+                            <h3 class="title">
+                                지하철 이용시
+                            </h3>
+                            <div class="map_list subway">
+                                
+                                <p>1호선 영등포역 1번출구</p>
+                                <p class="ex_mark">
+                                    <span class="skip">강조</span>
+                                    <strong>교통약자를 위한 엘리베이터가 1호선 영등포역 1번 출구에 있습니다.</strong>
+                                </p>
+                                
+                            </div>
+                            <h3 class="title">
+                                버스 이용시
+                            </h3>
+                            <div class="map_list bus">
+                                <ul class="ul_common">
+                                    <li>
+                                        영등포공원앞 5620, 5616, 5713
+                                    </li>
+                                    <li>
+                                        역후문 마을버스 06, 09
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- //contents -->
+                    
+                    <!-- charge info -->
+                    <div class="charge_info">
+                        <ul>
+                            <li>
+                                <span class="info_name">담당부서</span>
+                                <span>영등포본동</span>
+                            </li>
+                            <li>
+                                <span class="info_name">담당전화번호</span>
+                                <span>02-2670-1026</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- //charge info -->
+                </main>
+                <!-- //main -->
+            </div>
+        </div>
+        <!-- //container -->
+
+        <!-- footer -->
+        <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
+        <!-- //footer -->
+    </div>
+</body>
+</html>

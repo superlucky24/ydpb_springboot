@@ -4,7 +4,6 @@ import kr.go.ydpb.domain.MemberVO;
 import kr.go.ydpb.mapper.MemberMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,4 +31,10 @@ public class MemberServiceImpl implements MemberService{
         return null;
     }
 
-}
+    // 가족관계증명서 폼 가져오기 위함
+    @Override
+    public MemberVO getMemberById(String memId) {
+
+        return Mapper.Login(memId);
+    }
+ }

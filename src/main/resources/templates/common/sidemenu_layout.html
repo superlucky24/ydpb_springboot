@@ -36,24 +36,24 @@
                     </div>
                     <div class="side_list">
                         <ul>
-                            <li class="side_list_menu open">
+                            <li class="side_list_menu">
                                 <div><span>영등포본동</span></div>
-                                <ul class="sub_list show">
+                                <ul class="sub_list">
                                     <!-- 우리동이야기 -->
-                                    <li class="sub_group show">
-                                        <p class="sub_group_title open">우리동이야기</p>
-                                        <ul class="sub_group_list show">
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">우리동이야기</p>
+                                        <ul class="sub_group_list">
                                             <li class="side_active"><a th:href="@{/}">영등포본동 주민센터</a></li>
                                             <li><a href="#">직원별업무안내</a></li>
-                                            <li><a href="/ydpb/sub/status.html">일반현황</a></li>
+                                            <li><a th:href="@{/sub/status}">일반현황</a></li>
                                             <li><a th:href="@{/complaint/list}">민원신청</a></li>
-                                            <li><a href="/ydpb/sub/location.html">찾아오시는길</a></li>
+                                            <li><a th:href="@{/sub/location}">찾아오시는길</a></li>
                                             <li><a href="#">동유래</a></li>
                                         </ul>
                                     </li>
 
                                     <!-- 우리동소식 -->
-                                    <li class="sub_group show">
+                                    <li class="sub_group">
                                         <p class="sub_group_title">우리동소식</p>
                                         <ul class="sub_group_list">
                                             <li><a href="#">우리동소식</a></li>
@@ -63,7 +63,7 @@
                                     </li>
 
                                     <!-- 자치회관 -->
-                                    <li class="sub_group show">
+                                    <li class="sub_group">
                                         <p class="sub_group_title">자치회관</p>
                                         <ul class="sub_group_list">
                                             <li><a href="#">자치회관이란?</a></li>
@@ -74,13 +74,31 @@
                                     </li>
                                 </ul>
                             </li>
+                            <!-- 민원안내 -->
                             <li class="side_list_menu">
-                                <div><span>영등포동</span></div>
+                                <div><span>민원안내</span></div>
                                 <ul class="sub_list">
+                                    <li class="sub_complaint">
+                                        <p class="sub_complaint_title"><a th:href="@{/complaint/list}">민원안내</a></p>
+                                    </li>
+                                    <li class="sub_complaint">
+                                        <p class="sub_complaint_title"><a th:href="@{/sub/complaint_sector}">분야별민원</a></p>
+                                    </li>
+                                    <li class="sub_complaint">
+                                        <p class="sub_complaint_title"><a th:href="@{/complaint/write}" id="btn_write_no_auth">민원신고</a></p>
+                                    </li>
+                                    <li class="sub_complaint">
+                                        <p class="sub_complaint_title"><a th:href="@{/sub/hunjang}">행정서비스헌정</a></p>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="side_list_menu d2">
+                                <div><span>영등포동</span></div>
+                                <ul class="sub_list d2">
                                     <!-- 우리동이야기 -->
-                                    <li class="sub_group">
-                                        <p class="sub_group_title">우리동이야기</p>
-                                        <ul class="sub_group_list">
+                                    <li class="sub_group d2">
+                                        <p class="sub_group_title d2">우리동이야기</p>
+                                        <ul class="sub_group_list d2">
                                             <li><a href="#">영등포동 주민센터</a></li>
                                             <li><a href="#">직원별업무안내</a></li>
                                             <li><a href="#">일반현황</a></li>
@@ -683,5 +701,22 @@
         <footer class="footer"></footer>
         <!-- //footer -->
     </div>
+    <script>
+        $(document).ready(function (){
+            // 로그인 상태 아닐 시 글쓰기 버튼 클릭 이벤트
+            $('#btn_write_no_auth').on('click', function(e) {
+                e.preventDefault();
+                alert('로그인 후에 글쓰기 가능합니다.');
+                location.href = $(this).attr('href');
+            });
+
+            // 오류 메세지 출력
+            let errorMsg = `[[${errorMsg}]]`;
+            if(errorMsg) {
+                alert(errorMsg);
+                history.replaceState({}, null, null);
+            }
+        });
+    </script>
 </body>
 </html>

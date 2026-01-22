@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가족관계증명서 출력</title>
+    <link rel="stylesheet" th:href="@{/css/ydpb_SHAdd.css}">
+</head>
+<body>
+<div class="print-body-wrap">
+
+    <div class="no-print print-nav">
+        <button onclick="window.print()" class="btn-print">프린트하기 / PDF 저장</button>
+        <button onclick="window.close()" class="btn-close">창 닫기</button>
+    </div>
+
+    <div class="paper">
+        <div class="top-deco">
+            <div class="qr-placeholder">
+                전자적<br>공문서<br>QR
+            </div>
+        </div>
+
+        <div class="title">가 족 관 계 증 명 서 ( 일 반 )</div>
+
+        <table class="info-table">
+            <tr>
+                <th style="width:15%;">등록기준지</th>
+                <td colspan="5" class="align-left">서울특별시 영등포구 영등포본동 123-45</td>
+            </tr>
+        </table>
+
+        <table class="info-table">
+            <thead>
+            <tr>
+                <th>구분</th>
+                <th>성명</th>
+                <th>출생연월일</th>
+                <th>주민등록번호</th>
+                <th>성별</th>
+                <th>본</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>본인</td>
+                <td th:text="${doc.userName}"></td>
+                <td th:text="${doc.userBirthDate}"></td>
+                <td th:text="${doc.userRegistrationNo}"></td>
+                <td th:text="${doc.userGender}"></td>
+                <td>김해(金海)</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="section-label">가족사항</div>
+        <table class="info-table">
+            <thead>
+            <tr>
+                <th>구분</th>
+                <th>성명</th>
+                <th>출생연월일</th>
+                <th>주민등록번호</th>
+                <th>성별</th>
+                <th>본</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>부</td>
+                <td>김영철</td>
+                <td>1940년 04월 01일</td>
+                <td>400401-1******</td>
+                <td>남</td>
+                <td>김해</td>
+            </tr>
+            <tr>
+                <td>모</td>
+                <td>이은미</td>
+                <td>1942년 04월 02일</td>
+                <td>420402-2******</td>
+                <td>여</td>
+                <td>전주</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="cert-footer">
+            위 가족관계증명서(일반)는 가족관계등록부의 기록사항과 틀림없음을 증명합니다.<br>
+            <span th:text="${#calendars.format(#calendars.createNow(), 'yyyy년 MM월 dd일')}"></span>
+        </div>
+
+        <div class="final-sign">
+            법원행정처 전산정보중앙관리소 전산운영책임관 홍길동 (인)
+        </div>
+    </div>
+</div>
+</body>
+</html>

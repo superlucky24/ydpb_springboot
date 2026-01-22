@@ -213,11 +213,11 @@
 .sub_group_list li a {
     padding-left: 15px;
 }
-/* /사이드 메뉴 */
-
-/* 보이게 설정 */
-.show {
-    display: block;
+/* 사이드 메뉴 */
+/* 보이게 설정 - 확실한 범위설정 : 20260120 최연수 수정 */
+.side_list_menu.open .sub_list.show .sub_group.show,
+.side_list_menu.open .sub_list.show .sub_complaint.show {
+    display: block !important;
 }
 
 /* location */
@@ -376,4 +376,60 @@
     background: url(../images/common/location_sns_05.png) no-repeat;
     background-size: contain;
     cursor: pointer;
+}
+
+.sub_complaint {
+    text-align: left;
+    display: none;
+}
+
+
+.sub_complaint_title {
+    font-size: 16px;
+    color: #444;
+    cursor: pointer;
+    margin-bottom: 9px;
+}
+
+.sub_complaint_title:hover {
+    color: #0a50a6;
+    font-weight: 600;
+}
+
+.sub_complaint_title.open {
+    color: #0a50a6;
+    font-weight: 600;
+}
+
+
+.sub_complaint_title::before {
+    content: "";
+    display: block;
+    position: relative;
+    top: 10px;
+    left: -13px;
+    width: 7px;
+    height: 8px;
+    background: url("../images/common/sidemenu_dot_02.png") no-repeat center;
+    background-size: contain;
+}
+
+.sub_complaint_title:hover::before {
+    background: url("../images/common/sidemenu_dot_01.png") no-repeat center;
+    background-size: contain;
+}
+.sub_complaint_title.open::before {
+    background: url("../images/common/sidemenu_dot_01.png") no-repeat center;
+    background-size: contain;
+}
+.sub_complaint_title.open::after {
+    background-position-y: -10px;
+    transition-property: background-position;
+    transition-duration: 250ms;
+    transition-timing-function: ease-in-out;
+}
+/* 20260120 최연수 추가 */
+.side_list_menu.open .sub_list.show {
+    max-height: 2000px !important;
+    overflow: visible;
 }

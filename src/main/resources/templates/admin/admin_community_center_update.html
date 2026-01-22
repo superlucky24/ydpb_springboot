@@ -71,6 +71,28 @@
                             </tr>
 
                             <tr>
+                                <th scope="row">파일</th>
+                                <td>
+
+                                    <!-- 기존 파일 목록 -->
+                                    <div th:if="${board.files != null}">
+                                        <div th:each="file : ${board.files}" class="existing_file">
+                                            <span th:text="${file.fileName}"></span>
+                                            <label>
+                                                <input type="checkbox"
+                                                       name="deleteFileIds"
+                                                       th:value="${file.fileId}">
+                                                삭제
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                </td>
+                            </tr>
+
+                            <tr>
                                 <th scope="row">행정동</th>
                                 <td>영등포본동</td>
                             </tr>

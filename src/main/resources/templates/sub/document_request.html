@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>가족관계증명서 신청 | 영등포본동 주민센터</title>
+  <link rel="stylesheet" th:href="@{/css/reset.css}">
+  <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+  <link rel="stylesheet" th:href="@{/css/ydpb_status.css}">
+  <link rel="stylesheet" th:href="@{/css/ydpb_SHAdd.css}">
+  <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+  <script th:src="@{/js/ydpb.js}"></script>
+  <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
+</head>
+<body>
+
+<div id="wrap">
+  <header class="header" th:replace="~{/common/header_footer_layout :: header}"></header>
+  <div class="search" th:replace="~{/common/header_footer_layout :: search}"></div >
+
+  <div class="container">
+    <div class="contents_wrap safe_area">
+      <aside class="side_menu" th:replace="~{/common/sidemenu_layout :: sidemenu}"></aside>
+
+      <main>
+        <div class="location">
+          <div class="location_title"><h2>가족관계증명서 신청</h2></div>
+          <div class="location_path">
+            <span class="loc_home"><a th:href="@{/}">홈</a></span>
+            <span class="loc_arrow">></span>
+            <span class="loc_text">민원안내</span>
+            <span class="loc_arrow">></span>
+            <span class="loc_text">가족관계증명서</span>
+          </div>
+        </div>
+
+        <div class="contents">
+          <div class="box icon family">
+            <div class="box_wrap">
+              <div class="box_title">발급 안내</div>
+              <p>회원 정보에 등록된 데이터를 기반으로 가족관계증명서를 발급합니다. 정보가 맞는지 확인해 주세요.</p>
+            </div>
+          </div>
+
+          <h3 class="title">발급 대상자 정보 확인</h3>
+          <div class="temp_box type1">
+            <div class="temp_box_wrap">
+              <form id="requestForm">
+                <input type="hidden" name="userName" th:value="${member?.memName}">
+                <input type="hidden" name="userBirthDate" th:value="${member?.memBirth}">
+                <input type="hidden" name="userGender" th:value="${member != null ? (member.memGender == 'M' || member.memGender == '남' ? '남' : '여') : ''}">
+                <input type="hidden" name="userRegistrationNo" id="totalRegNo">
+
+                <table class="table_form">
+                  <colgroup>
+                    <col style="width:25%;">
+                    <col style="width:75%;">
+                  </colgroup>
+                  <tbody>
+                  <tr>
+                    <th>성명</th>
+                    <td th:text="${member?.memName}">-</td>
+                  </tr>
+                  <tr>
+                    <th>출생연월일</th>
+                    <td th:text="${member?.memBirth}">-</td>
+                  </tr>
+                  <tr>
+                    <th>성별</th>
+                    <td th:text="${member != null ? (member.memGender == 'M' || member.memGender == '남' ? '남' : '여') : '-'}">-</td>
+                  </tr>
+                  <tr>
+                    <th>결제 수수료</th>
+                    <td><span style="color:#e9463c; font-weight:700; font-size:1.8rem;">1,000원</span></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </form>
+            </div>
+          </div>
+
+          <div class="form_btns_wrap" style="justify-content: center; margin-top:30px;">
+            <button type="button" onclick="goPayment()" class="btn btn_write" style="width:280px; height:50px; font-size:1.8rem;">
+              위 정보로 결제 및 신청
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
+</div>
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  // 1. 로그인 체크 (알림창 띄우고 이동)
+  (function() {
+    const memId = [[${session.memId}]] || "";
+
+    if (memId === "") {
+      alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
+      location.href = "/login";
+    }
+  })();
+
+  // 2. 페이지 로드 시 주민번호 계산
+  window.onload = function() {
+    const hasMember = /*[[${member != null}]]*/ false;
+    if (hasMember) {
+      calculateHiddenRegNo();
+    }
+  };
+
+  function calculateHiddenRegNo() {
+    const memBirth = [[${member?.memBirth}]] || "";
+    const memGender = [[${member?.memGender}]] || "";
+
+    if (memBirth === "") {
+      return;
+    }
+
+    const cleanBirth = memBirth.replace(/-/g, '');
+    const year = parseInt(cleanBirth.substring(0, 4));
+    const front = cleanBirth.substring(2, 8);
+
+    let genderCode = "";
+    const isMale = (memGender === "M" || memGender === "남");
+
+    if (year < 2000) {
+      if (isMale) {
+        genderCode = "1";
+      } else {
+        genderCode = "2";
+      }
+    } else {
+      if (isMale) {
+        genderCode = "3";
+      } else {
+        genderCode = "4";
+      }
+    }
+
+    const regNoField = document.getElementById('totalRegNo');
+    if (regNoField) {
+      regNoField.value = front + "-" + genderCode + "******";
+    }
+  }
+
+  async function goPayment() {
+    const regNo = document.getElementById('totalRegNo').value;
+    const memName = [[${member?.memName}]] || "";
+
+    if (regNo === "") {
+      alert("발급 정보를 생성할 수 없습니다. 회원 정보를 확인해 주세요.");
+      return;
+    }
+
+    if (!confirm("가족관계증명서 발급 수수료 1,000원을 결제하시겠습니까?")) {
+      return;
+    }
+
+    try {
+      const response = await PortOne.requestPayment({
+        storeId: "store-b4f6c958-2d99-4d7c-bc10-7ce431dab851",
+        channelKey: "channel-key-ff34e2fa-6621-4673-be89-daf679a0d7f5",
+        paymentId: "DOC_" + new Date().getTime(),
+        orderName: "가족관계증명서 발급 수수료",
+        totalAmount: 1000,
+        currency: "CURRENCY_KRW",
+        payMethod: "EASY_PAY",
+        easyPay: { giftCertificateType: "KAKAOPAY" },
+        customer: { fullName: memName }
+      });
+
+      if (response.code !== null && response.code !== undefined) {
+        alert("결제 실패: " + response.message);
+        return;
+      }
+
+      alert("결제가 완료되었습니다! 발급 페이지로 이동합니다.");
+
+      const form = document.getElementById('requestForm');
+      if (form) {
+        form.action = "/sub/complete";
+        form.method = "POST";
+        form.submit();
+      }
+
+    } catch (error) {
+      alert("결제 오류 발생");
+    }
+  }
+  /*]]>*/
+</script>
+</body>
+</html>

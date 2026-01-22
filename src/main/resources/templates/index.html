@@ -28,7 +28,7 @@
     <!-- //header -->
 
     <!-- search -->
-    <div class="search"></div>
+    <div class="search" th:insert="~{/common/header_footer_layout::search}"></div>
     <!-- //search -->
 
     <!-- container -->
@@ -119,7 +119,7 @@
                                             </a>
                                         </li>
                                         <li class="icon2">
-                                            <a href="./sub/location.html">
+                                            <a th:href="@{/sub/location}">
                                                     <span class="info_icon rotate_icon">
 
                                                     </span>

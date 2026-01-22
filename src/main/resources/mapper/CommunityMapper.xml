@@ -87,6 +87,68 @@
         SET cmntCount = cmntCount + 1
         WHERE cmntid = #{cmntId}
     </update>
+
+    <!-- 이전글 -->
+    <select id="getPrev" resultType="kr.go.ydpb.domain.CommunityVO">
+        SELECT *
+        FROM (
+        SELECT
+        cmntId,
+        cmntTitle
+        FROM tbl_community
+        <where>
+            cmntId &gt; #{cmntId}
+            <if test="cri.searchKeyword != null and cri.searchKeyword != ''">
+                AND
+                <choose>
+                    <when test="cri.searchType == 'T'">
+                        cmntTitle LIKE '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                    <when test="cri.searchType == 'C'">
+                        cmntContent LIKE '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                    <when test="cri.searchType == 'D'">
+                        cmntDepartment LIKE '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+        ORDER BY cmntId ASC
+        )
+        WHERE ROWNUM = 1
+    </select>
+
+    <!-- 다음글 -->
+    <select id="getNext" resultType="kr.go.ydpb.domain.CommunityVO">
+        SELECT *
+        FROM (
+        SELECT
+        cmntId,
+        cmntTitle
+        FROM tbl_community
+        <where>
+            cmntId &lt; #{cmntId}
+            <if test="cri.searchKeyword != null and cri.searchKeyword != ''">
+                AND
+                <choose>
+                    <when test="cri.searchType == 'T'">
+                        cmntTitle LIKE '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                    <when test="cri.searchType == 'C'">
+                        cmntContent LIKE '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                    <when test="cri.searchType == 'D'">
+                        cmntDepartment LIKE '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+        ORDER BY cmntId DESC
+        )
+        WHERE ROWNUM = 1
+    </select>
+
+
 </mapper>
 
 

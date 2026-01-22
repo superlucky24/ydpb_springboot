@@ -53,19 +53,16 @@
                                 <td th:text="${#dates.format(member.memRegDate, 'yyyy-MM-dd HH:mm:ss')}" style="padding: 15px; border-bottom: 1px solid #ececec;">2025-01-15</td>
                             </tr>
                             <tr>
-                                <th scope="row" style="padding: 15px; background: #f9f9f9; text-align: left; font-weight: 600; color: #333; border-bottom: 1px solid #ececec;">비밀번호 변경</th>
+                                <th scope="row" style="padding: 15px; background: #f9f9f9; text-align: left; font-weight: 600; color: #333; border-bottom: 1px solid #ececec;">
+                                    <label for="memPassword">비밀번호 변경</label>
+                                </th>
                                 <td style="padding: 15px; border-bottom: 1px solid #ececec;">
-                                    <form th:action="@{/admin/member/updatePw}" method="post" style="display: flex; align-items: center; gap: 8px;">
-                                        <input type="hidden" name="memId" th:value="${member.memId}">
-                                        <input type="hidden" name="pageNum" th:value="${cri.pageNum}">
-                                        <input type="hidden" name="amount" th:value="${cri.amount}">
-                                        <input type="hidden" name="searchType" th:value="${cri.searchType}">
-                                        <input type="hidden" name="searchKeyword" th:value="${cri.searchKeyword}">
-
-                                        <input type="password" name="memPassword" placeholder="새 비밀번호 입력" required
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <input type="hidden" name="memId" id="memId" th:value="${member.memId}">
+                                        <input type="password" name="memPassword" id="memPassword" placeholder="새 비밀번호 입력" required
                                                style="padding: 5px 10px; border: 1px solid #ccc; width: 200px; height: 38px; box-sizing: border-box;">
-                                        <button type="submit" class="p-btn" style="height: 38px; padding: 0 15px; cursor: pointer;">변경</button>
-                                    </form>
+                                        <button type="button" id="btnUpdatePass" class="p-btn" style="height: 38px; padding: 0 15px; cursor: pointer;">변경</button>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>
@@ -94,16 +91,66 @@
     <footer th:replace="admin/common/admin_header_footer :: footer"></footer>
 </div>
 
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    var result = /*[[${result}]]*/ null;
+<script>
+    $(document).ready(function() {
+        const inputPassword = $('#memPassword');
 
-    if(result === "pw_success") {
-        alert("비밀번호가 성공적으로 변경되었습니다.");
-    } else if(result === "pw_fail") {
-        alert("비밀번호 변경에 실패했습니다.");
+        // 비밀번호 변경 버튼 클릭 이벤트
+        $('#btnUpdatePass').on('click', function() {
+            const data = {
+                memId: $('#memId').val(),
+                memPassword: inputPassword.val()
+            }
+
+            // 관리자의 비밀번호 유효성 검사
+            if(!checkPassword(data.memPassword)) {
+                // 일반 사용자와 동일한 비빌번호 규칙이 필요할 경우
+                // alert('비밀번호는 8자리 이상 20자리 이하 영어,특수문자,숫자를 포함해야 합니다.');
+                alert('비밀번호를 입력해주세요.');
+                return false;
+            }
+
+            memberService.update(data,function(result) {
+                inputPassword.val('');
+                alert(result);
+            }, function(err) {
+                inputPassword.val('');
+                alert(err);
+            });
+        });
+    });
+
+    // 비밀번호 유효성 검사
+    function checkPassword(str) {
+        // 일반 사용자와 동일한 비빌번호 규칙이 필요할 경우
+        // return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/.test(str);
+        return /^[A-Za-z\d@$!%*#?&]{1,20}$/.test(str);
     }
-    /*]]>*/
+
+    const memberService = (function() {
+        function update(data, callback, error) {
+            $.ajax({
+                type: "put",
+                url: "/admin/member/updatePw",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                success: function(result, status, xhr) {
+                    if(callback) {
+                        callback(result);
+                    }
+                },
+                error: function(xhr, status, err) {
+                    if(error) {
+                        error(err);
+                    }
+                }
+            });
+        }
+
+        return {
+            update: update
+        }
+    })();
 </script>
 </body>
 </html>

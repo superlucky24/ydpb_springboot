@@ -2,6 +2,8 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>가족관계증명서 발급 완료 | 영등포본동 주민센터</title>
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
@@ -43,16 +45,20 @@
                                 </colgroup>
                                 <tbody>
                                 <tr>
-                                    <th>신청인 ID</th>
-                                    <td th:text="${session.memId}">-</td>
+                                    <th>신청인 성명</th>
+                                    <td th:text="${doc.userName}">-</td>
                                 </tr>
                                 <tr>
                                     <th>발급 서류</th>
-                                    <td>가족관계증명서 (전자본)</td>
+                                    <td>가족관계증명서 (일반)</td>
                                 </tr>
                                 <tr>
-                                    <th>발급 상태</th>
-                                    <td><span style="color:#356bbe; font-weight:600;">정상 발급 완료</span></td>
+                                    <th>결제 상태</th>
+                                    <td><span style="color:#356bbe; font-weight:600;">수수료 결제 완료</span></td>
+                                </tr>
+                                <tr>
+                                    <th>처리 결과</th>
+                                    <td><span style="color:#e9463c; font-weight:600;">즉시 발급 가능</span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -61,17 +67,19 @@
 
                     <div style="margin-top:20px;">
                         <ul class="ul_common">
-                            <li>발급된 증명서는 아래 다운로드 버튼을 통해 확인하실 수 있습니다.</li>
-                            <li>결제 내역은 마이페이지 > 민원신청 현황에서 확인 가능합니다.</li>
+                            <li>아래 [증명서 확인 및 출력] 버튼을 클릭하면 인쇄 가능한 증명서 창이 열립니다.</li>
+                            <li>브라우저의 인쇄 기능을 통해 PDF로 저장하거나 프린터로 출력하실 수 있습니다.</li>
+                            <li>개인정보 보호를 위해 출력 후에는 반드시 창을 닫아주시기 바랍니다.</li>
                         </ul>
                     </div>
 
                     <div class="form_btns_wrap" style="justify-content: center; margin-top:50px; gap:15px;">
-                        <a th:href="@{/images/sub/familycert_sample_1.jpg}" download="가족관계증명서.png"
-                           class="btn btn_write" style="width:220px; height:50px; line-height:34px; font-size:1.8rem;">
-                            증명서 다운로드
-                        </a>
-                        <a th:href="@{/}" class="btn btn_cancel" style="width:140px; height:50px; line-height:34px; font-size:1.8rem;">
+                        <button type="button" onclick="openPrintWindow()" class="btn btn_write"
+                                style="width:240px; height:50px; line-height:34px; font-size:1.8rem; cursor:pointer;">
+                            증명서 확인 및 출력
+                        </button>
+                        <a th:href="@{/}" class="btn btn_cancel"
+                           style="width:140px; height:50px; line-height:34px; font-size:1.8rem;">
                             홈으로 이동
                         </a>
                     </div>
@@ -81,5 +89,23 @@
     </div>
     <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
 </div>
+
+<script th:inline="javascript">
+    function openPrintWindow() {
+        // 데이터는 세션에 있으므로 추가 파라미터 없이 인쇄 경로만 호출
+        const printUrl = "/sub/print";
+
+        const popupWidth = 900;
+        const popupHeight = 1000;
+        const left = (window.screen.width / 2) - (popupWidth / 2);
+        const top = (window.screen.height / 2) - (popupHeight / 2);
+
+        window.open(
+            printUrl,
+            "FamilyCertificatePrint",
+            `width=${popupWidth}, height=${popupHeight}, left=${left}, top=${top}, scrollbars=yes, toolbars=no, status=no`
+        );
+    }
+</script>
 </body>
 </html>

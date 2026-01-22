@@ -25,4 +25,11 @@ public class MemberServiceImpl implements MemberService{
         }
         return null;
     }
-}
+
+    // 가족관계증명서 폼 가져오기 위함
+    @Override
+    public MemberVO getMemberById(String memId) {
+
+        return Mapper.Login(memId);
+    }
+ }

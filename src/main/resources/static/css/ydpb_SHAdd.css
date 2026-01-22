@@ -217,3 +217,157 @@ ul.bu li {
         position: relative;
 
 }
+
+/* 서류 출력 페이지 */
+
+
+/* 인쇄 전용 래퍼 */
+.print-body-wrap {
+    font-family: 'Malgun Gothic', sans-serif;
+    background: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* 화면에서는 꽉 차게 보이게 유지 */
+}
+
+.print-body-wrap .paper {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 15mm;
+    margin: 10mm auto;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* 인쇄 시 설정 */
+@page {
+    size: A4; /* 명확하게 A4 규격 지정 */
+    margin: 0;
+}
+
+@media print {
+    /* 1. 래퍼의 높이 제한을 풀어줌 */
+    .print-body-wrap {
+        background: #fff !important;
+        min-height: auto !important;
+        height: auto !important;
+    }
+
+    /* 2. 페이퍼 영역의 여백과 높이를 조정하여 2페이지 생성을 방지함 */
+    .print-body-wrap .paper {
+        margin: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 15mm !important; /* 여백을 살짝 줄여서 안전하게 한 페이지에 담음 */
+        min-height: auto !important; /* 고정 최소 높이 해제 */
+        height: auto !important;
+        page-break-after: avoid; /* 뒤에 빈 페이지 방지 */
+    }
+
+    .print-body-wrap .no-print { display: none !important; }
+}
+
+/* 상단 컨트롤 바 */
+.print-body-wrap .print-nav {
+    background: #333;
+    padding: 15px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.print-body-wrap .btn-print {
+    background: #356bbe;
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.print-body-wrap .btn-close {
+    background: #666;
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    cursor: pointer;
+}
+
+/* QR 코드 영역 */
+.print-body-wrap .top-deco {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.print-body-wrap .qr-placeholder {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 10px;
+}
+
+/* 증명서 내부 디자인 */
+.print-body-wrap .title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    letter-spacing: 5px;
+}
+
+.print-body-wrap .section-label {
+    font-weight: bold;
+    margin: 20px 0 10px 0;
+    border: 1px solid #000;
+    width: fit-content;
+    padding: 2px 10px;
+    font-size: 14px;
+}
+
+.print-body-wrap .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    table-layout: fixed;
+}
+
+.print-body-wrap .info-table th,
+.print-body-wrap .info-table td {
+    border: 1px solid #000;
+    padding: 10px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.print-body-wrap .info-table th {
+    background: #f9f9f9;
+    font-weight: bold;
+}
+
+.print-body-wrap .info-table td.align-left {
+    text-align: left;
+}
+
+.print-body-wrap .cert-footer {
+    text-align: center;
+    margin-top: 80px;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.print-body-wrap .final-sign {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 18px;
+    font-weight: bold;
+}

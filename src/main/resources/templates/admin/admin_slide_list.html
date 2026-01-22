@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>민원답변목록 | 관리자페이지 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_list.css}">
+    <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <!--    <script>const menuName = '민원답변';</script>-->
+    <script th:src="@{/js/ydpb.js}"></script>
+</head>
+<body>
+<div id="wrap">
+    <!-- header -->
+    <header class="header" th:replace="admin/common/admin_header_footer :: header"></header>
+    <!-- //header -->
+
+    <!-- search -->
+    <div class="search"></div>
+    <!-- //search -->
+
+    <!-- container -->
+    <div class="container">
+        <div class="contents_wrap safe_area">
+            <!-- side menu -->
+            <aside class="side_menu" th:replace="admin/common/admin_sidemenu :: side"></aside>
+            <!-- //side menu -->
+
+            <!-- main -->
+            <main>
+                <!-- contents -->
+                <div id="board" class="clearfix">
+                    <table class="p_table">
+                        <colgroup>
+                            <col style="width: 100px;">
+                            <col>
+                            <col style="width: 120px;">
+                            <col style="width: 120px;">
+                            <col style="width: 100px;">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th scope="col">순서</th>
+                            <th scope="col">이미지</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">노출</th>
+                            <th scope="col">관리</th>
+                        </tr>
+                        </thead>
+                        <tbody class="tb_text" >
+                        <!--                            반복 구간-->
+                        <tr th:each="s : ${list}">
+                            <td th:text="${s.sortOrder}"></td>
+                            <td><img th:src="@{${s.imagePath}}" style="width:200px;"/></td>
+                            <td th:text="${s.title}"></td>
+                            <td th:text="${s.useYn}"></td>
+                            <td>
+                                <a th:href="@{/admin/slide/edit(slideId=${s.slideId})}">수정</a>
+                                <a th:href="@{/admin/slide/delete(slideId=${s.slideId})}">삭제</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <!-- //contents -->
+            </main>
+            <!-- //main -->
+        </div>
+    </div>
+    <!-- //container -->
+    <!-- footer -->
+    <footer class="footer" th:replace="admin/common/admin_header_footer :: footer"></footer>
+    <!-- //footer -->
+</div>
+</body>
+</html>

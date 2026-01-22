@@ -1,9 +1,11 @@
 package kr.go.ydpb.controller;
 
+import kr.go.ydpb.config.FileUploadUtil;
 import kr.go.ydpb.domain.MainSlideVO;
 import kr.go.ydpb.service.MainSlideService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,34 +21,72 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AdminSlideController {
 
-    private final MainSlideService slideService;
+    private MainSlideService slideService;
+    private FileUploadUtil fileUtil;
 
+    private String uploadDir = "./upload";
+
+    // 목록
+    @GetMapping("/list")
+    public String list(Model model) {
+        model.addAttribute("list", slideService.getList());
+        return "admin/admin_slide_list";
+    }
+
+    // 등록 폼
     @GetMapping("/register")
     public String registerForm() {
         return "admin/admin_slide_register";
     }
 
+    // 등록 처리
     @PostMapping("/register")
-    public String register(
-            MainSlideVO slide,
-            @RequestParam("file") MultipartFile file,
-            RedirectAttributes rttr
-    ) throws Exception {
+    public String register(MainSlideVO slide,
+                           @RequestParam("file") MultipartFile file,
+                           RedirectAttributes rttr) throws Exception {
 
-        // 1) 파일 업로드
-        String uploadDir = "./upload/";
-        String originalFilename = file.getOriginalFilename();
-        String savedFilename = UUID.randomUUID() + "_" + originalFilename;
+        String saved = fileUtil.saveFile(file, uploadDir);
+        slide.setImagePath("/upload/" + saved);
 
-        File dest = new File(uploadDir + savedFilename);
-        file.transferTo(dest);
+        slideService.insert(slide);
+        rttr.addFlashAttribute("msg", "등록 완료");
+        return "redirect:/admin/slide/list";
+    }
 
-        // 2) DB 저장
-        slide.setImagePath("/upload/" + savedFilename);
-        slideService.insertSlide(slide);
+    // 수정 폼
+    @GetMapping("/edit")
+    public String editForm(@RequestParam("slideId") Long slideId, Model model) {
+        model.addAttribute("slide", slideService.get(slideId));
+        return "admin/admin_slide_edit";
+    }
 
-        rttr.addFlashAttribute("msg", "슬라이드 등록 성공");
-        return "redirect:/admin/slide/register";
+    // 수정 처리
+    @PostMapping("/edit")
+    public String edit(MainSlideVO slide,
+                       @RequestParam("file") MultipartFile file,
+                       RedirectAttributes rttr) throws Exception {
+
+        if(!file.isEmpty()) {
+            String saved = fileUtil.saveFile(file, uploadDir);
+            slide.setImagePath("/upload/" + saved);
+        }
+
+        slideService.update(slide);
+        rttr.addFlashAttribute("msg", "수정 완료");
+        return "redirect:/admin/slide/list";
+    }
+
+    // 삭제
+    @GetMapping("/delete")
+    public String delete(@RequestParam("slideId") Long slideId, RedirectAttributes rttr) {
+        MainSlideVO slide = slideService.get(slideId);
+
+        // 파일 삭제
+        fileUtil.deleteFile("./upload/" + slide.getImagePath().substring(8)); // "/upload/" 제거
+
+        slideService.delete(slideId);
+        rttr.addFlashAttribute("msg", "삭제 완료");
+        return "redirect:/admin/slide/list";
     }
 }
 

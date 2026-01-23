@@ -49,7 +49,7 @@ public class ComplaintController {
     @GetMapping("write")
     public String complaintWriteFrom(@ModelAttribute("cri") Criteria cri, HttpSession session,
                                      @AuthenticationPrincipal Object principal) {
-        if(session.getAttribute("memId") == null || principal ==null) {
+        if(session.getAttribute("memId") == null && principal ==null) {
             return "redirect:/complaint/list";
         }
         else {

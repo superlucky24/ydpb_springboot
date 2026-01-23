@@ -52,7 +52,6 @@ public class CustomOAuth2UserService  implements OAuth2UserService<OAuth2UserReq
                     objectMapper.convertValue(attributes, NaverUserResponse.Response.class);
 
             member = joinService.naverLoginOrJoin(naverUser);
-
             nameAttributeKey = "id";
         }
 

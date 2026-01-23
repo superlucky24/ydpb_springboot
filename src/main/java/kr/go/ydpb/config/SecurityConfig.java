@@ -12,7 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 //import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
+
+import java.util.Map;
 
 // 보안 처리 config 클래스
 @Configuration
@@ -58,6 +62,27 @@ public class SecurityConfig  {
                                 .userService(customOAuth2UserService)
                         )
                         .defaultSuccessUrl("/", true)
+                        .successHandler((request, response, authentication) -> {
+                            OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+                            Map<String, Object> attributes = oAuth2User.getAttributes();
+
+                            String memId = "";
+
+                            System.out.println("### [DEBUG] OAuth2 Login Success! attributes: " + attributes);
+
+                            String registrationId = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
+
+                            if ("naver".equals(registrationId) || "kakao".equals(registrationId)) {
+                                memId = attributes.get("id").toString();
+                            }
+
+                            // [핵심] HTML th:value="${session.memId}"가 읽을 수 있도록 세션에 저장
+                            request.getSession().setAttribute("memId", memId);
+
+                            System.out.println("### [DEBUG] OAuth2 Login Success! 세션에 등록된 memId: " + memId);
+
+                            response.sendRedirect("/"); // 글쓰기 폼으로 리다이렉트
+                        })
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")

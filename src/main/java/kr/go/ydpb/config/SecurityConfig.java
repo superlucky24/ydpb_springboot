@@ -26,22 +26,32 @@ public class SecurityConfig  {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, CustomOAuth2UserService customOAuth2UserService) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/admin/**").hasRole("ADMIN") //관리자 접근
-
-                        .requestMatchers( //비로그인 접근
-                                "/",                 // 메인
-                                "/login",             // 커스텀 로그인 페이지
-                                "/oauth2/**",         // OAuth2 인증 엔드포인트
-                                "/member/**",
-                                "/complaint/**",
-                                "/community/**",
-                                "/css/**", "/js/**", "/images/**"
-                                ,"/admin/**" // 관리자 임시
-                        ).permitAll()
-                        .anyRequest().authenticated()
+//                        .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN") //관리자 접근
+                        .anyRequest().permitAll() // 나머지는 다 열어둠
+//                        .requestMatchers( //비로그인 접근
+//                                "/",                 // 메인
+//                                "/login",             // 커스텀 로그인 페이지
+//                                "/oauth2/**",         // OAuth2 인증 엔드포인트
+//                                "/member/**",
+//                                "/complaint/**",
+//                                "/community/**",
+//                                "/css/**", "/js/**", "/images/**"
+//                                ,"/admin/**" // 관리자 임시
+//                        ).permitAll()
                 )
+//                .exceptionHandling(exc -> exc
+//                        // 권한 없는 사람이 올 때 (일반유저가 /admin 올 때)
+//                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+//                            response.sendRedirect("/?error=denied");
+//                        })
+//                        // 인증 안 된 사람이 올 때 (Security가 로그인 정보를 모를 때)
+//                        .authenticationEntryPoint((request, response, authException) -> {
+//                            // 여기서 로그인 페이지로 보내지 말고, 메인으로 보내거나
+//                            // 기존 Interceptor가 처리하도록 그냥 둡니다.
+//                            response.sendRedirect("/");
+//                        })
+//                )
                 .oauth2Login(oauth -> oauth
                         .loginPage("/login")
                         .userInfoEndpoint(userInfo -> userInfo
@@ -71,19 +81,8 @@ public class SecurityConfig  {
 //                        })
 //                        .permitAll()
                 )
-                .httpBasic(basic -> basic.disable())
-                .exceptionHandling(exc -> exc
-                        // 권한 없는 사람이 올 때 (일반유저가 /admin 올 때)
-                        .accessDeniedHandler((request, response, accessDeniedException) -> {
-                            response.sendRedirect("/?error=denied");
-                        })
-                        // 인증 안 된 사람이 올 때 (Security가 로그인 정보를 모를 때)
-                        .authenticationEntryPoint((request, response, authException) -> {
-                            // 여기서 로그인 페이지로 보내지 말고, 메인으로 보내거나
-                            // 기존 Interceptor가 처리하도록 그냥 둡니다.
-                            response.sendRedirect("/login");
-                        })
-                );
+                .csrf(csrf -> csrf.disable())
+                .httpBasic(basic -> basic.disable());
 
         return http.build();
     }

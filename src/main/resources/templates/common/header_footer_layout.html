@@ -1464,13 +1464,17 @@
                 </div>
 
                 <!-- 로그인 회원가입 -->
-                <div class="red_box">
+                <div class="red_box" sec:authorize="isAnonymous()">
                     <a th:if="${session.memId == null}" th:href="@{/login}" class="icon_login">로그인</a>
                     <a th:if="${session.memId == null}" th:href="@{/member/join}" class="icon_join">회원가입</a>
 
                     <a th:if="${session.memId != null}" th:text="${session.memId} + '님'"></a>
                     <a th:if="${session.memId != null}" th:href="@{/logout}" class="icon_logout">로그아웃</a>
                     <a th:if="${session.admin == 1}" th:href="@{/admin/member/list}" class="admin_menu" style="background-image:url('/images/sub/blank.png');">관리자메뉴</a>
+                </div>
+                <div class="red_box" sec:authorize="isAuthenticated()">
+                    <a th:text="${#authentication.principal.attributes['name']}"></a>
+                    <a th:href="@{/logout}" class="icon_logout">로그아웃</a>
                 </div>
             </div>
         </div>

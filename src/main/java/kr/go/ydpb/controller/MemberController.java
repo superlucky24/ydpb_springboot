@@ -46,11 +46,12 @@ public class MemberController {
             session.setAttribute("admin", loginMember.getMemRole());
 
 //          Spring Security 연동 -> Spring Security에게 로그인 성공을 알림
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(loginMember.getMemRole() == 1 ? "ROLE_ADMIN" : "ROLE_USER"));
-
-            Authentication authentication = new UsernamePasswordAuthenticationToken(loginMember.getMemId(), null, authorities);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+//            List<GrantedAuthority> authorities = new ArrayList<>();
+//            authorities.add(new SimpleGrantedAuthority(loginMember.getMemRole() == 1 ? "ROLE_ADMIN" : "ROLE_USER"));
+//
+//            Authentication authentication = new UsernamePasswordAuthenticationToken(loginMember.getMemId(), null, authorities);
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+//            System.out.println("로그인 권한 처리 완료 loginMember.getMemRole() => " + (loginMember.getMemRole() == 1 ? "ROLE_ADMIN" : "ROLE_USER"));
 
             return "redirect:/"; // 메인 페이지 이동
         }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -195,11 +195,16 @@
                             </div>
 
                             <div class="board_btm_btns">
-                                <th:block th:if="${session.memId}">
+<!--                                <th:block sec:authorize="isAuthenticated()">-->
+<!--                                    <a th:href="@{/complaint/write(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="btn btn_write">글쓰기</a>-->
+<!--                                </th:block>-->
+                                <th:block th:if="${session.memId != null or session.SPRING_SECURITY_CONTEXT != null }">
                                     <a th:href="@{/complaint/write(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="btn btn_write">글쓰기</a>
                                 </th:block>
                                 <th:block th:if="${session.memId == null}">
-                                    <a th:href="@{/login}" id="btn_write_no_auth" class="btn btn_write">글쓰기</a>
+                                    <th:block sec:authorize="isAnonymous()">
+                                        <a th:href="@{/login}" id="btn_write_no_auth" class="btn btn_write">글쓰기</a>
+                                    </th:block>
                                 </th:block>
 
                             </div>

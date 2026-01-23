@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>통합 로그인 - 회원가입1단계 회원 구분</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_member.css}">
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script th:src="@{/js/ydpb.js}"></script>
+    <script th:src="@{/js/ydpb_member.js}"></script>
+</head>
+<body>
+    <div id="wrap" class="member_wrap">
+        <!-- member header -->
+        <header class="member_header">
+            <div class="header_inner">
+                <h1>
+                    <a href="../"><span class="blind">영등포구</span></a><b>통합로그인</b>
+                </h1>
+                <p>영등포구청 홈페이지를 방문해주신 여러분 환영합니다</p>
+            </div>
+        </header>
+        <!-- //member header -->
+
+        <!-- member container -->
+        <div class="member_container">
+            <div class="membership">
+                <div class="member_inner">
+                    <!-- member menu -->
+                    <ul class="member_menu">
+                        <li>
+                            <a th:href="@{/login}">통합로그인</a>
+                        </li>
+                        <li class="active">
+                            <span>회원가입</span>
+                        </li>
+                        <li>
+                            <a href="#">약관재동의</a>
+                        </li>
+                    </ul>
+                    <!-- //member menu -->
+
+                    <!-- member contents -->
+                    <div class="member_contents join_contents">
+                        <ol class="join_flow">
+                            <li class="active">
+                                <b>STEP01</b>
+                                <span>회원구분</span>
+                            </li>
+                            <li>
+                                <b>STEP02</b>
+                                <span>약관동의 및 본인인증</span>
+                            </li>
+                            <li>
+                                <b>STEP03</b>
+                                <span>회원정보입력</span>
+                            </li>
+                            <li>
+                                <b>STEP04</b>
+                                <span>가입완료</span>
+                            </li>
+                        </ol>
+
+                        <div class="join_step1">
+                            <div class="classify_wrap">
+                                <div class="classify_box">
+                                    <strong>일반회원</strong>
+                                    <p class="visual_text general">
+                                        <b>14세 이상</b> 영등포구 주민 뿐만 아니라<br>
+                                        대한민국 국민이면 누구나 회원으로<br>
+                                        가입하실 수 있습니다.
+                                    </p>
+                                    <button type="button" id="btnAuthPhone" class="btn">가입하기</button>
+                                </div>
+                                <div class="classify_box">
+                                    <strong>어린이회원</strong>
+                                    <p class="visual_text child">
+                                        <b>14세 미만</b> 어린이는<br>
+                                        보호자(법정대리인)의 가입동의 절차를 거쳐<br>
+                                        회원으로 가입할 수 있습니다.
+                                    </p>
+                                    <a href="#" class="btn">가입하기</a>
+                                </div>
+                            </div>
+
+                            <form th:action="@{/member/joinstep2}" method="post" id="joinForm">
+                                <input type="hidden" id="memName" name="memName">
+                                <input type="hidden" id="memBirth" name="memBirth">
+                                <input type="hidden" id="memPhone" name="memPhone">
+                                <input type="hidden" id="memGender" name="memGender">
+                            </form>
+                        </div>
+                        <!-- //join_step1 -->
+                    </div>
+                    <!-- //member contents -->
+                </div>
+            </div>
+        </div>
+        <!-- //member container -->
+    </div>
+
+    <script>
+        $('#btnAuthPhone').on('click', function() {
+            const url = "/member/authform";
+            const windowName = "전화 인증";
+            const width = 480;
+            const height = 700;
+            const left = (screen.width - width) / 2;
+            const top = (screen.height - height) / 2;
+            const options = `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`;
+            const newWindow = window.open(url, windowName, options);
+
+            if (newWindow) {
+                newWindow.focus(); // 새 창이 열리면 포커스
+            } else {
+                alert("팝업이 차단되었습니다.");
+            }
+        });
+
+        // 인증 후 전달하는 데이터 받는 함수
+        function receiveData(data) {
+            $('#memName').val(data.name);
+            $('#memBirth').val(data.birth);
+            $('#memPhone').val(data.phone);
+            let gender = Number(data.gender)%2 == 1 ? '남' : '여';
+            $('#memGender').val(gender);
+            $('#joinForm').submit();
+        }
+    </script>
+</body>
+</html>

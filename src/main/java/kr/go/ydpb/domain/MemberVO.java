@@ -11,6 +11,7 @@ import java.sql.Date;
 @Data
 public class MemberVO {
 
+
     @NotBlank(message = "아이디는 필수입니다.")
     @Pattern(regexp = "^[a-z][a-z0-9]{5,19}$",
             message = "아이디는 영문 소문자와 숫자 조합 6~20자여야 합니다.")
@@ -34,7 +35,7 @@ public class MemberVO {
     private String memAddressDetail;
 
     @Pattern(
-            regexp = "^(02|031|032|033|041|042|043|044|051|052|053|054|055|061|062|063|064)\\d{7,8}$",
+            regexp = "^$|^(02|031|032|033|041|042|043|044|051|052|053|054|055|061|062|063|064)\\d{7,8}$",
             message = "유효한 유선전화 번호를 입력해주세요."
     )
     private String memTel;
@@ -53,4 +54,6 @@ public class MemberVO {
     private int memRole;
     // 가입일 추가
     private java.util.Date memRegDate;
+
+    private String loginType;
 }

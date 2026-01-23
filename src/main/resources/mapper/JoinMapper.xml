@@ -30,4 +30,51 @@
         SELECT COUNT(*) FROM tbl_member WHERE memId = #{memId}
     </select>
 
+<!--    네이버 카카오 회원 추가-->
+<!--   존재하는 회원인지 체크 -->
+    <select id="findById" resultType="kr.go.ydpb.domain.MemberVO">
+        SELECT *
+        FROM tbl_member
+        WHERE MEMID = #{memId}
+    </select>
+
+    <insert id="insertKaKaoMember" parameterType="kr.go.ydpb.domain.MemberVO">
+        INSERT INTO tbl_member (
+            MEMID,
+            MEMNAME,
+            MEMEMAIL,
+            LOGINTYPE,
+            MEMPASSWORD,
+            memRole
+        ) VALUES (
+             #{memId},
+             #{memName},
+             #{memEmail},
+             'KAKAO',
+             #{memPassword},
+             0
+         )
+    </insert>
+
+    <insert id="insertNaverMember" parameterType="kr.go.ydpb.domain.MemberVO">
+        INSERT INTO tbl_member (
+            MEMID,
+            MEMNAME,
+            MEMEMAIL,
+            LOGINTYPE,
+            MEMPASSWORD,
+            MEMPHONE,
+            memRole
+        ) VALUES (
+             #{memId},
+             #{memName},
+             #{memEmail},
+             'NAVER',
+             #{memPassword},
+             #{memPhone},
+             0
+         )
+    </insert>
+
+
 </mapper>

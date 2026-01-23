@@ -166,8 +166,6 @@ function initUi() {
         const sky = firstByCategory.filter(item => item.category === 'SKY')[0].value;
         const t1h = firstByCategory.filter(item => item.category === 'T1H')[0].value;
 
-        console.log(dataArray);
-
         let weatherText = '맑음';
         let weatherImg = 'weather_01.png';
 
@@ -209,11 +207,27 @@ function initUi() {
         weatherImgEl.attr({'src': weatherImgEl.attr('data-path') + weatherImg, 'alt': weatherText});
         $('#weather_temperature_num').text(t1h + '˚C');
         $('#weather_temperature_text').text(weatherText);
-        $('#weather_wrap').addClass('active');
+        $('#weather_wrap').addClass('active1');
     })
     .fail(function(xhr, status, err) {
         console.log(err);
     });
+
+    // 미세먼지 api 연동 : 20260123 최상림
+    $.getJSON('/weather/dust', function(data) {
+        const dataArray = data.response.body.items;
+        const dustInfo = dataArray[dataArray.length - 1];
+        const pm10Grade = Number(dustInfo.pm10Grade);
+        const pm25Grade = Number(dustInfo.pm25Grade);
+        const gradeText = ['좋음', '보통', '나쁨', '매우나쁨'];
+        $('#air_dust1').removeClass('dust_02').addClass('dust_0' + pm10Grade).text(gradeText[pm10Grade - 1]);
+        $('#air_dust2').removeClass('dust_02').addClass('dust_0' + pm25Grade).text(gradeText[pm25Grade - 1]);
+        $('#weather_wrap').addClass('active2');
+    })
+    .fail(function(xhr, status, err) {
+        console.log(err);
+    });
+
 }
 
 /**

@@ -500,11 +500,9 @@ h1{
     box-sizing: border-box;
     letter-spacing: -0.4px;
     vertical-align: middle;
-    opacity: 0;
-    transition: opacity 300ms;
 }
-.weather.active {
-    opacity: 1;
+.weather.active1.active2 {
+    /*opacity: 1;*/
 }
 .weather img {
     width: 65px;

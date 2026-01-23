@@ -20,4 +20,9 @@ public class WeatherController {
     public ResponseEntity<String> weather() {
         return new ResponseEntity<>(weatherService.getWeather(), HttpStatus.OK);
     }
+
+    @GetMapping(value = "dust", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<String> dust() {
+        return new ResponseEntity<>(weatherService.getDust(), HttpStatus.OK);
+    }
 }

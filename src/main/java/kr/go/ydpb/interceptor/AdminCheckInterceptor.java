@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Component
 public class AdminCheckInterceptor implements HandlerInterceptor {
@@ -15,7 +16,6 @@ public class AdminCheckInterceptor implements HandlerInterceptor {
                              Object handler) throws Exception {
 
         HttpSession session = request.getSession(false);
-
         if (session == null) {
             response.sendRedirect("/login");
             return false;

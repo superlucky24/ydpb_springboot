@@ -28,7 +28,7 @@ public class SecurityConfig  {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/**").hasRole("ADMIN") //관리자 접근
+//                        .requestMatchers("/admin/**").hasRole("ADMIN") //관리자 접근
 
                         .requestMatchers( //비로그인 접근
                                 "/",                 // 메인
@@ -38,9 +38,21 @@ public class SecurityConfig  {
                                 "/complaint/**",
                                 "/community/**",
                                 "/css/**", "/js/**", "/images/**"
-//                                ,"/admin/**" // 관리자 임시
+                                ,"/admin/**" // 관리자 임시
                         ).permitAll()
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling(exc -> exc
+                        // 권한 없는 사람이 올 때 (일반유저가 /admin 올 때)
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.sendRedirect("/?error=denied");
+                        })
+                        // 인증 안 된 사람이 올 때 (Security가 로그인 정보를 모를 때)
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            // 여기서 로그인 페이지로 보내지 말고, 메인으로 보내거나
+                            // 기존 Interceptor가 처리하도록 그냥 둡니다.
+                            response.sendRedirect("/login");
+                        })
                 )
                 .oauth2Login(oauth -> oauth
                         .loginPage("/login")
@@ -56,8 +68,8 @@ public class SecurityConfig  {
                         .clearAuthentication(true)
                         .deleteCookies("JSESSIONID")
                 )
-                .formLogin(form ->
-                        form.disable()
+                .formLogin(form -> form
+                          .disable()
 //                        .loginPage("/login")
 //                        .loginProcessingUrl("/login")
 //
@@ -76,15 +88,7 @@ public class SecurityConfig  {
         return http.build();
     }
 
-//    @Bean
-//    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-//        AuthenticationManagerBuilder authBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-//        authBuilder
-//                .userDetailsService(userDetailsService)
-//                .passwordEncoder(passwordEncoder);
-//
-//        return authBuilder.build(); // .and() 없이 바로 build()
-//    }
+
 //    @Bean
 //    public AuthenticationManager authenticationManager(HttpSecurity http,
 //                                                       DaoAuthenticationProvider authProvider) throws Exception {
@@ -92,16 +96,7 @@ public class SecurityConfig  {
 //                .authenticationProvider(authProvider)
 //                .build();
 //    }
-//
-//    @Bean
-//    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-//        return http.getSharedObject(AuthenticationManagerBuilder.class)
-//                .userDetailsService(userDetailsService)
-//                .passwordEncoder(passwordEncoder)
-//                .and()
-//                .build();
-//    }
-//
+
 //    @Bean
 //    public DaoAuthenticationProvider authenticationProvider(UserDetailsServiceImpl userDetailsService,
 //                                                            BCryptPasswordEncoder passwordEncoder) {

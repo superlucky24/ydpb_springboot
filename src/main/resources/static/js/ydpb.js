@@ -130,13 +130,13 @@ function initUi() {
 
     // menuName 변수가 있을 경우 해당 값에 해당하는 사이드메뉴 열기 : 20251218 최상림 추가
     // 사이드메뉴를 jQuery load 메소드로 추가하고, 해당 페이지 메뉴 항목을 열기 위한 코드
-    if(typeof menuName != 'undefined' && menuName.trim() != '') {
+    if(typeof menuName != 'undefined' && menuName.trim() !== '') {
         console.log('현재 메뉴명 => ' + menuName);
         const subList = $('.side_list .side_list_menu').eq(0).children('.sub_list');
         const subGroupListItems = subList.find('.sub_group_list > li');
         let thisItem;
         for(let i = 0; i < subGroupListItems.length; i++) {
-            if(menuName == subGroupListItems.eq(i).find('a').text().trim()) {
+            if(menuName === subGroupListItems.eq(i).find('a').text().trim()) {
                 thisItem = subGroupListItems.eq(i);
                 break;
             }
@@ -151,7 +151,7 @@ function initUi() {
         }
     }
 
-    // 날씨 api 연동 : 20260122 최상림 추가
+    // 날씨 api 연동 : 20260122 최상림
     $.getJSON('/weather/status', function(data) {
         const dataArray = data.response.body.items.item;
         const map = new Map();
@@ -207,7 +207,8 @@ function initUi() {
         weatherImgEl.attr({'src': weatherImgEl.attr('data-path') + weatherImg, 'alt': weatherText});
         $('#weather_temperature_num').text(t1h + '˚C');
         $('#weather_temperature_text').text(weatherText);
-        $('#weather_wrap').addClass('active1');
+        $('#weather_wrap .icon, #weather_wrap .weather_status').addClass('active');
+
     })
     .fail(function(xhr, status, err) {
         console.log(err);
@@ -222,7 +223,7 @@ function initUi() {
         const gradeText = ['좋음', '보통', '나쁨', '매우나쁨'];
         $('#air_dust1').removeClass('dust_02').addClass('dust_0' + pm10Grade).text(gradeText[pm10Grade - 1]);
         $('#air_dust2').removeClass('dust_02').addClass('dust_0' + pm25Grade).text(gradeText[pm25Grade - 1]);
-        $('#weather_wrap').addClass('active2');
+        $('#weather_wrap .dust_status').addClass('active');
     })
     .fail(function(xhr, status, err) {
         console.log(err);
@@ -240,7 +241,7 @@ function layerAlert(text) {
     const delayTime = 1000;
 
     // 현재 경고창이 없을 때만 동작
-    if($('.layer_alert').length == 0) {
+    if($('.layer_alert').length === 0) {
         let html = '<div class="layer_alert">' + text + '</div>';
         $('body').append(html);
         $('.layer_alert').stop().fadeIn(fadeInTime);

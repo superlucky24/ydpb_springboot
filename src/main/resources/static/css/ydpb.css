@@ -501,9 +501,6 @@ h1{
     letter-spacing: -0.4px;
     vertical-align: middle;
 }
-.weather.active1.active2 {
-    /*opacity: 1;*/
-}
 .weather img {
     width: 65px;
     margin-right: 22px;
@@ -537,6 +534,15 @@ h1{
 }
 .weather dl dd + dt {
     margin-left: 20px;
+}
+.weather .icon.active,
+.weather .weather_status.active,
+.weather .dust_status.active {
+    animation: weatherView 300ms;
+}
+@keyframes weatherView {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
 }
 
 /* 먼지 아이콘 */

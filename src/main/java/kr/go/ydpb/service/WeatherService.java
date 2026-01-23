@@ -18,11 +18,9 @@ import java.time.LocalDateTime;
 
 @Service
 public class WeatherService {
-    @Value("${weather.service-key}")
+    @Value("${WEATHER_SERVICE_KEY}")
     private String SERVICE_KEY;
-
     private static final String API_URL = "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst";
-
     private static final String DUST_API_URL = "https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty";
 
     @Setter(onMethod_ = @Autowired)
@@ -90,7 +88,6 @@ public class WeatherService {
         headers.set("User-Agent", "Mozilla/5.0");
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
-//        return response.getBody();
-        return restTemplate.getForObject(uri, String.class);
+        return response.getBody();
     }
 }

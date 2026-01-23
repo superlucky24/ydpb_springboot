@@ -42,18 +42,6 @@ public class SecurityConfig  {
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .exceptionHandling(exc -> exc
-                        // 권한 없는 사람이 올 때 (일반유저가 /admin 올 때)
-                        .accessDeniedHandler((request, response, accessDeniedException) -> {
-                            response.sendRedirect("/?error=denied");
-                        })
-                        // 인증 안 된 사람이 올 때 (Security가 로그인 정보를 모를 때)
-                        .authenticationEntryPoint((request, response, authException) -> {
-                            // 여기서 로그인 페이지로 보내지 말고, 메인으로 보내거나
-                            // 기존 Interceptor가 처리하도록 그냥 둡니다.
-                            response.sendRedirect("/login");
-                        })
-                )
                 .oauth2Login(oauth -> oauth
                         .loginPage("/login")
                         .userInfoEndpoint(userInfo -> userInfo
@@ -83,7 +71,19 @@ public class SecurityConfig  {
 //                        })
 //                        .permitAll()
                 )
-                .httpBasic(basic -> basic.disable());
+                .httpBasic(basic -> basic.disable())
+                .exceptionHandling(exc -> exc
+                        // 권한 없는 사람이 올 때 (일반유저가 /admin 올 때)
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.sendRedirect("/?error=denied");
+                        })
+                        // 인증 안 된 사람이 올 때 (Security가 로그인 정보를 모를 때)
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            // 여기서 로그인 페이지로 보내지 말고, 메인으로 보내거나
+                            // 기존 Interceptor가 처리하도록 그냥 둡니다.
+                            response.sendRedirect("/login");
+                        })
+                );
 
         return http.build();
     }

@@ -41,9 +41,22 @@ public class ComplaintController {
     }
 
     @GetMapping("view")
-    public String complaintView(@ModelAttribute("comId") int comId, @ModelAttribute("cri") Criteria cri, Model model){
-        model.addAttribute("complaint", complaintService.getOneComplaint(comId));
-        return "sub/complaint_view";
+    public String complaintView(@ModelAttribute("comId") int comId,
+                                @ModelAttribute("cri") Criteria cri,
+                                RedirectAttributes rttr,
+                                HttpSession session,
+                                Model model){
+        String loginId = (String)session.getAttribute("memId");
+        ComplaintVO complaint = complaintService.getOneComplaint(comId);
+        // 비공개 + 본인이 작성한 글이 아닐 시 목록으로 돌려보내기
+        if(complaint.getComPublic() == 0 && !complaint.getMemId().equals(loginId)) {
+            rttr.addFlashAttribute("errorMsg", "권한이 없습니다.");
+            return "redirect:/complaint/list";
+        }
+        else {
+            model.addAttribute("complaint", complaint);
+            return "sub/complaint_view";
+        }
     }
 
     @GetMapping("write")

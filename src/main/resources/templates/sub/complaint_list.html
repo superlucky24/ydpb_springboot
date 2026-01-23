@@ -195,10 +195,10 @@
                             </div>
 
                             <div class="board_btm_btns">
-                                <th:block sec:authorize="isAuthenticated()">
-                                    <a th:href="@{/complaint/write(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="btn btn_write">글쓰기</a>
-                                </th:block>
-                                <th:block th:if="${session.memId}">
+<!--                                <th:block sec:authorize="isAuthenticated()">-->
+<!--                                    <a th:href="@{/complaint/write(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="btn btn_write">글쓰기</a>-->
+<!--                                </th:block>-->
+                                <th:block th:if="${session.memId != null or session.SPRING_SECURITY_CONTEXT != null }">
                                     <a th:href="@{/complaint/write(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="btn btn_write">글쓰기</a>
                                 </th:block>
                                 <th:block th:if="${session.memId == null}">

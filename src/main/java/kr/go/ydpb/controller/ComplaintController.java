@@ -8,6 +8,7 @@ import kr.go.ydpb.service.ComplaintService;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,8 +47,9 @@ public class ComplaintController {
     }
 
     @GetMapping("write")
-    public String complaintWriteFrom(@ModelAttribute("cri") Criteria cri, HttpSession session) {
-        if(session.getAttribute("memId") == null) {
+    public String complaintWriteFrom(@ModelAttribute("cri") Criteria cri, HttpSession session,
+                                     @AuthenticationPrincipal Object principal) {
+        if(session.getAttribute("memId") == null || principal ==null) {
             return "redirect:/complaint/list";
         }
         else {

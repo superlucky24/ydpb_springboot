@@ -31,7 +31,6 @@ public class DongnewsController {
     /* 상세 보기 */
     @GetMapping("view")
     public String view(@RequestParam("dnewsId") Long dnewsId, @ModelAttribute("cri") Criteria cri, Model model) {
-        System.out.println(service.getList(cri));
         service.increaseCount(dnewsId);
         model.addAttribute("board", service.getBoard(dnewsId));
         model.addAttribute("prev", service.getPrev(dnewsId, cri));

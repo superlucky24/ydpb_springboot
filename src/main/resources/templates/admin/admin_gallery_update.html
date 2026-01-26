@@ -19,18 +19,15 @@
 <body>
     <div id="wrap">
         <!-- header -->
-        <header class="header"></header>
+        <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
         <!-- //header -->
 
-        <!-- search -->
-        <div class="search"></div>
-        <!-- //search -->
 
         <!-- container -->
         <div class="container">
             <div class="contents_wrap safe_area">
                 <!-- side menu -->
-                <aside class="side_menu"></aside>
+                <aside class="side_menu" th:replace="~{/admin/common/admin_sidemenu::side}"></aside>
                 <!-- //side menu -->
 
                 <!-- main -->
@@ -164,7 +161,7 @@
         <!-- //container -->
 
         <!-- footer -->
-        <footer class="footer"></footer>
+        <footer class="footer" th:replace="~{/admin/common/admin_header_footer::footer}"></footer>
         <!-- //footer -->
     </div>
 

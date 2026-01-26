@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.go.ydpb.mapper.GalleryMapper">
 
+    
     <insert id="insert">
         INSERT INTO TBL_GALLERY(galId, galTitle, galDepartment, galContent, galTel, memId)
         VALUES (SEQ_GALLERY.nextval,#{galTitle},#{galDepartment},#{galContent},#{galTel},#{memId})

@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자치회관 게시판 | 자치회관 | 영등포본동 주민센터</title>
-    <link rel="shortcut icon" href="../images/favicon.ico">
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/ydpb.css">
-    <link rel="stylesheet" href="../css/ydpb_gallery_list.css">
-    <script src="../js/jquery-1.12.4.min.js"></script>
-    <script src="../js/jquery-3.3.1.min.js"></script>
-    <script src="../js/prefixfree.min.js"></script>
-    <script>const menuName = '자치회관 게시판';</script>
-    <script src="../js/ydpb.js"></script>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_gallery_list.css}">
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+<!--    <script>const menuName = '자치회관 게시판';</script>-->
+    <script th:src="@{/js/ydpb.js}"></script>
 </head>
 <body>
     <div id="wrap">
@@ -37,34 +37,9 @@
                     <!-- location -->
                     <div class="location">
                         <div class="location_title">
-                            <h2>자치회관 게시판</h2>
+                            <h2>포토갤러리</h2>
                         </div>
-                        <div class="location_path">
-                            <span class="loc_home"><a href="../index.html">홈</a></span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text"><a href="../index.html">동주민센터</a></span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text"><a href="../index.html">영등포본동</a></span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text"><a href="#">자치회관</a></span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text">자치회관 게시판</span>
-                        </div>
-                        <div class="location_icon">
-                            <ul class="loc_fixed_icon">
-                                <li><button type="button" class="loc_print">프린트</button></li>
-                                <li class="icon_sns">
-                                    <button type="button" class="loc_sns">SNS</button>
-                                    <div class="sns_list">
-                                        <a href="#" class="loc_sns_icon1">a</a>
-                                        <a href="#" class="loc_sns_icon2">a</a>
-                                        <a href="#" class="loc_sns_icon3">a</a>
-                                        <a href="#" class="loc_sns_icon4">a</a>
-                                        <a href="#" class="loc_sns_icon5">a</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+
                     </div>
                     <!-- location -->
 
@@ -107,10 +82,10 @@
                         <div class="p-gallery">
                             <div class="p-gallery-list">
                                 <li class="p-gallery-post">
-                                    <a href="#" class="p-gallery-post-link">
+                                    <a th:href="@{/admin/gallery/view}" class="p-gallery-post-link">
                                         <div class="p-gallery-post-image">
                                             <div class="p-gallery-post-image-wrap">
-                                                <img src="../images/sub/gal_post_img1.jpg" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
+                                                <img th:src="@{/images/sub/gal_post_img1.jpg}" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
                                             </div>
                                             
                                             <div class="p-gallery-icon">
@@ -125,7 +100,7 @@
                                                     <em class="skip">조회 :</em> 
                                                     <span class="p-icon">
                                                     
-                                                        <img src="../images/sub/icon_eye.png" width="20" height="16" alt="eye icon" class="p-icon-eye">
+                                                        <img th:src="@{/images/sub/icon_eye.png}"width="20" height="16" alt="eye icon" class="p-icon-eye">
                                                     </span>
                                                     <!-- <svg width="20" height="16" class="p-icon" fill="#959595" focusable="false" y="-2">
                                                         <use href="/images/sub/p-icon-view.svg#eye" xlink:href="/images/sub/p-icon-view.svg#eye"></use>
@@ -137,10 +112,10 @@
                                     </a>
                                 </li>                
                                 <li class="p-gallery-post">
-                                    <a href="#" class="p-gallery-post-link">
+                                    <a th:href="@{/admin/gallery/view}" class="p-gallery-post-link">
                                         <div class="p-gallery-post-image">
                                             <div class="p-gallery-post-image-wrap">
-                                                <img src="../images/sub/gal_post_img1.jpg" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
+                                                <img th:src="@{/images/sub/gal_post_img1.jpg}" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
                                             </div>
                                             
                                             <div class="p-gallery-icon">
@@ -155,7 +130,7 @@
                                                     <em class="skip">조회 :</em> 
                                                     <span class="p-icon">
                                                     
-                                                        <img src="../images/sub/icon_eye.png" width="20" height="16" alt="eye icon" class="p-icon-eye">
+                                                        <img th:src="@{/images/sub/icon_eye.png}"width="20" height="16" alt="eye icon" class="p-icon-eye">
                                                     </span>
                                                     <!-- <svg width="20" height="16" class="p-icon" fill="#959595" focusable="false" y="-2">
                                                         <use href="/images/sub/p-icon-view.svg#eye" xlink:href="/images/sub/p-icon-view.svg#eye"></use>
@@ -167,10 +142,10 @@
                                     </a>
                                 </li>       
                                 <li class="p-gallery-post">
-                                    <a href="#" class="p-gallery-post-link">
+                                    <a th:href="@{/admin/gallery/view}" class="p-gallery-post-link">
                                         <div class="p-gallery-post-image">
                                             <div class="p-gallery-post-image-wrap">
-                                                <img src="../images/sub/gal_post_img1.jpg" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
+                                                <img th:src="@{/images/sub/gal_post_img1.jpg}" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
                                             </div>
                                             
                                             <div class="p-gallery-icon">
@@ -185,7 +160,7 @@
                                                     <em class="skip">조회 :</em> 
                                                     <span class="p-icon">
                                                     
-                                                        <img src="../images/sub/icon_eye.png" width="20" height="16" alt="eye icon" class="p-icon-eye">
+                                                        <img th:src="@{/images/sub/icon_eye.png}"width="20" height="16" alt="eye icon" class="p-icon-eye">
                                                     </span>
                                                     <!-- <svg width="20" height="16" class="p-icon" fill="#959595" focusable="false" y="-2">
                                                         <use href="/images/sub/p-icon-view.svg#eye" xlink:href="/images/sub/p-icon-view.svg#eye"></use>
@@ -197,10 +172,10 @@
                                     </a>
                                 </li>       
                                 <li class="p-gallery-post">
-                                    <a href="#" class="p-gallery-post-link">
+                                    <a th:href="@{/admin/gallery/view}" class="p-gallery-post-link">
                                         <div class="p-gallery-post-image">
                                             <div class="p-gallery-post-image-wrap">
-                                                <img src="../images/sub/gal_post_img1.jpg" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
+                                                <img th:src="@{/images/sub/gal_post_img1.jpg}" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
                                             </div>
                                             
                                             <div class="p-gallery-icon">
@@ -215,7 +190,7 @@
                                                     <em class="skip">조회 :</em> 
                                                     <span class="p-icon">
                                                     
-                                                        <img src="../images/sub/icon_eye.png" width="20" height="16" alt="eye icon" class="p-icon-eye">
+                                                        <img th:src="@{/images/sub/icon_eye.png}"width="20" height="16" alt="eye icon" class="p-icon-eye">
                                                     </span>
                                                     <!-- <svg width="20" height="16" class="p-icon" fill="#959595" focusable="false" y="-2">
                                                         <use href="/images/sub/p-icon-view.svg#eye" xlink:href="/images/sub/p-icon-view.svg#eye"></use>
@@ -227,10 +202,10 @@
                                     </a>
                                 </li>       
                                 <li class="p-gallery-post">
-                                    <a href="#" class="p-gallery-post-link">
+                                    <a th:href="@{/admin/gallery/view}" class="p-gallery-post-link">
                                         <div class="p-gallery-post-image">
                                             <div class="p-gallery-post-image-wrap">
-                                                <img src="../images/sub/gal_post_img1.jpg" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
+                                                <img th:src="@{/images/sub/gal_post_img1.jpg}" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
                                             </div>
                                             
                                             <div class="p-gallery-icon">
@@ -245,7 +220,7 @@
                                                     <em class="skip">조회 :</em> 
                                                     <span class="p-icon">
                                                     
-                                                        <img src="../images/sub/icon_eye.png" width="20" height="16" alt="eye icon" class="p-icon-eye">
+                                                        <img th:src="@{/images/sub/icon_eye.png}"width="20" height="16" alt="eye icon" class="p-icon-eye">
                                                     </span>
                                                     <!-- <svg width="20" height="16" class="p-icon" fill="#959595" focusable="false" y="-2">
                                                         <use href="/images/sub/p-icon-view.svg#eye" xlink:href="/images/sub/p-icon-view.svg#eye"></use>
@@ -257,10 +232,10 @@
                                     </a>
                                 </li>       
                                 <li class="p-gallery-post">
-                                    <a href="#" class="p-gallery-post-link">
+                                    <a th:href="@{/admin/gallery/view}" class="p-gallery-post-link">
                                         <div class="p-gallery-post-image">
                                             <div class="p-gallery-post-image-wrap">
-                                                <img src="../images/sub/gal_post_img1.jpg" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
+                                                <img th:src="@{/images/sub/gal_post_img1.jpg}" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
                                             </div>
                                             
                                             <div class="p-gallery-icon">
@@ -275,7 +250,7 @@
                                                     <em class="skip">조회 :</em> 
                                                     <span class="p-icon">
                                                     
-                                                        <img src="../images/sub/icon_eye.png" width="20" height="16" alt="eye icon" class="p-icon-eye">
+                                                        <img th:src="@{/images/sub/icon_eye.png}"width="20" height="16" alt="eye icon" class="p-icon-eye">
                                                     </span>
                                                     <!-- <svg width="20" height="16" class="p-icon" fill="#959595" focusable="false" y="-2">
                                                         <use href="/images/sub/p-icon-view.svg#eye" xlink:href="/images/sub/p-icon-view.svg#eye"></use>
@@ -287,10 +262,10 @@
                                     </a>
                                 </li>       
                                 <li class="p-gallery-post">
-                                    <a href="#" class="p-gallery-post-link">
+                                    <a th:href="@{/admin/gallery/view}" class="p-gallery-post-link">
                                         <div class="p-gallery-post-image">
                                             <div class="p-gallery-post-image-wrap">
-                                                <img src="../images/sub/gal_post_img1.jpg" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
+                                                <img th:src="@{/images/sub/gal_post_img1.jpg}" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
                                             </div>
                                             
                                             <div class="p-gallery-icon">
@@ -305,7 +280,7 @@
                                                     <em class="skip">조회 :</em> 
                                                     <span class="p-icon">
                                                     
-                                                        <img src="../images/sub/icon_eye.png" width="20" height="16" alt="eye icon" class="p-icon-eye">
+                                                        <img th:src="@{/images/sub/icon_eye.png}"width="20" height="16" alt="eye icon" class="p-icon-eye">
                                                     </span>
                                                     <!-- <svg width="20" height="16" class="p-icon" fill="#959595" focusable="false" y="-2">
                                                         <use href="/images/sub/p-icon-view.svg#eye" xlink:href="/images/sub/p-icon-view.svg#eye"></use>
@@ -317,10 +292,10 @@
                                     </a>
                                 </li>       
                                 <li class="p-gallery-post">
-                                    <a href="#" class="p-gallery-post-link">
+                                    <a th:href="@{/admin/gallery/view}" class="p-gallery-post-link">
                                         <div class="p-gallery-post-image">
                                             <div class="p-gallery-post-image-wrap">
-                                                <img src="../images/sub/gal_post_img1.jpg" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
+                                                <img th:src="@{/images/sub/gal_post_img1.jpg}" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
                                             </div>
                                             
                                             <div class="p-gallery-icon">
@@ -335,7 +310,7 @@
                                                     <em class="skip">조회 :</em> 
                                                     <span class="p-icon">
                                                     
-                                                        <img src="../images/sub/icon_eye.png" width="20" height="16" alt="eye icon" class="p-icon-eye">
+                                                        <img th:src="@{/images/sub/icon_eye.png}"width="20" height="16" alt="eye icon" class="p-icon-eye">
                                                     </span>
                                                     <!-- <svg width="20" height="16" class="p-icon" fill="#959595" focusable="false" y="-2">
                                                         <use href="/images/sub/p-icon-view.svg#eye" xlink:href="/images/sub/p-icon-view.svg#eye"></use>
@@ -347,10 +322,10 @@
                                     </a>
                                 </li>       
                                 <li class="p-gallery-post">
-                                    <a href="#" class="p-gallery-post-link">
+                                    <a th:href="@{/admin/gallery/view}" class="p-gallery-post-link">
                                         <div class="p-gallery-post-image">
                                             <div class="p-gallery-post-image-wrap">
-                                                <img src="../images/sub/gal_post_img1.jpg" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
+                                                <img th:src="@{/images/sub/gal_post_img1.jpg}" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
                                             </div>
                                             
                                             <div class="p-gallery-icon">
@@ -365,7 +340,7 @@
                                                     <em class="skip">조회 :</em> 
                                                     <span class="p-icon">
                                                     
-                                                        <img src="../images/sub/icon_eye.png" width="20" height="16" alt="eye icon" class="p-icon-eye">
+                                                        <img th:src="@{/images/sub/icon_eye.png}"width="20" height="16" alt="eye icon" class="p-icon-eye">
                                                     </span>
                                                     <!-- <svg width="20" height="16" class="p-icon" fill="#959595" focusable="false" y="-2">
                                                         <use href="/images/sub/p-icon-view.svg#eye" xlink:href="/images/sub/p-icon-view.svg#eye"></use>
@@ -377,10 +352,10 @@
                                     </a>
                                 </li>       
                                 <li class="p-gallery-post">
-                                    <a href="#" class="p-gallery-post-link">
+                                    <a th:href="@{/admin/gallery/view}" class="p-gallery-post-link">
                                         <div class="p-gallery-post-image">
                                             <div class="p-gallery-post-image-wrap">
-                                                <img src="../images/sub/gal_post_img1.jpg" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
+                                                <img th:src="@{/images/sub/gal_post_img1.jpg}" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
                                             </div>
                                             
                                             <div class="p-gallery-icon">
@@ -395,7 +370,7 @@
                                                     <em class="skip">조회 :</em> 
                                                     <span class="p-icon">
                                                     
-                                                        <img src="../images/sub/icon_eye.png" width="20" height="16" alt="eye icon" class="p-icon-eye">
+                                                        <img th:src="@{/images/sub/icon_eye.png}"width="20" height="16" alt="eye icon" class="p-icon-eye">
                                                     </span>
                                                     <!-- <svg width="20" height="16" class="p-icon" fill="#959595" focusable="false" y="-2">
                                                         <use href="/images/sub/p-icon-view.svg#eye" xlink:href="/images/sub/p-icon-view.svg#eye"></use>
@@ -407,10 +382,10 @@
                                     </a>
                                 </li>       
                                 <li class="p-gallery-post">
-                                    <a href="#" class="p-gallery-post-link">
+                                    <a th:href="@{/admin/gallery/view}" class="p-gallery-post-link">
                                         <div class="p-gallery-post-image">
                                             <div class="p-gallery-post-image-wrap">
-                                                <img src="../images/sub/gal_post_img1.jpg" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
+                                                <img th:src="@{/images/sub/gal_post_img1.jpg}" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
                                             </div>
                                             
                                             <div class="p-gallery-icon">
@@ -425,7 +400,7 @@
                                                     <em class="skip">조회 :</em> 
                                                     <span class="p-icon">
                                                     
-                                                        <img src="../images/sub/icon_eye.png" width="20" height="16" alt="eye icon" class="p-icon-eye">
+                                                        <img th:src="@{/images/sub/icon_eye.png}"width="20" height="16" alt="eye icon" class="p-icon-eye">
                                                     </span>
                                                     <!-- <svg width="20" height="16" class="p-icon" fill="#959595" focusable="false" y="-2">
                                                         <use href="/images/sub/p-icon-view.svg#eye" xlink:href="/images/sub/p-icon-view.svg#eye"></use>
@@ -437,10 +412,10 @@
                                     </a>
                                 </li>       
                                 <li class="p-gallery-post">
-                                    <a href="#" class="p-gallery-post-link">
+                                    <a th:href="@{/admin/gallery/view}" class="p-gallery-post-link">
                                         <div class="p-gallery-post-image">
                                             <div class="p-gallery-post-image-wrap">
-                                                <img src="../images/sub/gal_post_img1.jpg" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
+                                                <img th:src="@{/images/sub/gal_post_img1.jpg}" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
                                             </div>
                                             
                                             <div class="p-gallery-icon">
@@ -455,7 +430,7 @@
                                                     <em class="skip">조회 :</em> 
                                                     <span class="p-icon">
                                                     
-                                                        <img src="../images/sub/icon_eye.png" width="20" height="16" alt="eye icon" class="p-icon-eye">
+                                                        <img th:src="@{/images/sub/icon_eye.png}"width="20" height="16" alt="eye icon" class="p-icon-eye">
                                                     </span>
                                                     <!-- <svg width="20" height="16" class="p-icon" fill="#959595" focusable="false" y="-2">
                                                         <use href="/images/sub/p-icon-view.svg#eye" xlink:href="/images/sub/p-icon-view.svg#eye"></use>
@@ -498,7 +473,7 @@
                             </div>
                         </div>
                         <div class="board_btm_btns">
-                            <a href="community_center_write.html" class="btn btn_write">글쓰기</a>
+                            <a th:href="@{/admin/gallery/write}" class="btn btn_write">글쓰기</a>
                         </div>
                     </div>
                     <!-- //contents -->

@@ -318,7 +318,7 @@ em {
     max-width: 100%;
     max-height: none;
     
-    width: auto;
+    /*width: auto;*/
     height: 100%;
     
     position: absolute;

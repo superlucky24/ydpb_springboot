@@ -46,7 +46,7 @@ public class AdminGalleryController {
         return "admin/galley/view";
     }
 
-    @GetMapping("delete")
+    @PostMapping("delete")
     public String galleryDelete(){
         return "redirect:/admin/gallery/list";
     }

@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자치회관 게시판 | 자치회관 | 영등포본동 주민센터</title>
-    <link rel="shortcut icon" href="../images/favicon.ico">
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/ydpb.css">
-    <link rel="stylesheet" href="../css/ydpb_gallery_view.css">
-    <script src="../js/jquery-1.12.4.min.js"></script>
-    <script src="../js/jquery-3.3.1.min.js"></script>
-    <script src="../js/prefixfree.min.js"></script>
-    <script>const menuName = '자치회관 게시판';</script>
-    <script src="../js/ydpb.js"></script>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_gallery_view.css}">
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+<!--    <script>const menuName = '자치회관 게시판';</script>-->
+    <script th:src="@{/js/ydpb.js}"></script>
 </head>
 <body>
     <div id="wrap">
@@ -40,11 +40,11 @@
                             <h2>포토갤러리 게시판</h2>
                         </div>
                         <div class="location_path">
-                            <span class="loc_home"><a href="../index.html">  </a></span>
+                            <span class="loc_home"><a th:href="@{/}">  </a></span>
                             <span class="loc_arrow">></span>
-                            <span class="loc_text"><a href="../index.html">동주민센터</a></span>
+                            <span class="loc_text"><a th:href="@{/}">동주민센터</a></span>
                             <span class="loc_arrow">></span>
-                            <span class="loc_text"><a href="../index.html">영등포본동</a></span>
+                            <span class="loc_text"><a th:href="@{/}">영등포본동</a></span>
                             <span class="loc_arrow">></span>
                             <span class="loc_text"><a href="#">우리동소식</a></span>
                             <span class="loc_arrow">></span>

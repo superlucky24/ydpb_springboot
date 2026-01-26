@@ -6,49 +6,51 @@
 
     <insert id="insert">
 
-        INSERT INTO TBL_GALLERY(galid, galtitle, galdepartment, galcontent, galtel, memid)
-        VALUES (SEQ_GALLERY.nextval,#{galTitle},#{galdepartment},#{galcontent},#{galtel},#{memid})
+        INSERT INTO TBL_GALLERY(galid, galTitle, galDepartment, galContent, galTel, memId)
+        VALUES (SEQ_GALLERY.nextval,#{galTitle},#{galDepartment},#{galContent},#{galTel},#{memId})
 
     </insert>
     <insert id="insertSelectKey">
         <selectKey keyProperty="galid" order="BEFORE" resultType="long">
             select SEQ_GALLERY.nextval from dual
         </selectKey>
-        insert into TBL_GALLERY(galid,galtitle,galdepartment,galcontent,galtel,memid)
-        values (#{galTitle}, #{galdepartment}, #{galcontent},#{galtel}, #{memId})
+        insert into TBL_GALLERY(galid,galTitle,galDepartment,galContent,galTel,memid)
+        values (#{galTitle}, #{galDepartment}, #{galContent},#{galTel}, #{memId})
     </insert>
 
     <delete id="delete">
-        delete from tbl_community where cmntId = #{galid}
+        delete from TBL_GALLERY where cmntId = #{galid}
     </delete>
 
-    <select id="read" resultType="kr.go.ydpb.domain.CommunityVO">
-        select * from tbl_community where cmntId = #{cmntId}
+    <select id="read" resultType="kr.go.ydpb.domain.GalleryVO">
+        select * from TBL_GALLERY where cmntId = #{galid}
     </select>
     <update id="update">
-        update tbl_community
-        set cmntTitle = #{cmntTitle},
-            cmntContent = #{cmntContent},
-            cmntDepartment = #{cmntDepartment},
+        update TBL_GALLERY
+        set cmntTitle = #{galid},
+            cmntContent = #{galContent},
+            cmntDepartment = #{galDepartment},
             cmntUpdatedate = sysdate
-        where cmntId = #{cmntId}
+        where cmntId = #{galid}
     </update>
 
     <sql id="criteria">
         <choose>
             <when test="searchType == 'T'.toString()">
-                cmntTitle like '%'||#{searchKeyword}||'%'
+                galTitle like '%'||#{searchKeyword}||'%'
             </when>
             <when test="searchType == 'C'.toString()">
-                cmntContent like '%'||#{searchKeyword}||'%'
-            </when>
-            <when test="searchType == 'D'.toString()">
-                cmntDepartment like '%'||#{searchKeyword}||'%'
+                galContent like '%'||#{searchKeyword}||'%'
             </when>
         </choose>
     </sql>
 
-    <select id="getList" resultType="kr.go.ydpb.domain.CommunityVO">
+
+<!-- ||||||||||||||||||||||||||||||여기까지 작업|||||||||||||||||||||||||||||||||||||||||||||   -->
+
+
+
+    <select id="getList" resultType="kr.go.ydpb.domain.GalleryVO">
         <![CDATA[
         select *
         from (
@@ -91,7 +93,7 @@
     </update>
 
     <!-- 이전글 -->
-    <select id="getPrev" resultType="kr.go.ydpb.domain.CommunityVO">
+    <select id="getPrev" resultType="kr.go.ydpb.domain.GalleryVO">
         SELECT *
         FROM (
         SELECT

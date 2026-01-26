@@ -17,7 +17,7 @@ public class MainController {
     @GetMapping("/")
     public String index(Model model){
 
-        model.addAttribute("slides", slideService.getList());
+        model.addAttribute("slides", slideService.getMainList());
         return "index";
     }
 }

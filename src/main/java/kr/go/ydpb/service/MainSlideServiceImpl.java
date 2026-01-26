@@ -37,4 +37,9 @@ public class MainSlideServiceImpl implements MainSlideService {
     public void delete(Long slideId) {
         mapper.delete(slideId);
     }
+
+    @Override
+    public List<MainSlideVO> getMainList() {
+        return mapper.getMainList();
+    }
 }

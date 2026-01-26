@@ -5,10 +5,8 @@
 <mapper namespace="kr.go.ydpb.mapper.GalleryMapper">
 
     <insert id="insert">
-
         INSERT INTO TBL_GALLERY(galid, galTitle, galDepartment, galContent, galTel, memId)
         VALUES (SEQ_GALLERY.nextval,#{galTitle},#{galDepartment},#{galContent},#{galTel},#{memId})
-
     </insert>
     <insert id="insertSelectKey">
         <selectKey keyProperty="galid" order="BEFORE" resultType="long">

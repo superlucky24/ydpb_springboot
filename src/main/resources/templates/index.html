@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
+
+
 </head>
 <th:block th:if="${msg !=null}" >
     <script th:inline="javascript">
@@ -84,15 +86,21 @@
                 <div class="contents">
                     <div class="main1">
                         <div class="mainpopup">
+                            <div class="slider_controls">
+                                <button type="button" class="btn-prev">❮</button>
+                                <button class="btn-toggle" data-state="play">❚❚</button>
+                                <button type="button" class="btn-next">❯</button>
+                            </div>
+
                             <div class="slider_list">
-                                <div th:each="slide : ${slides}">
+                                <div class="slider_item" th:each="slide : ${slides}">
                                     <a th:href="${slide.linkUrl}">
                                         <img th:src="@{${slide.imagePath}}" th:alt="${slide.title}">
                                     </a>
                                 </div>
                             </div>
-
                         </div>
+
                         <div class="maininfo">
                             <div class="infobox">
                                 <h3 class="infobox_title">
@@ -457,3 +465,5 @@
 </div>
 </body>
 </html>
+
+

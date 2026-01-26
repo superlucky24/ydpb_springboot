@@ -159,41 +159,72 @@ public class CommunityServiceImpl implements CommunityService {
             CommunityVO board
     ) {
 
+
         try {
+            // 1️⃣ 원본 파일명 (경로 제거)
             String originalName = Paths.get(file.getOriginalFilename())
                     .getFileName()
                     .toString();
 
+            // 2️⃣ UUID + 저장 파일명
             String uuid = UUID.randomUUID().toString();
             String saveName = uuid + "_" + originalName;
 
-            File saveFile = new File(uploadDir, saveName);
+            // 3️⃣ 프로젝트 루트 기준 상대경로 처리
+            String basePath = System.getProperty("user.dir"); // 프로젝트 루트
+            File uploadPath = new File(basePath, uploadDir);
+
+            // 4️⃣ upload 디렉토리 없으면 생성
+            if (!uploadPath.exists()) {
+                boolean created = uploadPath.mkdirs();
+                if (!created) {
+                    throw new RuntimeException("업로드 디렉토리 생성 실패");
+                }
+            }
+
+            // 5️⃣ 실제 저장될 파일
+            File saveFile = new File(uploadPath, saveName);
+
+            // 6️⃣ 파일 저장
             file.transferTo(saveFile);
 
+            // 7️⃣ DB 저장 정보
             CommunityFileVO fileVO = new CommunityFileVO();
             fileVO.setCmntId(cmntId);
             fileVO.setUuid(uuid);
             fileVO.setFileName(originalName);
-            fileVO.setUploadPath(uploadDir);
+
+            // ⭐ 절대경로 저장 (중요)
+            fileVO.setUploadPath(uploadPath.getAbsolutePath());
+
             fileVO.setAltText(altText != null ? altText : "");
             fileVO.setInsertYn("on".equals(insertOpt) ? "Y" : "N");
 
             fileMapper.insert(fileVO);
 
-            // 본문 삽입 처리: 'Y'일 경우 본문에 이미지를 삽입
+            // 8️⃣ 본문 삽입 처리
             if ("Y".equals(fileVO.getInsertYn())) {
 
                 if (board.getCmntContent() == null) {
                     board.setCmntContent("");
                 }
 
-                String imgTag = "<img src='/admin/community/download?fileId=" + fileVO.getFileId() + "' alt='" + altText + "' />";
+                String imgTag =
+                        "<img src='/admin/community/download?fileId="
+                                + fileVO.getFileId()
+                                + "' alt='"
+                                + altText
+                                + "' />";
+
                 board.setCmntContent(board.getCmntContent() + "<br/>" + imgTag);
             }
 
         } catch (Exception e) {
+            log.error("파일 저장 실패", e);
             throw new RuntimeException("파일 저장 실패", e);
         }
+
+
     }
 
 

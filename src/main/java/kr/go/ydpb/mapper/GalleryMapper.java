@@ -9,17 +9,17 @@ import java.util.List;
 
 public interface GalleryMapper {
 
-    public int getTotalCount(Criteria cri);
-    public List<GalleryVO> getList(Criteria cri);
-    public void insert(GalleryVO post);
-    public void insertSelectKey(GalleryVO post);
-    public GalleryVO read(long galId);
-    public int delete(Long galId);
-    public int update(GalleryVO post);
-    public void updateCount(Long galId);
-    public GalleryVO getPrev(@Param("galId") Long galId,
+    int getTotalCount(Criteria cri);
+    List<GalleryVO> getList(Criteria cri);
+    void insert(GalleryVO post);
+    void insertSelectKey(GalleryVO post);
+    GalleryVO read(long galId);
+    int delete(Long galId);
+    int update(GalleryVO post);
+    void updateCount(Long galId);
+    GalleryVO getPrev(@Param("galId") Long galId,
                                @Param("cri") Criteria cri);
 
-    public GalleryVO getNext(@Param("galId") Long galId,
+    GalleryVO getNext(@Param("galId") Long galId,
                                @Param("cri") Criteria cri);
 }

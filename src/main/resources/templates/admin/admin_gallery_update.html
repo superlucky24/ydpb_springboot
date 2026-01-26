@@ -84,7 +84,7 @@
                                             <input type="hidden" name="galTel" id="galTel">
                                         </tr>
                                         <tr>
-                                            <th scope="row">파일</label></th>
+                                            <th scope="row">파일</th>
                                             <td>
                                                 <div class="file_group">
                                                     <div class="file_input">
@@ -123,7 +123,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">부서</span></th>
+                                            <th scope="row">부서</th>
                                             <td>
                                                 <input type="text" name="galDepartment" class="input form_input">
                                             </td>
@@ -131,7 +131,7 @@
                                     </tbody>
                                 </table>
                                 <div class="btns">
-                                    <a href="community_center_list.html" class="btn btn_default">목록</a>
+                                    <a th:href="@{/admin/gallery/list}" class="btn btn_default">목록</a>
                                     <input type="submit" class="btn btn_write" onclick="setNum()" value="저장">
                                     <input type="reset" class="btn btn_cancel" value="다시쓰기">
                                 </div>

@@ -43,7 +43,7 @@ public class AdminGalleryController {
 
     @PostMapping("update")
     public String galleryUpdate(){
-        return "admin/galley/view";
+        return "admin/gallery/view";
     }
 
     @PostMapping("delete")

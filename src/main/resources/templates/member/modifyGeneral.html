@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>개인정보수정-일반회원</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_member.css}">
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script>const menuName = '개인정보수정-일반회원';</script>
+    <script th:src="@{/js/ydpb.js}"></script>
+    <script th:src="@{/js/ydpb_member.js}"></script>
+
+</head>
+<body>
+<div id="wrap" class="member_wrap">
+    <!-- header -->
+    <header class="header" th:replace="~{/common/header_footer_layout :: header}"></header>
+    <!-- //header -->
+
+    <!-- search -->
+    <div class="search" th:replace="~{/common/header_footer_layout :: search}"></div>
+    <!-- //search -->
+
+    <!-- container -->
+    <div class="container">
+        <div class="contents_wrap safe_area">
+            <!-- side menu -->
+            <aside class="side_menu" th:replace="~{/common/sidemenu_layout :: sidemenu}"></aside>
+            <!-- //side menu -->
+
+            <!-- main -->
+            <main>
+                <!-- location -->
+                <div class="location">
+                    <div class="location_title">
+                        <h2>일반현황</h2>
+                    </div>
+                    <div class="location_path">
+                        <span class="loc_home"><a th:href="@{/}">홈</a></span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text"><a th:href="@{/}">동주민센터</a></span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text"><a th:href="@{/}">영등포본동</a></span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text">개인정보 수정</span>
+                    </div>
+                    <div class="location_icon">
+                        <ul class="loc_fixed_icon">
+                            <li><button type="button" class="loc_print">프린트</button></li>
+                            <li class="icon_sns">
+                                <button type="button" class="loc_sns">SNS</button>
+                                <div class="sns_list">
+                                    <a th:href="@{/}" class="loc_sns_icon1">a</a>
+                                    <a th:href="@{/}" class="loc_sns_icon2">a</a>
+                                    <a th:href="@{/}" class="loc_sns_icon3">a</a>
+                                    <a th:href="@{/}" class="loc_sns_icon4">a</a>
+                                    <a th:href="@{/}" class="loc_sns_icon5">a</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- location -->
+
+                <!-- contents -->
+                <div class="member_contents join_contents">
+                    <div class="location_title">
+                        <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">개인정보 수정</h2>
+                    </div>
+                    <form th:action="@{modify}" method="post" th:object="${member}" id="modify_form">
+                        <table class="table_form">
+                            <colgroup>
+                                <col class="col1"><col class="col2">
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th scope="row">아이디</th>
+                                <td><span th:text="*{memId}">아이디</span></td>
+                                <input type="hidden" th:field="*{memId}">
+                                <!-- 비밀번호 유효성 검사용 -->
+                                <input type="hidden" th:field="*{memPassword}">
+                            </tr>
+                            <tr>
+                                <th scope="row">이름</th>
+                                <td>
+                                    [[*{memName}]]
+                                    <input type="hidden" th:field="*{memName}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">생년월일</th>
+                                <td>
+                                    [[*{memBirth}]]
+                                    <input type="hidden" th:field="*{memBirth}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">성별</th>
+                                <td>[[*{memGender}]]</td>
+                                <input type="hidden" th:field="*{memGender}">
+                            </tr>
+                            <tr>
+                                <th scope="row">주소 <span class="required_mark">필수</span></th>
+                                <td>
+                                    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+                                    <button type="button" class="btn btn_cancel btn_sm" onclick="execDaumPostcode()">주소찾기</button>
+                                    <input type="text" th:field="*{memAddress}" id="memAddress" class="input" readonly required style="margin-top:5px;">
+                                    <input type="text" th:field="*{memAddressDetail}" id="memAddressDetail" class="input" placeholder="상세주소" style="margin-top:5px;">
+                                    <p class="addr_msg">※ 상세주소를 입력해주세요.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">일반전화</th>
+                                <td>
+                                    <input type="text" th:field="*{memTel}" id="memTel" class="input input_auto">
+                                    <p class="tel_msg">※ -없이 숫자만 입력해주세요.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">휴대폰</th>
+                                <td>
+                                    <span th:if="*{memPhone != null and memPhone.length() == 11}" th:text="|${#strings.substring(member.memPhone,0,3)}-${#strings.substring(member.memPhone,3,7)}-${#strings.substring(member.memPhone,7,11)}|"></span>
+                                    <!-- 번호가 10자리인 경우 대비-->
+                                    <span th:if="*{memPhone != null and memPhone.length() == 10}" th:text="|${#strings.substring(member.memPhone,0,3)}-${#strings.substring(member.memPhone,3,6)}-${#strings.substring(member.memPhone,6,10)}|"></span>
+                                    <span th:if="*{memPhone == null}" th:text="'번호 정보 없음'"></span>
+                                    <input type="hidden" th:field="*{memPhone}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">이메일 <span class="required_mark">필수</span></th>
+                                <td>
+                                    <input type="text" th:field="*{memEmail}" id="memEmail" class="input input_auto" required>
+                                    <p class="email_msg">※ 이메일을 입력해주세요</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">영등포구소식</th>
+                                <td>
+                                    <div class="radio">
+                                        <input type="radio" th:field="*{memNews}" id="memNewsY" value="Y">
+                                        <label for="memNewsY">받음</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input type="radio" th:field="*{memNews}" id="memNewsN" value="N">
+                                        <label for="memNewsN">받지않음</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="btns" style="margin-top:40px; text-align:center;">
+                            <input type="submit" class="btn btn_write" value="정보 수정 완료">
+                            <a th:href="@{/member/changePassword}" class="btn btn_write" style="background-color: #666;">비밀번호 변경</a>
+                            <button type="button" onclick="history.back()" class="btn btn_cancel">취소</button>
+                        </div>
+                    </form>
+                </div>
+
+
+                <!-- //contents -->
+
+                <!-- charge info -->
+                <div class="charge_info">
+                    <ul>
+                        <li>
+                            <span class="info_name">담당부서</span>
+                            <span>영등포본동</span>
+                        </li>
+                        <li>
+                            <span class="info_name">담당전화번호</span>
+                            <span>02-2670-1026</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- //charge info -->
+            </main>
+            <!-- //main -->
+        </div>
+    </div>
+    <!-- //container -->
+
+    <!-- footer -->
+    <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
+    <!-- //footer -->
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const msg = [[${msg}]]; // 컨트롤러의 rttr.addFlashAttribute("msg", ...)를 받음
+    if(msg) {
+        alert(msg);
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

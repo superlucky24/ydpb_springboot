@@ -5,23 +5,23 @@
 <mapper namespace="kr.go.ydpb.mapper.GalleryMapper">
 
     <insert id="insert">
-        INSERT INTO TBL_GALLERY(galid, galTitle, galDepartment, galContent, galTel, memId)
+        INSERT INTO TBL_GALLERY(galId, galTitle, galDepartment, galContent, galTel, memId)
         VALUES (SEQ_GALLERY.nextval,#{galTitle},#{galDepartment},#{galContent},#{galTel},#{memId})
     </insert>
     <insert id="insertSelectKey">
-        <selectKey keyProperty="galid" order="BEFORE" resultType="long">
+        <selectKey keyProperty="galId" order="BEFORE" resultType="long">
             select SEQ_GALLERY.nextval from dual
         </selectKey>
-        insert into TBL_GALLERY(galid,galTitle,galDepartment,galContent,galTel,memid)
+        insert into TBL_GALLERY(galId,galTitle,galDepartment,galContent,galTel,memid)
         values (#{galTitle}, #{galDepartment}, #{galContent},#{galTel}, #{memId})
     </insert>
 
     <delete id="delete">
-        delete from TBL_GALLERY where galid = #{galid}
+        delete from TBL_GALLERY where galId = #{galId}
     </delete>
 
     <select id="read" resultType="kr.go.ydpb.domain.GalleryVO">
-        select * from TBL_GALLERY where galid = #{galid}
+        select * from TBL_GALLERY where galId = #{galId}
     </select>
     <update id="update">
         update TBL_GALLERY
@@ -29,7 +29,7 @@
             galContent = #{galContent},
             galDepartment = #{galDepartment},
             galUpdatedate = sysdate
-        where galId = #{galid}
+        where galId = #{galId}
     </update>
 
     <sql id="criteria">
@@ -80,7 +80,7 @@
     <update id="updateCount">
         UPDATE TBL_GALLERY
         SET galCount = galCount + 1
-        WHERE galid = #{galId}
+        WHERE galId = #{galId}
     </update>
 
     <!-- 이전글 -->

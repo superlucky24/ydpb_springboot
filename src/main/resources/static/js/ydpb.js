@@ -24,6 +24,7 @@ function initUi() {
     // **파일명 표시 로직 추가** 260121 윤성민 추가
     bindFileNameDisplay("file_1");
     bindFileNameDisplay("file_2");
+    bindFileNameDisplay("slide_file");
     $('form').on('submit', function(e) {
         const fileInputs = $('input[type="file"]');
 

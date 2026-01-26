@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.go.ydpb.mapper.CommunityMapper">
+
+    <insert id="insert">
+        insert into tbl_community(cmntId, cmntTitle, cmntContent, memId, cmntDepartment, cmntDate)
+        values (seq_community.nextval, #{cmntTitle}, #{cmntContent}, #{memId}, #{cmntDepartment}, sysdate)
+
+        INSERT INTO TBL_GALLERY(
+            galid, galtitle, galdepartment, galcontent, galtel, memid
+        )
+        VALUES (SEQ_GALLERY.nextval,'더미 갤러리1','영등포본동','갤러리 더미 테스트','02-1244-3939','admin');
+
+    </insert>
+    <insert id="insertSelectKey">
+        <selectKey keyProperty="cmntId" order="BEFORE" resultType="long">
+            select seq_community.nextval from dual
+        </selectKey>
+        insert into tbl_community(cmntId,cmntTitle,cmntContent,memId)
+        values (#{cmntId}, #{cmntTitle}, #{cmntContent}, #{memId})
+    </insert>
+
+    <delete id="delete">
+        delete from tbl_community where cmntId = #{cmntId}
+    </delete>
+
+    <select id="read" resultType="kr.go.ydpb.domain.CommunityVO">
+        select * from tbl_community where cmntId = #{cmntId}
+    </select>
+    <update id="update">
+        update tbl_community
+        set cmntTitle = #{cmntTitle},
+            cmntContent = #{cmntContent},
+            cmntDepartment = #{cmntDepartment},
+            cmntUpdatedate = sysdate
+        where cmntId = #{cmntId}
+    </update>
+
+    <sql id="criteria">
+        <choose>
+            <when test="searchType == 'T'.toString()">
+                cmntTitle like '%'||#{searchKeyword}||'%'
+            </when>
+            <when test="searchType == 'C'.toString()">
+                cmntContent like '%'||#{searchKeyword}||'%'
+            </when>
+            <when test="searchType == 'D'.toString()">
+                cmntDepartment like '%'||#{searchKeyword}||'%'
+            </when>
+        </choose>
+    </sql>
+
+    <select id="getList" resultType="kr.go.ydpb.domain.CommunityVO">
+        <![CDATA[
+        select *
+        from (
+            select /*+INDEX_DESC(tbl_community SYS_C007039) */
+                cmntId, cmntTitle, cmntDate, cmntUpdatedate, cmntDepartment, cmntContent, cmntCount, memId,
+                ROW_NUMBER() over (order by cmntId desc) as rn
+            from
+                tbl_community
+        ]]>
+        <if test="searchKeyword != null and searchKeyword != ''.toString()">
+            where
+            <include refid="criteria"/>
+        </if>
+        <![CDATA[
+        )
+        where
+            rn > (#{pageNum} - 1) * #{amount} and rn <= #{pageNum} * #{amount}
+        ]]>
+    </select>
+
+    <select id="getTotalCount" resultType="int">
+        select
+        count(*)
+        from
+        tbl_community
+        where
+        <if test="searchKeyword != null and searchKeyword != ''.toString()">
+            <include refid="criteria"/>
+            and
+        </if>
+        <![CDATA[
+            cmntId > 0
+        ]]>
+    </select>
+
+    <update id="updateCount">
+        UPDATE tbl_community
+        SET cmntCount = cmntCount + 1
+        WHERE cmntid = #{cmntId}
+    </update>
+
+    <!-- 이전글 -->
+    <select id="getPrev" resultType="kr.go.ydpb.domain.CommunityVO">
+        SELECT *
+        FROM (
+        SELECT
+        cmntId,
+        cmntTitle
+        FROM tbl_community
+        <where>
+            cmntId &gt; #{cmntId}
+            <if test="cri.searchKeyword != null and cri.searchKeyword != ''">
+                AND
+                <choose>
+                    <when test="cri.searchType == 'T'">
+                        cmntTitle LIKE '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                    <when test="cri.searchType == 'C'">
+                        cmntContent LIKE '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                    <when test="cri.searchType == 'D'">
+                        cmntDepartment LIKE '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+        ORDER BY cmntId ASC
+        )
+        WHERE ROWNUM = 1
+    </select>
+
+    <!-- 다음글 -->
+    <select id="getNext" resultType="kr.go.ydpb.domain.CommunityVO">
+        SELECT *
+        FROM (
+        SELECT
+        cmntId,
+        cmntTitle
+        FROM tbl_community
+        <where>
+            cmntId &lt; #{cmntId}
+            <if test="cri.searchKeyword != null and cri.searchKeyword != ''">
+                AND
+                <choose>
+                    <when test="cri.searchType == 'T'">
+                        cmntTitle LIKE '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                    <when test="cri.searchType == 'C'">
+                        cmntContent LIKE '%'||#{cri.searchKeyword}||'%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+        ORDER BY cmntId DESC
+        )
+        WHERE ROWNUM = 1
+    </select>
+
+
+</mapper>
+
+
+
+

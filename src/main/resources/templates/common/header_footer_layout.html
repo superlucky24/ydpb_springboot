@@ -1468,7 +1468,7 @@
                     <a th:if="${session.memId == null}" th:href="@{/login}" class="icon_login">로그인</a>
                     <a th:if="${session.memId == null}" th:href="@{/member/join}" class="icon_join">회원가입</a>
 
-                    <a th:if="${session.memId != null}" th:text="${session.memId} + '님'"></a>
+                    <a th:if="${session.memId != null}" th:text="${session.memName} + '님'"></a>
                     <a th:if="${session.memId != null}" th:href="@{/logout}" class="icon_logout">로그아웃</a>
                     <a th:if="${session.admin == 1}" th:href="@{/admin/member/list}" class="admin_menu" style="background-image:url('/images/sub/blank.png');">관리자메뉴</a>
 

@@ -67,6 +67,7 @@ public class SecurityConfig  {
                             Map<String, Object> attributes = oAuth2User.getAttributes();
 
                             String memId = "";
+                            String memName = "";
 
                             System.out.println("### [DEBUG] OAuth2 Login Success! attributes: " + attributes);
 
@@ -74,10 +75,12 @@ public class SecurityConfig  {
 
                             if ("naver".equals(registrationId) || "kakao".equals(registrationId)) {
                                 memId = attributes.get("id").toString();
+                                memName = attributes.get("name").toString();
                             }
 
                             // [핵심] HTML th:value="${session.memId}"가 읽을 수 있도록 세션에 저장
                             request.getSession().setAttribute("memId", memId);
+                            request.getSession().setAttribute("memName", memName);
 
                             System.out.println("### [DEBUG] OAuth2 Login Success! 세션에 등록된 memId: " + memId);
 

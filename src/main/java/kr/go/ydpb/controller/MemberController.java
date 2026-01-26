@@ -43,6 +43,7 @@ public class MemberController {
         MemberVO loginMember = service.Login(memId,memPassword);
         if (loginMember != null) {
             session.setAttribute("memId", loginMember.getMemId());
+            session.setAttribute("memName", loginMember.getMemName());
             session.setAttribute("admin", loginMember.getMemRole());
 
 //          Spring Security 연동 -> Spring Security에게 로그인 성공을 알림

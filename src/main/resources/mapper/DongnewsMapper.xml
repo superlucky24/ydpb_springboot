@@ -65,15 +65,15 @@
             select dnewsId, dnewsTitle,
                 ROW_NUMBER() over (order by dnewsId desc) as rn
             from tbl_dongnews
-            where dnewsId &gt; #{dnewsId}
-                <if test="searchType != null and searchKeyword != null">
+            where dnewsId &lt; #{dnewsId}
+                <if test="cri.searchType != null and cri.searchType != ''">
                     and
                     <choose>
-                        <when test="searchType == 'T'">
-                            dnewsTitle LIKE '%'||#{searchKeyword}||'%'
+                        <when test="cri.searchType == 'T'.toString()">
+                            dnewsTitle LIKE '%'||#{cri.searchKeyword}||'%'
                         </when>
-                        <when test="searchType == 'C'">
-                            dnewsContent LIKE '%'||#{searchKeyword}||'%'
+                        <when test="cri.searchType == 'C'.toString()">
+                            dnewsContent LIKE '%'||#{cri.searchKeyword}||'%'
                         </when>
                     </choose>
                 </if>
@@ -88,15 +88,15 @@
             select dnewsId, dnewsTitle,
                 ROW_NUMBER() over (order by dnewsId asc) as rn
             from tbl_dongnews
-            where dnewsId &lt; #{dnewsId}
-                <if test="searchType != null and searchKeyword != null">
+            where dnewsId &gt; #{dnewsId}
+                <if test="cri.searchType != null and cri.searchType != ''">
                     and
                     <choose>
-                        <when test="searchType == 'T'">
-                            dnewsTitle LIKE '%'||#{searchKeyword}||'%'
+                        <when test="cri.searchType == 'T'.toString()">
+                            dnewsTitle LIKE '%'||#{cri.searchKeyword}||'%'
                         </when>
-                        <when test="searchType == 'C'">
-                            dnewsContent LIKE '%'||#{searchKeyword}||'%'
+                        <when test="cri.searchType == 'C'.toString()">
+                            dnewsContent LIKE '%'||#{cri.searchKeyword}||'%'
                         </when>
                     </choose>
                 </if>

@@ -25,13 +25,13 @@ public class DongnewsController {
     public String list(@ModelAttribute("cri") Criteria cri, Model model) {
         model.addAttribute("list", service.getList(cri));
         model.addAttribute("pageMaker", new PageDTO(cri, service.getTotal(cri)));
-        System.out.println(service.getList(cri));
         return "sub/dongnews_list";
     }
 
     /* 상세 보기 */
     @GetMapping("view")
     public String view(@RequestParam("dnewsId") Long dnewsId, @ModelAttribute("cri") Criteria cri, Model model) {
+        System.out.println(service.getList(cri));
         service.increaseCount(dnewsId);
         model.addAttribute("board", service.getBoard(dnewsId));
         model.addAttribute("prev", service.getPrev(dnewsId, cri));

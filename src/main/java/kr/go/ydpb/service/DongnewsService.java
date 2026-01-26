@@ -2,6 +2,7 @@ package kr.go.ydpb.service;
 
 import kr.go.ydpb.domain.DongnewsVO;
 import kr.go.ydpb.domain.Criteria;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,6 +14,6 @@ public interface DongnewsService {
     DongnewsVO getBoard(Long dnewsId);
     void updateBoard(DongnewsVO board);
     int deleteBoard(Long dnewsId);
-    DongnewsVO getPrev(Long dnewsId, Criteria cri);
-    DongnewsVO getNext(Long dnewsId, Criteria cri);
+    DongnewsVO getPrev(@Param("dnewsId") Long dnewsId, @Param("cri") Criteria cri);
+    DongnewsVO getNext(@Param("dnewsId") Long dnewsId, @Param("cri") Criteria cri);
 }

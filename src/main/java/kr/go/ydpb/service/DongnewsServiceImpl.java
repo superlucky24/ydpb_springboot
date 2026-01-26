@@ -5,6 +5,7 @@ import kr.go.ydpb.domain.DongnewsVO;
 import kr.go.ydpb.mapper.DongnewsMapper;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,12 +53,12 @@ public class DongnewsServiceImpl implements DongnewsService {
     }
 
     @Override
-    public DongnewsVO getPrev(Long dnewsId, Criteria cri) {
+    public DongnewsVO getPrev(@Param("dnewsId") Long dnewsId, @Param("cri") Criteria cri) {
         return mapper.getPrev(dnewsId, cri);
     }
 
     @Override
-    public DongnewsVO getNext(Long dnewsId, Criteria cri) {
+    public DongnewsVO getNext(@Param("dnewsId") Long dnewsId, @Param("cri") Criteria cri) {
         return mapper.getNext(dnewsId, cri);
     }
 }

@@ -3,10 +3,12 @@ package kr.go.ydpb.mapper;
 import kr.go.ydpb.domain.CommunityVO;
 import kr.go.ydpb.domain.Criteria;
 import kr.go.ydpb.domain.GalleryVO;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface GalleryMapper {
 
     int getTotalCount(Criteria cri);

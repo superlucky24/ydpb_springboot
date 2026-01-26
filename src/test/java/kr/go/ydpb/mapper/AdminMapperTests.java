@@ -1,6 +1,7 @@
 package kr.go.ydpb.mapper;
 
 import kr.go.ydpb.domain.Criteria;
+import kr.go.ydpb.domain.GalleryVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,11 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AdminMapperTests {
     @Autowired
-    private AdminMapper adminMapper;
+    private GalleryMapper galleryMapper;
+
 
     @Test
     public void testGetList(){
-        Criteria cri = new Criteria();
-//        System.out.println("민원  : "+adminMapper.getAllCount(cri));
+        GalleryVO gvo = galleryMapper.read(1);
+        System.out.println("조회 테스트 => " + gvo);
     }
 }

@@ -19,19 +19,19 @@
     </insert>
 
     <delete id="delete">
-        delete from TBL_GALLERY where cmntId = #{galid}
+        delete from TBL_GALLERY where galid = #{galid}
     </delete>
 
     <select id="read" resultType="kr.go.ydpb.domain.GalleryVO">
-        select * from TBL_GALLERY where cmntId = #{galid}
+        select * from TBL_GALLERY where galid = #{galid}
     </select>
     <update id="update">
         update TBL_GALLERY
-        set cmntTitle = #{galid},
-            cmntContent = #{galContent},
-            cmntDepartment = #{galDepartment},
-            cmntUpdatedate = sysdate
-        where cmntId = #{galid}
+        set galTitle = #{galTitle},
+            galContent = #{galContent},
+            galDepartment = #{galDepartment},
+            galUpdatedate = sysdate
+        where galId = #{galid}
     </update>
 
     <sql id="criteria">
@@ -45,20 +45,15 @@
         </choose>
     </sql>
 
-
-<!-- ||||||||||||||||||||||||||||||여기까지 작업|||||||||||||||||||||||||||||||||||||||||||||   -->
-
-
-
+    
     <select id="getList" resultType="kr.go.ydpb.domain.GalleryVO">
         <![CDATA[
-        select *
-        from (
-            select /*+INDEX_DESC(tbl_community SYS_C007039) */
-                cmntId, cmntTitle, cmntDate, cmntUpdatedate, cmntDepartment, cmntContent, cmntCount, memId,
-                ROW_NUMBER() over (order by cmntId desc) as rn
+        select * from (
+            select /*+INDEX_DESC(TBL_GALLERY SYS_C007039) */
+                galId, galTitle, galDate, galUpdatedate, galDepartment, galContent, galCount, memId,
+                ROW_NUMBER() over (order by galId desc) as rn
             from
-                tbl_community
+                TBL_GALLERY
         ]]>
         <if test="searchKeyword != null and searchKeyword != ''.toString()">
             where
@@ -72,79 +67,68 @@
     </select>
 
     <select id="getTotalCount" resultType="int">
-        select
-        count(*)
-        from
-        tbl_community
+        select  count(*)
+        from  TBL_GALLERY
         where
         <if test="searchKeyword != null and searchKeyword != ''.toString()">
             <include refid="criteria"/>
             and
         </if>
         <![CDATA[
-            cmntId > 0
+            galId > 0
         ]]>
     </select>
 
     <update id="updateCount">
-        UPDATE tbl_community
-        SET cmntCount = cmntCount + 1
-        WHERE cmntid = #{cmntId}
+        UPDATE TBL_GALLERY
+        SET galCount = galCount + 1
+        WHERE galid = #{galId}
     </update>
 
     <!-- 이전글 -->
     <select id="getPrev" resultType="kr.go.ydpb.domain.GalleryVO">
-        SELECT *
-        FROM (
-        SELECT
-        cmntId,
-        cmntTitle
-        FROM tbl_community
+        SELECT * FROM (
+        SELECT   galId,  galTitle
+        FROM TBL_GALLERY
         <where>
-            cmntId &gt; #{cmntId}
+            galId &gt; #{galId}
             <if test="cri.searchKeyword != null and cri.searchKeyword != ''">
                 AND
                 <choose>
                     <when test="cri.searchType == 'T'">
-                        cmntTitle LIKE '%'||#{cri.searchKeyword}||'%'
+                        galTitle LIKE '%'||#{cri.searchKeyword}||'%'
                     </when>
                     <when test="cri.searchType == 'C'">
-                        cmntContent LIKE '%'||#{cri.searchKeyword}||'%'
-                    </when>
-                    <when test="cri.searchType == 'D'">
-                        cmntDepartment LIKE '%'||#{cri.searchKeyword}||'%'
+                        galContent LIKE '%'||#{cri.searchKeyword}||'%'
                     </when>
                 </choose>
             </if>
         </where>
-        ORDER BY cmntId ASC
+        ORDER BY galId ASC
         )
         WHERE ROWNUM = 1
     </select>
 
     <!-- 다음글 -->
-    <select id="getNext" resultType="kr.go.ydpb.domain.CommunityVO">
-        SELECT *
-        FROM (
-        SELECT
-        cmntId,
-        cmntTitle
-        FROM tbl_community
+    <select id="getNext" resultType="kr.go.ydpb.domain.GalleryVO">
+        SELECT * FROM (
+        SELECT galId, galTitle
+        FROM TBL_GALLERY
         <where>
-            cmntId &lt; #{cmntId}
+            galId &lt; #{galId}
             <if test="cri.searchKeyword != null and cri.searchKeyword != ''">
                 AND
                 <choose>
                     <when test="cri.searchType == 'T'">
-                        cmntTitle LIKE '%'||#{cri.searchKeyword}||'%'
+                        galTitle LIKE '%'||#{cri.searchKeyword}||'%'
                     </when>
                     <when test="cri.searchType == 'C'">
-                        cmntContent LIKE '%'||#{cri.searchKeyword}||'%'
+                        galContent LIKE '%'||#{cri.searchKeyword}||'%'
                     </when>
                 </choose>
             </if>
         </where>
-        ORDER BY cmntId DESC
+        ORDER BY galId DESC
         )
         WHERE ROWNUM = 1
     </select>

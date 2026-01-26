@@ -213,8 +213,8 @@ ul.bu li {
 /* 결제페이지용 css */
 
 .temp_box.type1 .box_wrap .ul_common {
-        overflow: hidden;
-        position: relative;
+    overflow: hidden;
+    position: relative;
 
 }
 
@@ -371,3 +371,24 @@ ul.bu li {
     font-size: 18px;
     font-weight: bold;
 }
+
+/* 회원목록 전용: 글자 생략 스타일 */
+.p-table--ellipsis {
+    table-layout: fixed !important;
+    width: 100% !important;
+}
+
+.p-table--ellipsis td {
+    white-space: nowrap;    /* 줄바꿈 방지 */
+    overflow: hidden;       /* 넘치는 부분 숨김 */
+    text-overflow: ellipsis; /* ... 표시 */
+}
+
+/* 마우스를 올렸을 때 전체 내용을 확인하고 싶다면 (선택 사항) */
+/*.p-table--ellipsis td:hover {*/
+/*    overflow: visible;*/
+/*    white-space: normal;*/
+/*    position: relative;*/
+/*    background-color: #f9f9f9;*/
+/*    z-index: 10;*/
+/*}*/

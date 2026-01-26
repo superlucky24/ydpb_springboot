@@ -18,6 +18,16 @@ $(document).ready(function(){
         $('.sns_list').toggleClass('show');
     });
 
+    // 슬라이더 기능 추가
+    var $slider = $('.slider_list');
+    var $toggleBtn = $('.btn-toggle');
+    var $current = $('.slide-counter .current');
+    var $total = $('.slide-counter .total');
+
+    $slider.on('init', function(event, slick){
+        $total.text(slick.slideCount);
+        $current.text(slick.currentSlide + 1);
+    });
 
     $('.slider_list').slick({
         infinite: true,
@@ -29,8 +39,9 @@ $(document).ready(function(){
         arrows: false
     });
 
-    var $slider = $('.slider_list');
-    var $toggleBtn = $('.btn-toggle');
+    $slider.on('afterChange', function(event, slick, currentSlide){
+        $current.text(currentSlide + 1);
+    });
 
     // 버튼 이벤트
     $('.btn-prev').on('click', function(){

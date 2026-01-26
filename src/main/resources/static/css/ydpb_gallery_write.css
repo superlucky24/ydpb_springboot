@@ -1,0 +1,73 @@
+@charset "utf-8";
+
+/* 게시판 글쓰기 */
+.board_write .alert_write {
+    margin-bottom: 5px;
+    line-height: 21px;
+    background: url(../images/sub/ex_mark_02.png) no-repeat left top;
+}
+.board_write .table_form .col1 {
+    width: 216px;
+}
+.board_write .table_form th {
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: left;
+    background-color: #f6f6f6;
+}
+.board_write .table_form th,
+.board_write .table_form td {
+    border-left: 0 none;
+    border-right: 0 none;
+}
+.board_write .table_form .input_tel {
+    width: 150px;
+}
+.board_write .btns {
+    margin-top: 30px;
+    text-align: center;
+}
+.board_write .btns .btn:not(:first-child) {
+    margin-left: 4px;
+}
+
+/* 파일 업로드 */
+.file_group {
+    display: flex;
+    flex-flow: row nowrap;
+}
+.file_group .file_input {
+    flex: 1;
+    position: relative;
+}
+.file_group .file_input input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    opacity: 0;
+    z-index: -1;
+}
+.file_group span.input {
+    line-height: 25px;
+}
+.file_group .clear_file {
+    display: none;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    width: 24px;
+    height: 18px;
+    font-size: 0;
+    text-indent: -100%;
+    border: 0 none;
+    border-right: 2px solid #ff7676;
+    background: url(../images/sub/icon_clear.png) no-repeat left center;
+    cursor: pointer;
+    z-index: 1;
+}
+.file_group .file_option {
+    padding: 5px 0 0 9px;
+}

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포토갤러리 글쓰기 | 포토갤러리 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/ydpb.css">
+    <link rel="stylesheet" href="../css/ydpb_gallery_write.css">
+    <script src="../js/jquery-1.12.4.min.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/prefixfree.min.js"></script>
+    <script src="../js/ydpb.js"></script>
+    <script>const menuName = '포토갤러리';</script>
+    <script src="../js/ydpb_community_center_write.js"></script>
+</head>
+<body>
+    <div id="wrap">
+        <!-- header -->
+        <header class="header"></header>
+        <!-- //header -->
+
+        <!-- search -->
+        <div class="search"></div>
+        <!-- //search -->
+
+        <!-- container -->
+        <div class="container">
+            <div class="contents_wrap safe_area">
+                <!-- side menu -->
+                <aside class="side_menu"></aside>
+                <!-- //side menu -->
+
+                <!-- main -->
+                <main>
+                    <!-- location -->
+                    <div class="location">
+                        <div class="location_title">
+                            <h2>포토갤러리</h2>
+                        </div>
+                        <div class="location_path">
+                            <span class="loc_home">홈</span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text">
+                                <a href="../">동주민센터</a>
+                            </span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text">
+                                <a href="../">영등포본동</a>
+                            </span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text">
+                                <a href="#">우리동소식</a>
+                            </span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text">
+                                <a href="community_center_list.html">포토갤러리</a>
+                            </span>
+                        </div>
+                        <div class="location_icon">
+                            <ul class="loc_fixed_icon">
+                                <li><button type="button" class="loc_print">프린트</button></li>
+                                <li class="icon_sns">
+                                    <button type="button" class="loc_sns">SNS</button>
+                                    <div class="sns_list">
+                                        <a href="#" class="loc_sns_icon1">a</a>
+                                        <a href="#" class="loc_sns_icon2">a</a>
+                                        <a href="#" class="loc_sns_icon3">a</a>
+                                        <a href="#" class="loc_sns_icon4">a</a>
+                                        <a href="#" class="loc_sns_icon5">a</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- location -->
+
+                    <!-- contents -->
+                    <div class="contents">
+                        <div class="board_write">
+                            <p class="text_alert alert_write"><span class="required_mark">필수항목</span> 표시는 필수 항목 입니다.</p>
+                            <form action="#" method="post" onreset="clearForm(this)">
+                                <table class="table_form">
+                                    <caption class="blind">포토갤러리 글쓰기</caption>
+                                    <colgroup>
+                                        <col class="col1">
+                                        <col class="col2">
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">
+                                                <label for="subject">제목</label>
+                                                <span class="required_mark">필수항목</span>
+                                            </th>
+                                            <td>
+                                                <input type="text" name="subject" id="subject" class="input form_input">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                <label for="content">내용</label>
+                                                <span class="required_mark">필수항목</span>
+                                            </th>
+                                            <td>
+                                                <textarea name="content" id="content" class="input" rows="10"></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                <label for="tel">연락처</label>
+                                                <span class="required_mark">필수항목</span>
+                                            </th>
+                                            <td>
+                                                <input type="text" name="galTel1" id="galTel1" class="input input_auto" maxlength="3" size="3" required>-
+                                                <input type="text" name="galTel2" id="galTel2" class="input input_auto" maxlength="4" size="4" required>-
+                                                <input type="text" name="galTel3" id="galTel3" class="input input_auto" maxlength="4" size="4" required>
+                                            </td>
+                                            <input type="hidden" name="galTel" id="galTel">
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">파일</label></th>
+                                            <td>
+                                                <div class="file_group">
+                                                    <div class="file_input">
+                                                        <input type="file" name="file_1" id="file_1" multiple>
+                                                        <span class="input disabled"></span>
+                                                        <button type="button" class="clear_file" title="1번 파일 삭제">1번 파일 삭제</button>
+                                                    </div>
+                                                    <div class="file_btn">
+                                                        <label for="file_1" class="btn btn_primary btn_sm">파일선택</label>
+                                                    </div>
+                                                    <div class="file_option">
+                                                        <div class="checkbox">
+                                                            <input type="checkbox" name="file_opt_1" id="file_opt_1">
+                                                            <label for="file_opt_1">본문삽입</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="text" name="file_text_1" id="file_text_1" class="input form_input" placeholder="첨부 이미지 대체 텍스트 입력">
+                                                <div class="file_group">
+                                                    <div class="file_input">
+                                                        <input type="file" name="file_2" id="file_2" multiple>
+                                                        <span class="input disabled"></span>
+                                                        <button type="button" class="clear_file" title="2번 파일 삭제">2번 파일 삭제</button>
+                                                    </div>
+                                                    <div class="file_btn">
+                                                        <label for="file_2" class="btn btn_primary btn_sm">파일선택</label>
+                                                    </div>
+                                                    <div class="file_option">
+                                                        <div class="checkbox">
+                                                            <input type="checkbox" name="file_opt_2" id="file_opt_2">
+                                                            <label for="file_opt_2">본문삽입</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="text" name="file_text_2" id="file_text_2" class="input form_input" placeholder="첨부 이미지 대체 텍스트 입력">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">부서</span></th>
+                                            <td>
+                                                <input type="text" name="galDepartment" class="input form_input">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="btns">
+                                    <a href="community_center_list.html" class="btn btn_default">목록</a>
+                                    <input type="submit" class="btn btn_write" onclick="setNum()" value="저장">
+                                    <input type="reset" class="btn btn_cancel" value="다시쓰기">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- //contents -->
+                    
+                    <!-- charge info -->
+                    <div class="charge_info">
+                        <ul>
+                            <li>
+                                <span class="info_name">담당부서</span>
+                                <span>영등포본동</span>
+                            </li>
+                            <li>
+                                <span class="info_name">담당전화번호</span>
+                                <span>02-2670-1026</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- //charge info -->
+                </main>
+                <!-- //main -->
+            </div>
+        </div>
+        <!-- //container -->
+
+        <!-- footer -->
+        <footer class="footer"></footer>
+        <!-- //footer -->
+    </div>
+
+    
+</body>
+
+<script>
+    function setNum() {
+        document.getElementById("galTel").value =
+        document.getElementById("galTel1").value + "-"
+        document.getElementById("galTel2").value + "-"
+        document.getElementById("galTel3").value;
+
+    }
+</script>
+</html>

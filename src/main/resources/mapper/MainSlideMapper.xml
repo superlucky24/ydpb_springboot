@@ -5,13 +5,29 @@
 <mapper namespace="kr.go.ydpb.mapper.MainSlideMapper">
 
     <select id="getList" resultType="kr.go.ydpb.domain.MainSlideVO">
-        SELECT slide_id, title, image_path, link_url
+        SELECT
+            slide_id AS slideId,
+            title,
+            image_path AS imagePath,
+            link_url AS linkUrl,
+            use_yn AS useYn,
+            sort_order AS sortOrder,
+            reg_date AS regDate
         FROM tbl_main_slide
         ORDER BY sort_order ASC
     </select>
 
     <select id="get" resultType="kr.go.ydpb.domain.MainSlideVO">
-        SELECT * FROM tbl_main_slide WHERE slide_id = #{slideId}
+        SELECT
+            slide_id AS slideId,
+            title,
+            image_path AS imagePath,
+            link_url AS linkUrl,
+            use_yn AS useYn,
+            sort_order AS sortOrder,
+            reg_date AS regDate
+        FROM tbl_main_slide
+        WHERE slide_id = #{slideId}
     </select>
 
     <insert id="insert">

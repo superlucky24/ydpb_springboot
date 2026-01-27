@@ -298,47 +298,44 @@
                             <div class="main_titlebox">
                                 <h3>우리동 갤러리</h3>
                             </div>
+
                             <div class="main3_box2_photo">
 
-                                <a th:href="@{/gallery/view(galId=${list[0].galId}, pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
-                                   th:if="${list[0].files != null && #lists.size(list[0].files) > 0}"
-                                   th:style="|background-image:url('@{/admin/gallery/download(fileId=${list[0].files[0].fileId})}');|">
+                                <!-- 게시글 없으면 -->
+                                <a th:if="${list == null || #lists.isEmpty(list)}"
+                                   th:href="@{/gallery/list}"
+                                   class="no_data"
+                                   th:style="|background-image:url('@{/images/sub/no_image_icon.png}');|">
+                                    <div class="main_photo_text">
+                                        <span>게시글이 없습니다</span>
+                                    </div>
+                                </a>
+
+                                <!-- 게시글 있을 때 -->
+                                <a th:if="${list != null && #lists.size(list) > 0}"
+                                   th:href="@{/gallery/view(galId=${list[0].galId})}"
+                                   th:style="|background-image:url('@{${list[0].files != null && #lists.size(list[0].files) > 0 ? '/admin/gallery/download?fileId=' + list[0].files[0].fileId : '/images/sub/no_image_icon.png'}}');|">
                                     <div class="main_photo_text">
                                         <span th:text="${list[0].galTitle}"></span>
                                     </div>
                                 </a>
 
-                                <a th:href="@{/gallery/view(galId=${list[0].galId}, pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
-                                   th:if="${list[0].files == null || #lists.size(list[0].files) == 0}"
-                                   th:style="|background-image:url('@{/images/sub/no_image_icon.png}');|">
-                                    <div class="main_photo_text">
-                                        <span th:text="${list[0].galTitle}"></span>
-                                    </div>
-                                </a>
-
-                                <a th:href="@{/gallery/view(galId=${list[1].galId}, pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
-                                   th:if="${list[1].files != null && #lists.size(list[1].files) > 0}"
-                                   th:style="|background-image:url('@{/admin/gallery/download(fileId=${list[1].files[0].fileId})}');|">
+                                <a th:if="${list != null && #lists.size(list) > 1}"
+                                   th:href="@{/gallery/view(galId=${list[1].galId})}"
+                                   th:style="|background-image:url('@{${list[1].files != null && #lists.size(list[1].files) > 0 ? '/admin/gallery/download?fileId=' + list[1].files[0].fileId : '/images/sub/no_image_icon.png'}}');|">
                                     <div class="main_photo_text">
                                         <span th:text="${list[1].galTitle}"></span>
                                     </div>
                                 </a>
-
-                                <a th:href="@{/gallery/view(galId=${list[1].galId}, pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
-                                   th:if="${list[1].files == null || #lists.size(list[1].files) == 0}"
-                                   th:style="|background-image:url('@{/images/sub/no_image_icon.png}');|">
-                                    <div class="main_photo_text">
-                                        <span th:text="${list[1].galTitle}"></span>
-                                    </div>
-                                </a>
-
-
 
                             </div>
+
                             <div>
                                 <a th:href="@{/gallery/list}" class="main3_more2">소식더보기</a>
                             </div>
                         </section>
+
+
                     </div>
                     <div class="main4">
                         <div class="main_titlebox">

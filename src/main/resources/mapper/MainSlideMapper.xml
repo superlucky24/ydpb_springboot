@@ -17,6 +17,20 @@
         ORDER BY sort_order ASC
     </select>
 
+    <select id="getMainList" resultType="kr.go.ydpb.domain.MainSlideVO">
+        SELECT
+            slide_id AS slideId,
+            title,
+            image_path AS imagePath,
+            link_url AS linkUrl,
+            use_yn AS useYn,
+            sort_order AS sortOrder,
+            reg_date AS regDate
+        FROM tbl_main_slide
+        WHERE use_yn = 'Y'
+        ORDER BY sort_order ASC
+    </select>
+
     <select id="get" resultType="kr.go.ydpb.domain.MainSlideVO">
         SELECT
             slide_id AS slideId,

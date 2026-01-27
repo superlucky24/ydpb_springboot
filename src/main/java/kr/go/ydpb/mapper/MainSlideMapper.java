@@ -16,4 +16,6 @@ public interface MainSlideMapper {
     void update(MainSlideVO slide);
 
     void delete(Long slideId);
+
+    List<MainSlideVO> getMainList();
 }

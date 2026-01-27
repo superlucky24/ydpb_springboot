@@ -39,4 +39,10 @@
         WHERE MEMID = #{memId}
     </update>
 
+    <update id="updatePassword">
+        UPDATE tbl_member
+        SET memPassword = #{memPassword}
+        WHERE memId = #{memId}
+    </update>
+
 </mapper>

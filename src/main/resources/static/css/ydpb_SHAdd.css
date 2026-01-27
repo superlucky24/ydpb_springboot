@@ -392,3 +392,27 @@ ul.bu li {
 /*    background-color: #f9f9f9;*/
 /*    z-index: 10;*/
 /*}*/
+
+/* changePassword 페이지 */
+/* 비밀번호 변경 폼 - 테이블 좌우 너비 고정 */
+
+#passwordChangeForm {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+#passwordChangeForm .table_form {
+    table-layout: fixed;
+    width: 100%;
+}
+
+/*!* 왼쪽 th 칸 너비 고정 (글자가 밀리지 않게 함) *!*/
+#passwordChangeForm .table_form th {
+    width: 180px;
+}
+
+/*!* 오른쪽 td 칸 설정 *!*/
+#passwordChangeForm .table_form td {
+    width: auto;
+}

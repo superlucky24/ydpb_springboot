@@ -8,26 +8,32 @@
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
-    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_list.css}">
-    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/ydpb_gallery_list.css}"> <!-- 예시 CSS 적용 -->
+
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/prefixfree.min.js}"></script>
     <script th:src="@{/js/ydpb.js}"></script>
 </head>
 <body>
 <div id="wrap">
+    <!-- header -->
     <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
+
     <div class="container">
         <div class="contents_wrap safe_area">
+
+            <!-- side menu -->
             <aside class="side_menu" th:replace="~{/admin/common/admin_sidemenu::side}"></aside>
 
             <main>
+                <!-- location -->
                 <div class="location">
                     <div class="location_title">
                         <h2>우리동 갤러리</h2>
                     </div>
                 </div>
 
+                <!-- contents -->
                 <div id="board" class="clearfix">
                     <div id="contents">
                         <form th:action="@{/admin/gallery/list}" method="get" id="searchForm" class="board_searchform">
@@ -43,9 +49,11 @@
                                         </select>
 
                                         <label for="searchKeyword" class="skip">검색어 입력</label>
-                                        <input type="text" name="searchKeyword" id="searchKeyword" class="p-input" th:value="${cri.searchKeyword}">
+                                        <input type="text" name="searchKeyword" id="searchKeyword" class="p-input"
+                                               th:value="${cri.searchKeyword}">
                                         <input type="hidden" name="pageNum" th:value="${cri.pageNum}">
                                         <input type="hidden" name="amount" th:value="${cri.amount}">
+
                                         <span class="p-form-group__btn">
                                             <input value="검색" type="button" class="p-button">
                                         </span>
@@ -86,12 +94,12 @@
                                                  th:alt="${board.galTitle}">
                                         </div>
 
-                                        <!-- NEW 표시 (작성일 기준 1일 이내) -->
+                                        <!-- NEW 표시 (작성일 기준 7일 이내) -->
                                         <div class="p-gallery-icon">
-                        <span class="p-icon p-gallery-icon-new"
-                              th:if="${T(java.time.temporal.ChronoUnit).DAYS.between(board.galDate.toLocalDate(), T(java.time.LocalDate).now()) <= 1}">
-                            NEW
-                        </span>
+                                            <span class="p-icon p-gallery-icon-new"
+                                                  th:if="${T(java.time.temporal.ChronoUnit).DAYS.between(board.galDate.toLocalDate(), T(java.time.LocalDate).now()) <= 7}">
+                                                NEW
+                                            </span>
                                         </div>
                                     </div>
 
@@ -107,12 +115,13 @@
                                                   th:text="${#dates.format(board.galDate,'yyyy.MM.dd')}"></time>
 
                                             <span class="p-gallery-post-count p-split">
-                            <em class="skip">조회 :</em>
-                            <span class="p-icon">
-                                <img th:src="@{/images/sub/icon_eye.png}" width="20" height="16" alt="eye icon" class="p-icon-eye">
-                            </span>
-                            <span th:text="${board.galCount}"></span>
-                        </span>
+                                                <em class="skip">조회 :</em>
+                                                <span class="p-icon">
+                                                    <img th:src="@{/images/sub/icon_eye.png}" width="20" height="16"
+                                                         alt="eye icon" class="p-icon-eye">
+                                                </span>
+                                                <span th:text="${board.galCount}"></span>
+                                            </span>
                                         </div>
                                     </div>
                                 </a>
@@ -124,7 +133,6 @@
                             </li>
                         </ul>
                     </div>
-
 
                     <div class="p_ctrl" th:if="${pageMaker.total} > 0">
                         <div class="p_control">
@@ -159,29 +167,5 @@
                         <a th:href="@{/admin/gallery/write}" class="btn btn_write">글쓰기</a>
                     </div>
                 </div>
-            </main>
-        </div>
-    </div>
-
-    <footer class="footer" th:replace="~{/admin/common/admin_header_footer::footer}"></footer>
-</div>
-
-<script>
-    $(document).ready(function() {
-        const searchForm = $('#searchForm');
-        searchForm.find('.p-button').on('click', function(e) {
-            e.preventDefault();
-            if(!searchForm.find('input[name="searchKeyword"]').val().trim()) {
-                alert('검색어를 입력해주세요.');
-                return false;
-            }
-            searchForm.find('input[name="pageNum"]').val('1');
-            searchForm.submit();
-        });
-    });
-</script>
-</body>
-</html>
-
-
+                <!-- //contents -->
 

@@ -285,7 +285,7 @@ em {
     
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 .p-gallery-post{
     width: 21.7%;

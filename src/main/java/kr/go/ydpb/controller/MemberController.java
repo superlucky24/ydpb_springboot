@@ -81,25 +81,40 @@ public class MemberController {
             return "redirect:/login";
         }
 
-        // 2. 회원 정보 조회
+        // 2. DB에서 현재 회원 정보 조회
         MemberVO member = memberService.getMemberById(memId);
         String loginType = member.getLoginType();
-        model.addAttribute("member", member); // 모든 페이지에서 공통으로 사용
 
-        // 3. 아이디 타입에 따라 html 리턴
-        if ("KAKAO".equals(loginType)) {
-            return "member/modifyKakao";
-        } else if ("NAVER".equals(loginType)) {
-            return "member/modifyNaver";
+        boolean isFirstInput = (member.getMemGender()==null);
+
+        if(member.getMemNews() ==null){
+            member.setMemNews("Y");
         }
+//        if(member.getMemGender()==null){
+//            member.setMemGender("남");
+//        }
+        model.addAttribute("member", member);
+        model.addAttribute("isFirstInput", isFirstInput);
 
-        // 4. 일반 회원(GENERAL)인 경우
-        return "member/modifyGeneral";
+        // 3. 로그인 타입에 따라 적절한 수정 페이지로 자동 이동
+        if (loginType != null) {
+            return "/member/modify_nk";
+        }
+//        else if ("NAVER".equals(loginType)) {
+//            return "/member/modifyNaver";
+//        }
+
+        // 4. 일반 회원(GENERAL)인 경우에만 화면 실행
+        return "member/modify_general";
     }
 
     /* 일반회원 정보 수정 실행 */
-    @PostMapping("/modifyGeneral")
+    @PostMapping("mypage/modify")
     public String modifyMember(MemberVO member, RedirectAttributes rttr) {
+        // 1. 넘어온 데이터 확인 (디버깅)
+        System.out.println("수정 요청 회원 정보: " + member.toString());
+
+        // 2. 서비스 호출
         int result = memberService.modifyMember(member);
 
         if (result > 0) {

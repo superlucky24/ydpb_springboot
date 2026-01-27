@@ -465,7 +465,7 @@
         const todayStr = `${yyyy}-${mm}-${dd}`;
 
         // 오늘 이후 날짜 선택 불가
-        birthInput.setAttribute("max", todayStr)
+        birthInput.setAttribute("max", todayStr);
 
 //주소
         let memAddress = document.getElementById("memAddress");
@@ -473,13 +473,6 @@
         let addr_msg = document.querySelector(".addr_msg");
         document.addEventListener("DOMContentLoaded", function () {
 
-            console.log(memAddress);
-            console.log(memAddressDetail);
-            console.log(addr_msg);
-            if (!memAddress || !memAddressDetail) {
-                console.error("주소 input 요소를 찾을 수 없습니다.");
-                return;
-            }
             memAddressDetail.disabled = true;
 
             memAddress.addEventListener("input", function () {
@@ -511,6 +504,7 @@
                 }
             });
         });
+
 // 전화번호 유효성 검사
         function isValidTel(value) {
             return /^(02|031|032|033|041|042|043|044|051|052|053|054|055|061|062|063|064)\d{7,8}$/.test(value);

@@ -28,7 +28,7 @@ public class JoinController {
     public String join(@ModelAttribute("member") MemberVO member, HttpSession session){
         // 새로고침해도 인증받은 값은 유지되도록 세션값으로 받음
         member.setMemName((String)session.getAttribute("memName"));
-        member.setMemBirth((Date) session.getAttribute("memBirth"));
+        member.setMemBirth((LocalDate) session.getAttribute("memBirth"));
         member.setMemGender((String)session.getAttribute("memGender"));
         member.setMemPhone((String)session.getAttribute("memPhone"));
         member.setMemNews("Y");
@@ -44,7 +44,7 @@ public class JoinController {
 
         boolean idExist = joinService.isIdExist(member.getMemId());
         if (member.getMemBirth() != null &&
-            member.getMemBirth().toLocalDate().isAfter(LocalDate.now())) {
+            member.getMemBirth().isAfter(LocalDate.now())) {
 
             rttr.addFlashAttribute("msg", "생년월일은 오늘 이후일 수 없습니다.");
             return "redirect:/member/joinstep3";

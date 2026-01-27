@@ -2,7 +2,7 @@ package kr.go.ydpb.controller;
 
 import kr.go.ydpb.domain.Criteria;
 import kr.go.ydpb.domain.PageDTO;
-import kr.go.ydpb.service.DongnewsService;
+import kr.go.ydpb.service.DongNewsService;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @AllArgsConstructor
 @RequestMapping("/dongnews/*")
-public class DongnewsController {
+public class DongNewsController {
     @Setter(onMethod_ = @Autowired)
-    private DongnewsService service;
+    private DongNewsService service;
 
     /* 목록 */
     @GetMapping("list")

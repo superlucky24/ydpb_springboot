@@ -1138,6 +1138,43 @@ table tr .no_data {
     background: #f9f9f9;
 }
 
+/* 파일 아이콘 */
+.file_icon {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    margin-right: 2px;
+    vertical-align: middle;
+    background: url(../images/common/icon_file_default.png) no-repeat center;
+}
+.file_icon.png {
+    background-image: url(../images/common/icon_file_png.png);
+}
+.file_icon.jpg,
+.file_icon.jpeg{
+    background-image: url(../images/common/icon_file_jpg.png);
+}
+.file_icon.hwp {
+    background-image: url(../images/common/icon_file_hwp.png);
+}
+.file_icon.xlsx {
+    background-image: url(../images/common/icon_file_xlsx.png);
+}
+.file_icon.doc {
+    background-image: url(../images/common/icon_file_doc.png);
+}
+.file_icon.pdf {
+    background-image: url(../images/common/icon_file_pdf.png);
+}
+.file_icon.ppt,
+.file_icon.pptx {
+    background-image: url(../images/common/icon_file_pptx.png);
+}
+.file_icon.zip {
+    background-image: url(../images/common/icon_file_zip.png);
+}
+
+
 /* 레이어 경고창 */
 .layer_alert {
     position: fixed;

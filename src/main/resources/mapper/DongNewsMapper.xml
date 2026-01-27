@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.go.ydpb.mapper.DongnewsMapper">
+<mapper namespace="kr.go.ydpb.mapper.DongNewsMapper">
 
     <sql id="criteria">
         <where>
@@ -23,7 +23,7 @@
         <include refid="criteria"/>
     </select>
 
-    <select id="getList" resultType="kr.go.ydpb.domain.DongnewsVO">
+    <select id="getList" resultType="kr.go.ydpb.domain.DongNewsVO">
         select dnewsId, dnewsTitle, dnewsDepartment, dnewsDate, dnewsCount, memId
         from (
             select /*+INDEX_DESC(tbl_dongnews SYS_C007080) */
@@ -40,11 +40,19 @@
         values(seq_dongnews.nextval, #{dnewsTitle}, #{dnewsDepartment}, #{dnewsTel}, #{dnewsContent}, #{memId})
     </insert>
 
+    <insert id="insertSelectKey">
+        <selectKey keyProperty="dnewsId" order="BEFORE" resultType="long">
+            select seq_dongnews.nextval from dual
+        </selectKey>
+        insert into tbl_dongnews(dnewsId, dnewsTitle, dnewsDepartment, dnewsTel, dnewsContent, memId)
+        values(#{dnewsId}, #{dnewsTitle}, #{dnewsDepartment}, #{dnewsTel}, #{dnewsContent}, #{memId})
+    </insert>
+
     <update id="updateCount">
         update tbl_dongnews set dnewsCount = dnewsCount + 1 where dnewsId = #{dnewsId}
     </update>
 
-    <select id="read" resultType="kr.go.ydpb.domain.DongnewsVO">
+    <select id="read" resultType="kr.go.ydpb.domain.DongNewsVO">
         select * from tbl_dongnews where dnewsId = #{dnewsId}
     </select>
 
@@ -59,7 +67,7 @@
     </delete>
 
     <!-- 이전글 -->
-    <select id="getPrev" resultType="kr.go.ydpb.domain.DongnewsVO">
+    <select id="getPrev" resultType="kr.go.ydpb.domain.DongNewsVO">
         select dnewsId, dnewsTitle
         from (
             select dnewsId, dnewsTitle,
@@ -82,7 +90,7 @@
     </select>
 
     <!-- 다음글 -->
-    <select id="getNext" resultType="kr.go.ydpb.domain.DongnewsVO">
+    <select id="getNext" resultType="kr.go.ydpb.domain.DongNewsVO">
         select dnewsId, dnewsTitle
         from (
             select dnewsId, dnewsTitle,

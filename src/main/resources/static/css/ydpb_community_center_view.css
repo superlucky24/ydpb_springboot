@@ -90,6 +90,14 @@ a span {
     padding-bottom: 24px;
 
 }
+.p-table .board_img_view {
+    margin-bottom: 20px;
+    text-align: center;
+}
+.p-table .board_img_view img {
+    max-width: 100%;
+}
+
 /* p-attach */
 .p-attach_item {
     margin: 5px 0;

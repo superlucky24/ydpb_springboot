@@ -133,7 +133,7 @@ public class MemberController {
     // 1. 현재 비밀번호 확인 페이지 이동
     @GetMapping("/confirmPassword")
     public String confirmPasswordPage() {
-        return "member/confirmPassword";
+        return "/member/confirm_password";
     }
 
     // 2. 현재 비밀번호 검증 처리
@@ -165,7 +165,7 @@ public class MemberController {
         // 확인 후 바로 삭제
         session.removeAttribute("passwordVerified");
 
-        return "member/changePassword";
+        return "/member/change_password";
     }
 
     // 비밀번호 최종 업데이트

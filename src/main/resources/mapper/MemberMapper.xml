@@ -11,4 +11,16 @@
         WHERE memId = #{memId}
     </select>
 
+    <update id="modifyMember">
+        UPDATE TBL_MEMBER
+        SET
+            MEMADDRESS = #{memAddress},
+            MEMADDRESSDETAIL = #{memAddressDetail},
+            MEMTEL = #{memTel},
+            MEMEMAIL = #{memEmail},
+            MEMNEWS = #{memNews}
+        WHERE
+            MEMID = #{memId}
+    </update>
+
 </mapper>

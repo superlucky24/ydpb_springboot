@@ -37,4 +37,10 @@ public class MemberServiceImpl implements MemberService{
 
         return Mapper.Login(memId);
     }
+
+    // 일반 회원정보 수정
+    @Override
+    public int modifyMember(MemberVO member) {
+        return Mapper.modifyMember(member);
+    }
  }

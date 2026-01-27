@@ -94,17 +94,38 @@
 
 <script th:inline="javascript">
   /*<![CDATA[*/
-  // 1. 로그인 체크 (알림창 띄우고 이동)
+  // 1. 보안 및 데이터 체크
   (function() {
     const memId = [[${session.memId}]] || "";
+    const member = /*[[${member}]]*/ null;
 
+    // [A] 로그인 여부 먼저 확인
     if (memId === "") {
       alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
       location.href = "/login";
+      return;
+    }
+
+    // [B] 필수 정보(생년월일, 성별) 누락 여부 확인
+    if (member === null || !member.memBirth || !member.memGender) {
+      alert("서류 발급을 위해 추가 정보(생년월일, 성별) 입력이 필요합니다. 회원정보 수정 페이지로 이동합니다.");
+
+      // DB의 LOGINTYPE 컬럼 값에 따라 이동 경로 설정
+      const loginType = /*[[${member?.loginType}]]*/ "GENERAL";
+
+      if (loginType === "KAKAO") {
+        location.href = "/member/modifyKakao";
+      } else if (loginType === "NAVER") {
+        location.href = "/member/modifyNaver";
+      } else {
+        // 일반 회원 또는 기타
+        location.href = "/member/modifyGeneral";
+      }
+      return;
     }
   })();
 
-  // 2. 페이지 로드 시 주민번호 계산
+  // 2. 페이지 로드 시 실행 (기존 로직 유지)
   window.onload = function() {
     const hasMember = /*[[${member != null}]]*/ false;
     if (hasMember) {
@@ -112,6 +133,7 @@
     }
   };
 
+  // 3. 주민등록번호 가공 함수 (기존 로직 유지)
   function calculateHiddenRegNo() {
     const memBirth = [[${member?.memBirth}]] || "";
     const memGender = [[${member?.memGender}]] || "";
@@ -147,6 +169,7 @@
     }
   }
 
+  // 4. 결제 요청 함수 (기존 로직 유지)
   async function goPayment() {
     const regNo = document.getElementById('totalRegNo').value;
     const memName = [[${member?.memName}]] || "";

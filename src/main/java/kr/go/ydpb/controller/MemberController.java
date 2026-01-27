@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 //import java.util.ArrayList;
 //import java.util.List;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @AllArgsConstructor
 public class MemberController {
 
+    private final MemberService memberService;
     private MemberService service;
 
     @GetMapping("/login")
@@ -67,5 +69,48 @@ public class MemberController {
         return "redirect:/";    // 메인 페이지로 이동
     }
 
+    /* 일반회원 정보 수정 페이지 이동 */
+    @GetMapping("/modifyGeneral")
+    public String modifyGeneral(HttpSession session, Model model) {
+        // 1. 세션에서 로그인 아이디 확인
+        String memId = (String) session.getAttribute("memId");
+        if (memId == null) {
+            return "redirect:/login";
+        }
 
+        // 2. DB에서 현재 회원 정보 조회
+        MemberVO member = memberService.getMemberById(memId);
+        String loginType = member.getLoginType();
+
+        System.out.println("로그인한 회원 휴대폰 번호: " + member.getMemPhone());
+
+        // 3. 로그인 타입에 따라 적절한 수정 페이지로 자동 이동
+        if ("KAKAO".equals(loginType)) {
+            return "redirect:/member/modifyKakao";
+        } else if ("NAVER".equals(loginType)) {
+            return "redirect:/member/modifyNaver";
+        }
+
+        // 4. 일반 회원(GENERAL)인 경우에만 아래 코드 실행
+        model.addAttribute("member", member);
+        return "member/modifyGeneral";
+    }
+
+    /* 일반회원 정보 수정 실행 */
+    @PostMapping("/modify")
+    public String modifyMember(MemberVO member, RedirectAttributes rttr) {
+        // 1. 넘어온 데이터 확인 (디버깅)
+        System.out.println("수정 요청 회원 정보: " + member.toString());
+
+        // 2. 서비스 호출
+        int result = memberService.modifyMember(member);
+
+        if (result > 0) {
+            rttr.addFlashAttribute("msg", "회원정보가 성공적으로 수정되었습니다.");
+            return "redirect:/modifyGeneral"; // 수정 후 메인이나 마이페이지로 이동
+        } else {
+            rttr.addFlashAttribute("msg", "정보 수정에 실패하였습니다.");
+            return "redirect:/modifyGeneral"; // 실패 시 다시 수정 폼으로
+        }
+    }
 }

@@ -9,21 +9,53 @@
 }
 
 .mainpopup {
-    width: 680px;    
+    position: relative;
+    width: 680px;
 }
 
-/* slick 
 
-.leftbox {}
-.page{}
-.gap{}
+.slider_list img {
+    cursor: pointer;
+    width: 100%;
+    height: 370px;      /* 원하는 높이 */
+    object-fit: cover;
+}
 
- */
+.slider_controls {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    display: flex;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 3px 4px;
 
-.slider_list a img {
-    width: 680px;
+    z-index: 10;
+}
+
+/* 버튼 스타일 */
+.slider_controls button {
+    border: none;
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+    color: #fff;
     cursor: pointer;
 }
+
+.slide-counter {
+    padding-left: 5px;
+    font-size: 15px;
+    height: 20px;
+    line-height: 20px;
+    color: #fff;
+}
+
+/* 버튼 hover */
+.slider_controls button:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
 
 .maininfo {
     position: relative;

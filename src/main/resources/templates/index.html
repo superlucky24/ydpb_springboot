@@ -10,14 +10,22 @@
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb_main.css}">
-    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/prefixfree.min.js}"></script>
     <script th:src="@{/js/ydpb.js}"></script>
     <script th:src="@{/js/ydpb_main.js}"></script>
+
+    <!-- Slick -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+
+
 </head>
 <th:block th:if="${msg !=null}" >
     <script th:inline="javascript">
-        alert([[${msg}]]);
+        alert('[[${msg}]]');
     </script>
 </th:block>
 <body>
@@ -78,23 +86,25 @@
                 <div class="contents">
                     <div class="main1">
                         <div class="mainpopup">
-                            <!-- <div class="main_pop_control">
-                                <div class="leftbox">
-                                    <div class="page">
-                                        <span class="current slick-text">1</span>
-                                        <div class="gap">/</div>
-                                        <span class="current total-text">1</span>
-                                    </div>
-                                </div>
-                                <div class="controlbox">
-
-                                </div>
-                            </div> -->
+                            <div class="slider_controls">
+                                <span class="slide-counter">
+                                    <span class="current">1</span> /
+                                    <span class="total">1</span>
+                                </span>
+                                <button type="button" class="btn-prev">❮</button>
+                                <button class="btn-toggle" data-state="play">❚❚</button>
+                                <button type="button" class="btn-next">❯</button>
+                            </div>
 
                             <div class="slider_list">
-                                <a href="#"><img src="./images/main/main_01.gif" alt="메인01"></a>
+                                <div class="slider_item" th:each="slide : ${slides}">
+                                    <a th:href="${slide.linkUrl}">
+                                        <img th:src="@{${slide.imagePath}}" th:alt="${slide.title}">
+                                    </a>
+                                </div>
                             </div>
                         </div>
+
                         <div class="maininfo">
                             <div class="infobox">
                                 <h3 class="infobox_title">
@@ -459,3 +469,5 @@
 </div>
 </body>
 </html>
+
+

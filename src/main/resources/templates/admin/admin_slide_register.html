@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>슬라이드 삽입 | 관리자페이지 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_write.css}">
+    <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script>const menuName = '자치회관 게시판';</script>
+    <script th:src="@{/js/ydpb.js}"></script>
+</head>
+<body>
+
+<div id="wrap">
+    <!-- header -->
+    <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
+    <!-- //header -->
+    <div class="contents_wrap safe_area">
+
+        <!-- 사이드 메뉴 -->
+        <aside class="side_menu"
+               th:replace="~{/admin/common/admin_sidemenu::side}">
+        </aside>
+
+        <main>
+            <div class="contents">
+                <div class="board_write">
+
+                    <p class="text_alert alert_write">
+                        <span class="required_mark">필수항목</span> 표시는 필수 항목 입니다.
+                    </p>
+                    <form th:action="@{/admin/slide/register}" method="post" enctype="multipart/form-data">
+
+                        <table class="table_form">
+                            <caption class="blind">메인 슬라이드 삽입</caption>
+
+                            <tbody>
+                            <tr>
+                                <th>
+                                    제목 <span class="required_mark">필수</span>
+                                </th>
+                                <td>
+                                    <input type="text"
+                                           name="title"
+                                           class="input form_input"
+                                           required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    링크
+
+                                </th>
+                                <td>
+                                    <input type="text"
+                                           name="linkUrl"
+                                           class="input form_input">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    순서
+                                </th>
+                                <td>
+                                    <input type="number"
+                                           class="input form_input"
+                                           name="sortOrder"
+                                           value="1" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    노출
+                                </th>
+                                <td>
+                                    <select name="useYn" class="input form_input" >
+                                        <option value="Y">노출</option>
+                                        <option value="N">비노출</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">이미지</th>
+                                <td>
+                                    <div class="file_group">
+
+
+                                        <div class="file_input">
+                                            <input type="file" name="slide_file" id="slide_file">
+                                            <span class="input disabled"></span>
+                                        </div>
+                                        <div class="file_btn">
+                                            <label for="slide_file" class="btn btn_primary btn_sm">파일선택</label>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                        <div class="btns">
+                            <a th:href="@{/admin/slide/list}"
+                               class="btn btn_default">목록</a>
+
+                            <button type="submit"
+                                    class="btn btn_write">저장</button>
+                        </div>
+
+
+                    </form>
+
+
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>
+
+

@@ -8,6 +8,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 public class MemberVO {
@@ -24,7 +25,7 @@ public class MemberVO {
     private String memName;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date memBirth;
+    private LocalDate memBirth;
     private String memGender;
 
     @NotBlank(message = "비밀번호는 필수입니다.")

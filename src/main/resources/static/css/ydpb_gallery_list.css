@@ -287,12 +287,16 @@ em {
     flex-flow: row wrap;
     justify-content: flex-start;
 }
+
+
 .p-gallery-post{
     width: 21.7%;
     margin-top: 30px;
     margin-bottom: 30px;
-    padding: 0;
     border-top: none;
+}
+.p-gallery-post:not(:nth-child(4n+1)) {
+    margin-left: calc((100% - (21.7% * 4)) / 3 - .5px);
 }
 .p-gallery-post-link{
     display: block;

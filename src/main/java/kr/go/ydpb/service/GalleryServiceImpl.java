@@ -222,7 +222,16 @@ public class GalleryServiceImpl implements GalleryService {
 
     @Override
     public List<GalleryVO> getList(Criteria cri) {
-        return mapper.getList(cri);
+
+        List<GalleryVO> list = mapper.getList(cri);
+
+        // 각 게시글에 대해 파일 목록 채우기
+        for (GalleryVO board : list) {
+            List<GalleryFileVO> files = fileMapper.getFilesByGalId(board.getGalId());
+            board.setFiles(files); // 파일 목록 추가
+        }
+
+        return list;
     }
 
     @Override

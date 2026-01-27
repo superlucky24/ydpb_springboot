@@ -370,17 +370,12 @@
     display: block;
     width: 220px;
     height: 160px;
+    border: 1px solid #000000;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
 }
 
-.main3_box2_photo a:nth-child(1) {
-    background-image: url(../images/main/photo_02.jpg);
-}
-.main3_box2_photo a:nth-child(2) {
-    background-image: url(../images/main/photo_01.jpg);
-}
 .main_photo_text {
     display: block;
     position: relative;

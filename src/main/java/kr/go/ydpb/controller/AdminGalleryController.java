@@ -79,6 +79,9 @@ public class AdminGalleryController {
     ) {
         service.increaseCount(galId);
         model.addAttribute("board", service.get(galId));
+        // 이전글 / 다음글 추가
+        model.addAttribute("prev", service.getPrev(galId, cri));
+        model.addAttribute("next", service.getNext(galId, cri));
         return "admin/admin_gallery_view";
     }
 

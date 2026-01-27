@@ -299,16 +299,41 @@
                                 <h3>우리동 갤러리</h3>
                             </div>
                             <div class="main3_box2_photo">
-                                <a href="#">
+
+                                <a th:href="@{/gallery/view(galId=${list[0].galId}, pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                   th:if="${list[0].files != null && #lists.size(list[0].files) > 0}"
+                                   th:style="|background-image:url('@{/admin/gallery/download(fileId=${list[0].files[0].fileId})}');|">
                                     <div class="main_photo_text">
-                                        <span>(12/16)12월 통장연합회 임시회의 개최</span>
+                                        <span th:text="${list[0].galTitle}"></span>
                                     </div>
                                 </a>
-                                <a href="#">
+
+                                <a th:href="@{/gallery/view(galId=${list[0].galId}, pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                   th:if="${list[0].files == null || #lists.size(list[0].files) == 0}"
+                                   th:style="|background-image:url('@{/images/sub/no_image_icon.png}');|">
                                     <div class="main_photo_text">
-                                        <span>2026 희망온돌 따뜻한 겨울나기</span>
+                                        <span th:text="${list[0].galTitle}"></span>
                                     </div>
                                 </a>
+
+                                <a th:href="@{/gallery/view(galId=${list[1].galId}, pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                   th:if="${list[1].files != null && #lists.size(list[1].files) > 0}"
+                                   th:style="|background-image:url('@{/admin/gallery/download(fileId=${list[1].files[0].fileId})}');|">
+                                    <div class="main_photo_text">
+                                        <span th:text="${list[1].galTitle}"></span>
+                                    </div>
+                                </a>
+
+                                <a th:href="@{/gallery/view(galId=${list[1].galId}, pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                   th:if="${list[1].files == null || #lists.size(list[1].files) == 0}"
+                                   th:style="|background-image:url('@{/images/sub/no_image_icon.png}');|">
+                                    <div class="main_photo_text">
+                                        <span th:text="${list[1].galTitle}"></span>
+                                    </div>
+                                </a>
+
+
+
                             </div>
                             <div>
                                 <a th:href="@{/gallery/list}" class="main3_more2">소식더보기</a>

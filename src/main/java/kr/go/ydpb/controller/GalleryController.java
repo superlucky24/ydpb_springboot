@@ -44,6 +44,10 @@ public class GalleryController {
     ) {
         service.increaseCount(galId);
         model.addAttribute("board", service.get(galId));
+        // 이전글 / 다음글 추가
+        model.addAttribute("prev", service.getPrev(galId, cri));
+        model.addAttribute("next", service.getNext(galId, cri));
+
         return "sub/gallery_view";
     }
     @GetMapping("/download")

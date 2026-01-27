@@ -41,6 +41,13 @@ public class MemberServiceImpl implements MemberService{
     // 일반 회원정보 수정
     @Override
     public int modifyMember(MemberVO member) {
+        System.out.println("modify member birth : "+member.getMemBirth());
+        System.out.println("modify member gender : "+member.getMemGender());
+        System.out.println("modify member Address : "+member.getMemAddress());
+        System.out.println("modify member AddressDetail : "+member.getMemAddressDetail());
+        System.out.println("modify member Tel : "+member.getMemTel());
+        System.out.println("modify member Phone : "+member.getMemPhone());
+        System.out.println("modify member Email : "+member.getMemEmail());
         return Mapper.modifyMember(member);
     }
  }

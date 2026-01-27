@@ -82,13 +82,16 @@ public class MemberController {
         MemberVO member = memberService.getMemberById(memId);
         String loginType = member.getLoginType();
 
+        boolean isFirstInput = (member.getMemGender()==null);
+
         if(member.getMemNews() ==null){
             member.setMemNews("Y");
         }
-        if(member.getMemGender()==null){
-            member.setMemGender("남");
-        }
+//        if(member.getMemGender()==null){
+//            member.setMemGender("남");
+//        }
         model.addAttribute("member", member);
+        model.addAttribute("isFirstInput", isFirstInput);
 
         // 3. 로그인 타입에 따라 적절한 수정 페이지로 자동 이동
         if ("KAKAO".equals(loginType)) {

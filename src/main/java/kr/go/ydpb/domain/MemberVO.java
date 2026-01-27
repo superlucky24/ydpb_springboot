@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
 
@@ -21,6 +22,8 @@ public class MemberVO {
     @Pattern(regexp = "^[가-힣]{1,16}$|^[A-Za-z]{1,50}$",
             message = "이름은 한글 16자 또는 영문 50자까지 가능합니다.")
     private String memName;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date memBirth;
     private String memGender;
 

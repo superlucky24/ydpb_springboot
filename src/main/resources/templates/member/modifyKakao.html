@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>개인정보수정-일반회원</title>
+    <title>개인정보수정-카카오</title>
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
@@ -60,7 +60,7 @@
 
                 <div class="member_contents join_contents">
                     <div class="location_title">
-                        <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">개인정보 수정</h2>
+                        <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">개인정보 수정(카카오 간편가입)</h2>
                     </div>
                     <form th:action="@{modify}" method="post" th:object="${member}" id="modify_form">
                         <table class="table_form">
@@ -72,11 +72,11 @@
                                 <th scope="row">아이디</th>
                                 <td><span th:text="*{memId}">아이디</span></td>
                                 <input type="hidden" th:field="*{memId}">
-                                <input type="hidden" th:field="*{memPassword}">
-                                <input type="hidden" th:field="*{memName}">
+<!--                                <input type="hidden" th:field="*{memPassword}">-->
+<!--                                <input type="hidden" th:field="*{memName}">-->
 <!--                                <input type="hidden" th:field="*{memBirth}">-->
-                                <input type="hidden" th:field="*{memGender}">
-                                <input type="hidden" th:field="*{memPhone}">
+<!--                                <input type="hidden" th:field="*{memGender}">-->
+<!--                                <input type="hidden" th:field="*{memPhone}">-->
                             </tr>
                             <tr>
                                 <th scope="row">이름</th>
@@ -93,21 +93,24 @@
                                         <label for="memBirth" class="blind">생년월일</label>
                                         <input type="date" th:field="*{memBirth}" id="memBirth" class="input input_auto" >
                                     </th:block>
-                                    <p class="gender_msg">※ 증명서 발급 시 필요</p>
+                                    <p class="birth_msg">※ 증명서 발급 시 필요</p>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">성별</th>
-                                <td th:if="*{memGender !=null}">
-
+                                <td th:if="*{memGender ==null }">
                                     <div class="radio">
-                                        <input type="radio" th:field="*{memGender}" id="memGenderM" value="남" th:checked>
+                                        <input type="radio" th:field="*{memGender}" id="memGenderM" value="남" >
                                         <label for="memGenderM">남</label>
                                     </div>
                                     <div class="radio">
-                                        <input type="radio" th:field="*{memGender}" id="memGenderF" value="여">
+                                        <input type="radio" th:field="*{memGender}" id="memGenderF" value="여" >
                                         <label for="memGenderF">여</label>
                                     </div>
+                                    <p class="gender_msg">※ 증명서 발급 시 필요</p>
+                                </td>
+                                <td th:if="*{memGender !=null }">
+                                    <span th:text="*{memGender}">성별</span>
                                     <p class="gender_msg">※ 증명서 발급 시 필요</p>
                                 </td>
                             </tr>
@@ -116,7 +119,7 @@
                                 <td>
                                     <button type="button" class="btn btn_cancel btn_sm" onclick="execDaumPostcode()">주소찾기</button>
                                     <input type="text" th:field="*{memAddress}" id="memAddress" class="input" readonly required style="margin-top:5px;">
-                                    <input type="text" th:field="*{memAddressDetail}" id="memAddressDetail" class="input" placeholder="상세주소" style="margin-top:5px;">
+                                    <input type="text" th:field="*{memAddressDetail}" id="memAddressDetail" class="input" placeholder="상세주소" style="margin-top:5px;" required >
                                     <p class="addr_msg">※ 상세주소를 입력해주세요.</p>
                                 </td>
                             </tr>
@@ -135,16 +138,15 @@
                                     <span th:if="*{memPhone != null and memPhone.length() == 10}" th:text="|${#strings.substring(member.memPhone,0,3)}-${#strings.substring(member.memPhone,3,6)}-${#strings.substring(member.memPhone,6,10)}|"></span>
                                     <th:block th:if="*{memPhone == null}">
                                         <input type="text" th:field="*{memPhone}" id="memPhone" class="input input_auto"
-                                               maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-                                        <p class="tel_msg">※ -없이 숫자만 입력해주세요. (최대 11자)</p>
+                                               maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+                                        <p class="phone_msg">※ -없이 숫자만 입력해주세요. (최대 11자)</p>
                                     </th:block>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">이메일 <span class="required_mark">필수</span></th>
-                                <td>
-                                    <span th:text="*{memEmail}">일반전화번호</span>
-
+                                <td th:if="*{memEmail !=null}">
+                                    <span th:text="*{memEmail}">이메일</span>
                                 </td>
                             </tr>
                             <tr>
@@ -200,9 +202,35 @@
         const memEmail = document.getElementById("memEmail");
         const emailMsg = document.querySelector(".email_msg");
 
+        const birthInput = document.getElementById("memBirth");
+
+        const memPhone = document.querySelector("#memPhone");
+        const phone_msg = document.querySelector(".phone_msg");
+
+        const memAddress = document.getElementById("memAddress");
+        const memAddressDetail = document.getElementById("memAddressDetail");
+        const addr_msg = document.querySelector(".addr_msg");
+
         // 유효성 상태 저장 변수 (초기값은 기존 데이터가 있으므로 true)
         let isTelValid = true;
         let isEmailValid = true;
+        let isPhoneValid = true;
+        let isAddressValid = true;
+        let isAddressDetailValid = true;
+        let isBirthValid = true;
+
+        // if(memEmail.value == null || memEmail.value == ""){
+        //     isEmailValid = false;
+        // }
+        // if(memPhone.value == null || memPhone.value == "" ){
+        //     isPhoneValid = false;
+        // }
+        // if(memAddress.value == null || memAddress.value == "" || memAddressDetail ==null || memAddressDetail == ""){
+        //     isAddressValid = false;
+        // }
+        // if(birthInput.value == null || birthInput.value == ""){
+        //     isBirthValid = false;
+        // }
 
         // 일반전화 검사
         if(memTel) {
@@ -230,6 +258,12 @@
         // 이메일 검사
         if(memEmail) {
             memEmail.addEventListener("keyup", function() {
+
+                // 추가
+                if(memEmail.value == null || memEmail.value == ""){
+                    isEmailValid = false;
+                }
+
                 const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
                 if(emailRegex.test(this.value)) {
                     emailMsg.textContent = "※ 이메일 입력 완료";
@@ -245,8 +279,138 @@
             });
         }
 
+        // 생년월일 유효성 검사
+        if(birthInput){
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+
+            const todayStr = `${yyyy}-${mm}-${dd}`;
+
+            // 오늘 이후 날짜 선택 불가
+            birthInput.setAttribute("max", todayStr);
+
+            birthInput.addEventListener('input',function () {
+                if(birthInput.value == null || birthInput.value == ""){
+                    isBirthValid = false;
+                }
+                else{
+                    isBirthValid = true;
+                }
+            })
+
+
+        }
+
+
+        // 핸드폰 번호 유효성검사
+        function isValidPhone(value) {
+            return /^(010)\d{8}$/.test(value);
+        }
+        if(memPhone){
+
+            memPhone.addEventListener("keyup", function(){
+
+                if(memPhone.value == null || memPhone.value == "" ){
+                    isPhoneValid = false;
+                }
+                const phone = memPhone.value;
+                if(isValidPhone(phone)){
+                    phone_msg.textContent ="※ 휴대폰 번호 입력 완료";
+
+                    phone_msg.classList.remove("cautionText");
+                    memPhone.classList.remove("cautionBorder");
+
+                    isPhoneValid = true;
+                }
+                else{
+                    if(phone === ""){
+                        phone_msg.textContent ="※ 휴대폰 번호를 반드시 입력해주세요";
+                        phone_msg.classList.add("cautionText");
+                        memPhone.classList.add("cautionBorder");
+                    }
+                    else{
+                        phone_msg.textContent ="※ 올바른 번호를 입력해주세요.";
+                        phone_msg.classList.add("cautionText");
+                        memPhone.classList.add("cautionBorder");
+                    }
+                    isPhoneValid = false;
+                }
+
+            });
+        }
+
+
+
+
+        // 주소 유효성 검사
+        if(memAddress && memAddressDetail){
+            // if(memAddress.value == null || memAddress.value == "" || memAddressDetail.value ==null || memAddressDetail.value == ""){
+            //     isAddressValid = false;
+            // }
+
+            memAddress.addEventListener("input", function () {
+                console.log("주소 입력 리스너 ");
+                console.log(memAddress.value);
+                if (memAddress.value.trim() !== "" && memAddress.value.trim()==null) {
+                    console.log("주소값 입력됨");
+                    isAddressValid = true;
+                    addr_msg.textContent = "※ 기본주소 입력 완료, 상세 주소를 입력해주세요";
+                    memAddressDetail.focus();
+                } else {
+                    console.log("주소값 입력 안됨");
+                    memAddressDetail.value = "";
+                    addr_msg.textContent = "※ 주소찾기 버튼을 눌러 기본 주소를 먼저 선택해주세요.";
+                    isAddressValid = false;
+                }
+            });
+
+            memAddressDetail.addEventListener("keyup", function () {
+                let addrDetail = memAddressDetail.value;
+                if (addrDetail === "" || addrDetail === null) {
+                    addr_msg.textContent = "※ 상세주소를 반드시 입력해주세요";
+                    addr_msg.classList.add("cautionText");
+                    memAddressDetail.classList.add("cautionBorder");
+                    isAddressDetailValid = false;
+                } else {
+                    addr_msg.textContent = "※ 상세주소 입력 완료";
+                    addr_msg.classList.remove("cautionText");
+                    memAddressDetail.classList.remove("cautionBorder");
+                    isAddressDetailValid = true;
+                }
+            });
+        }
+
+
+        // memAddressDetail.readOnly = true;
+
+        //
+        memAddressDetail.addEventListener("blur", function () {
+            let addrDetail = memAddressDetail.value;
+            if (addrDetail === "") {
+                addr_msg.textContent = "※ 상세주소를 반드시 입력해주세요";
+                addr_msg.classList.add("cautionText");
+                memAddressDetail.classList.add("cautionBorder");
+            } else {
+                addr_msg.textContent = "※ 상세주소 입력 완료";
+                addr_msg.classList.remove("cautionText");
+                memAddressDetail.classList.remove("cautionBorder");
+
+                isAddressValid = true;
+            }
+        });
+
+
         // 최종 전송 차단 로직
         modifyForm.addEventListener("submit", function(event) {
+            console.log("isTelValid -> "+isTelValid);
+            console.log("isEmailValid -> "+isEmailValid);
+            console.log("isPhoneValid -> "+isPhoneValid);
+            console.log("isAddressValid -> "+isAddressValid);
+            console.log("isAddressDetailValid -> "+isAddressDetailValid);
+            console.log("isBirthValid -> "+isBirthValid);
+
             if (!isTelValid) {
                 alert("전화번호 형식을 확인해주세요.");
                 memTel.focus();
@@ -256,6 +420,34 @@
             if (!isEmailValid) {
                 alert("이메일 형식을 확인해주세요.");
                 memEmail.focus();
+                event.preventDefault();
+                return false;
+            }
+
+            if (!isPhoneValid) {
+                alert("휴대폰 번호 형식을 확인해주세요.");
+                memPhone.focus();
+                event.preventDefault();
+                return false;
+            }
+
+            if (!isAddressValid) {
+                alert("주소 입력을 확인해주세요.");
+                memAddress.focus();
+                event.preventDefault();
+                return false;
+            }
+
+
+            if (!isAddressDetailValid) {
+                alert("상세주소 입력을 확인해주세요.");
+                memAddressDetail.focus();
+                event.preventDefault();
+                return false;
+            }
+            if (!isBirthValid) {
+                alert("생년월일을 확인해주세요.");
+                birthInput.focus();
                 event.preventDefault();
                 return false;
             }

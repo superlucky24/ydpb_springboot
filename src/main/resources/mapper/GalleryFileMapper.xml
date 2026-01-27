@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ydpb.mapper.GalleryFileMapper">
+
+    <insert id="insert">
+        <selectKey keyProperty="fileId" order="BEFORE" resultType="long">
+            select seq_gallery_file.nextval from dual
+        </selectKey>
+        insert into tbl_gallery_file (
+        file_id,
+        galId,
+        uuid,
+        file_name,
+        upload_path,
+        alt_text,
+        insert_yn
+        ) values (
+        #{fileId},
+        #{galId},
+        #{uuid},
+        #{fileName},
+        #{uploadPath},
+        #{altText},
+        #{insertYn}
+        )
+    </insert>
+
+    <select id="read" resultType="kr.go.ydpb.domain.GalleryFileVO">
+        select
+            file_id   as fileId,
+            galId     as galId,
+            uuid,
+            file_name as fileName,
+            upload_path as uploadPath,
+            alt_text as altText,
+            insert_yn as insertYn
+        from tbl_gallery_file
+        where file_id = #{fileId}
+    </select>
+
+    <select id="getFilesByGalId" resultType="kr.go.ydpb.domain.GalleryFileVO">
+        select
+            file_id   as fileId,
+            galId     as galId,
+            uuid,
+            file_name as fileName,
+            upload_path as uploadPath,
+            alt_text as altText,
+            insert_yn as insertYn
+        from tbl_gallery_file
+        where galId = #{galId}
+        order by file_id
+    </select>
+
+    <delete id="deleteFileByGalId">
+        delete from tbl_gallery_file
+        where galId = #{galId}
+    </delete>
+
+    <delete id="deleteFileByFileId">
+        delete from tbl_gallery_file
+        where file_id = #{fileId}
+    </delete>
+
+    <select id="countByGalId" resultType="int">
+        select count(*)
+        from tbl_gallery_file
+        where galId = #{galId}
+    </select>
+
+</mapper>

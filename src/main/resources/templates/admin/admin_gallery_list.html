@@ -1,173 +1,196 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>자치회관 게시판 | 자치회관 | 영등포본동 주민센터</title>
+    <title>우리동 갤러리 | 자치회관 | 영등포본동 주민센터</title>
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
-    <link rel="stylesheet" th:href="@{/css/ydpb_gallery_list.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_list.css}">
     <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/prefixfree.min.js}"></script>
-<!--    <script>const menuName = '자치회관 게시판';</script>-->
     <script th:src="@{/js/ydpb.js}"></script>
 </head>
 <body>
-    <div id="wrap">
-        <!-- header -->
-        <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
-        <!-- //header -->
+<div id="wrap">
+    <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
+    <div class="container">
+        <div class="contents_wrap safe_area">
+            <aside class="side_menu" th:replace="~{/admin/common/admin_sidemenu::side}"></aside>
 
-
-        <!-- container -->
-        <div class="container">
-            <ul class="contents_wrap safe_area">
-                <!-- side menu -->
-                <aside class="side_menu" th:replace="~{/admin/common/admin_sidemenu::side}"></aside>
-                <!-- //side menu -->
-
-                <!-- main -->
-                <main>
-                    <!-- location -->
-                    <div class="location">
-                        <div class="location_title">
-                            <h2>포토갤러리</h2>
-                        </div>
-
+            <main>
+                <div class="location">
+                    <div class="location_title">
+                        <h2>우리동 갤러리</h2>
                     </div>
-                    <!-- location -->
+                </div>
 
-                    <!-- contents -->
-                    <div id="board" class="clearfix">
-                        <div id="contents">
-                            <form action="#" class="board_searchform">
-                                <fieldset>
-                                    <legend>게시물검색</legend>
-                                    <div class="p-search clearfix">
-                                        <div class="p-form-group">
-                                            <label for="search_cnb" class="skip">검색항목선택</label>
-                                            <select name="search_cnb" id="search_cnb" title="검색항목선택" class="p-input">
-                                                <option value="title" selected="selected">제목</option>
-                                                <option value="con">내용</option>
-                                                <option value="city">행정동</option>
-                                            </select>
-                                            
-                                            <label for="search_krwd" class="skip"></label>
-                                            <input name="searchKrwd" id="search_krwd" class="p-input" type="text" value>
-                                            <span class="p-form-group__btn">
-                                                <input value="검색" type="submit" class="p-button">
-                                            </span>
-                                        </div>
+                <div id="board" class="clearfix">
+                    <div id="contents">
+                        <form th:action="@{/admin/gallery/list}" method="get" id="searchForm" class="board_searchform">
+                            <fieldset>
+                                <legend>게시물검색</legend>
+                                <div class="p-search clearfix">
+                                    <div class="p-form-group">
+                                        <label for="searchType" class="skip">검색항목선택</label>
+                                        <select name="searchType" id="searchType" title="검색항목선택" class="p-input">
+                                            <option value="T" th:selected="${cri.searchType == 'T' || cri.searchType == null}">제목</option>
+                                            <option value="C" th:selected="${cri.searchType == 'C'}">내용</option>
+                                            <option value="D" th:selected="${cri.searchType == 'D'}">부서</option>
+                                        </select>
+
+                                        <label for="searchKeyword" class="skip">검색어 입력</label>
+                                        <input type="text" name="searchKeyword" id="searchKeyword" class="p-input" th:value="${cri.searchKeyword}">
+                                        <input type="hidden" name="pageNum" th:value="${cri.pageNum}">
+                                        <input type="hidden" name="amount" th:value="${cri.amount}">
+                                        <span class="p-form-group__btn">
+                                            <input value="검색" type="button" class="p-button">
+                                        </span>
                                     </div>
-                                </fieldset>
-                            </form>
-                        </div>
-                        <div class="page_cou clearfix">
-                            <p>
-                                총
-                                <em class="em_black">2173</em>
-                                개 &nbsp;[
-                                <em class="em_b_black">1</em>
-                                / 182 페이지]
-                            </p>
-                        </div>
-                        
-                        
-                        <div class="p-gallery">
-                            <ul class="p-gallery-list">
-                                <li class="p-gallery-post">
-                                    <a th:href="@{/admin/gallery/view}" class="p-gallery-post-link">
-                                        <div class="p-gallery-post-image">
-                                            <div class="p-gallery-post-image-wrap">
-                                                <img th:src="@{/images/sub/gal_post_img1.jpg}" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
-                                            </div>
-                                            
-                                            <div class="p-gallery-icon">
-                                                <span class="p-icon p-gallery-icon-new">NEW</span>
-                                            </div>
-                                        </div>
-                                        <div class="p-gallery-post-content">
-                                            <div class="p-gallery-post-content-info"><em class="p-gallery-post-content-info-text">1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의</em></div>
-                                            <div class="p-gallery-post-info">
-                                                <time class="p-gallery-post-time p-split" datetime="2026-01-22">2026.01.22</time>                                                
-                                                <span class="p-gallery-post-count p-split">
-                                                    <em class="skip">조회 :</em> 
-                                                    <span class="p-icon">
-                                                    
-                                                        <img th:src="@{/images/sub/icon_eye.png}" width="20" height="16" alt="eye icon" class="p-icon-eye">
-                                                    </span>
-                                                    <!-- <svg width="20" height="16" class="p-icon" fill="#959595" focusable="false" y="-2">
-                                                        <use href="/images/sub/p-icon-view.svg#eye" xlink:href="/images/sub/p-icon-view.svg#eye"></use>
-                                                    </svg> -->
-                                                    11
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        
-                        
-                        <div class="p_ctrl">
-                            <div class="p_control">
-                                <span class="p-link_b ">
-                                    <a href="#" class="p_link"><<</a>
-                                    <a href="#" class="p_link"><</a>
-                                </span>
-                                <span class="p-link_b">
-                                    <strong title="현재 1페이지" class="p_link active">
-                                        1
-                                    </strong>
-                                    <a href="#" class="p_link">2</a>
-                                    <a href="#" class="p_link">3</a>
-                                    <a href="#" class="p_link">4</a>
-                                    <a href="#" class="p_link">5</a>
-                                    <a href="#" class="p_link">6</a>
-                                    <a href="#" class="p_link">7</a>
-                                    <a href="#" class="p_link">8</a>
-                                    <a href="#" class="p_link">9</a>
-                                    <a href="#" class="p_link">10</a>
-                                </span>
-                                <span class="p-link_b">
-                                    <a href="#" class="p_link">></a>
-                                    <a href="#" class="p_link">>></a>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="board_btm_btns">
-                            <a th:href="@{/admin/gallery/write}" class="btn btn_write">글쓰기</a>
-                        </div>
+                                </div>
+                            </fieldset>
+                        </form>
                     </div>
-                    <!-- //contents -->
-                    
-                    <!-- charge info -->
-                    <div class="charge_info">
-                        <ul>
-                            <li>
-                                <span class="info_name">담당부서</span>
-                                <span>영등포본동</span>
-                            </li>
-                            <li>
-                                <span class="info_name">담당전화번호</span>
-                                <span>02-2670-1026</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- //charge info -->
-                </main>
-                <!-- //main -->
-            </ul>
-        </div>
-        <!-- //container -->
 
-        <!-- footer -->
-        <footer class="footer" th:replace="~{/admin/common/admin_header_footer::footer}"></footer>
-        <!-- //footer -->
+                    <div class="page_cou clearfix" th:if="${pageMaker.total} > 0">
+                        <p>
+                            총
+                            <em class="em_black" th:text="${pageMaker.total}"></em>
+                            개 &nbsp;[
+                            <em class="em_b_black" th:text="${pageMaker.cri.pageNum}"></em>
+                            / [[${pageMaker.realEnd}]] 페이지]
+                        </p>
+                    </div>
+
+                    <table class="p_table">
+                        <colgroup>
+                            <col style="width: 10%;">
+                            <col>
+                            <col style="width: 15%;">
+                            <col style="width: 15%;">
+                            <col style="width: 10%;">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th scope="col">번호</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">부서</th>
+                            <th scope="col">작성일</th>
+                            <th scope="col">조회수</th>
+                        </tr>
+                        </thead>
+                        <tbody class="tb_text">
+                        <tr th:if="${pageMaker.total == 0}">
+                            <td colspan="5" class="no_data">게시글이 없습니다</td>
+                        </tr>
+
+                        <tr th:each="board, iterStat : ${list}" th:object="${board}"
+                            th:with="no=${pageMaker.total - ((pageMaker.cri.pageNum - 1) * pageMaker.cri.amount)}">
+                            <td th:text="${no - iterStat.index}"></td>
+                            <td class="p_sub">
+                                <a th:href="@{/admin/gallery/view(galId=*{galId},pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                   class="move" th:text="*{galTitle}"></a>
+                            </td>
+                            <td th:text="*{galDepartment}"></td>
+                            <td><time th:datetime="*{galDate}" th:text="${#dates.format(board.galDate, 'yyyy.MM.dd')}"></time></td>
+                            <td th:text="*{galCount}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="p_ctrl" th:if="${pageMaker.total} > 0">
+                        <div class="p_control">
+                            <span class="p-link_b">
+                                <a th:if="${pageMaker.realEnd > 10}"
+                                   th:href="@{/admin/gallery/list(pageNum=1, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                   class="p_link" title="맨 처음">&lt;&lt;</a>
+
+                                <a th:if="${pageMaker.realEnd > 10}"
+                                   th:href="@{/admin/gallery/list(pageNum=${pageMaker.prev ? pageMaker.startPage - 1 : 1}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                   class="p_link" title="이전">&lt;</a>
+
+                                <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                                    <strong th:title="|현재 ${num}페이지|" class="p_link active"
+                                            th:if="${num} == ${pageMaker.cri.pageNum}" th:text="${num}"></strong>
+                                    <a th:href="@{/admin/gallery/list(pageNum=${num}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       class="p_link" th:if="${num} != ${cri.pageNum}" th:text="${num}"></a>
+                                </th:block>
+
+                                <a th:if="${pageMaker.realEnd > 10}"
+                                   th:href="@{/admin/gallery/list(pageNum=${pageMaker.next ? pageMaker.endPage + 1 : pageMaker.realEnd}, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                   class="p_link" title="다음">&gt;</a>
+
+                                <a th:if="${pageMaker.realEnd > 10}"
+                                   th:href="@{/admin/gallery/list(pageNum=${pageMaker.realEnd}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                   class="p_link" title="맨 끝">&gt;&gt;</a>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="board_btm_btns">
+                        <a th:href="@{/admin/gallery/write}" class="btn btn_write">글쓰기</a>
+                    </div>
+                </div>
+            </main>
+        </div>
     </div>
+
+    <footer class="footer" th:replace="~{/admin/common/admin_header_footer::footer}"></footer>
+</div>
+
+<script>
+    $(document).ready(function() {
+        const searchForm = $('#searchForm');
+        searchForm.find('.p-button').on('click', function(e) {
+            e.preventDefault();
+            if(!searchForm.find('input[name="searchKeyword"]').val().trim()) {
+                alert('검색어를 입력해주세요.');
+                return false;
+            }
+            searchForm.find('input[name="pageNum"]').val('1');
+            searchForm.submit();
+        });
+    });
+</script>
 </body>
 </html>
+
+
+<!--
+<div class="p-gallery">
+    <ul class="p-gallery-list">
+        <li class="p-gallery-post">
+            <a th:href="@{/admin/gallery/view}" class="p-gallery-post-link">
+                <div class="p-gallery-post-image">
+                    <div class="p-gallery-post-image-wrap">
+                        <img th:src="@{/images/sub/gal_post_img1.jpg}" alt="1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의 의 이미지">
+                    </div>
+
+                    <div class="p-gallery-icon">
+                        <span class="p-icon p-gallery-icon-new">NEW</span>
+                    </div>
+                </div>
+                <div class="p-gallery-post-content">
+                    <div class="p-gallery-post-content-info"><em class="p-gallery-post-content-info-text">1.21.(수) 영등포본동 새마을지도자협의회 1월 월례회의</em></div>
+                    <div class="p-gallery-post-info">
+                        <time class="p-gallery-post-time p-split" datetime="2026-01-22">2026.01.22</time>
+                        <span class="p-gallery-post-count p-split">
+                                                    <em class="skip">조회 :</em>
+                                                    <span class="p-icon">
+
+                                                        <img th:src="@{/images/sub/icon_eye.png}" width="20" height="16" alt="eye icon" class="p-icon-eye">
+                                                    </span>
+                            &lt;!&ndash; <svg width="20" height="16" class="p-icon" fill="#959595" focusable="false" y="-2">
+                                <use href="/images/sub/p-icon-view.svg#eye" xlink:href="/images/sub/p-icon-view.svg#eye"></use>
+                            </svg> &ndash;&gt;
+                                                    11
+                                                </span>
+                    </div>
+                </div>
+            </a>
+        </li>
+    </ul>
+</div>-->

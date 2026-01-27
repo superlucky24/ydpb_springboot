@@ -1,6 +1,5 @@
 package kr.go.ydpb.mapper;
 
-import kr.go.ydpb.domain.CommunityVO;
 import kr.go.ydpb.domain.Criteria;
 import kr.go.ydpb.domain.GalleryVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -19,9 +18,10 @@ public interface GalleryMapper {
     int delete(Long galId);
     int update(GalleryVO post);
     void updateCount(Long galId);
+
     GalleryVO getPrev(@Param("galId") Long galId,
-                               @Param("cri") Criteria cri);
+                      @Param("cri") Criteria cri);
 
     GalleryVO getNext(@Param("galId") Long galId,
-                               @Param("cri") Criteria cri);
+                      @Param("cri") Criteria cri);
 }

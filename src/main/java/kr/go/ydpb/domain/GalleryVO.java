@@ -19,5 +19,5 @@ public class GalleryVO {
     private String memId;
 
     // 첨부파일 목록 (수정/조회 화면용)
-    //private List<GalleryFileVO> files;
+    private List<GalleryFileVO> files;
 }

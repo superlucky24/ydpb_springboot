@@ -4,32 +4,34 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.go.ydpb.mapper.GalleryMapper">
 
-    
     <insert id="insert">
-        INSERT INTO TBL_GALLERY(galId, galTitle, galDepartment, galContent, galTel, memId)
-        VALUES (SEQ_GALLERY.nextval,#{galTitle},#{galDepartment},#{galContent},#{galTel},#{memId})
+        insert into tbl_gallery(galId, galTitle, galContent, memId, galDepartment, galDate, galTel)
+        values (seq_gallery.nextval, #{galTitle}, #{galContent}, #{memId}, #{galDepartment}, sysdate, #{galTel})
     </insert>
+
     <insert id="insertSelectKey">
         <selectKey keyProperty="galId" order="BEFORE" resultType="long">
-            select SEQ_GALLERY.nextval from dual
+            select seq_gallery.nextval from dual
         </selectKey>
-        insert into TBL_GALLERY(galId,galTitle,galDepartment,galContent,galTel,memid)
-        values (#{galTitle}, #{galDepartment}, #{galContent},#{galTel}, #{memId})
+        insert into tbl_gallery(galId, galTitle, galContent, memId, galDepartment, galTel)
+        values (#{galId}, #{galTitle}, #{galContent}, #{memId}, #{galDepartment}, #{galTel})
     </insert>
 
     <delete id="delete">
-        delete from TBL_GALLERY where galId = #{galId}
+        delete from tbl_gallery where galId = #{galId}
     </delete>
 
     <select id="read" resultType="kr.go.ydpb.domain.GalleryVO">
-        select * from TBL_GALLERY where galId = #{galId}
+        select * from tbl_gallery where galId = #{galId}
     </select>
+
     <update id="update">
-        update TBL_GALLERY
+        update tbl_gallery
         set galTitle = #{galTitle},
             galContent = #{galContent},
             galDepartment = #{galDepartment},
-            galUpdatedate = sysdate
+            galUpdatedate = sysdate,
+            galTel = #{galTel}
         where galId = #{galId}
     </update>
 
@@ -41,18 +43,21 @@
             <when test="searchType == 'C'.toString()">
                 galContent like '%'||#{searchKeyword}||'%'
             </when>
+            <when test="searchType == 'D'.toString()">
+                galDepartment like '%'||#{searchKeyword}||'%'
+            </when>
         </choose>
     </sql>
 
-    
     <select id="getList" resultType="kr.go.ydpb.domain.GalleryVO">
         <![CDATA[
-        select * from (
-            select /*+INDEX_DESC(TBL_GALLERY SYS_C007039) */
-                galId, galTitle, galDate, galUpdatedate, galDepartment, galContent, galCount, memId,
+        select *
+        from (
+            select /*+INDEX_DESC(tbl_gallery SYS_C007039) */
+                galId, galTitle, galDate, galUpdatedate, galDepartment, galContent, galCount, galTel, memId,
                 ROW_NUMBER() over (order by galId desc) as rn
             from
-                TBL_GALLERY
+                tbl_gallery
         ]]>
         <if test="searchKeyword != null and searchKeyword != ''.toString()">
             where
@@ -66,8 +71,10 @@
     </select>
 
     <select id="getTotalCount" resultType="int">
-        select  count(*)
-        from  TBL_GALLERY
+        select
+        count(*)
+        from
+        tbl_gallery
         where
         <if test="searchKeyword != null and searchKeyword != ''.toString()">
             <include refid="criteria"/>
@@ -79,16 +86,19 @@
     </select>
 
     <update id="updateCount">
-        UPDATE TBL_GALLERY
+        UPDATE tbl_gallery
         SET galCount = galCount + 1
         WHERE galId = #{galId}
     </update>
 
     <!-- 이전글 -->
     <select id="getPrev" resultType="kr.go.ydpb.domain.GalleryVO">
-        SELECT * FROM (
-        SELECT   galId,  galTitle
-        FROM TBL_GALLERY
+        SELECT *
+        FROM (
+        SELECT
+        galId,
+        galTitle
+        FROM tbl_gallery
         <where>
             galId &gt; #{galId}
             <if test="cri.searchKeyword != null and cri.searchKeyword != ''">
@@ -100,6 +110,9 @@
                     <when test="cri.searchType == 'C'">
                         galContent LIKE '%'||#{cri.searchKeyword}||'%'
                     </when>
+                    <when test="cri.searchType == 'D'">
+                        galDepartment LIKE '%'||#{cri.searchKeyword}||'%'
+                    </when>
                 </choose>
             </if>
         </where>
@@ -110,9 +123,12 @@
 
     <!-- 다음글 -->
     <select id="getNext" resultType="kr.go.ydpb.domain.GalleryVO">
-        SELECT * FROM (
-        SELECT galId, galTitle
-        FROM TBL_GALLERY
+        SELECT *
+        FROM (
+        SELECT
+        galId,
+        galTitle
+        FROM tbl_gallery
         <where>
             galId &lt; #{galId}
             <if test="cri.searchKeyword != null and cri.searchKeyword != ''">
@@ -124,6 +140,9 @@
                     <when test="cri.searchType == 'C'">
                         galContent LIKE '%'||#{cri.searchKeyword}||'%'
                     </when>
+                    <when test="cri.searchType == 'D'">
+                        galDepartment LIKE '%'||#{cri.searchKeyword}||'%'
+                    </when>
                 </choose>
             </if>
         </where>
@@ -132,9 +151,4 @@
         WHERE ROWNUM = 1
     </select>
 
-
 </mapper>
-
-
-
-

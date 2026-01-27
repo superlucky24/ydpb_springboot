@@ -10,5 +10,10 @@ public interface MemberService {
 
     // 일반회원정보 수정
     public int modifyMember(MemberVO member);
+    
+    // 일반회원 비밀번호 수정
+    public int updatePassword(String memId, String memPassword);
+    
+    
 
 }

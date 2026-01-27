@@ -8,8 +8,9 @@
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
-    <link rel="stylesheet" th:href="@{/css/ydpb_gallery_list.css}"> <!-- 예시 CSS 적용 -->
+    <link rel="stylesheet" th:href="@{/css/ydpb_gallery_list.css}">
 
+    <!-- jquery는 하나만 사용 -->
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/prefixfree.min.js}"></script>
     <script th:src="@{/js/ydpb.js}"></script>
@@ -168,4 +169,27 @@
                     </div>
                 </div>
                 <!-- //contents -->
+            </main>
+        </div>
+    </div>
 
+    <!-- footer -->
+    <footer class="footer" th:replace="~{/admin/common/admin_header_footer::footer}"></footer>
+</div>
+
+<script>
+    $(document).ready(function() {
+        const searchForm = $('#searchForm');
+        searchForm.find('.p-button').on('click', function(e) {
+            e.preventDefault();
+            if(!searchForm.find('input[name="searchKeyword"]').val().trim()) {
+                alert('검색어를 입력해주세요.');
+                return false;
+            }
+            searchForm.find('input[name="pageNum"]').val('1');
+            searchForm.submit();
+        });
+    });
+</script>
+</body>
+</html>

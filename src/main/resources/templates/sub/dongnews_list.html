@@ -133,6 +133,7 @@
                                     <td th:text="${no - iterStat.index}"></td>
                                     <td class="p_sub">
                                         <a th:href="@{/dongnews/view(dnewsId=*{dnewsId},pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="move" th:text="*{dnewsTitle}"></a>
+                                        <span th:if="${board.recent}" class="board_new">NEW</span>
                                     </td>
                                     <td th:text="*{dnewsDepartment}"></td>
                                     <td><time th:datetime="*{dnewsDate}" th:text="${#dates.format(board.dnewsDate, 'yyyy.MM.dd')}"></time></td>

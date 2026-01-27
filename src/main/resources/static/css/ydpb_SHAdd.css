@@ -395,6 +395,13 @@ ul.bu li {
 
 /* changePassword 페이지 */
 /* 비밀번호 변경 폼 - 테이블 좌우 너비 고정 */
+
+#passwordChangeForm {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
 #passwordChangeForm .table_form {
     table-layout: fixed;
     width: 100%;

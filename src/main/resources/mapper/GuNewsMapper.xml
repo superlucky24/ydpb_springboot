@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.go.ydpb.mapper.GuNewsMapper">
+
+    <sql id="criteria">
+        <where>
+            <choose>
+                <when test="searchType == 'T'.toString()">
+                    gnewsTitle LIKE '%'||#{searchKeyword}||'%'
+                </when>
+                <when test="searchType == 'C'.toString()">
+                    gnewsContent LIKE '%'||#{searchKeyword}||'%'
+                </when>
+                <when test="searchType == 'D'.toString()">
+                    gnewsDepartment LIKE '%'||#{searchKeyword}||'%'
+                </when>
+            </choose>
+        </where>
+    </sql>
+
+    <select id="getTotalCount" resultType="int">
+        select count(*)
+        from tbl_gunews
+        <include refid="criteria"/>
+    </select>
+
+    <select id="getList" resultType="kr.go.ydpb.domain.GuNewsVO">
+        select gnewsId, gnewsTitle, gnewsDepartment, gnewsDate, gnewsCount, memId
+        from (
+            select /*+INDEX_DESC(tbl_gunews SYS_C007096) */
+                gnewsId, gnewsTitle, gnewsDepartment, gnewsDate, gnewsCount, memId,
+                ROW_NUMBER() over (order by gnewsId desc) as rn
+            from tbl_gunews
+            <include refid="criteria"/>
+        )
+        where rn between (#{pageNum} - 1) * #{amount} + 1 and #{pageNum} * #{amount}
+    </select>
+
+    <insert id="insert">
+        insert into tbl_gunews(gnewsId, gnewsTitle, gnewsDepartment, gnewsTel, gnewsContent, gnewsOpentype, memId)
+        values(seq_gunews.nextval, #{gnewsTitle}, #{gnewsDepartment}, #{gnewsTel}, #{gnewsContent}, #{gnewsOpentype}, #{memId})
+    </insert>
+
+    <insert id="insertSelectKey">
+        <selectKey keyProperty="gnewsId" order="BEFORE" resultType="long">
+            select seq_gunews.nextval from dual
+        </selectKey>
+        insert into tbl_gunews(gnewsId, gnewsTitle, gnewsDepartment, gnewsTel, gnewsContent, gnewsOpentype, memId)
+        values(#{gnewsId}, #{gnewsTitle}, #{gnewsDepartment}, #{gnewsTel}, #{gnewsContent}, #{gnewsOpentype}, #{memId})
+    </insert>
+
+    <update id="updateCount">
+        update tbl_gunews set gnewsCount = gnewsCount + 1 where gnewsId = #{gnewsId}
+    </update>
+
+    <select id="read" resultType="kr.go.ydpb.domain.GuNewsVO">
+        select * from tbl_gunews where gnewsId = #{gnewsId}
+    </select>
+
+    <update id="update">
+        update tbl_gunews
+        set gnewsTitle = #{gnewsTitle}, gnewsDepartment = #{gnewsDepartment}, gnewsTel = #{gnewsTel}, gnewsContent = #{gnewsContent}, gnewsUpdatedate = sysdate, gnewsOpentype = #{gnewsOpentype}
+        where gnewsId = #{gnewsId}
+    </update>
+
+    <delete id="delete">
+        delete from tbl_gunews where gnewsId = #{gnewsId}
+    </delete>
+
+    <!-- 이전글 -->
+    <select id="getPrev" resultType="kr.go.ydpb.domain.GuNewsVO">
+        select gnewsId, gnewsTitle
+        from (
+            select gnewsId, gnewsTitle,
+                ROW_NUMBER() over (order by gnewsId desc) as rn
+            from tbl_gunews
+            where gnewsId &lt; #{gnewsId}
+                <if test="cri.searchType != null and cri.searchType != ''">
+                    and
+                    <choose>
+                        <when test="cri.searchType == 'T'.toString()">
+                            gnewsTitle LIKE '%'||#{cri.searchKeyword}||'%'
+                        </when>
+                        <when test="cri.searchType == 'C'.toString()">
+                            gnewsContent LIKE '%'||#{cri.searchKeyword}||'%'
+                        </when>
+                        <when test="cri.searchType == 'D'.toString()">
+                            gnewsDepartment LIKE '%'||#{cri.searchKeyword}||'%'
+                        </when>
+                    </choose>
+                </if>
+        )
+        where rn = 1
+    </select>
+
+    <!-- 다음글 -->
+    <select id="getNext" resultType="kr.go.ydpb.domain.GuNewsVO">
+        select gnewsId, gnewsTitle
+        from (
+            select gnewsId, gnewsTitle,
+                ROW_NUMBER() over (order by gnewsId asc) as rn
+            from tbl_gunews
+            where gnewsId &gt; #{gnewsId}
+                <if test="cri.searchType != null and cri.searchType != ''">
+                    and
+                    <choose>
+                        <when test="cri.searchType == 'T'.toString()">
+                            gnewsTitle LIKE '%'||#{cri.searchKeyword}||'%'
+                        </when>
+                        <when test="cri.searchType == 'C'.toString()">
+                            gnewsContent LIKE '%'||#{cri.searchKeyword}||'%'
+                        </when>
+                        <when test="cri.searchType == 'D'.toString()">
+                            gnewsDepartment LIKE '%'||#{cri.searchKeyword}||'%'
+                        </when>
+                    </choose>
+                </if>
+        )
+        where rn = 1
+    </select>
+
+</mapper>
+
+
+
+

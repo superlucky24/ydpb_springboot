@@ -30,7 +30,7 @@
             <main>
                 <div class="location">
                     <div class="location_title">
-                        <h2>개인정보수정</h2>
+                        <h2>마이페이지</h2>
                     </div>
                     <div class="location_path">
                         <span class="loc_home"><a th:href="@{/}">홈</a></span>
@@ -62,7 +62,7 @@
                     <div class="location_title">
                         <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">개인정보 수정</h2>
                     </div>
-                    <form th:action="@{modify}" method="post" th:object="${member}" id="modify_form">
+                    <form th:action="@{/modifyGeneral}" method="post" th:object="${member}" id="modify_form">
                         <table class="table_form">
                             <colgroup>
                                 <col class="col1"><col class="col2">
@@ -138,7 +138,7 @@
 
                         <div class="btns" style="margin-top:40px; text-align:center;">
                             <input type="submit" class="btn btn_write" value="정보 수정 완료">
-                            <a th:href="@{/member/changePassword}" class="btn btn_write" style="background-color: #666;">비밀번호 변경</a>
+                            <a th:href="@{/changePassword}" class="btn btn_write" style="background-color: #666;">비밀번호 변경</a>
                             <a th:href="@{/}" class="btn btn_cancel">홈으로</a>
                         </div>
                     </form>

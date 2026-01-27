@@ -70,7 +70,7 @@ public class MemberController {
     }
 
     /* 일반회원 정보 수정 페이지 이동 */
-    @GetMapping("/modifyGeneral")
+    @GetMapping("/mypage")
     public String modifyGeneral(HttpSession session, Model model) {
         // 1. 세션에서 로그인 아이디 확인
         String memId = (String) session.getAttribute("memId");
@@ -82,17 +82,22 @@ public class MemberController {
         MemberVO member = memberService.getMemberById(memId);
         String loginType = member.getLoginType();
 
-        System.out.println("로그인한 회원 휴대폰 번호: " + member.getMemPhone());
+        if(member.getMemNews() ==null){
+            member.setMemNews("Y");
+        }
+        if(member.getMemGender()==null){
+            member.setMemGender("남");
+        }
+        model.addAttribute("member", member);
 
         // 3. 로그인 타입에 따라 적절한 수정 페이지로 자동 이동
         if ("KAKAO".equals(loginType)) {
-            return "redirect:/member/modifyKakao";
+            return "/member/modifyKakao";
         } else if ("NAVER".equals(loginType)) {
-            return "redirect:/member/modifyNaver";
+            return "/member/modifyNaver";
         }
 
-        // 4. 일반 회원(GENERAL)인 경우에만 아래 코드 실행
-        model.addAttribute("member", member);
+        // 4. 일반 회원(GENERAL)인 경우에만 화면 실행
         return "member/modifyGeneral";
     }
 
@@ -107,10 +112,10 @@ public class MemberController {
 
         if (result > 0) {
             rttr.addFlashAttribute("msg", "회원정보가 성공적으로 수정되었습니다.");
-            return "redirect:/modifyGeneral"; // 수정 후 메인이나 마이페이지로 이동
+            return "redirect:/mypage"; // 수정 후 메인이나 마이페이지로 이동
         } else {
             rttr.addFlashAttribute("msg", "정보 수정에 실패하였습니다.");
-            return "redirect:/modifyGeneral"; // 실패 시 다시 수정 폼으로
+            return "redirect:/mypage"; // 실패 시 다시 수정 폼으로
         }
     }
 }

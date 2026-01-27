@@ -94,18 +94,19 @@ public class MemberController {
         model.addAttribute("isFirstInput", isFirstInput);
 
         // 3. 로그인 타입에 따라 적절한 수정 페이지로 자동 이동
-        if ("KAKAO".equals(loginType)) {
+        if (loginType != null) {
             return "/member/modifyKakao";
-        } else if ("NAVER".equals(loginType)) {
-            return "/member/modifyNaver";
         }
+//        else if ("NAVER".equals(loginType)) {
+//            return "/member/modifyNaver";
+//        }
 
         // 4. 일반 회원(GENERAL)인 경우에만 화면 실행
         return "member/modifyGeneral";
     }
 
     /* 일반회원 정보 수정 실행 */
-    @PostMapping("/modify")
+    @PostMapping("mypage/modify")
     public String modifyMember(MemberVO member, RedirectAttributes rttr) {
         // 1. 넘어온 데이터 확인 (디버깅)
         System.out.println("수정 요청 회원 정보: " + member.toString());

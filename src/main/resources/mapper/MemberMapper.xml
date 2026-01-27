@@ -28,11 +28,12 @@
         <set>
             <if test=" memBirth!= null">memBirth = #{memBirth},</if>
             <if test="memGender != null">memGender = #{memGender},</if>
-            <if test="memGender != null">memAddress = #{memAddress},</if>
-            <if test="memGender != null">memAddressDetail = #{memAddressDetail},</if>
+            <if test="memAddress != null">memAddress = #{memAddress},</if>
+            <if test="memAddressDetail != null">memAddressDetail = #{memAddressDetail},</if>
             <if test="memTel != null">memTel = #{memTel},</if>
             <if test="memPhone != null">memPhone = #{memPhone},</if>
             <if test="memEmail != null">memEmail = #{memEmail},</if>
+            <if test="memNews != null">memNews = #{memNews},</if>
 
         </set>
         WHERE MEMID = #{memId}

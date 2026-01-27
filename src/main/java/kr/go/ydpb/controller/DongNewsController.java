@@ -1,17 +1,20 @@
 package kr.go.ydpb.controller;
 
 import kr.go.ydpb.domain.Criteria;
+import kr.go.ydpb.domain.DongNewsVO;
 import kr.go.ydpb.domain.PageDTO;
 import kr.go.ydpb.service.DongNewsService;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -36,5 +39,13 @@ public class DongNewsController {
         model.addAttribute("prev", service.getPrev(dnewsId, cri));
         model.addAttribute("next", service.getNext(dnewsId, cri));
         return "sub/dongnews_view";
+    }
+
+    // 최신글 불러오기
+    @GetMapping(value = "recent", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<DongNewsVO>> recent() {
+        List<DongNewsVO> list = service.getList(new Criteria(1, 5));
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

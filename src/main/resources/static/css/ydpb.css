@@ -1204,3 +1204,36 @@ table tr .no_data {
     padding: 14px 0;
     text-align: center;
 }
+
+/* 로딩 애니메이션 */
+.loading_container {
+    position: relative;
+}
+.loading_container::after {
+    content: "";
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(0, 0, 0, 0.2);
+    border-top-color: #ec6d65;
+    border-radius: 50%;
+}
+.loading_container.loading::after {
+    display: block;
+    animation: loading 800ms infinite;
+}
+.loading_container.complete::after {
+    opacity: 0;
+    transition: opacity 300ms;
+}
+@keyframes loading {
+    from {
+        transform:translate(-50%, -50%) rotate(0);
+    }
+    to {
+        transform:translate(-50%, -50%) rotate(360deg);
+    }
+}

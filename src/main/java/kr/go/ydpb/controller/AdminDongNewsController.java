@@ -70,7 +70,7 @@ public class AdminDongNewsController {
 
         service.register(board, file1, file2, fileText1, fileText2, fileOpt1, fileOpt2);
         if(board.getDnewsId() > 0) {
-            return "redirect:/admin/dongnews/view";
+            return "redirect:/admin/dongnews/list";
         }
         else {
             rttr.addAttribute("pageNum", cri.getPageNum());

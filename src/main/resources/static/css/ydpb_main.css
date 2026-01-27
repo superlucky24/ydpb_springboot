@@ -195,12 +195,9 @@
 
 
 .main3_list {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: start;
     height: 176px;
 }
-.main3_dong, main3_gu {
+.main3_dong, .main3_gu {
     width: 120px;
 }
 .main3_dong.checked {
@@ -243,7 +240,9 @@
 .main3_contents.show {
     display: block;
 }
-
+.main3_contents ul {
+    min-height: 156px;
+}
 .main3_contents ul li {
     box-sizing: border-box;
     width: 550px;

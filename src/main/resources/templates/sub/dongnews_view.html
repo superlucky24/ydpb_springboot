@@ -93,11 +93,11 @@
                                         <tr>
                                             <td colspan="2"><span class="td_title" th:text="${board.dnewsTitle}"></span></td>
                                         </tr>
-                                        <tr>
+                                        <tr th:if="${board.dnewsDepartment}">
                                             <th scope="row">부서</th>
                                             <td th:text="${board.dnewsDepartment}"></td>
                                         </tr>
-                                        <tr>
+                                        <tr th:if="${board.dnewsTel}">
                                             <th scope="row">연락처</th>
                                             <td th:text="${board.dnewsTel}"></td>
                                         </tr>
@@ -121,7 +121,7 @@
                                                             <span th:text="*{file.fileName}">파일명 출력</span>
                                                             <span class="p-down_icon" aria-hidden="true"></span>
                                                         </a>
-                                                        <a th:href="@{/admin/dongnews/download(fileId=${file.fileId})}" class="p-attach_prv">
+                                                        <a th:href="@{/admin/dongnews/download(fileId=${file.fileId})}" target="_blank" class="p-attach_prv">
                                                             <span class="p-prv"></span>
                                                             미리보기
                                                         </a>

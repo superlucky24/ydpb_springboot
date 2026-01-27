@@ -14,6 +14,12 @@
     <script th:src="@{/js/prefixfree.min.js}"></script>
     <script th:src="@{/js/ydpb.js}"></script>
     <script th:src="@{/js/ydpb_main.js}"></script>
+    <script>
+        $(document).ready(function() {
+            // 최신글 불러오기 | ydpb_main.js
+            mainRecent('[[@{/}]]');
+        });
+    </script>
 </head>
 <th:block th:if="${msg !=null}" >
     <script th:inline="javascript">
@@ -188,56 +194,20 @@
                             <ul class="main3_list">
                                 <li>
                                     <div class="main3_contents m3dong show">
-                                        <ul>
-                                            <li>
-                                                <a href="#" class="underline_text">
-                                                        <span class="main3_c_title">
-                                                            2025년 농림어업총조사 실시
-                                                        </span>
-                                                    <div class="main3_c_date">2025-12-07</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="underline_text">
-                                                        <span class="main3_c_title">
-                                                            남북 이산가족 공연 안내
-                                                        </span>
-                                                    <div class="main3_c_date">2025-12-05</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="underline_text">
-                                                        <span class="main3_c_title">
-                                                            불법 주방용 오물분쇄기 사용금지 관련 안내
-                                                        </span>
-                                                    <div class="main3_c_date">2025-12-04</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="underline_text">
-                                                        <span class="main3_c_title">
-                                                            영등포본동 주민자치위원 모집 재공고(기간연장)
-                                                        </span>
-                                                    <div class="main3_c_date">2025-12-01</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="underline_text">
-                                                        <span class="main3_c_title">
-                                                            영등포구 통합신청사 주민설명회 개최 안내
-                                                        </span>
-                                                    <div class="main3_c_date">2025-11-26</div>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                        <a href="#" class="main3_more">소식더보기</a>
+                                        <ul id="mainDongNews" class="loading_container loading"></ul>
+                                        <a th:href="@{/dongnews/list}" class="main3_more">소식더보기</a>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="main3_contents m3gu">
-                                        <ul>
+                                        <ul id="mainGuNews" class="loading_container loading">
                                             <li>
+                                                <a href="#" class="underline_text">
+                                                    <span class="main3_c_title">-</span>
+                                                    <div class="main3_c_date">-</div>
+                                                </a>
+                                            </li>
+                                            <!--<li>
                                                 <a href="#" class="underline_text">
                                                         <span class="main3_c_title">
                                                             2026년 1기 생활과학교실 수강생 추가모집
@@ -276,10 +246,10 @@
                                                         </span>
                                                     <div class="main3_c_date">2025-12-15</div>
                                                 </a>
-                                            </li>
+                                            </li>-->
 
                                         </ul>
-                                        <a href="" class="main3_more">소식더보기</a>
+                                        <a th:href="@{/gunews/list}" class="main3_more">소식더보기</a>
                                     </div>
                                 </li>
                             </ul>

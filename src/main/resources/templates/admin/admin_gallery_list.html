@@ -95,10 +95,10 @@
                                                  th:alt="${board.galTitle}">
                                         </div>
 
-                                        <!-- NEW 표시 (작성일 기준 7일 이내) -->
+                                        <!-- NEW 표시 (작성일 기준 1일 이내) -->
                                         <div class="p-gallery-icon">
                                             <span class="p-icon p-gallery-icon-new"
-                                                  th:if="${T(java.time.temporal.ChronoUnit).DAYS.between(board.galDate.toLocalDate(), T(java.time.LocalDate).now()) <= 7}">
+                                                  th:if="${T(java.time.temporal.ChronoUnit).DAYS.between(board.galDate.toLocalDate(), T(java.time.LocalDate).now()) <= 1}">
                                                 NEW
                                             </span>
                                         </div>

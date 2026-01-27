@@ -95,14 +95,14 @@ public class MemberController {
 
         // 3. 로그인 타입에 따라 적절한 수정 페이지로 자동 이동
         if (loginType != null) {
-            return "/member/modifyKakao";
+            return "/member/modify_nk";
         }
 //        else if ("NAVER".equals(loginType)) {
 //            return "/member/modifyNaver";
 //        }
 
         // 4. 일반 회원(GENERAL)인 경우에만 화면 실행
-        return "member/modifyGeneral";
+        return "member/modify_general";
     }
 
     /* 일반회원 정보 수정 실행 */

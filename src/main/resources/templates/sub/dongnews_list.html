@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우리동소식 | 우리동소식 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_list.css}">
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script>const menuName = '우리동소식';</script>
+    <script th:src="@{/js/ydpb.js}"></script>
+</head>
+<body>
+    <div id="wrap">
+        <!-- header -->
+        <header class="header" th:replace="~{/common/header_footer_layout :: header}"></header>
+        <!-- //header -->
+
+        <!-- search -->
+        <div class="search" th:replace="~{/common/header_footer_layout :: search}"></div>
+        <!-- //search -->
+
+        <!-- container -->
+        <div class="container">
+            <div class="contents_wrap safe_area">
+                <!-- side menu -->
+                <aside class="side_menu" th:replace="~{/common/sidemenu_layout :: sidemenu}"></aside>
+                <!-- //side menu -->
+
+                <!-- main -->
+                <main>
+                    <!-- location -->
+                    <div class="location">
+                        <div class="location_title">
+                            <h2>우리동소식</h2>
+                        </div>
+                        <div class="location_path">
+                            <span class="loc_home">홈</span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text"><a th:href="@{/}">동주민센터</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text"><a th:href="@{/}">영등포본동</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text"><a th:href="@{/dongnews/list}">우리동소식</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text">우리동소식</span>
+                        </div>
+                        <div class="location_icon">
+                            <ul class="loc_fixed_icon">
+                                <li><button type="button" class="loc_print">프린트</button></li>
+                                <li class="icon_sns">
+                                    <button type="button" class="loc_sns">SNS</button>
+                                    <div class="sns_list">
+                                        <a href="#" class="loc_sns_icon1">a</a>
+                                        <a href="#" class="loc_sns_icon2">a</a>
+                                        <a href="#" class="loc_sns_icon3">a</a>
+                                        <a href="#" class="loc_sns_icon4">a</a>
+                                        <a href="#" class="loc_sns_icon5">a</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- location -->
+
+                    <!-- contents -->
+                    <div id="board" class="clearfix">
+                        <div id="contents">
+                            <form th:action="@{/dongnews/list}" method="get" id="searchForm" class="board_searchform">
+                                <fieldset>
+                                    <legend>게시물검색</legend>
+                                    <div class="p-search clearfix">
+                                        <div class="p-form-group">
+                                            <label for="searchType" class="skip">검색항목선택</label>
+                                            <select name="searchType" id="searchType" title="검색항목선택" class="p-input">
+                                                <option value="T" th:selected="${cri.searchType eq 'T' || cri.searchType == null}">제목</option>
+                                                <option value="C" th:selected="${cri.searchType eq 'C'}">내용</option>
+                                            </select>
+
+                                            <label for="searchKeyword" class="skip">검색어 입력</label>
+                                            <input type="text" name="searchKeyword" id="searchKeyword" class="p-input" th:value="${cri.searchKeyword}">
+                                            <input type="hidden" name="pageNum" th:value="${cri.pageNum}">
+                                            <input type="hidden" name="amount" th:value="${cri.amount}">
+                                            <span class="p-form-group__btn">
+                                                <input type="submit" class="p-button" value="검색">
+                                            </span>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+
+                        <div class="page_cou clearfix" th:if="${pageMaker.total} > 0">
+                            <p>
+                                총
+                                <em class="em_black" th:text="${pageMaker.total}"></em>
+                                개 &nbsp;[
+                                <em class="em_b_black" th:text="${cri.pageNum}"></em>
+                                / [[${pageMaker.realEnd}]] 페이지]
+                            </p>
+                        </div>
+
+                        <table class="p_table">
+                            <colgroup>
+                                <col style="width: 10%;">
+                                <col>
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 10%;">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th scope="col">번호</th>
+                                    <th scope="col">제목</th>
+                                    <th scope="col">부서</th>
+                                    <th scope="col">작성일</th>
+                                    <th scope="col">조회수</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tb_text">
+                                <!--/* 데이터 없음 */-->
+                                <tr th:if="${pageMaker.total == 0}">
+                                    <td colspan="5" class="no_data">게시글이 없습니다</td>
+                                </tr>
+                                <!--/* //데이터 없음 */-->
+
+                                <tr th:each="board, iterStat : ${list}" th:object="${board}" th:with="no=${pageMaker.total - ((pageMaker.cri.pageNum - 1) * pageMaker.cri.amount)}">
+                                    <td th:text="${no - iterStat.index}"></td>
+                                    <td class="p_sub">
+                                        <a th:href="@{/dongnews/view(dnewsId=*{dnewsId},pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="move" th:text="*{dnewsTitle}"></a>
+                                    </td>
+                                    <td th:text="*{dnewsDepartment}"></td>
+                                    <td><time th:datetime="*{dnewsDate}" th:text="${#dates.format(board.dnewsDate, 'yyyy.MM.dd')}"></time></td>
+                                    <td th:text="*{dnewsCount}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="p_ctrl" th:if="${pageMaker.total} > 0">
+                            <div class="p_control">
+                                <span class="p-link_b" >
+                                    <a th:if="${pageMaker.realEnd > 10}"
+                                       th:href="@{/dongnews/list(pageNum=1, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       class="p_link" title="맨 처음">&lt;&lt;
+                                    </a>
+                                    <a th:if="${pageMaker.realEnd > 10}"
+                                       th:href="@{/dongnews/list(pageNum=${pageMaker.prev ? pageMaker.startPage - 1 : 1}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       class="p_link" title="이전">&lt;
+                                    </a>
+                                    <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                                        <strong th:title="|현재 ${num}페이지|" class="p_link active" th:if="${num} == ${pageMaker.cri.pageNum}" th:text="${num}"></strong>
+                                        <a th:href="@{/dongnews/list(pageNum=${num}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="p_link" th:if="${num} != ${cri.pageNum}" th:text="${num}"></a>
+                                    </th:block>
+                                    <a th:if="${pageMaker.realEnd > 10}"
+                                       th:href="@{/dongnews/list(pageNum=${pageMaker.next ? pageMaker.endPage + 1 : pageMaker.realEnd}, amount=${pageMaker.cri.amount}, searchType=${pageMaker.cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       class="p_link" title="다음">&gt;
+                                    </a>
+                                    <a th:if="${pageMaker.realEnd > 10}"
+                                       th:href="@{/dongnews/list(pageNum=${pageMaker.realEnd}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       class="p_link" title="맨 끝">&gt;&gt;
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- //contents -->
+                    
+                    <!-- charge info -->
+                    <div class="charge_info">
+                        <ul>
+                            <li>
+                                <span class="info_name">담당부서</span>
+                                <span>영등포본동</span>
+                            </li>
+                            <li>
+                                <span class="info_name">담당전화번호</span>
+                                <span>02-2670-1026</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- //charge info -->
+                </main>
+                <!-- //main -->
+            </div>
+        </div>
+        <!-- //container -->
+
+        <!-- footer -->
+        <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
+        <!-- //footer -->
+    </div>
+</body>
+</html>

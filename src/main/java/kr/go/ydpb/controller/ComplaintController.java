@@ -120,7 +120,7 @@ public class ComplaintController {
         rttr.addAttribute("amount", cri.getAmount());
         rttr.addAttribute("searchType", cri.getSearchType());
         rttr.addAttribute("searchKeyword", cri.getSearchKeyword());
-        return "redirect:/complaint/list";
+        return "redirect:/admin/dongnews/list";
     }
 
 }

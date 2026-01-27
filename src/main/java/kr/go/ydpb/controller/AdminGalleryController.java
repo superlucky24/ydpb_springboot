@@ -7,6 +7,7 @@ import kr.go.ydpb.domain.PageDTO;
 import kr.go.ydpb.service.GalleryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -32,7 +33,8 @@ import java.util.List;
 @RequestMapping("/admin/gallery")
 public class AdminGalleryController {
 
-    private final GalleryService service;
+    @Autowired
+    private GalleryService service;
 
     @GetMapping("/list")
     public String list(@ModelAttribute("cri") Criteria cri, Model model) {

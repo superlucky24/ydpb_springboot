@@ -128,7 +128,7 @@ select:hover {
 #searchKeyword:hover {
     border-color: #177ac8;
 }
-.p-search #searchType {
+.p-search select {
     width: 120px;
     min-width: 120px;
 }

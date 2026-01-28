@@ -98,4 +98,26 @@ function mainRecent(url) {
     .fail(function (xhr, status, err) {
         console.log(err);
     });
+
+    // 구청소식 최신글 불러오기
+    $.getJSON(url + 'gunews/recent', function(data) {
+        let temp = '';
+        data.forEach(item => {
+            temp += `<li>
+                        <a href="${url}gunews/view?gnewsId=${item.gnewsId}" class="underline_text">
+                            <span class="main3_c_title">${item.gnewsTitle}</span>
+                            <div class="main3_c_date">${item.gnewsDate.slice(0, 10)}</div>
+                        </a>
+                    </li>`;
+        });
+        const listWrap = $('#mainGuNews');
+        listWrap.html(temp);
+        listWrap.addClass('complete');
+        setTimeout(function() {
+            listWrap.removeClass('loading');
+        }, 300);
+    })
+    .fail(function (xhr, status, err) {
+        console.log(err);
+    });
 }

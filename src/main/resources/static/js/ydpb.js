@@ -209,7 +209,6 @@ function initUi() {
         $('#weather_temperature_num').text(t1h + '˚C');
         $('#weather_temperature_text').text(weatherText);
         $('#weather_wrap .icon, #weather_wrap .weather_status').addClass('active');
-
     })
     .fail(function(xhr, status, err) {
         console.log(err);
@@ -218,12 +217,13 @@ function initUi() {
     // 미세먼지 api 연동 : 20260123 최상림
     $.getJSON('/weather/dust', function(data) {
         const dataArray = data.response.body.items;
-        const dustInfo = dataArray[dataArray.length - 1];
+        const dustInfo = dataArray[0];
         const pm10Grade = Number(dustInfo.pm10Grade);
         const pm25Grade = Number(dustInfo.pm25Grade);
         const gradeText = ['좋음', '보통', '나쁨', '매우나쁨'];
-        $('#air_dust1').removeClass('dust_02').addClass('dust_0' + pm10Grade).text(gradeText[pm10Grade - 1]);
-        $('#air_dust2').removeClass('dust_02').addClass('dust_0' + pm25Grade).text(gradeText[pm25Grade - 1]);
+        console.log(dataArray);
+        $('#air_dust1').addClass('dust_0' + pm10Grade).text(gradeText[pm10Grade - 1]);
+        $('#air_dust2').addClass('dust_0' + pm25Grade).text(gradeText[pm25Grade - 1]);
         $('#weather_wrap .dust_status').addClass('active');
     })
     .fail(function(xhr, status, err) {

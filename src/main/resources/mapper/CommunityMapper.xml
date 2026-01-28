@@ -8,6 +8,7 @@
         insert into tbl_community(cmntId, cmntTitle, cmntContent, memId, cmntDepartment, cmntDate)
         values (seq_community.nextval, #{cmntTitle}, #{cmntContent}, #{memId}, #{cmntDepartment}, sysdate)
     </insert>
+
     <insert id="insertSelectKey">
         <selectKey keyProperty="cmntId" order="BEFORE" resultType="long">
             select seq_community.nextval from dual
@@ -23,6 +24,7 @@
     <select id="read" resultType="kr.go.ydpb.domain.CommunityVO">
         select * from tbl_community where cmntId = #{cmntId}
     </select>
+
     <update id="update">
         update tbl_community
         set cmntTitle = #{cmntTitle},
@@ -32,125 +34,100 @@
         where cmntId = #{cmntId}
     </update>
 
+    <!-- 검색 조건 -->
     <sql id="criteria">
-        <choose>
-            <when test="searchType == 'T'.toString()">
-                cmntTitle like '%'||#{searchKeyword}||'%'
-            </when>
-            <when test="searchType == 'C'.toString()">
-                cmntContent like '%'||#{searchKeyword}||'%'
-            </when>
-            <when test="searchType == 'D'.toString()">
-                cmntDepartment like '%'||#{searchKeyword}||'%'
-            </when>
-        </choose>
+        <where>
+            <choose>
+                <when test="searchType == 'T'.toString()">
+                    cmntTitle like '%'||#{searchKeyword}||'%'
+                </when>
+                <when test="searchType == 'C'.toString()">
+                    cmntContent like '%'||#{searchKeyword}||'%'
+                </when>
+                <when test="searchType == 'D'.toString()">
+                    cmntDepartment like '%'||#{searchKeyword}||'%'
+                </when>
+            </choose>
+        </where>
     </sql>
 
+    <!-- 리스트 -->
     <select id="getList" resultType="kr.go.ydpb.domain.CommunityVO">
-        <![CDATA[
-        select *
+        select cmntId, cmntTitle, cmntDate, cmntUpdatedate, cmntDepartment, cmntContent, cmntCount, memId
         from (
-            select /*+INDEX_DESC(tbl_community SYS_C007039) */
-                cmntId, cmntTitle, cmntDate, cmntUpdatedate, cmntDepartment, cmntContent, cmntCount, memId,
-                ROW_NUMBER() over (order by cmntId desc) as rn
-            from
-                tbl_community
-        ]]>
-            <if test="searchKeyword != null and searchKeyword != ''.toString()">
-                where
-                <include refid="criteria"/>
-            </if>
-        <![CDATA[
+        select /*+INDEX_DESC(tbl_community SYS_C007039) */
+        cmntId, cmntTitle, cmntDate, cmntUpdatedate, cmntDepartment, cmntContent, cmntCount, memId,
+        ROW_NUMBER() over (order by cmntId desc) as rn
+        from tbl_community
+        <include refid="criteria"/>
         )
-        where
-            rn > (#{pageNum} - 1) * #{amount} and rn <= #{pageNum} * #{amount}
-        ]]>
+        where rn between (#{pageNum} - 1) * #{amount} + 1 and #{pageNum} * #{amount}
     </select>
 
+    <!-- 총 갯수 -->
     <select id="getTotalCount" resultType="int">
-        select
-            count(*)
-        from
-            tbl_community
-        where
-        <if test="searchKeyword != null and searchKeyword != ''.toString()">
-            <include refid="criteria"/>
-            and
-        </if>
-        <![CDATA[
-            cmntId > 0
-        ]]>
+        select count(*)
+        from tbl_community
+        <include refid="criteria"/>
     </select>
 
+    <!-- 조회수 증가 -->
     <update id="updateCount">
         UPDATE tbl_community
         SET cmntCount = cmntCount + 1
-        WHERE cmntid = #{cmntId}
+        WHERE cmntId = #{cmntId}
     </update>
 
     <!-- 이전글 -->
     <select id="getPrev" resultType="kr.go.ydpb.domain.CommunityVO">
-        SELECT *
-        FROM (
-        SELECT
-        cmntId,
-        cmntTitle
-        FROM tbl_community
-        <where>
-            cmntId &gt; #{cmntId}
-            <if test="cri.searchKeyword != null and cri.searchKeyword != ''">
-                AND
-                <choose>
-                    <when test="cri.searchType == 'T'">
-                        cmntTitle LIKE '%'||#{cri.searchKeyword}||'%'
-                    </when>
-                    <when test="cri.searchType == 'C'">
-                        cmntContent LIKE '%'||#{cri.searchKeyword}||'%'
-                    </when>
-                    <when test="cri.searchType == 'D'">
-                        cmntDepartment LIKE '%'||#{cri.searchKeyword}||'%'
-                    </when>
-                </choose>
-            </if>
-        </where>
-        ORDER BY cmntId ASC
+        select cmntId, cmntTitle
+        from (
+        select cmntId, cmntTitle,
+        ROW_NUMBER() over (order by cmntId desc) as rn
+        from tbl_community
+        where cmntId &lt; #{cmntId}
+        <if test="cri.searchType != null and cri.searchType != ''">
+            and
+            <choose>
+                <when test="cri.searchType == 'T'.toString()">
+                    cmntTitle LIKE '%'||#{cri.searchKeyword}||'%'
+                </when>
+                <when test="cri.searchType == 'C'.toString()">
+                    cmntContent LIKE '%'||#{cri.searchKeyword}||'%'
+                </when>
+                <when test="cri.searchType == 'D'.toString()">
+                    cmntDepartment LIKE '%'||#{cri.searchKeyword}||'%'
+                </when>
+            </choose>
+        </if>
         )
-        WHERE ROWNUM = 1
+        where rn = 1
     </select>
 
     <!-- 다음글 -->
     <select id="getNext" resultType="kr.go.ydpb.domain.CommunityVO">
-        SELECT *
-        FROM (
-        SELECT
-        cmntId,
-        cmntTitle
-        FROM tbl_community
-        <where>
-            cmntId &lt; #{cmntId}
-            <if test="cri.searchKeyword != null and cri.searchKeyword != ''">
-                AND
-                <choose>
-                    <when test="cri.searchType == 'T'">
-                        cmntTitle LIKE '%'||#{cri.searchKeyword}||'%'
-                    </when>
-                    <when test="cri.searchType == 'C'">
-                        cmntContent LIKE '%'||#{cri.searchKeyword}||'%'
-                    </when>
-                    <when test="cri.searchType == 'D'">
-                        cmntDepartment LIKE '%'||#{cri.searchKeyword}||'%'
-                    </when>
-                </choose>
-            </if>
-        </where>
-        ORDER BY cmntId DESC
+        select cmntId, cmntTitle
+        from (
+        select cmntId, cmntTitle,
+        ROW_NUMBER() over (order by cmntId asc) as rn
+        from tbl_community
+        where cmntId > #{cmntId}
+        <if test="cri.searchType != null and cri.searchType != ''">
+            and
+            <choose>
+                <when test="cri.searchType == 'T'.toString()">
+                    cmntTitle LIKE '%'||#{cri.searchKeyword}||'%'
+                </when>
+                <when test="cri.searchType == 'C'.toString()">
+                    cmntContent LIKE '%'||#{cri.searchKeyword}||'%'
+                </when>
+                <when test="cri.searchType == 'D'.toString()">
+                    cmntDepartment LIKE '%'||#{cri.searchKeyword}||'%'
+                </when>
+            </choose>
+        </if>
         )
-        WHERE ROWNUM = 1
+        where rn = 1
     </select>
 
-
 </mapper>
-
-
-
-

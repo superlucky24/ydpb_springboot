@@ -35,56 +35,44 @@
         where galId = #{galId}
     </update>
 
+    <!-- 검색 조건 -->
     <sql id="criteria">
-        <choose>
-            <when test="searchType == 'T'.toString()">
-                galTitle like '%'||#{searchKeyword}||'%'
-            </when>
-            <when test="searchType == 'C'.toString()">
-                galContent like '%'||#{searchKeyword}||'%'
-            </when>
-            <when test="searchType == 'D'.toString()">
-                galDepartment like '%'||#{searchKeyword}||'%'
-            </when>
-        </choose>
+        <where>
+            <choose>
+                <when test="searchType == 'T'.toString()">
+                    galTitle like '%'||#{searchKeyword}||'%'
+                </when>
+                <when test="searchType == 'C'.toString()">
+                    galContent like '%'||#{searchKeyword}||'%'
+                </when>
+                <when test="searchType == 'D'.toString()">
+                    galDepartment like '%'||#{searchKeyword}||'%'
+                </when>
+            </choose>
+        </where>
     </sql>
 
+    <!-- 리스트 -->
     <select id="getList" resultType="kr.go.ydpb.domain.GalleryVO">
-        <![CDATA[
-        select *
+        select galId, galTitle, galDate, galUpdatedate, galDepartment, galContent, galCount, galTel, memId
         from (
-            select /*+INDEX_DESC(tbl_gallery SYS_C007039) */
-                galId, galTitle, galDate, galUpdatedate, galDepartment, galContent, galCount, galTel, memId,
-                ROW_NUMBER() over (order by galId desc) as rn
-            from
-                tbl_gallery
-        ]]>
-        <if test="searchKeyword != null and searchKeyword != ''.toString()">
-            where
-            <include refid="criteria"/>
-        </if>
-        <![CDATA[
+        select /*+INDEX_DESC(tbl_gallery SYS_C007039) */
+        galId, galTitle, galDate, galUpdatedate, galDepartment, galContent, galCount, galTel, memId,
+        ROW_NUMBER() over (order by galId desc) as rn
+        from tbl_gallery
+        <include refid="criteria"/>
         )
-        where
-            rn > (#{pageNum} - 1) * #{amount} and rn <= #{pageNum} * #{amount}
-        ]]>
+        where rn between (#{pageNum} - 1) * #{amount} + 1 and #{pageNum} * #{amount}
     </select>
 
+    <!-- 총 갯수 -->
     <select id="getTotalCount" resultType="int">
-        select
-        count(*)
-        from
-        tbl_gallery
-        where
-        <if test="searchKeyword != null and searchKeyword != ''.toString()">
-            <include refid="criteria"/>
-            and
-        </if>
-        <![CDATA[
-            galId > 0
-        ]]>
+        select count(*)
+        from tbl_gallery
+        <include refid="criteria"/>
     </select>
 
+    <!-- 조회수 증가 -->
     <update id="updateCount">
         UPDATE tbl_gallery
         SET galCount = galCount + 1
@@ -93,62 +81,54 @@
 
     <!-- 이전글 -->
     <select id="getPrev" resultType="kr.go.ydpb.domain.GalleryVO">
-        SELECT *
-        FROM (
-        SELECT
-        galId,
-        galTitle
-        FROM tbl_gallery
-        <where>
-            galId &gt; #{galId}
-            <if test="cri.searchKeyword != null and cri.searchKeyword != ''">
-                AND
-                <choose>
-                    <when test="cri.searchType == 'T'">
-                        galTitle LIKE '%'||#{cri.searchKeyword}||'%'
-                    </when>
-                    <when test="cri.searchType == 'C'">
-                        galContent LIKE '%'||#{cri.searchKeyword}||'%'
-                    </when>
-                    <when test="cri.searchType == 'D'">
-                        galDepartment LIKE '%'||#{cri.searchKeyword}||'%'
-                    </when>
-                </choose>
-            </if>
-        </where>
-        ORDER BY galId ASC
+        select galId, galTitle
+        from (
+        select galId, galTitle,
+        ROW_NUMBER() over (order by galId desc) as rn
+        from tbl_gallery
+        where galId &lt; #{galId}
+        <if test="cri.searchType != null and cri.searchType != ''">
+            and
+            <choose>
+                <when test="cri.searchType == 'T'.toString()">
+                    galTitle LIKE '%'||#{cri.searchKeyword}||'%'
+                </when>
+                <when test="cri.searchType == 'C'.toString()">
+                    galContent LIKE '%'||#{cri.searchKeyword}||'%'
+                </when>
+                <when test="cri.searchType == 'D'.toString()">
+                    galDepartment LIKE '%'||#{cri.searchKeyword}||'%'
+                </when>
+            </choose>
+        </if>
         )
-        WHERE ROWNUM = 1
+        where rn = 1
     </select>
 
     <!-- 다음글 -->
     <select id="getNext" resultType="kr.go.ydpb.domain.GalleryVO">
-        SELECT *
-        FROM (
-        SELECT
-        galId,
-        galTitle
-        FROM tbl_gallery
-        <where>
-            galId &lt; #{galId}
-            <if test="cri.searchKeyword != null and cri.searchKeyword != ''">
-                AND
-                <choose>
-                    <when test="cri.searchType == 'T'">
-                        galTitle LIKE '%'||#{cri.searchKeyword}||'%'
-                    </when>
-                    <when test="cri.searchType == 'C'">
-                        galContent LIKE '%'||#{cri.searchKeyword}||'%'
-                    </when>
-                    <when test="cri.searchType == 'D'">
-                        galDepartment LIKE '%'||#{cri.searchKeyword}||'%'
-                    </when>
-                </choose>
-            </if>
-        </where>
-        ORDER BY galId DESC
+        select galId, galTitle
+        from (
+        select galId, galTitle,
+        ROW_NUMBER() over (order by galId asc) as rn
+        from tbl_gallery
+        where galId &gt; #{galId}
+        <if test="cri.searchType != null and cri.searchType != ''">
+            and
+            <choose>
+                <when test="cri.searchType == 'T'.toString()">
+                    galTitle LIKE '%'||#{cri.searchKeyword}||'%'
+                </when>
+                <when test="cri.searchType == 'C'.toString()">
+                    galContent LIKE '%'||#{cri.searchKeyword}||'%'
+                </when>
+                <when test="cri.searchType == 'D'.toString()">
+                    galDepartment LIKE '%'||#{cri.searchKeyword}||'%'
+                </when>
+            </choose>
+        </if>
         )
-        WHERE ROWNUM = 1
+        where rn = 1
     </select>
 
 </mapper>

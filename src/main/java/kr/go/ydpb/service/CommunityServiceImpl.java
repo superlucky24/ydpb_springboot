@@ -54,11 +54,11 @@ public class CommunityServiceImpl implements CommunityService {
         }
 
         if (file1 != null && !file1.isEmpty()) {
-            saveFile(file1, board.getCmntId(), fileText1, fileOpt1, board);
+            saveFile(file1, board.getCmntId(), fileText1, fileOpt1);
         }
 
         if (file2 != null && !file2.isEmpty()) {
-            saveFile(file2, board.getCmntId(), fileText2, fileOpt2, board);
+            saveFile(file2, board.getCmntId(), fileText2, fileOpt2);
         }
 
         mapper.update(board);
@@ -112,11 +112,11 @@ public class CommunityServiceImpl implements CommunityService {
 
         // 2) 새 파일 저장
         if (file1 != null && !file1.isEmpty()) {
-            saveFile(file1, board.getCmntId(), fileText1, fileOpt1, board);
+            saveFile(file1, board.getCmntId(), fileText1, fileOpt1);
         }
 
         if (file2 != null && !file2.isEmpty()) {
-            saveFile(file2, board.getCmntId(), fileText2, fileOpt2, board);
+            saveFile(file2, board.getCmntId(), fileText2, fileOpt2);
         }
 
         return mapper.update(board) == 1;
@@ -155,8 +155,7 @@ public class CommunityServiceImpl implements CommunityService {
             MultipartFile file,
             Long cmntId,
             String altText,
-            String insertOpt,
-            CommunityVO board
+            String insertOpt
     ) {
 
 
@@ -202,22 +201,7 @@ public class CommunityServiceImpl implements CommunityService {
 
             fileMapper.insert(fileVO);
 
-            // 8️⃣ 본문 삽입 처리
-            if ("Y".equals(fileVO.getInsertYn())) {
 
-                if (board.getCmntContent() == null) {
-                    board.setCmntContent("");
-                }
-
-                String imgTag =
-                        "<img src='/admin/community/download?fileId="
-                                + fileVO.getFileId()
-                                + "' alt='"
-                                + altText
-                                + "' />";
-
-                board.setCmntContent(board.getCmntContent() + "<br/>" + imgTag);
-            }
 
         } catch (Exception e) {
             log.error("파일 저장 실패", e);

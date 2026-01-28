@@ -54,11 +54,11 @@ public class GalleryServiceImpl implements GalleryService {
         }
 
         if (file1 != null && !file1.isEmpty()) {
-            saveFile(file1, board.getGalId(), fileText1, fileOpt1, board);
+            saveFile(file1, board.getGalId(), fileText1, fileOpt1);
         }
 
         if (file2 != null && !file2.isEmpty()) {
-            saveFile(file2, board.getGalId(), fileText2, fileOpt2, board);
+            saveFile(file2, board.getGalId(), fileText2, fileOpt2);
         }
 
         mapper.update(board);
@@ -112,11 +112,11 @@ public class GalleryServiceImpl implements GalleryService {
 
         // 새 파일 저장
         if (file1 != null && !file1.isEmpty()) {
-            saveFile(file1, board.getGalId(), fileText1, fileOpt1, board);
+            saveFile(file1, board.getGalId(), fileText1, fileOpt1);
         }
 
         if (file2 != null && !file2.isEmpty()) {
-            saveFile(file2, board.getGalId(), fileText2, fileOpt2, board);
+            saveFile(file2, board.getGalId(), fileText2, fileOpt2);
         }
 
         return mapper.update(board) == 1;
@@ -155,8 +155,7 @@ public class GalleryServiceImpl implements GalleryService {
             MultipartFile file,
             Long galId,
             String altText,
-            String insertOpt,
-            GalleryVO board
+            String insertOpt
     ) {
 
         try {
@@ -188,21 +187,6 @@ public class GalleryServiceImpl implements GalleryService {
 
             fileMapper.insert(fileVO);
 
-            // 본문 삽입
-            if ("Y".equals(fileVO.getInsertYn())) {
-                if (board.getGalContent() == null) {
-                    board.setGalContent("");
-                }
-
-                String imgTag =
-                        "<img src='/admin/gallery/download?fileId="
-                                + fileVO.getFileId()
-                                + "' alt='"
-                                + altText
-                                + "' />";
-
-                board.setGalContent(board.getGalContent() + "<br/>" + imgTag);
-            }
 
         } catch (Exception e) {
             log.error("파일 저장 실패", e);

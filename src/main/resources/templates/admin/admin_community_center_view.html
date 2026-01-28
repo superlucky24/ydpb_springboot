@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:td="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,7 +28,7 @@
         <div class="container">
             <div class="contents_wrap safe_area">
                 <!-- side menu -->
-                <aside class="side_menu"></aside>
+                <aside class="side_menu" th:replace="~{/admin/common/admin_sidemenu::side}"></aside>
                 <!-- //side menu -->
 
                 <!-- main -->
@@ -62,6 +62,19 @@
                                         <tr>
                                             <td colspan="2" class="td_text" th:utext="${board.cmntContent}"></td>
                                         </tr>
+
+                                        <tr th:if="${board.files != null and #lists.size(board.files) > 0}">
+                                            <td colspan="2">
+                                                <div class="board_img_view" th:each="file : ${board.files}"
+                                                     th:if="${file.fileName != null
+                                                      and (file.fileName.toLowerCase().endsWith('.jpg')
+                                                      or file.fileName.toLowerCase().endsWith('.jpeg')
+                                                      or file.fileName.toLowerCase().endsWith('.png')
+                                                      or file.fileName.toLowerCase().endsWith('.gif'))}">
+                                                    <img th:src="@{/admin/community/download(fileId=${file.fileId})}">
+                                                </div>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <th scope="row">행정동</th>
                                             <td>영등포본동</td>
@@ -70,16 +83,18 @@
                                         <tr th:if="${board.files != null and #lists.size(board.files) > 0}">
                                             <th scope="row">파일</th>
                                             <td>
-                                                <div class="file_group">
-                                                    <ul class="file_list">
-                                                        <li th:each="file : ${board.files}">
-                                                            <a th:href="@{/admin/community/download(fileId=${file.fileId})}"
-                                                               th:text="${file.fileName}"></a>
-                                                            <a th:href="@{/admin/community/downloadAttachment(fileId=${file.fileId})}"
-                                                               class="btn btn_download">다운로드</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                                <ul class="p-attach">
+                                                    <li class="p-attach_item" th:each="file : ${board.files}">
+                                                        <a class="p-attach_link" th:href="@{/admin/community/downloadAttachment(fileId=${file.fileId})}">
+                                                            <span th:text="*{file.fileName}">파일명 출력</span>
+                                                            <span class="p-down_icon" aria-hidden="true"></span>
+                                                        </a>
+                                                        <a th:href="@{/admin/community/download(fileId=${file.fileId})}" target="_blank" class="p-attach_prv">
+                                                            <span class="p-prv"></span>
+                                                            미리보기
+                                                        </a>
+                                                    </li>
+                                                </ul>
                                             </td>
                                         </tr>
 
@@ -113,16 +128,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <ul class="p-post">
-                                    <li class="p-post-move prev">
-                                        <strong class="p-post-move_title">이전글</strong>
-                                        <a href="#" class="p-post-move_link">2025년 상반기 영등포본동 자치회관 운영결과 보고서</a>
-                                    </li>
-                                    <li class="p-post-move next">
-                                        <strong class="p-post-move_title">다음글</strong>
-                                        <a href="#" class="p-post-move_link">2024년 상반기 영등포본동 자치회관 운영결과 보고서</a>
-                                    </li>
-                                </ul>
+
                             </div>
                         </div>
 

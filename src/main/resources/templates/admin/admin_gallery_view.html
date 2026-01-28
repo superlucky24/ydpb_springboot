@@ -51,6 +51,18 @@
                                 <tr>
                                     <td colspan="2" class="td_text" th:utext="${board.galContent}"></td>
                                 </tr>
+                                <tr th:if="${board.files != null and #lists.size(board.files) > 0}">
+                                    <td colspan="2">
+                                        <div class="board_img_view" th:each="file : ${board.files}"
+                                             th:if="${file.fileName != null
+                                              and (file.fileName.toLowerCase().endsWith('.jpg')
+                                              or file.fileName.toLowerCase().endsWith('.jpeg')
+                                              or file.fileName.toLowerCase().endsWith('.png')
+                                              or file.fileName.toLowerCase().endsWith('.gif'))}">
+                                            <img th:src="@{/admin/gallery/download(fileId=${file.fileId})}">
+                                        </div>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <th scope="row">행정동</th>
                                     <td>영등포본동</td>
@@ -59,16 +71,18 @@
                                 <tr th:if="${board.files != null and #lists.size(board.files) > 0}">
                                     <th scope="row">파일</th>
                                     <td>
-                                        <div class="file_group">
-                                            <ul class="file_list">
-                                                <li th:each="file : ${board.files}">
-                                                    <a th:href="@{/admin/gallery/download(fileId=${file.fileId})}"
-                                                       th:text="${file.fileName}"></a>
-                                                    <a th:href="@{/admin/gallery/downloadAttachment(fileId=${file.fileId})}"
-                                                       class="btn btn_download">다운로드</a>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                        <ul class="p-attach">
+                                            <li class="p-attach_item" th:each="file : ${board.files}">
+                                                <a class="p-attach_link" th:href="@{/admin/gallery/downloadAttachment(fileId=${file.fileId})}">
+                                                    <span th:text="*{file.fileName}">파일명 출력</span>
+                                                    <span class="p-down_icon" aria-hidden="true"></span>
+                                                </a>
+                                                <a th:href="@{/admin/gallery/download(fileId=${file.fileId})}" target="_blank" class="p-attach_prv">
+                                                    <span class="p-prv"></span>
+                                                    미리보기
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </td>
                                 </tr>
 
@@ -108,27 +122,7 @@
                                 </div>
                             </div>
 
-                            <ul class="p-post">
-                                <li class="p-post-move prev">
-                                    <strong class="p-post-move_title">이전글</strong>
-                                    <a th:if="${prev != null}"
-                                       th:href="@{/admin/gallery/view(galId=${prev.galId}, pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
-                                       class="p-post-move_link"
-                                       th:text="${prev.galTitle}"></a>
 
-                                    <span th:if="${prev == null}" class="p-post-move_link">이전글이 없습니다</span>
-                                </li>
-
-                                <li class="p-post-move next">
-                                    <strong class="p-post-move_title">다음글</strong>
-                                    <a th:if="${next != null}"
-                                       th:href="@{/admin/gallery/view(galId=${next.galId}, pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
-                                       class="p-post-move_link"
-                                       th:text="${next.galTitle}"></a>
-
-                                    <span th:if="${next == null}" class="p-post-move_link">다음글이 없습니다</span>
-                                </li>
-                            </ul>
 
 
                         </div>

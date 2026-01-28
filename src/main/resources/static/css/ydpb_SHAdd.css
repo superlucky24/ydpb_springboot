@@ -51,10 +51,10 @@ h4, .h4 {
 .box.icon {
     min-height: 164px;
 }
-.contents .box.icon .box_wrap:before {
+.cts_hunjang .contents .box.icon .box_wrap:before {
     background: url(../images/sub/hunjang_img1.png) no-repeat;
 }
-.box.icon .box_wrap:before {
+ .box.icon .box_wrap:before {
     display: block;
     position: absolute;
     top: 0;

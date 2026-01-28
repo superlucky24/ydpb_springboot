@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
+// 관리자 민원 처리 컨트롤러 - 귀환
 @Controller
 @RequestMapping("admin/complaint")
 @AllArgsConstructor
@@ -23,28 +24,37 @@ public class AdminComplaintController {
     @Setter(onMethod_ = @Autowired)
     private ComplaintService complaintService;
 
-    //매핑
+    //목록 요청 처리 컨트롤러
     @GetMapping("list")
     public String complaintList(Model model, Criteria cri){
+        // 페이징 기능 적용한 민원 리스트 생성
         List<ComplaintVO> complaintList = complaintService.getComplaintWithPaging(cri);
         if(complaintList==null){
+            // 리스트값이 없으면 새 리스트 생성
             complaintList= new ArrayList<>();
         }
+        // 처리된 민원 리스트 모델에 바인딩
         model.addAttribute("complaintList", complaintList);
+        // 민원 총 갯수 확보
         int total = complaintService.getAllCount(cri);
         if(cri.getSearchType()!=null){
+            // 따로 입력한 타입 없으면 모든 민원 갯수 확보
             total = complaintService.getAllSearchCount(cri);
         }
+        // 페이징용 Criteria 정보와 민원 총 갯수를 기반으로하는 pageDTO 모델에 바인딩
         model.addAttribute("pageMaker",new PageDTO(cri,total));
 
+        // 목록 화면을 실행
         return "admin/admin_complaint_list";
     }
 
-    // 데이터만 가져옴
+    // 민원 상세보기 데이터만 가져옴
     @GetMapping("view")
+    // 클릭한 민원 글 번호, 이전 페이지에서 보내준 cri, Model 객체,리다이렉트 시 바인딩용 RedirectAttributes
     public String complaintView(@RequestParam("comId") int comId,
                                 @ModelAttribute("cri") Criteria cri, Model model,
                                 RedirectAttributes rttr){
+        // 받아온 글번호 파라미터로 하나의 글 가져와 모델에 바인딩
         model.addAttribute("complaint",complaintService.getOneComplaint(comId));
 
         rttr.addAttribute("pageNum", cri.getPageNum());

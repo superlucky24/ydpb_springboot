@@ -7,18 +7,8 @@
 
     <insert id="insertMember" parameterType="kr.go.ydpb.domain.MemberVO">
         INSERT INTO tbl_member (
-            memId,
-            memName,
-            memBirth,
-            memGender,
-            memPassword,
-            memAddress,
-            memAddressDetail,
-            memTel,
-            memPhone,
-            memEmail,
-            memNews,
-            memRole
+            memId,  memName, memBirth,    memGender,   memPassword,   memAddress,
+            memAddressDetail,   memTel,   memPhone,   memEmail,  memNews,   memRole
         ) VALUES (
             #{memId}, #{memName}, #{memBirth, jdbcType=DATE}, #{memGender}, #{memPassword}, #{memAddress},
             #{memAddressDetail}, #{memTel}, #{memPhone}, #{memEmail}, #{memNews}, 0
@@ -74,6 +64,28 @@
              #{memPhone},
              0
          )
+    </insert>
+
+    <insert id="insertNaverKakaoMember" parameterType="kr.go.ydpb.domain.MemberVO">
+        INSERT INTO TBL_MEMBER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="memId != null">mem_id,</if>
+            <if test="memName != null">mem_name,</if>
+            <if test="memEmail != null">mem_email,</if>
+            <if test="loginType != null">loginType,</if>
+            <if test="memPassword != null">memPassword,</if>
+            <if test="memPhone != null">memPhone,</if>
+            memRole
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="memId != null">#{memId},</if>
+            <if test="memName != null">#{memName},</if>
+            <if test="memEmail != null">#{memEmail},</if>
+            <if test="loginType != null">#{loginType},</if>
+            <if test="memPassword != null">#{memPassword},</if>
+            <if test="memPhone != null">#{memPhone},</if>
+            0
+        </trim>
     </insert>
 
 

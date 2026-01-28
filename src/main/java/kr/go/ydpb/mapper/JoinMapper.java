@@ -7,6 +7,7 @@ import java.lang.reflect.Member;
 
 @Mapper
 public interface JoinMapper {
+    //DB에 회원 정보 추가
     public void insertMember(MemberVO vo);
 //    아이디 중복 확인
     public int countById(String memId);
@@ -15,5 +16,6 @@ public interface JoinMapper {
     MemberVO findById(String memId);
     void insertKaKaoMember(MemberVO member);
     void insertNaverMember(MemberVO member);
+    void insertNaverKakaoMember(MemberVO member);
 
 }

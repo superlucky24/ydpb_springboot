@@ -86,6 +86,7 @@ public class JoinServiceImpl implements JoinService{
             naverMember.setMemName(naverUser.getName());
             naverMember.setMemEmail(naverUser.getEmail());
             naverMember.setMemPhone(phone);
+            naverMember.setLoginType("NAVER");
             naverMember.setMemPassword(encoder.encode(UUID.randomUUID().toString()));
 
             joinMapper.insertNaverMember(naverMember);

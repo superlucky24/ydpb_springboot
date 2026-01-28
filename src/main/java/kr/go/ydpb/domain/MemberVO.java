@@ -10,11 +10,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.sql.Date;
 import java.time.LocalDate;
 
+// 회원 VO ( 관리자 포함) - 귀환
 @Data
 public class MemberVO {
 
-
+// 필수 입력
     @NotBlank(message = "아이디는 필수입니다.")
+// 유효성 패턴 및 경고 문구
     @Pattern(regexp = "^[a-z][a-z0-9]{5,19}$",
             message = "아이디는 영문 소문자와 숫자 조합 6~20자여야 합니다.")
     private String memId;
@@ -24,17 +26,20 @@ public class MemberVO {
             message = "이름은 한글 16자 또는 영문 50자까지 가능합니다.")
     private String memName;
 
+// 날짜 포맷 형식 설정
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate memBirth;
     private String memGender;
 
     @NotBlank(message = "비밀번호는 필수입니다.")
+// 입력 최소, 최대값 및 경고 문구
     @Size(min = 8, max = 20, message = "비밀번호는 8~15자입니다.")
     private String memPassword;
 
+    // 필수 입력
     @NotBlank(message = "주소는 필수입니다.")
     private String memAddress;
-
+    // 필수 입력
     @NotBlank(message = "주소는 필수입니다.")
     private String memAddressDetail;
 
@@ -51,6 +56,7 @@ public class MemberVO {
     )
     private String memPhone;
 
+// 이메일 형식 유효성 검사 및 경고 문구
     @Email(message = "이메일 형식이 올바르지 않습니다.")
     private String memEmail;
 

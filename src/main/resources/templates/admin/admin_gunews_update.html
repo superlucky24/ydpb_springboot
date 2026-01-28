@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>우리동소식 | 우리동소식 | 영등포본동 주민센터</title>
+    <title>구청소식 | 우리동소식 | 영등포본동 주민센터</title>
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
@@ -30,7 +30,7 @@
                     <!-- location -->
                     <div class="location">
                         <div class="location_title">
-                            <h2>우리동소식 글수정</h2>
+                            <h2>구청소식 글수정</h2>
                         </div>
                     </div>
                     <!-- location -->
@@ -43,56 +43,67 @@
                             </p>
 
                             <!-- 글수정 폼 -->
-                            <form th:action="@{/admin/dongnews/update}" method="post">
-                                <input type="hidden" name="dnewsId" th:value="${board.dnewsId}">
+                            <form th:action="@{/admin/gunews/update}" method="post">
+                                <input type="hidden" name="gnewsId" th:value="${board.gnewsId}">
                                 <input type="hidden" name="pageNum" th:value="${cri.pageNum}">
                                 <input type="hidden" name="amount" th:value="${cri.amount}">
                                 <input type="hidden" name="searchType" th:value="${cri.searchType}">
                                 <input type="hidden" name="searchKeyword" th:value="${cri.searchKeyword}">
 
                                 <table class="table_form">
-                                    <caption class="blind">우리동소식 글쓰기</caption>
+                                    <caption class="blind">구청소식 글수정</caption>
                                     <colgroup>
                                         <col class="col1">
                                         <col>
                                     </colgroup>
-
                                     <tbody>
                                         <tr>
                                             <th scope="row">
-                                                <label for="dnewsTitle">제목</label>
+                                                <label for="gnewsTitle">제목</label>
                                                 <span class="required_mark">필수</span>
                                             </th>
                                             <td>
-                                                <input type="text" name="dnewsTitle" id="dnewsTitle" class="input form_input" th:value="${board.dnewsTitle}" required>
+                                                <input type="text" name="gnewsTitle" id="gnewsTitle" class="input form_input" th:value="${board.gnewsTitle}" required>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">
-                                                <label for="dnewsDepartment">부서</label>
-                                            </th>
-                                            <td>
-                                                <input type="text" name="dnewsDepartment" id="dnewsDepartment" class="input form_input" th:value="${board.dnewsDepartment}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">
-                                                <label for="dnewsTel">연락처</label>
-                                            </th>
-                                            <td>
-                                                <input type="text" name="dnewsTel" id="dnewsTel" class="input form_input" th:value="${board.dnewsTel}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">
-                                                <label for="dnewsContent">내용</label>
+                                                <label for="gnewsContent">내용</label>
                                                 <span class="required_mark">필수</span>
                                             </th>
                                             <td>
-                                                <textarea name="dnewsContent" id="dnewsContent" rows="10" class="input" th:text="${board.dnewsContent}" required></textarea>
+                                                <textarea name="gnewsContent" id="gnewsContent" rows="10" class="input" th:text="${board.gnewsContent}" required></textarea>
                                             </td>
                                         </tr>
-
+                                        <tr>
+                                            <th scope="row">
+                                                <label for="gnewsDepartment">부서</label>
+                                            </th>
+                                            <td>
+                                                <input type="text" name="gnewsDepartment" id="gnewsDepartment" class="input form_input" th:value="${board.gnewsDepartment}">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                <label for="gnewsTel">연락처</label>
+                                            </th>
+                                            <td>
+                                                <input type="text" name="gnewsTel" id="gnewsTel" class="input form_input" th:value="${board.gnewsTel}">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">공공누리</th>
+                                            <td>
+                                                <div class="radio">
+                                                    <input type="radio" name="gnewsOpentype" id="gnewsOpentypeY" value="Y" th:field="${board.gnewsOpentype}">
+                                                    <label for="gnewsOpentypeY">표시</label>
+                                                </div>
+                                                <div class="radio">
+                                                    <input type="radio" name="gnewsOpentype" id="gnewsOpentypeN" value="N" th:field="${board.gnewsOpentype}">
+                                                    <label for="gnewsOpentypeN">비표시</label>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <th scope="row">파일</th>
                                             <td>
@@ -110,7 +121,7 @@
                                 </table>
 
                                 <div class="btns">
-                                    <a th:href="@{/admin/dongnews/list(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="btn btn_default">목록</a>
+                                    <a th:href="@{/admin/gunews/list(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="btn btn_default">목록</a>
                                     <button type="submit" class="btn btn_write">저장</button>
                                 </div>
                             </form>

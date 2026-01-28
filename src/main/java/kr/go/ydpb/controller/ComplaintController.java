@@ -47,9 +47,10 @@ public class ComplaintController {
                                 HttpSession session,
                                 Model model){
         String loginId = (String)session.getAttribute("memId");
+        boolean isAdmin = (Integer)session.getAttribute("admin") == 1;
         ComplaintVO complaint = complaintService.getOneComplaint(comId);
-        // 비공개 + 본인이 작성한 글이 아닐 시 목록으로 돌려보내기
-        if(complaint.getComPublic() == 0 && !complaint.getMemId().equals(loginId)) {
+        // 비공개 + 본인이 작성한 글 + 관리자 아닐 시 목록으로 돌려보내기
+        if(complaint.getComPublic() == 0 && !complaint.getMemId().equals(loginId) && !isAdmin) {
             rttr.addFlashAttribute("errorMsg", "권한이 없습니다.");
             return "redirect:/complaint/list";
         }

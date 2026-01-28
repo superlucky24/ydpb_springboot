@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구청소식 | 우리동소식 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_view.css}">
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script>const menuName = '구청소식';</script>
+    <script th:src="@{/js/ydpb.js}"></script>
+</head>
+<body>
+    <div id="wrap">
+        <!-- header -->
+        <header class="header" th:replace="~{/common/header_footer_layout :: header}"></header>
+        <!-- //header -->
+
+        <!-- search -->
+        <div class="search" th:replace="~{/common/header_footer_layout :: search}"></div>
+        <!-- //search -->
+
+        <!-- container -->
+        <div class="container">
+            <div class="contents_wrap safe_area">
+                <!-- side menu -->
+                <aside class="side_menu" th:replace="~{/common/sidemenu_layout :: sidemenu}"></aside>
+                <!-- //side menu -->
+
+                <!-- main -->
+                <main>
+                    <!-- location -->
+                    <div class="location">
+                        <div class="location_title">
+                            <h2>자치회관 게시판</h2>
+                        </div>
+                        <div class="location_path">
+                            <span class="loc_home">홈</span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text"><a th:href="@{/}">동주민센터</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text"><a th:href="@{/}">영등포본동</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text"><a th:href="@{/gunews/list}">우리동소식</a></span>
+                            <span class="loc_arrow">></span>
+                            <span class="loc_text">구청소식</span>
+                        </div>
+                        <div class="location_icon">
+                            <ul class="loc_fixed_icon">
+                                <li><button type="button" class="loc_print">프린트</button></li>
+                                <li class="icon_sns">
+                                    <button type="button" class="loc_sns">SNS</button>
+                                    <div class="sns_list">
+                                        <a href="#" class="loc_sns_icon1">a</a>
+                                        <a href="#" class="loc_sns_icon2">a</a>
+                                        <a href="#" class="loc_sns_icon3">a</a>
+                                        <a href="#" class="loc_sns_icon4">a</a>
+                                        <a href="#" class="loc_sns_icon5">a</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- location -->
+
+                    <!-- contents -->
+                    <div class="contents" id="board">
+                        <div class="board clearfix">
+                            <div class="bbs_wrap">
+                                <div class="bbs_info">
+                                    <div class="bbs_count">
+                                        <span class="line">
+                                            조회수
+                                            <strong th:text="${board.gnewsCount}"></strong>
+                                        </span>
+                                        <span>
+                                            작성일
+                                            <strong th:text="${#dates.format(board.gnewsDate, 'yyyy-MM-dd')}"></strong>
+                                        </span>
+                                    </div>
+                                </div>
+                                <table class="p-table">
+                                    <colgroup>
+                                        <col class="w20p">
+                                        <col>
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2"><span class="td_title" th:text="${board.gnewsTitle}"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="td_text">
+                                                <th:block th:if="${board.files != null and #lists.size(board.files) > 0}">
+                                                    <div class="board_img_view" th:each="file : ${board.files}" th:if="${file.insertYn == 'Y' and (file.fileType.contains('jp') or file.fileType.contains('png'))}">
+                                                        <img th:src="@{/admin/gunews/download(fileId=${file.fileId})}" th:alt="*{file.altText}">
+                                                    </div>
+                                                </th:block>
+                                                [[${board.gnewsContent}]]
+                                            </td>
+                                        </tr>
+                                        <tr th:if="${board.gnewsDepartment}">
+                                            <th scope="row">부서</th>
+                                            <td th:text="${board.gnewsDepartment}"></td>
+                                        </tr>
+                                        <tr th:if="${board.gnewsTel}">
+                                            <th scope="row">연락처</th>
+                                            <td th:text="${board.gnewsTel}"></td>
+                                        </tr>
+                                        <tr th:if="${board.gnewsOpentype == 'Y'}">
+                                            <th scope="row">공공누리</th>
+                                            <td>
+                                                <img th:src="@{/images/sub/img_opentype.png}" alt="공공누리의 제1유형 : 출처표시">
+                                            </td>
+                                        </tr>
+                                        <tr th:if="${board.files != null and #lists.size(board.files) > 0}">
+                                            <th scope="row">파일</th>
+                                            <td>
+                                                <ul class="p-attach">
+                                                    <li class="p-attach_item" th:each="file : ${board.files}">
+                                                        <a class="p-attach_link" th:href="@{/admin/gunews/downloadAttachment(fileId=${file.fileId})}">
+                                                            <span th:class="*{'file_icon ' + file.fileType}" th:title="*{file.fileType}"></span>
+                                                            <span th:text="*{file.fileName}">파일명 출력</span>
+                                                            <span class="p-down_icon" aria-hidden="true"></span>
+                                                        </a>
+                                                        <a th:href="@{/admin/gunews/download(fileId=${file.fileId})}" target="_blank" class="p-attach_prv">
+                                                            <span class="p-prv"></span>
+                                                            미리보기
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="form_btns_wrap">
+                                    <div class="btns"></div>
+                                    <div class="btns">
+                                        <a class="p-btn" th:href="@{/gunews/list(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}">
+                                            목록
+                                            <span class="p-btn_write"></span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- 이전글, 다음글 -->
+                                <ul class="p-post">
+                                    <li class="p-post-move prev" th:if="${prev != null}" th:object="${prev}">
+                                        <strong class="p-post-move_title">이전글</strong>
+                                        <a th:href="@{/gunews/view(gnewsId=*{gnewsId}, pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="p-post-move_link" th:text="*{gnewsTitle}"></a>
+                                    </li>
+                                    <li class="p-post-move next" th:if="${next != null}" th:object="${next}">
+                                        <strong class="p-post-move_title">다음글</strong>
+                                        <a th:href="@{/gunews/view(gnewsId=*{gnewsId}, pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="p-post-move_link" th:text="*{gnewsTitle}"></a>
+                                    </li>
+                                </ul>
+                                <!-- //이전글, 다음글 -->
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- //contents -->
+
+                    <!-- charge info -->
+                    <div class="charge_info">
+                        <ul>
+                            <li>
+                                <span class="info_name">담당부서</span>
+                                <span>영등포본동</span>
+                            </li>
+                            <li>
+                                <span class="info_name">담당전화번호</span>
+                                <span>02-2670-1026</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- //charge info -->
+                </main>
+                <!-- //main -->
+            </div>
+        </div>
+        <!-- //container -->
+
+        <!-- footer -->
+        <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
+        <!-- //footer -->
+    </div>
+</body>
+</html>

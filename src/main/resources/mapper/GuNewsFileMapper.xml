@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ydpb.mapper.GuNewsFileMapper">
+
+    <insert id="insert">
+        insert into
+            tbl_gunews_file (fileId, uuid, fileName, uploadPath, altText, insertYn, gnewsId)
+        values
+            (seq_gunews_file.nextval, #{uuid}, #{fileName}, #{uploadPath}, #{altText}, #{insertYn}, #{gnewsId})
+    </insert>
+
+    <select id="read" resultType="kr.go.ydpb.domain.GuNewsFileVO">
+        select
+            fileId, uuid, fileName, uploadPath, altText, insertYn, gnewsId
+        from
+            tbl_gunews_file
+        where
+            fileId = #{fileId}
+    </select>
+
+    <select id="getFiles" resultType="kr.go.ydpb.domain.GuNewsFileVO">
+        select
+            fileId, uuid, fileName, uploadPath, altText, insertYn, gnewsId
+        from
+            tbl_gunews_file
+        where
+            gnewsId = #{gnewsId}
+        order by
+            fileId
+    </select>
+
+    <select id="countFiles" resultType="int">
+        select count(*) from tbl_gunews_file where gnewsId = #{gnewsId}
+    </select>
+
+    <!-- 게시글별 파일 삭제 -->
+    <delete id="deleteFileByBoardId">
+        delete from tbl_gunews_file where gnewsId = #{gnewsId}
+    </delete>
+
+    <!-- 파일 단건 삭제 -->
+    <delete id="deleteFileByFileId">
+        delete from tbl_gunews_file where fileId = #{fileId}
+    </delete>
+
+</mapper>

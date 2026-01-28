@@ -27,11 +27,11 @@
                             <div class="p-search clearfix">
                                 <div class="p-form-group">
                                     <select name="searchType" class="p-input">
-                                        <option value="I" th:selected="${pageMaker.cri.searchType == 'I'}">아이디</option>
-                                        <option value="N" th:selected="${pageMaker.cri.searchType == 'N'}">이름</option>
-                                        <option value="P" th:selected="${pageMaker.cri.searchType == 'P'}">휴대폰번호</option>
-                                        <option value="E" th:selected="${pageMaker.cri.searchType == 'E'}">이메일 주소</option>
-                                        <option value="D" th:selected="${pageMaker.cri.searchType == 'D'}">가입일</option>
+                                        <option value="I" th:selected="${pageMaker.cri.searchType eq 'I'}">아이디</option>
+                                        <option value="N" th:selected="${pageMaker.cri.searchType eq 'N'}">이름</option>
+                                        <option value="P" th:selected="${pageMaker.cri.searchType eq 'P'}">휴대폰번호</option>
+                                        <option value="E" th:selected="${pageMaker.cri.searchType eq 'E'}">이메일 주소</option>
+                                        <option value="D" th:selected="${pageMaker.cri.searchType eq 'D'}">가입일</option>
                                     </select>
                                     <input name="searchKeyword" th:value="${pageMaker.cri.searchKeyword}" id="searchKeyword" class="p-input" type="text">
 

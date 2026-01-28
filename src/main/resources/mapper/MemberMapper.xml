@@ -36,7 +36,6 @@
             <if test="memPhone != null">memPhone = #{memPhone},</if>
             <if test="memEmail != null">memEmail = #{memEmail},</if>
             <if test="memNews != null">memNews = #{memNews},</if>
-
         </set>
         WHERE MEMID = #{memId}
     </update>

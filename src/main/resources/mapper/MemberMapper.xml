@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!--로그인 처리 sql mapper xml - 성민,승환,귀환 -->
 <mapper namespace="kr.go.ydpb.mapper.MemberMapper">
 
     <select id="Login" parameterType="string" resultType="kr.go.ydpb.domain.MemberVO">

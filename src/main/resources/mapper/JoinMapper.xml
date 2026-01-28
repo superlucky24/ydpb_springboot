@@ -28,6 +28,7 @@
         WHERE MEMID = #{memId}
     </select>
 
+<!-- 카카오 가입자 insert-->
     <insert id="insertKaKaoMember" parameterType="kr.go.ydpb.domain.MemberVO">
         INSERT INTO tbl_member (
             MEMID,
@@ -46,6 +47,7 @@
          )
     </insert>
 
+<!-- 네이버 가입자 insert-->
     <insert id="insertNaverMember" parameterType="kr.go.ydpb.domain.MemberVO">
         INSERT INTO tbl_member (
             MEMID,
@@ -66,6 +68,7 @@
          )
     </insert>
 
+    <!--    두 사이트 가입자 한번에 처리하는 동적 sql-->
     <insert id="insertNaverKakaoMember" parameterType="kr.go.ydpb.domain.MemberVO">
         INSERT INTO TBL_MEMBER
         <trim prefix="(" suffix=")" suffixOverrides=",">

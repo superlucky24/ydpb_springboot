@@ -15,7 +15,6 @@
     <script>const menuName = '개인정보수정-일반회원';</script>
     <script th:src="@{/js/ydpb.js}"></script>
     <script th:src="@{/js/ydpb_member.js}"></script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <div id="wrap" class="member_wrap">
@@ -138,7 +137,7 @@
 
                         <div class="btns" style="margin-top:40px; text-align:center;">
                             <input type="submit" class="btn btn_write" value="정보 수정 완료">
-                            <a th:href="@{/changePassword}" class="btn btn_write" style="background-color: #666;">비밀번호 변경</a>
+                            <a th:href="@{/mypage/changepassword}" class="btn btn_write" style="background-color: #666;">비밀번호 변경</a>
                             <a th:href="@{/}" class="btn btn_cancel">홈으로</a>
                         </div>
                     </form>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>개인정보수정-카카오</title>
+    <title>개인정보수정-카카오,네이버</title>
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
@@ -12,10 +12,9 @@
     <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/prefixfree.min.js}"></script>
-    <script>const menuName = '개인정보수정-일반회원';</script>
+    <script>const menuName = '개인정보수정-카카오,네이버';</script>
     <script th:src="@{/js/ydpb.js}"></script>
     <script th:src="@{/js/ydpb_member.js}"></script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <div id="wrap" class="member_wrap">
@@ -60,7 +59,7 @@
 
                 <div class="member_contents join_contents">
                     <div class="location_title">
-                        <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">개인정보 수정(카카오 간편가입)</h2>
+                        <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">개인정보 수정(카카오,네이버 간편가입)</h2>
                     </div>
                     <form th:action="@{/mypage/modify}" method="post" th:object="${member}" id="modify_form">
                         <table class="table_form">
@@ -167,7 +166,7 @@
                         <div class="btns" style="margin-top:40px; text-align:center;">
                             <input type="submit" class="btn btn_write" value="정보 수정 완료">
                             <th:block th:if="*{loginType == null}">
-                                <a th:href="@{/member/changePassword}" class="btn btn_write" style="background-color: #666;">비밀번호 변경</a>
+                                <a th:href="@{/mypage/changepassword}" class="btn btn_write" style="background-color: #666;">비밀번호 변경</a>
                             </th:block>
 
                             <a th:href="@{/}" class="btn btn_cancel">홈으로</a>

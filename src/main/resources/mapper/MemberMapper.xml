@@ -23,6 +23,7 @@
 <!--            MEMID = #{memId}-->
 <!--    </update>-->
 
+<!--    회원 정보 수정 동적 sql - 귀환 -->
     <update id="modifyMember" parameterType="kr.go.ydpb.domain.MemberVO">
         UPDATE TBL_MEMBER
         <set>

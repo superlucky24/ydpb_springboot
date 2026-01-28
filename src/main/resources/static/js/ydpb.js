@@ -154,6 +154,7 @@ function initUi() {
 
     // 날씨 api 연동 : 20260122 최상림
     $.getJSON('/weather/status', function(data) {
+        // 결과 데이터가 30분 단위로 다수의 데이터를 포함하고 있으므로, 필요한 정보의 최신값만 Map 객체에 담아 사용
         const dataArray = data.response.body.items.item;
         const map = new Map();
         dataArray.forEach(item => {
@@ -162,10 +163,10 @@ function initUi() {
             }
         });
         const firstByCategory = Array.from(map.values()).map(item => ({category: item.category, value: item.fcstValue}));
-        const lgt = firstByCategory.filter(item => item.category === 'LGT')[0].value;
-        const pty = firstByCategory.filter(item => item.category === 'PTY')[0].value;
-        const sky = firstByCategory.filter(item => item.category === 'SKY')[0].value;
-        const t1h = firstByCategory.filter(item => item.category === 'T1H')[0].value;
+        const lgt = firstByCategory.filter(item => item.category === 'LGT')[0].value;   // 낙뢰 정보
+        const pty = firstByCategory.filter(item => item.category === 'PTY')[0].value;   // 비, 눈 정보
+        const sky = firstByCategory.filter(item => item.category === 'SKY')[0].value;   // 구름 상태
+        const t1h = firstByCategory.filter(item => item.category === 'T1H')[0].value;   // 온도
 
         let weatherText = '맑음';
         let weatherImg = 'weather_01.png';
@@ -218,10 +219,10 @@ function initUi() {
     $.getJSON('/weather/dust', function(data) {
         const dataArray = data.response.body.items;
         const dustInfo = dataArray[0];
-        const pm10Grade = Number(dustInfo.pm10Grade);
-        const pm25Grade = Number(dustInfo.pm25Grade);
+        const pm10Grade = Number(dustInfo.pm10Grade);   // 먼지 등급 1~4
+        const pm25Grade = Number(dustInfo.pm25Grade);   // 미세먼지 등급 1~4
         const gradeText = ['좋음', '보통', '나쁨', '매우나쁨'];
-        console.log(dataArray);
+
         $('#air_dust1').addClass('dust_0' + pm10Grade).text(gradeText[pm10Grade - 1]);
         $('#air_dust2').addClass('dust_0' + pm25Grade).text(gradeText[pm25Grade - 1]);
         $('#weather_wrap .dust_status').addClass('active');

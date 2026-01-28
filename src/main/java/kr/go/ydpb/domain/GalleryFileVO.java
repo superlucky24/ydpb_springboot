@@ -10,7 +10,7 @@ public class GalleryFileVO {
 
     private String uuid;
     private String fileName;
-    private String uploadPath;
+    private String uploadPath; // 업로드 경로
 
     private String altText;      // 대체 텍스트
     private String insertYn;     // 'Y' / 'N'

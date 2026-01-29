@@ -38,7 +38,7 @@ public class AdminGuNewsController {
         return "admin/admin_gunews_list";
     }
 
-    // 상세보기
+    // 글보기
     @GetMapping("view")
     public String view(@RequestParam("gnewsId") Long gnewsId,
                        @ModelAttribute("cri") Criteria cri,
@@ -67,11 +67,12 @@ public class AdminGuNewsController {
                         @RequestParam(value = "file_opt_1", required = false) String fileOpt1,
                         @RequestParam(value = "file_opt_2", required = false) String fileOpt2,
                         RedirectAttributes rttr) {
-
         service.register(board, file1, file2, fileText1, fileText2, fileOpt1, fileOpt2);
+        // 글작성 성공 시 목록 화면으로 이동
         if(board.getGnewsId() > 0) {
             return "redirect:/admin/gunews/list";
         }
+        // 글작성 실패 시 페이징 정보 가지고 글쓰기 폼 화면으로 이동
         else {
             rttr.addAttribute("pageNum", cri.getPageNum());
             rttr.addAttribute("amount", cri.getAmount());
@@ -128,16 +129,18 @@ public class AdminGuNewsController {
         return "redirect:/admin/gunews/list";
     }
 
-    // 파일 다운로드 관련 메서드
+    // 파일 보기 + 다운로드
     @GetMapping("/download")
     public ResponseEntity<Resource> downloadFile(@RequestParam("fileId") Long fileId) {
 
         GuNewsFileVO fileVO = service.getFile(fileId);
 
+        // 파일 정보 없을 때
         if (fileVO == null) {
             return ResponseEntity.notFound().build();
         }
 
+        // 실제 file(object) 생성
         File file = new File(
                 fileVO.getUploadPath(),
                 fileVO.getUuid() + "_" + fileVO.getFileName()
@@ -147,12 +150,13 @@ public class AdminGuNewsController {
             return ResponseEntity.notFound().build();
         }
 
+        // 파일/스트림을 추상화한 객체 : ResponseEntity의 body로 사용 가능
         Resource resource = new FileSystemResource(file);
 
-        // 파일명 인코딩
+        // 파일명 인코딩 (한글 깨짐 방지)
         String encodedFileName = URLEncoder.encode(fileVO.getFileName(), StandardCharsets.UTF_8);
 
-        // 확장자에 따라 MIME 타입 자동 지정
+        // 확장자에 따라 MIME 타입 자동 지정 (MIME = 파일의 정체성(데이터 종류) ex. jpg, png, json, html.... )
         MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
         try {
             String mimeType = Files.probeContentType(file.toPath());
@@ -163,6 +167,7 @@ public class AdminGuNewsController {
             // 무시
         }
 
+        // 브라우저가 바로 열 수 있으면 열어줌 >> 이미지 / PDF → 미리보기
         String contentDisposition = "inline; filename=\"" + encodedFileName + "\"";
 
         return ResponseEntity.ok()
@@ -172,7 +177,7 @@ public class AdminGuNewsController {
     }
 
     // 파일 다운로드
-    @GetMapping("/downloadAttachment")
+    @GetMapping("/downloadattachment")
     public ResponseEntity<Resource> downloadAttachment(@RequestParam("fileId") Long fileId) {
 
         GuNewsFileVO fileVO = service.getFile(fileId);
@@ -192,6 +197,7 @@ public class AdminGuNewsController {
 
         Resource resource = new FileSystemResource(file);
 
+        // URLEncoder는 공백을 +로 바꿈 >> 브라우저에서 + → 공백 인식 오류 >> %20으로 치환
         String encodedFileName = URLEncoder.encode(fileVO.getFileName(), StandardCharsets.UTF_8)
                 .replaceAll("\\+", "%20");
 
@@ -205,7 +211,7 @@ public class AdminGuNewsController {
             // 무시
         }
 
-        // 여기만 inline -> attachment로 변경
+        // 무조건 다운로드 창 열기 : 여기만 inline -> attachment로 변경
         String contentDisposition = "attachment; filename=\"" + encodedFileName + "\"";
 
         return ResponseEntity.ok()

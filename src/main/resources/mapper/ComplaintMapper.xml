@@ -3,9 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!-- 민원 sql 등록 xml - 귀환 -->
 <mapper namespace="kr.go.ydpb.mapper.ComplaintMapper">
 
 <!--   검색용 동적 sql 추가 -->
+<!--    where 앞에 추가-->
     <sql id="criteria2">
         <where>
             <trim prefix="(" suffix=") ">
@@ -31,30 +33,31 @@
         </where>
     </sql>
 
+<!--    where 없음-->
     <sql id="criteria">
-            <trim prefix="(" suffix=") ">
-                <choose>
-                    <when test="searchType == 'T'.toString()">
-                        COMTITLE LIKE '%'||#{searchKeyword}||'%'
-                    </when>
-                    <when test="searchType == 'I'.toString()">
-                        COMID LIKE #{searchKeyword}
-                    </when>
-                    <when test="searchType == 'P'.toString()">
-                        COMPUBLIC LIKE #{searchKeyword}
-                    </when>
-                    <when test="searchType == 'S'.toString()">
-                        COMSTATUS LIKE #{searchKeyword}
-                    </when>
-                    <when test="searchType == 'D'.toString()">
-                        TO_CHAR(COMDATE,'YYYYMMDD')
-                        LIKE '%'||REPLACE(#{searchKeyword},'-','')||'%'
-                    </when>
-                </choose>
-            </trim>
+        <trim prefix="(" suffix=") ">
+            <choose>
+                <when test="searchType == 'T'.toString()">
+                    COMTITLE LIKE '%'||#{searchKeyword}||'%'
+                </when>
+                <when test="searchType == 'I'.toString()">
+                    COMID LIKE #{searchKeyword}
+                </when>
+                <when test="searchType == 'P'.toString()">
+                    COMPUBLIC LIKE #{searchKeyword}
+                </when>
+                <when test="searchType == 'S'.toString()">
+                    COMSTATUS LIKE #{searchKeyword}
+                </when>
+                <when test="searchType == 'D'.toString()">
+                    TO_CHAR(COMDATE,'YYYYMMDD')
+                    LIKE '%'||REPLACE(#{searchKeyword},'-','')||'%'
+                </when>
+            </choose>
+        </trim>
     </sql>
 
-
+<!-- 민원 총 갯수 파악 sql-->
     <select id="getAllCount" resultType="int">
         SELECT count(*) FROM tbl_complaint
     </select>
@@ -68,7 +71,7 @@
 <!--        ]]>-->
 <!--    </select>-->
 
-    <!--    페이징 메서드 추가-->
+<!--    목록 페이징 sql -->
     <select id="getComplaintWithPaging" resultType="kr.go.ydpb.domain.ComplaintVO">
 		<![CDATA[
         select
@@ -91,7 +94,7 @@
         ]]>
     </select>
 
-<!--    검색 결과 갯수 파악-->
+<!--   검색 결과 갯수 파악-->
     <select id="getAllSearchCount" resultType="int">
         <![CDATA[
     select
@@ -103,7 +106,7 @@
         <include refid="criteria2"/>
     </select>
 
-
+<!-- 하나의 민원 조회 sql-->
     <select id="getOneComplaint" resultType="kr.go.ydpb.domain.ComplaintVO">
     <![CDATA[SELECT * FROM tbl_complaint
                  WHERE ]]>
@@ -120,6 +123,7 @@
 <!--        ]]>-->
 <!--    </select>-->
 
+<!--    관리자 민원 답변 sql-->
     <update id="updateComplaint" >
         UPDATE tbl_complaint
         SET
@@ -128,19 +132,22 @@
         WHERE comId = #{comId}
     </update>
 
+<!--    민원 삭제 sql-->
     <delete id="deleteComplaint">
         DELETE FROM tbl_complaint WHERE comId = #{comId}
     </delete>
 
-    <select id="getMember" resultType="kr.go.ydpb.domain.MemberVO">
-        SELECT * FROM tbl_member where memId = #{memId} and memPassword = #{memPassword} and memRole= 1
-    </select>
+<!--    <select id="getMember" resultType="kr.go.ydpb.domain.MemberVO">-->
+<!--        SELECT * FROM tbl_member where memId = #{memId} and memPassword = #{memPassword} and memRole= 1-->
+<!--    </select>-->
 
+<!--    사용자 민원 등록 sql-->
     <insert id="insertComplaint">
         INSERT INTO tbl_complaint (comId, comTitle, comPublic, comContent, memId)
         VALUES (seq_complaint.nextval, #{comTitle}, #{comPublic}, #{comContent}, #{memId})
     </insert>
 
+<!--  사용자 민원 수정 sql-->
     <update id="updateComplaintUser" >
         UPDATE tbl_complaint
         SET

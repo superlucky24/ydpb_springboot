@@ -41,13 +41,13 @@
                         </div>
                         <div class="location_path">
                             <span class="loc_home">홈</span>
-                            <span class="loc_arrow">></span>
+                            <span class="loc_arrow">&gt;</span>
                             <span class="loc_text"><a th:href="@{/}">동주민센터</a></span>
-                            <span class="loc_arrow">></span>
+                            <span class="loc_arrow">&gt;</span>
                             <span class="loc_text"><a th:href="@{/}">영등포본동</a></span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text"><a href="#">자치회관</a></span>
-                            <span class="loc_arrow">></span>
+                            <span class="loc_arrow">&gt;</span>
+                            <span class="loc_text"><a th:href="@{/community/list}">자치회관</a></span>
+                            <span class="loc_arrow">&gt;</span>
                             <span class="loc_text">자치회관 게시판</span>
                         </div>
                         <div class="location_icon">
@@ -94,7 +94,9 @@
                                             <td colspan="2"><span class="td_title" th:text="${board.cmntTitle}"></span></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2" class="td_text" th:utext="${board.cmntContent}"></td>
+                                            <td colspan="2" class="td_text">
+                                                <div class="board_content" th:text="${board.cmntContent}"></div>
+                                            </td>
                                         </tr>
                                         <tr th:if="${board.files != null and #lists.size(board.files) > 0}">
                                             <td colspan="2">
@@ -104,7 +106,7 @@
                                                       or file.fileName.toLowerCase().endsWith('.jpeg')
                                                       or file.fileName.toLowerCase().endsWith('.png')
                                                       or file.fileName.toLowerCase().endsWith('.gif'))}">
-                                                    <img th:src="@{/admin/community/download(fileId=${file.fileId})}">
+                                                    <img th:src="@{/community/download(fileId=${file.fileId})}" th:alt="${file.altText != null ? file.altText : board.cmntTitle}">
                                                 </div>
                                             </td>
                                         </tr>
@@ -118,11 +120,11 @@
                                             <td>
                                                 <ul class="p-attach">
                                                     <li class="p-attach_item" th:each="file : ${board.files}">
-                                                        <a class="p-attach_link" th:href="@{/admin/community/downloadAttachment(fileId=${file.fileId})}">
+                                                        <a class="p-attach_link" th:href="@{/community/downloadattachment(fileId=${file.fileId})}">
                                                             <span th:text="*{file.fileName}">파일명 출력</span>
                                                             <span class="p-down_icon" aria-hidden="true"></span>
                                                         </a>
-                                                        <a th:href="@{/admin/community/download(fileId=${file.fileId})}" target="_blank" class="p-attach_prv">
+                                                        <a th:href="@{/community/download(fileId=${file.fileId})}" target="_blank" class="p-attach_prv">
                                                             <span class="p-prv"></span>
                                                             미리보기
                                                         </a>

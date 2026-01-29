@@ -116,7 +116,7 @@
                                         <div class="p-gallery-post-image-wrap">
                                             <!-- 파일이 있을 때 -->
                                             <img th:if="${board.files != null && #lists.size(board.files) > 0}"
-                                                 th:src="@{/admin/gallery/download(fileId=${board.files[0].fileId})}"
+                                                 th:src="@{/gallery/download(fileId=${board.files[0].fileId})}"
                                                  th:alt="${board.galTitle}">
 
                                             <!-- 파일이 없을 때 -->

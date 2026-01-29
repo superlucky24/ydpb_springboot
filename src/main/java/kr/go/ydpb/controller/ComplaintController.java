@@ -23,6 +23,7 @@ public class ComplaintController {
     @Setter(onMethod_ = @Autowired)
     private ComplaintService complaintService;
 
+    // 목록
     @GetMapping("list")
     public String complaintList(Model model,
                                 @ModelAttribute("cri") Criteria cri){
@@ -40,6 +41,7 @@ public class ComplaintController {
         return "sub/complaint_list";
     }
 
+    // 글보기
     @GetMapping("view")
     public String complaintView(@ModelAttribute("comId") int comId,
                                 @ModelAttribute("cri") Criteria cri,
@@ -60,6 +62,7 @@ public class ComplaintController {
         }
     }
 
+    // 글작성 화면
     @GetMapping("write")
     public String complaintWriteFrom(@ModelAttribute("cri") Criteria cri,
                                      HttpSession session) {
@@ -72,6 +75,7 @@ public class ComplaintController {
         }
     }
 
+    // 글작성 실행
     @PostMapping("write")
     public String complaintWrite(ComplaintVO cvo,
                                  @ModelAttribute("cri") Criteria cri,
@@ -92,6 +96,7 @@ public class ComplaintController {
         }
     }
 
+    // 글수정 화면
     @GetMapping("update")
     public String complaintUpdateFrom(@ModelAttribute("comId") int comId,
                                       @ModelAttribute("cri") Criteria cri,
@@ -112,6 +117,7 @@ public class ComplaintController {
         }
     }
 
+    // 글수정 실행
     @PostMapping("update")
     public String complaintUpdate(@ModelAttribute("complaint") ComplaintVO complaint, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
         complaintService.updateComplaintUser(complaint);
@@ -123,6 +129,7 @@ public class ComplaintController {
         return "redirect:/complaint/view";
     }
 
+    // 글삭제
     @PostMapping("delete")
     public String complaintDelete(int comId, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
         int result = complaintService.deleteComplaint(comId);

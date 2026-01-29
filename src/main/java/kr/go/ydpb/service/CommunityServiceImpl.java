@@ -222,31 +222,37 @@ public class CommunityServiceImpl implements CommunityService {
         return board;
     }
 
+    // 검색조건을 만족하는 게시글 목록
     @Override
     public List<CommunityVO> getList(Criteria cri) {
         return mapper.getList(cri);
     }
 
+    // 검색조건을 만족하는 게시글 총 개수
     @Override
     public int getTotal(Criteria cri) {
         return mapper.getTotalCount(cri);
     }
 
+    // 조회수 증가
     @Override
     public void increaseCount(Long cmntId) {
         mapper.updateCount(cmntId);
     }
 
+    // 개별 파일정보 보기
     @Override
     public CommunityFileVO getFile(Long fileId) {
         return fileMapper.read(fileId);
     }
 
+    // 이전글
     @Override
     public CommunityVO getPrev(Long cmntId, Criteria cri) {
         return mapper.getPrev(cmntId, cri);
     }
 
+    // 다음글
     @Override
     public CommunityVO getNext(Long cmntId, Criteria cri) {
         return mapper.getNext(cmntId, cri);

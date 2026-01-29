@@ -24,11 +24,13 @@ public class MemberServiceImpl implements MemberService{
         MemberVO member =Mapper.Login(memId);
 
         // 암호화된 비밀번호와 비교 기능 추가
-        boolean passCheck =encoder.matches(memPassword, member.getMemPassword());
-        if(member != null
-                && Objects.equals(memId, member.getMemId())
-                && passCheck) { // Objects.equals(memId, member.getMemId()) ?
-            return member;
+
+        if(member != null) { // Objects.equals(memId, member.getMemId()) ?
+            boolean passCheck =encoder.matches(memPassword, member.getMemPassword());
+            if(Objects.equals(memId, member.getMemId())
+                    && passCheck){
+                return member;
+            }
         }
         return null;
     }

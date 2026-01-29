@@ -41,13 +41,13 @@
                         </div>
                         <div class="location_path">
                             <span class="loc_home">홈</span>
-                            <span class="loc_arrow">></span>
+                            <span class="loc_arrow">&gt;</span>
                             <span class="loc_text"><a th:href="@{/}">동주민센터</a></span>
-                            <span class="loc_arrow">></span>
+                            <span class="loc_arrow">&gt;</span>
                             <span class="loc_text"><a th:href="@{/}">영등포본동</a></span>
-                            <span class="loc_arrow">></span>
+                            <span class="loc_arrow">&gt;</span>
                             <span class="loc_text"><a th:href="@{/gunews/list}">우리동소식</a></span>
-                            <span class="loc_arrow">></span>
+                            <span class="loc_arrow">&gt;</span>
                             <span class="loc_text">구청소식</span>
                         </div>
                         <div class="location_icon">
@@ -96,11 +96,11 @@
                                         <tr>
                                             <td colspan="2" class="td_text">
                                                 <th:block th:if="${board.files != null and #lists.size(board.files) > 0}">
-                                                    <div class="board_img_view" th:each="file : ${board.files}" th:if="${file.insertYn == 'Y' and (file.fileType.contains('jp') or file.fileType.contains('png'))}">
-                                                        <img th:src="@{/admin/gunews/download(fileId=${file.fileId})}" th:alt="*{file.altText}">
+                                                    <div class="board_img_view" th:each="file : ${board.files}" th:if="${file.insertYn == 'Y' and (file.fileType.contains('jp') or file.fileType.contains('png') or file.fileType.contains('gif'))}">
+                                                        <img th:src="@{/gunews/download(fileId=${file.fileId})}" th:alt="${file.altText != null ? file.altText : board.gnewsTitle}">
                                                     </div>
                                                 </th:block>
-                                                [[${board.gnewsContent}]]
+                                                <div class="board_content" th:text="${board.gnewsContent}"></div>
                                             </td>
                                         </tr>
                                         <tr th:if="${board.gnewsDepartment}">
@@ -122,12 +122,12 @@
                                             <td>
                                                 <ul class="p-attach">
                                                     <li class="p-attach_item" th:each="file : ${board.files}">
-                                                        <a class="p-attach_link" th:href="@{/admin/gunews/downloadAttachment(fileId=${file.fileId})}">
+                                                        <a class="p-attach_link" th:href="@{/gunews/downloadattachment(fileId=${file.fileId})}">
                                                             <span th:class="*{'file_icon ' + file.fileType}" th:title="*{file.fileType}"></span>
                                                             <span th:text="*{file.fileName}">파일명 출력</span>
                                                             <span class="p-down_icon" aria-hidden="true"></span>
                                                         </a>
-                                                        <a th:href="@{/admin/gunews/download(fileId=${file.fileId})}" target="_blank" class="p-attach_prv">
+                                                        <a th:href="@{/gunews/download(fileId=${file.fileId})}" target="_blank" class="p-attach_prv">
                                                             <span class="p-prv"></span>
                                                             미리보기
                                                         </a>

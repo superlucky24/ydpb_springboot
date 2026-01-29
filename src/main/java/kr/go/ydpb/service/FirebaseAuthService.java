@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class FirebaseAuthService {
 
+    // 구글 API -> 토큰값 확인해서 인증된 사용자 정보 리턴
     public FirebaseToken verifyToken(String idToken) {
         try {
             return FirebaseAuth.getInstance().verifyIdToken(idToken);

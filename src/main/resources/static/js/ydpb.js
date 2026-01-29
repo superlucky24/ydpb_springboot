@@ -280,6 +280,102 @@ function initUi() {
             console.log(err);
         });
     }
+// 주민등록 신고서 제출 로직 추가 - 최연수
+    $('#submitBtn').off('click').on('click', function (e) {
+        e.preventDefault();
+
+        // 1. 유효성 검사 (Validation)
+        const reporterName = $('.f_name').val().trim();
+        if (!reporterName) {
+            alert("신고인 성명을 입력해주세요.");
+            $('.f_name').focus();
+            return false;
+        }
+
+        // 2. 데이터 수집 (HTML의 모든 필드 누락 없이)
+        const targetList = [];
+        $('.target-row').each(function() {
+            const row = {
+                rel: $(this).find('.r_rel').val().trim(),
+                name: $(this).find('.r_name').val().trim(),
+                jumin: $(this).find('.r_jumin').val().trim(),
+                pre: $(this).find('.r_pre').val().trim(),
+                post: $(this).find('.r_post').val().trim()
+            };
+            if(row.name) targetList.push(row);
+        });
+
+        const formData = {
+            reporterName: reporterName,
+            reporterJumin: $('.f_jumin').val().trim(),
+            reporterRel: $('.f_rel').val().trim(),
+            reporterTel: $('.f_tel').val().trim(),
+            reporterPhone: $('.f_phone').val().trim(),
+            reporterAddr: $('.f_addr').val().trim(),
+            reportContent: $('.f_report_content').val().trim(),
+            prevMaster: $('.f_prev_master').val().trim(),
+            currMaster: $('.f_curr_master').val().trim(),
+            targets: targetList,
+            topType: $('.c_top_1.active, .c_top_2.active, .c_top_3.active').attr('class') || "",
+            midType: $('.c_mid_1.active, .c_mid_2.active, .c_mid_3.active').attr('class') || "",
+            btmType: $('.c_btm_1.active, .c_btm_2.active, .c_btm_3.active').attr('class') || "",
+            submitYear: $('.f_year').first().val(),
+            submitMonth: $('.f_month').first().val(),
+            submitDay: $('.f_day').first().val(),
+            sigReporter: document.getElementById('sig-pad-1').toDataURL('image/png'),
+            sigDelegate: document.getElementById('sig-pad-2').toDataURL('image/png'),
+            sigPrev: document.getElementById('sig-pad-prev').toDataURL('image/png'),
+            sigCurr: document.getElementById('sig-pad-curr').toDataURL('image/png')
+        };
+
+        // 3. 서버 전송
+        if (confirm('작성하신 내용으로 신고서를 제출하시겠습니까?')) {
+            $.ajax({
+                url: '/sub/submit',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(formData),
+                xhrFields: {
+                    responseType: 'blob' // [추가] PDF 바이너리 데이터를 받기 위함
+                },
+                success: function(blob) {
+                    // [추가] PDF 새 창 열기 및 다운로드 로직
+                    // 1. Blob 객체를 사용하여 임시 URL 생성
+                    const url = window.URL.createObjectURL(blob);
+
+                    // 2. 새 창으로 PDF 미리보기 열기
+                    const newWindow = window.open(url, '_blank');
+                    if(!newWindow || newWindow.closed || typeof newWindow.closed=='undefined') {
+                        alert('팝업 차단이 설정되어 있습니다. 팝업을 허용해주세요.');
+                    }
+
+                    // 3. 자동 다운로드 실행
+                    const link = document.createElement('a');
+                    link.href = url;
+                    // 파일명을 현재 시간과 조합하여 고유하게 설정
+                    const fileName = '주민등록신고서_' + new Date().toISOString().slice(0,10).replace(/-/g, '') + '.pdf';
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+
+                    // 4. 완료 메시지 및 페이지 이동
+                    alert('신고서가 성공적으로 생성되었습니다.');
+
+                    // 임시 URL 해제 (메모리 관리)
+                    setTimeout(function() {
+                        window.URL.revokeObjectURL(url);
+                    }, 100);
+
+                    location.href = '/';
+                },
+                error: function(xhr, status, error) {
+                    console.error("제출 에러 상세:", error);
+                    alert('제출 중 오류가 발생했습니다. 서버 로그를 확인해주세요.');
+                }
+            });
+        }
+    });
 
 }
 

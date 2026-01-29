@@ -116,7 +116,7 @@
                                             <td>
                                                 <ul class="p-attach">
                                                     <li class="p-attach_item" th:each="file : ${board.files}">
-                                                        <a class="p-attach_link" th:href="@{/admin/dongnews/downloadAttachment(fileId=${file.fileId})}">
+                                                        <a class="p-attach_link" th:href="@{/admin/dongnews/downloadattachment(fileId=${file.fileId})}">
                                                             <span th:class="*{'file_icon ' + file.fileType}" th:title="*{file.fileType}"></span>
                                                             <span th:text="*{file.fileName}">파일명 출력</span>
                                                             <span class="p-down_icon" aria-hidden="true"></span>

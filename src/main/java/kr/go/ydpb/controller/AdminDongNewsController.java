@@ -172,7 +172,7 @@ public class AdminDongNewsController {
     }
 
     // 파일 다운로드
-    @GetMapping("/downloadAttachment")
+    @GetMapping("/downloadattachment")
     public ResponseEntity<Resource> downloadAttachment(@RequestParam("fileId") Long fileId) {
 
         DongNewsFileVO fileVO = service.getFile(fileId);

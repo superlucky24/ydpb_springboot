@@ -10,14 +10,24 @@
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb_main.css}">
-    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/prefixfree.min.js}"></script>
     <script th:src="@{/js/ydpb.js}"></script>
     <script th:src="@{/js/ydpb_main.js}"></script>
+    <!-- Slick -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 최신글 불러오기 | ydpb_main.js
+            mainRecent('[[@{/}]]');
+        });
+    </script>
 </head>
 <th:block th:if="${msg !=null}" >
     <script th:inline="javascript">
-        alert([[${msg}]]);
+        alert('[[${msg}]]');
     </script>
 </th:block>
 <body>
@@ -78,23 +88,25 @@
                 <div class="contents">
                     <div class="main1">
                         <div class="mainpopup">
-                            <!-- <div class="main_pop_control">
-                                <div class="leftbox">
-                                    <div class="page">
-                                        <span class="current slick-text">1</span>
-                                        <div class="gap">/</div>
-                                        <span class="current total-text">1</span>
-                                    </div>
-                                </div>
-                                <div class="controlbox">
-
-                                </div>
-                            </div> -->
+                            <div class="slider_controls">
+                                <span class="slide-counter">
+                                    <span class="current">1</span> /
+                                    <span class="total">1</span>
+                                </span>
+                                <button type="button" class="btn-prev">❮</button>
+                                <button class="btn-toggle" data-state="play">❚❚</button>
+                                <button type="button" class="btn-next">❯</button>
+                            </div>
 
                             <div class="slider_list">
-                                <a href="#"><img src="./images/main/main_01.gif" alt="메인01"></a>
+                                <div class="slider_item" th:each="slide : ${slides}">
+                                    <a th:href="${slide.linkUrl}">
+                                        <img th:src="@{${slide.imagePath}}" th:alt="${slide.title}">
+                                    </a>
+                                </div>
                             </div>
                         </div>
+
                         <div class="maininfo">
                             <div class="infobox">
                                 <h3 class="infobox_title">
@@ -188,98 +200,14 @@
                             <ul class="main3_list">
                                 <li>
                                     <div class="main3_contents m3dong show">
-                                        <ul>
-                                            <li>
-                                                <a href="#" class="underline_text">
-                                                        <span class="main3_c_title">
-                                                            2025년 농림어업총조사 실시
-                                                        </span>
-                                                    <div class="main3_c_date">2025-12-07</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="underline_text">
-                                                        <span class="main3_c_title">
-                                                            남북 이산가족 공연 안내
-                                                        </span>
-                                                    <div class="main3_c_date">2025-12-05</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="underline_text">
-                                                        <span class="main3_c_title">
-                                                            불법 주방용 오물분쇄기 사용금지 관련 안내
-                                                        </span>
-                                                    <div class="main3_c_date">2025-12-04</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="underline_text">
-                                                        <span class="main3_c_title">
-                                                            영등포본동 주민자치위원 모집 재공고(기간연장)
-                                                        </span>
-                                                    <div class="main3_c_date">2025-12-01</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="underline_text">
-                                                        <span class="main3_c_title">
-                                                            영등포구 통합신청사 주민설명회 개최 안내
-                                                        </span>
-                                                    <div class="main3_c_date">2025-11-26</div>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                        <a href="#" class="main3_more">소식더보기</a>
+                                        <ul id="mainDongNews" class="loading_container loading"></ul>
+                                        <a th:href="@{/dongnews/list}" class="main3_more">소식더보기</a>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="main3_contents m3gu">
-                                        <ul>
-                                            <li>
-                                                <a href="#" class="underline_text">
-                                                        <span class="main3_c_title">
-                                                            2026년 1기 생활과학교실 수강생 추가모집
-                                                        </span>
-                                                    <div class="main3_c_date">2025-12-15</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="underline_text">
-                                                        <span class="main3_c_title">
-                                                            한국교통장애인협회 영등포구지회
-                                                        </span>
-                                                    <div class="main3_c_date">2025-12-15</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="underline_text">
-                                                        <span class="main3_c_title">
-                                                            2025년 영등포구 행정우수사례 최종 선정 결과
-                                                        </span>
-                                                    <div class="main3_c_date">2025-12-15</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="underline_text">
-                                                        <span class="main3_c_title">
-                                                            [영등포아트스퀘어] 2025 현대미술기획전 표면 없는 두께
-                                                        </span>
-                                                    <div class="main3_c_date">2025-12-15</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="underline_text">
-                                                        <span class="main3_c_title">
-                                                            구민이 직접 뽑은 2025년 영등포 주요 뉴스 결과 발표
-                                                        </span>
-                                                    <div class="main3_c_date">2025-12-15</div>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                        <a href="" class="main3_more">소식더보기</a>
+                                        <ul id="mainGuNews" class="loading_container loading"></ul>
+                                        <a th:href="@{/gunews/list}" class="main3_more">소식더보기</a>
                                     </div>
                                 </li>
                             </ul>
@@ -288,22 +216,44 @@
                             <div class="main_titlebox">
                                 <h3>우리동 갤러리</h3>
                             </div>
+
                             <div class="main3_box2_photo">
-                                <a href="#">
+
+                                <!-- 게시글 없으면 -->
+                                <a th:if="${gallery_list == null || #lists.isEmpty(gallery_list)}"
+                                   th:href="@{/gallery/list}"
+                                   class="no_data"
+                                   th:style="|background-image:url('@{/images/sub/no_image_icon.png}');|">
                                     <div class="main_photo_text">
-                                        <span>(12/16)12월 통장연합회 임시회의 개최</span>
+                                        <span>게시글이 없습니다</span>
                                     </div>
                                 </a>
-                                <a href="#">
+
+                                <!-- 게시글 있을 때 -->
+                                <a th:if="${gallery_list != null && #lists.size(gallery_list) > 0}"
+                                   th:href="@{/gallery/view(galId=${gallery_list[0].galId})}"
+                                   th:style="|background-image:url('@{${gallery_list[0].files != null && #lists.size(gallery_list[0].files) > 0 ? '/admin/gallery/download?fileId=' + gallery_list[0].files[0].fileId : '/images/sub/no_image_icon.png'}}');|">
                                     <div class="main_photo_text">
-                                        <span>2026 희망온돌 따뜻한 겨울나기</span>
+                                        <span th:text="${gallery_list[0].galTitle}"></span>
                                     </div>
                                 </a>
+
+                                <a th:if="${gallery_list != null && #lists.size(gallery_list) > 1}"
+                                   th:href="@{/gallery/view(galId=${gallery_list[1].galId})}"
+                                   th:style="|background-image:url('@{${gallery_list[1].files != null && #lists.size(gallery_list[1].files) > 0 ? '/admin/gallery/download?fileId=' + gallery_list[1].files[0].fileId : '/images/sub/no_image_icon.png'}}');|">
+                                    <div class="main_photo_text">
+                                        <span th:text="${gallery_list[1].galTitle}"></span>
+                                    </div>
+                                </a>
+
                             </div>
+
                             <div>
-                                <a href="" class="main3_more2">소식더보기</a>
+                                <a th:href="@{/gallery/list}" class="main3_more2">소식더보기</a>
                             </div>
                         </section>
+
+
                     </div>
                     <div class="main4">
                         <div class="main_titlebox">

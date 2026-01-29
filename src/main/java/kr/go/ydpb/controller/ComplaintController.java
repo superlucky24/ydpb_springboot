@@ -8,6 +8,7 @@ import kr.go.ydpb.service.ComplaintService;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,14 +41,29 @@ public class ComplaintController {
     }
 
     @GetMapping("view")
-    public String complaintView(@ModelAttribute("comId") int comId, @ModelAttribute("cri") Criteria cri, Model model){
-        model.addAttribute("complaint", complaintService.getOneComplaint(comId));
-        return "sub/complaint_view";
+    public String complaintView(@ModelAttribute("comId") int comId,
+                                @ModelAttribute("cri") Criteria cri,
+                                RedirectAttributes rttr,
+                                HttpSession session,
+                                Model model){
+        String loginId = (String)session.getAttribute("memId");
+        boolean isAdmin = (Integer)session.getAttribute("admin") == 1;
+        ComplaintVO complaint = complaintService.getOneComplaint(comId);
+        // 비공개 + 본인이 작성한 글 + 관리자 아닐 시 목록으로 돌려보내기
+        if(complaint.getComPublic() == 0 && !complaint.getMemId().equals(loginId) && !isAdmin) {
+            rttr.addFlashAttribute("errorMsg", "권한이 없습니다.");
+            return "redirect:/complaint/list";
+        }
+        else {
+            model.addAttribute("complaint", complaint);
+            return "sub/complaint_view";
+        }
     }
 
     @GetMapping("write")
-    public String complaintWriteFrom(@ModelAttribute("cri") Criteria cri, HttpSession session) {
-        if(session.getAttribute("memId") == null) {
+    public String complaintWriteFrom(@ModelAttribute("cri") Criteria cri, HttpSession session,
+                                     @AuthenticationPrincipal Object principal) {
+        if(session.getAttribute("memId") == null && principal ==null) {
             return "redirect:/complaint/list";
         }
         else {
@@ -105,7 +121,7 @@ public class ComplaintController {
         rttr.addAttribute("amount", cri.getAmount());
         rttr.addAttribute("searchType", cri.getSearchType());
         rttr.addAttribute("searchKeyword", cri.getSearchKeyword());
-        return "redirect:/complaint/list";
+        return "redirect:/admin/dongnews/list";
     }
 
 }

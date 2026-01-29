@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전화번호 인증</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_member.css}">
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script th:src="@{/js/ydpb.js}"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <div class="auth_phone">
+        <h1>본인인증</h1>
+
+        <section id="authSec1">
+            <h2 id="authTitle">
+                <b>이름</b>을<br>
+                입력해주세요
+            </h2>
+
+            <div class="auth_box" id="authStep1" style="display: block;">
+                <div class="auth_form">
+                    <label for="memName" class="blind">이름 입력</label>
+                    <input type="text" name="memName" id="memName" class="input" placeholder="이름">
+                </div>
+                <p class="auth_text" data-match="memName"></p>
+            </div>
+
+            <div class="auth_box" id="authStep2">
+                <div class="auth_form auth_form_jumin">
+                    <div class="jumin_before">
+                        <label for="memJumin1" class="blind">생년월일 입력</label>
+                        <input type="number" name="memJumin1" id="memJumin1" class="input" placeholder="생년월일6자리">
+                        <input type="hidden" name="memBirth" id="memBirth" value="" readonly>
+                    </div>
+                    <span class="hyphen">-</span>
+                    <div class="jumin_after">
+                        <label for="memJumin2" class="blind">성별 입력</label>
+                        <input type="number" name="memJumin2" id="memJumin2" class="input">
+                        <div class="hide_number">
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="auth_text" data-match="memJumin1"></p>
+            </div>
+
+            <div class="auth_box" id="authStep3">
+                <div class="auth_form">
+                    <label for="phoneNumberOrigin" class="blind">전화번호 입력</label>
+                    <input type="number" name="phoneNumberOrigin" id="phoneNumberOrigin" class="input" data-check="ok" placeholder="01012345678" value="01012345678">
+                </div>
+                <input type="hidden" id="phoneNumber" value="+821012345678" maxlength="13">
+                <button id="sendCodeBtn" class="btn_auth">
+                    <span>인증번호 전송</span>
+                    <i class="spin"></i>
+                </button>
+            </div>
+
+            <div id="recaptchaContainer"></div>
+        </section>
+
+        <section id="authSec2" style="display: none;">
+            <h2>
+                <b>보내드린 인증번호 6자리</b>를<br>
+                입력해 주세요
+            </h2>
+            <div class="auth_form auth_form_code active">
+                <label for="verificationCode" class="blind">인증번호 입력</label>
+                <input type="text" name="verificationCode" id="verificationCode" class="input" placeholder="123456" value="123456">
+                <button id="verifyCodeBtn" class="btn_auth">
+                    <span>인증번호 확인</span>
+                    <i class="spin"></i>
+                </button>
+            </div>
+        </section>
+        <p class="auth_text" id="status"></p>
+    </div>
+    <script th:src="@{/js/ydpb_auth.js}"></script>
+</body>
+</html>

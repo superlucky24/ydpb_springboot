@@ -9,21 +9,53 @@
 }
 
 .mainpopup {
-    width: 680px;    
+    position: relative;
+    width: 680px;
 }
 
-/* slick 
 
-.leftbox {}
-.page{}
-.gap{}
+.slider_list img {
+    cursor: pointer;
+    width: 100%;
+    height: 370px;      /* 원하는 높이 */
+    object-fit: cover;
+}
 
- */
+.slider_controls {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    display: flex;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 3px 4px;
 
-.slider_list a img {
-    width: 680px;
+    z-index: 10;
+}
+
+/* 버튼 스타일 */
+.slider_controls button {
+    border: none;
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+    color: #fff;
     cursor: pointer;
 }
+
+.slide-counter {
+    padding-left: 5px;
+    font-size: 15px;
+    height: 20px;
+    line-height: 20px;
+    color: #fff;
+}
+
+/* 버튼 hover */
+.slider_controls button:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
 
 .maininfo {
     position: relative;
@@ -195,12 +227,9 @@
 
 
 .main3_list {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: start;
     height: 176px;
 }
-.main3_dong, main3_gu {
+.main3_dong, .main3_gu {
     width: 120px;
 }
 .main3_dong.checked {
@@ -243,7 +272,9 @@
 .main3_contents.show {
     display: block;
 }
-
+.main3_contents ul {
+    min-height: 156px;
+}
 .main3_contents ul li {
     box-sizing: border-box;
     width: 550px;
@@ -338,17 +369,12 @@
     display: block;
     width: 220px;
     height: 160px;
+    border: 1px solid #000000;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
 }
 
-.main3_box2_photo a:nth-child(1) {
-    background-image: url(../images/main/photo_02.jpg);
-}
-.main3_box2_photo a:nth-child(2) {
-    background-image: url(../images/main/photo_01.jpg);
-}
 .main_photo_text {
     display: block;
     position: relative;

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>슬라이드 개요 | 관리자페이지 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_write.css}">
+    <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script>const menuName = '자치회관 게시판';</script>
+    <script th:src="@{/js/ydpb.js}"></script>
+</head>
+<body>
+
+<div id="wrap">
+    <!-- header -->
+    <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
+    <!-- //header -->
+    <div class="contents_wrap safe_area">
+
+        <!-- 사이드 메뉴 -->
+        <aside class="side_menu"
+               th:replace="~{/admin/common/admin_sidemenu::side}">
+        </aside>
+
+        <main>
+            <div class="contents">
+                <div class="board_write">
+
+                    <p class="text_alert alert_write">
+                        <span class="required_mark">필수항목</span> 표시는 필수 항목 입니다.
+                    </p>
+
+                    <!-- 수정 폼 -->
+                    <form th:action="@{/admin/slide/edit}" method="post" enctype="multipart/form-data">
+
+                        <!-- slideId 필수 -->
+                        <input type="hidden" name="slideId" th:value="${slide.slideId}">
+
+
+                        <table class="table_form">
+                            <caption class="blind">메인 슬라이드 수정</caption>
+
+                            <tbody>
+                            <tr>
+                                <th>
+                                    제목 <span class="required_mark">필수</span>
+                                </th>
+                                <td>
+                                    <input type="text"
+                                           name="title"
+                                           class="input form_input"
+                                           th:value="${slide.title}"
+                                           required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    링크
+                                </th>
+                                <td>
+                                    <input type="text"
+                                           name="linkUrl"
+                                           class="input form_input"
+                                           th:value="${slide.linkUrl}">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    순서
+                                </th>
+                                <td>
+                                    <input type="number"
+                                           class="input form_input"
+                                           name="sortOrder"
+                                           th:value="${slide.sortOrder}" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    노출
+                                </th>
+                                <td>
+                                    <select name="useYn" class="input form_input">
+                                        <option value="Y" th:selected="${slide.useYn == 'Y'}">노출</option>
+                                        <option value="N" th:selected="${slide.useYn == 'N'}">비노출</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">이미지</th>
+                                <td>
+                                    <input type="hidden" name="imagePath" th:value="${slide.imagePath}">
+
+                                    <!-- 기존 이미지 미리보기 -->
+                                    <div style="margin-bottom:10px;">
+                                        <img th:src="@{${slide.imagePath}}" alt="이미지"/>
+                                    </div>
+
+                                    <div class="file_group">
+
+                                        <div class="file_input">
+                                            <input type="file" name="slide_file" id="slide_file">
+                                            <span class="input disabled"></span>
+                                        </div>
+                                        <div class="file_btn">
+                                            <label for="slide_file" class="btn btn_primary btn_sm">파일선택</label>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                        <div class="btns">
+                            <a th:href="@{/admin/slide/list}"
+                               class="btn btn_default">목록</a>
+
+                            <button type="submit"
+                                    class="btn btn_write">수정</button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>

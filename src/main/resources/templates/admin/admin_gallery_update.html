@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우리동 갤러리 수정 | 자치회관 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_write.css}">
+    <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script>const menuName = '우리동 갤러리';</script>
+    <script th:src="@{/js/ydpb.js}"></script>
+</head>
+<body>
+<div id="wrap">
+    <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
+    <div class="contents_wrap safe_area">
+        <aside class="side_menu" th:replace="~{/admin/common/admin_sidemenu::side}"></aside>
+        <main>
+            <div class="contents">
+                <div class="board_write">
+                    <p class="text_alert alert_write">
+                        <span class="required_mark">필수항목</span> 표시는 필수 항목 입니다.
+                    </p>
+
+                    <form th:action="@{/admin/gallery/update}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="galId" th:value="${board.galId}">
+                        <input type="hidden" name="pageNum" th:value="${cri.pageNum}">
+                        <input type="hidden" name="amount" th:value="${cri.amount}">
+                        <input type="hidden" name="searchType" th:value="${cri.searchType}">
+                        <input type="hidden" name="searchKeyword" th:value="${cri.searchKeyword}">
+
+                        <table class="table_form">
+                            <caption class="blind">우리동 갤러리 수정</caption>
+                            <tbody>
+                            <tr>
+                                <th>제목 <span class="required_mark">필수</span></th>
+                                <td><input type="text" name="galTitle" class="input form_input" th:value="${board.galTitle}" required></td>
+                            </tr>
+                            <tr>
+                                <th>내용 <span class="required_mark">필수</span></th>
+                                <td><textarea name="galContent" rows="10" class="input" required th:utext="${board.galContent}"></textarea></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">파일</th>
+                                <td>
+                                    <div th:if="${board.files != null}">
+                                        <div th:each="file : ${board.files}" class="existing_file">
+                                            <span th:text="${file.fileName}"></span>
+                                            <label>
+                                                <input type="checkbox" name="deleteFileIds" th:value="${file.fileId}">
+                                                삭제
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>부서</th>
+                                <td><input type="text" name="galDepartment" class="input form_input" th:value="${board.galDepartment}"></td>
+                            </tr>
+
+                            <tr>
+                                <th>전화번호</th>
+                                <td><input type="text" name="galTel" class="input form_input" th:value="${board.galTel}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="btns">
+                            <a th:href="@{/admin/gallery/list(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                               class="btn btn_default">목록</a>
+                            <button type="submit" class="btn btn_write">저장</button>
+                        </div>
+                    </form>
+
+                    <form th:action="@{/admin/gallery/delete}" method="post" style="display:inline;">
+                        <input type="hidden" name="galId" th:value="${board.galId}">
+                        <button type="submit" class="btn btn_bordered delete">삭제</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+</body>
+</html>

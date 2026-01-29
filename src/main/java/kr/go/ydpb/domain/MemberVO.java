@@ -5,11 +5,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 public class MemberVO {
+
 
     @NotBlank(message = "아이디는 필수입니다.")
     @Pattern(regexp = "^[a-z][a-z0-9]{5,19}$",
@@ -20,7 +23,9 @@ public class MemberVO {
     @Pattern(regexp = "^[가-힣]{1,16}$|^[A-Za-z]{1,50}$",
             message = "이름은 한글 16자 또는 영문 50자까지 가능합니다.")
     private String memName;
-    private Date memBirth;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate memBirth;
     private String memGender;
 
     @NotBlank(message = "비밀번호는 필수입니다.")
@@ -34,7 +39,7 @@ public class MemberVO {
     private String memAddressDetail;
 
     @Pattern(
-            regexp = "^(02|031|032|033|041|042|043|044|051|052|053|054|055|061|062|063|064)\\d{7,8}$",
+            regexp = "^$|^(02|031|032|033|041|042|043|044|051|052|053|054|055|061|062|063|064)\\d{7,8}$",
             message = "유효한 유선전화 번호를 입력해주세요."
     )
     private String memTel;
@@ -53,4 +58,6 @@ public class MemberVO {
     private int memRole;
     // 가입일 추가
     private java.util.Date memRegDate;
+
+    private String loginType;
 }

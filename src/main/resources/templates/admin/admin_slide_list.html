@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>슬라이드 목록 | 관리자페이지 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_list.css}">
+    <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <!--    <script>const menuName = '민원답변';</script>-->
+    <script th:src="@{/js/ydpb.js}"></script>
+</head>
+<body>
+<div id="wrap">
+    <!-- header -->
+    <header class="header" th:replace="admin/common/admin_header_footer :: header"></header>
+    <!-- //header -->
+
+    <!-- search -->
+    <div class="search"></div>
+    <!-- //search -->
+
+    <!-- container -->
+    <div class="container">
+        <div class="contents_wrap safe_area">
+            <!-- side menu -->
+            <aside class="side_menu" th:replace="admin/common/admin_sidemenu :: side"></aside>
+            <!-- //side menu -->
+
+            <!-- main -->
+            <main>
+                <!-- location -->
+                <div class="location">
+                    <div class="location_title">
+                        <h2>슬라이드 목록</h2>
+                    </div>
+                </div>
+                <!-- //location -->
+
+                <!-- contents -->
+                <div id="board" class="clearfix">
+                    <table class="p_table">
+                        <colgroup>
+                            <col style="width: 50px;">
+                            <col style="width: 200px;">
+                            <col style="width: 120px;">
+                            <col style="width: 50px;">
+                            <col style="width: 50px;">
+                            <col style="width: 100px;">
+                            <col style="width: 200px;">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th scope="col">순서</th>
+                            <th scope="col">이미지</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">노출</th>
+                            <th scope="col">순서</th>
+                            <th scope="col">등록 날짜</th>
+                            <th scope="col">관리</th>
+                        </tr>
+                        </thead>
+                        <tbody class="tb_text" >
+                        <!--                            반복 구간-->
+                        <tr th:each="s : ${list}">
+                            <td th:text="${s.sortOrder}"></td>
+                            <td>
+                                <img th:src="@{${s.imagePath}}" style="height:50px;" alt="이미지"/>
+                            </td>
+
+                            <td th:text="${s.title}"></td>
+                            <td th:text="${s.useYn}"></td>
+                            <td th:text="${s.sortOrder}"></td>
+                            <td th:text="${s.regDate}"></td>
+                            <td>
+                                <a class="btn btn_bordered update" th:href="@{/admin/slide/edit(slideId=${s.slideId})}">수정</a>
+                                <a class="btn btn_bordered delete" th:href="@{/admin/slide/delete(slideId=${s.slideId})}">삭제</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="board_btm_btns">
+                        <a th:href="@{/admin/slide/register}" class="btn btn_write">등록</a>
+                    </div>
+                </div>
+                <!-- //contents -->
+            </main>
+            <!-- //main -->
+        </div>
+    </div>
+    <!-- //container -->
+    <!-- footer -->
+    <footer class="footer" th:replace="admin/common/admin_header_footer :: footer"></footer>
+    <!-- //footer -->
+</div>
+</body>
+</html>

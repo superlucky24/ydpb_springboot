@@ -16,7 +16,7 @@
 </head>
 <th:block th:if="${msg !=null}" >
     <script th:inline="javascript">
-        alert([[${msg}]]);
+        alert('[[${msg}]]');
     </script>
 </th:block>
 <body>
@@ -100,16 +100,19 @@
                                             <span class="required_mark">필수</span>
                                         </th>
                                         <td>
-                                            <input type="text" th:field="*{memName}" id="memName" class="input input_auto" maxlength="50" size="50" required>
+                                            [[*{memName}]]
+                                            <input type="hidden" th:field="*{memName}" id="memName" class="input input_auto" maxlength="50" size="50" required>
 
-                                            <p class="name_msg1">※ 이름을 입력해주세요</p>
-                                            <p class="name_msg2">※ 최대 한글 16자, 영문 50자까지 입력 가능(특수기호, 공백 사용 불가)</p>
+                                            <!--<p class="name_msg1">※ 이름을 입력해주세요</p>
+                                            <p class="name_msg2">※ 최대 한글 16자, 영문 50자까지 입력 가능(특수기호, 공백 사용 불가)</p>-->
                                         </td>
                                     </tr>
                                     <tr>
                                         <th scope="row">사용자 생년월일</th>
                                         <td>
-                                            <input type="date" th:field="*{memBirth}" id="memBirth" class="input input_auto">
+                                            [[*{memBirth}]]
+                                            <label for="memBirth" class="blind">생년월일</label>
+                                            <input type="date" th:field="*{memBirth}" id="memBirth" class="input input_auto" style="display:none;">
                                         </td>
                                     </tr>
                                     <tr>
@@ -157,14 +160,17 @@
                                             <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
                                             <button type="button" class="btn btn_cancel btn_sm" onclick="execDaumPostcode()">주소찾기</button>
                                             <span class="text_alert">우편번호 검색창이 새창으로 열립니다.</span>
+                                            <label for="memAddress" class="blind">주소</label>
                                             <input type="text" th:field="*{memAddress}" id="memAddress" class="input" maxlength="200" placeholder="주소" readonly required>
-
+                                            <label for="memAddressDetail" class="blind">상세주소</label>
                                             <input type="text" th:field="*{memAddressDetail}" id="memAddressDetail" class="input" maxlength="300" placeholder="상세주소" disabled>
                                             <p class="addr_msg">※ 주소찾기 버튼 클릭하고 우편번호 선택하신 뒤 상세주소 입력해주세요  </p>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">일반전화</th>
+                                        <th scope="row">
+                                            <label for="memTel">일반전화</label>
+                                        </th>
                                         <td>
                                             <input type="text" name="memTel" id="memTel" th:field="*{memTel}" class="input input_auto " maxlength="11" size="15"
                                                    inputmode="numeric"  >
@@ -178,9 +184,10 @@
                                             <span class="required_mark">필수</span>
                                         </th>
                                         <td>
-                                            <input type="text" name="memPhone" id="memPhone" th:field="*{memPhone}" class="input input_auto" maxlength="11" size="15" required >
+                                            [[*{memPhone}]]
+                                            <input type="hidden" name="memPhone" id="memPhone" th:field="*{memPhone}" class="input input_auto" maxlength="11" size="15" required >
 
-                                            <p class="phone_msg">※ 휴대폰 번호를 입력해주세요(- 없이 숫자만)</p>
+                                            <!--<p class="phone_msg">※ 휴대폰 번호를 입력해주세요(- 없이 숫자만)</p>-->
                                         </td>
 
 <!--                                        <input type="hidden" th:field="*{memTel}" id="memTel">-->
@@ -188,7 +195,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">
-                                            이메일
+                                            <label for="memEmail">이메일</label>
                                             <span class="required_mark">필수</span>
                                         </th>
                                         <td>
@@ -458,7 +465,7 @@
         const todayStr = `${yyyy}-${mm}-${dd}`;
 
         // 오늘 이후 날짜 선택 불가
-        birthInput.setAttribute("max", todayStr)
+        birthInput.setAttribute("max", todayStr);
 
 //주소
         let memAddress = document.getElementById("memAddress");
@@ -466,13 +473,6 @@
         let addr_msg = document.querySelector(".addr_msg");
         document.addEventListener("DOMContentLoaded", function () {
 
-            console.log(memAddress);
-            console.log(memAddressDetail);
-            console.log(addr_msg);
-            if (!memAddress || !memAddressDetail) {
-                console.error("주소 input 요소를 찾을 수 없습니다.");
-                return;
-            }
             memAddressDetail.disabled = true;
 
             memAddress.addEventListener("input", function () {
@@ -504,6 +504,7 @@
                 }
             });
         });
+
 // 전화번호 유효성 검사
         function isValidTel(value) {
             return /^(02|031|032|033|041|042|043|044|051|052|053|054|055|061|062|063|064)\d{7,8}$/.test(value);

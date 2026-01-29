@@ -194,7 +194,7 @@ body {
     background-image: url(../images/common/top_func_icon_link.png);
     background-repeat: no-repeat;
     background-size: 12px;
-    background-position: center right;
+    background-position: right center;
 }
 /* gnb 우측 리스트 아이콘 */
 .global_menu .top_func > li:nth-child(1){
@@ -486,23 +486,20 @@ h1{
     top: 33px;
 }
 /* 날씨 */
-.weather {    
+.weather {
+    display: flex;
+    position: absolute;
+    top: 33px;
 	margin: 0;
     padding: 0;
     border: 0;
     font-size: 15px;
     line-height: 160%;
-    font-family: 'S-CoreDream';
+    font-family: 'S-CoreDream', sans-serif;
     color: #666;
     box-sizing: border-box;
     letter-spacing: -0.4px;
     vertical-align: middle;
-}
-.weather {
-    position: absolute;
-    top: 33px;
-    display: flex;
-    /* gap: 22px; */
 }
 .weather img {
     width: 65px;
@@ -537,6 +534,15 @@ h1{
 }
 .weather dl dd + dt {
     margin-left: 20px;
+}
+.weather .icon.active,
+.weather .weather_status.active,
+.weather .dust_status.active {
+    animation: weatherView 300ms;
+}
+@keyframes weatherView {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
 }
 
 /* 먼지 아이콘 */
@@ -1132,6 +1138,43 @@ table tr .no_data {
     background: #f9f9f9;
 }
 
+/* 파일 아이콘 */
+.file_icon {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    margin-right: 2px;
+    vertical-align: middle;
+    background: url(../images/common/icon_file_default.png) no-repeat center;
+}
+.file_icon.png {
+    background-image: url(../images/common/icon_file_png.png);
+}
+.file_icon.jpg,
+.file_icon.jpeg{
+    background-image: url(../images/common/icon_file_jpg.png);
+}
+.file_icon.hwp {
+    background-image: url(../images/common/icon_file_hwp.png);
+}
+.file_icon.xlsx {
+    background-image: url(../images/common/icon_file_xlsx.png);
+}
+.file_icon.doc {
+    background-image: url(../images/common/icon_file_doc.png);
+}
+.file_icon.pdf {
+    background-image: url(../images/common/icon_file_pdf.png);
+}
+.file_icon.ppt,
+.file_icon.pptx {
+    background-image: url(../images/common/icon_file_pptx.png);
+}
+.file_icon.zip {
+    background-image: url(../images/common/icon_file_zip.png);
+}
+
+
 /* 레이어 경고창 */
 .layer_alert {
     position: fixed;
@@ -1160,4 +1203,37 @@ table tr .no_data {
     margin-bottom: 0 !important;
     padding: 14px 0;
     text-align: center;
+}
+
+/* 로딩 애니메이션 */
+.loading_container {
+    position: relative;
+}
+.loading_container::after {
+    content: "";
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(0, 0, 0, 0.2);
+    border-top-color: #ec6d65;
+    border-radius: 50%;
+}
+.loading_container.loading::after {
+    display: block;
+    animation: loading 800ms infinite;
+}
+.loading_container.complete::after {
+    opacity: 0;
+    transition: opacity 300ms;
+}
+@keyframes loading {
+    from {
+        transform:translate(-50%, -50%) rotate(0);
+    }
+    to {
+        transform:translate(-50%, -50%) rotate(360deg);
+    }
 }

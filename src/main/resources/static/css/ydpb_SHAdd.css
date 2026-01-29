@@ -213,8 +213,8 @@ ul.bu li {
 /* 결제페이지용 css */
 
 .temp_box.type1 .box_wrap .ul_common {
-        overflow: hidden;
-        position: relative;
+    overflow: hidden;
+    position: relative;
 
 }
 
@@ -370,4 +370,49 @@ ul.bu li {
     margin-top: 40px;
     font-size: 18px;
     font-weight: bold;
+}
+
+/* 회원목록 전용: 글자 생략 스타일 */
+.p-table--ellipsis {
+    table-layout: fixed !important;
+    width: 100% !important;
+}
+
+.p-table--ellipsis td {
+    white-space: nowrap;    /* 줄바꿈 방지 */
+    overflow: hidden;       /* 넘치는 부분 숨김 */
+    text-overflow: ellipsis; /* ... 표시 */
+}
+
+/* 마우스를 올렸을 때 전체 내용을 확인하고 싶다면 (선택 사항) */
+/*.p-table--ellipsis td:hover {*/
+/*    overflow: visible;*/
+/*    white-space: normal;*/
+/*    position: relative;*/
+/*    background-color: #f9f9f9;*/
+/*    z-index: 10;*/
+/*}*/
+
+/* changePassword 페이지 */
+/* 비밀번호 변경 폼 - 테이블 좌우 너비 고정 */
+
+#passwordChangeForm {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+#passwordChangeForm .table_form {
+    table-layout: fixed;
+    width: 100%;
+}
+
+/*!* 왼쪽 th 칸 너비 고정 (글자가 밀리지 않게 함) *!*/
+#passwordChangeForm .table_form th {
+    width: 180px;
+}
+
+/*!* 오른쪽 td 칸 설정 *!*/
+#passwordChangeForm .table_form td {
+    width: auto;
 }

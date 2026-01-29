@@ -128,16 +128,18 @@ public class AdminDongNewsController {
         return "redirect:/admin/dongnews/list";
     }
 
-    // 파일 다운로드 관련 메서드
+    // 파일 보기 + 다운로드
     @GetMapping("/download")
     public ResponseEntity<Resource> downloadFile(@RequestParam("fileId") Long fileId) {
 
         DongNewsFileVO fileVO = service.getFile(fileId);
 
+        // 파일 정보 없을 때
         if (fileVO == null) {
             return ResponseEntity.notFound().build();
         }
 
+        // 실제 file(object) 생성
         File file = new File(
                 fileVO.getUploadPath(),
                 fileVO.getUuid() + "_" + fileVO.getFileName()
@@ -147,12 +149,13 @@ public class AdminDongNewsController {
             return ResponseEntity.notFound().build();
         }
 
+        // 파일/스트림을 추상화한 객체 : ResponseEntity의 body로 사용 가능
         Resource resource = new FileSystemResource(file);
 
-        // 파일명 인코딩
+        // 파일명 인코딩 (한글 깨짐 방지)
         String encodedFileName = URLEncoder.encode(fileVO.getFileName(), StandardCharsets.UTF_8);
 
-        // 확장자에 따라 MIME 타입 자동 지정
+        // 확장자에 따라 MIME 타입 자동 지정 (MIME = 파일의 정체성(데이터 종류) ex. jpg, png, json, html.... )
         MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
         try {
             String mimeType = Files.probeContentType(file.toPath());
@@ -163,6 +166,7 @@ public class AdminDongNewsController {
             // 무시
         }
 
+        // 브라우저가 바로 열 수 있으면 열어줌 >> 이미지 / PDF → 미리보기
         String contentDisposition = "inline; filename=\"" + encodedFileName + "\"";
 
         return ResponseEntity.ok()
@@ -172,7 +176,7 @@ public class AdminDongNewsController {
     }
 
     // 파일 다운로드
-    @GetMapping("/downloadAttachment")
+    @GetMapping("/downloadattachment")
     public ResponseEntity<Resource> downloadAttachment(@RequestParam("fileId") Long fileId) {
 
         DongNewsFileVO fileVO = service.getFile(fileId);
@@ -192,6 +196,7 @@ public class AdminDongNewsController {
 
         Resource resource = new FileSystemResource(file);
 
+        // URLEncoder는 공백을 +로 바꿈 >> 브라우저에서 + → 공백 인식 오류 >> %20으로 치환
         String encodedFileName = URLEncoder.encode(fileVO.getFileName(), StandardCharsets.UTF_8)
                 .replaceAll("\\+", "%20");
 
@@ -205,7 +210,7 @@ public class AdminDongNewsController {
             // 무시
         }
 
-        // 여기만 inline -> attachment로 변경
+        // 무조건 다운로드 창 열기 : 여기만 inline -> attachment로 변경
         String contentDisposition = "attachment; filename=\"" + encodedFileName + "\"";
 
         return ResponseEntity.ok()

@@ -40,6 +40,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:4.0.1'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// 서명관련 의존성 추가 : 20260129 최연수
+	implementation 'org.apache.pdfbox:pdfbox:2.0.30'
+	implementation 'org.apache.pdfbox:fontbox:2.0.30'
 }
 
 tasks.named('test') {

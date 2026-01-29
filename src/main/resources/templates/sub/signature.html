@@ -16,6 +16,7 @@
   <script th:src="@{/js/prefixfree.min.js}"></script>
   <script>const menuName = '서명페이지';</script>
   <script th:src="@{/js/ydpb.js}"></script>
+  <script th:src="@{/js/ydpb_signature.js}"></script>
 </head>
 <body>
 <div id="wrap">
@@ -87,7 +88,7 @@
             <div class="check-box c_top_3" data-group="top_type"></div>
             <!-- 신고인 -->
             <input type="text" class="form-field f_name" tabindex="1">
-            <input type="text" class="form-field f_jumin" tabindex="2">
+            <input type="text" class="form-field f_jumin" tabindex="2" placeholder="-을 포함하여 작성">
             <input type="text" class="form-field f_rel" tabindex="3">
             <input type="text" class="form-field f_tel" tabindex="4">
             <input type="text" class="form-field f_phone" tabindex="5">
@@ -106,8 +107,8 @@
             <div id="dynamicRows">
               <div class="target-row" data-row="1">
                 <input type="text" class="form-field row-input r_rel" data-col="1">
-                <input type="text" class="form-field row-input r_name" data-col="2">
-                <input type="text" class="form-field row-input r_jumin" data-col="3">
+                <input type="text" class="form-field row-input r_name" data-col="2" >
+                <input type="text" class="form-field row-input r_jumin" data-col="3" placeholder="-을 포함하여 작성">
                 <input type="text" class="form-field row-input r_pre" data-col="4">
                 <input type="text" class="form-field row-input r_post" data-col="5">
               </div>
@@ -162,129 +163,6 @@
 </div>
 
 <script>
-  $(document).ready(function (){
-    // 날짜 자동 입력
-    const d = new Date();
-    $('.f_year').val(d.getFullYear());
-    $('.f_month').val(d.getMonth() + 1);
-    $('.f_day').val(d.getDate());
-
-    // 캔버스 설정
-    const canvasIds = ['sig-pad-1', 'sig-pad-2', 'sig-pad-prev', 'sig-pad-curr'];
-    const ctxs = {};
-
-    canvasIds.forEach(id => {
-      const canvas = document.getElementById(id);
-      if(!canvas) return;
-
-      const ctx = canvas.getContext('2d');
-      ctxs[id] = ctx;
-      let drawing = false;
-
-      function resize() {
-        canvas.width = $(canvas).parent().width();
-        canvas.height = $(canvas).parent().height();
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = "#000";
-        ctx.lineCap = "round";
-      }
-      $(window).on('load resize', resize);
-
-      function getPos(e) {
-        const rect = canvas.getBoundingClientRect();
-        const clientX = e.clientX || (e.originalEvent.touches && e.originalEvent.touches[0].clientX);
-        const clientY = e.clientY || (e.originalEvent.touches && e.originalEvent.touches[0].clientY);
-        return { x: clientX - rect.left, y: clientY - rect.top };
-      }
-
-      $(canvas).on('mousedown touchstart', function(e){
-        drawing = true;
-        ctx.beginPath();
-        const pos = getPos(e);
-        ctx.moveTo(pos.x, pos.y);
-        if(e.type==='touchstart') e.preventDefault();
-      }).on('mousemove touchmove', function(e){
-        if(!drawing) return;
-        const pos = getPos(e);
-        ctx.lineTo(pos.x, pos.y);
-        ctx.stroke();
-        if(e.type==='touchmove') e.preventDefault();
-      }).on('mouseup mouseleave touchend', function(){ drawing = false; });
-    });
-
-    // 체크박스
-    $('.check-box').on('click', function (){
-      const group = $(this).data('group');
-      $(`.check-box[data-group="${group}"]`).not(this).removeClass('active');
-      $(this).toggleClass('active');
-    });
-
-    // 엔터 키 제어
-    const rowStartTop = 44.2;
-    const rowGap = 3.2;
-
-    $(document).on('keydown', '.form-field', function(e){
-      if(e.key === 'Enter'){
-        e.preventDefault();
-        const $this = $(this);
-
-        if($this.hasClass('row-input')){
-          const col = parseInt($this.data('col'));
-          const row = parseInt($this.closest('.target-row').data('row'));
-          if(col < 5){
-            $this.closest('.target-row').find(`[data-col="${col+1}"]`).focus();
-          } else {
-            if (row < 5) {
-              addNewRow(row + 1);
-            }
-          }
-        }
-        else if($this.attr('tabindex')){
-          const nextIdx = parseInt($this.attr('tabindex')) + 1;
-          const $next = $(`.form-field[tabindex="${nextIdx}"]`);
-          if($next.length > 0) $next.focus();
-          else $('.f_report_content').focus();
-        }
-        else if($this.hasClass('f_report_content')) {
-          $('.f_prev_master').focus();
-        }
-        else if($this.hasClass('f_prev_master')) {
-          $('.f_curr_master').focus();
-        }
-        else if($this.hasClass('f_curr_master')) {
-          $('.target-row[data-row="1"] .r_rel').focus();
-        }
-      }
-    });
-
-    function addNewRow(num) {
-      if(num > 7) return;
-      const top = rowStartTop + ((num - 1) * rowGap);
-      const html = `
-                <div class="target-row" data-row="${num}">
-                    <input type="text" class="form-field row-input r_rel" data-col="1" style="top:${top}%">
-                    <input type="text" class="form-field row-input r_name" data-col="2" style="top:${top}%">
-                    <input type="text" class="form-field row-input r_jumin" data-col="3" style="top:${top}%">
-                    <input type="text" class="form-field row-input r_pre" data-col="4" style="top:${top}%">
-                    <input type="text" class="form-field row-input r_post" data-col="5" style="top:${top}%">
-                </div>`;
-      $('#dynamicRows').append(html);
-      $(`.target-row[data-row="${num}"] .r_rel`).focus();
-    }
-
-    // 초기화 버튼
-    $('#clearBtn').on('click', function (){
-      if(confirm('모든 입력 내용과 서명을 초기화 하시겠습니까?')){
-        $('.form-field').val('');
-        $('.check-box').removeClass('active');
-        canvasIds.forEach(id => {
-          const canvas = document.getElementById(id);
-          if(canvas) ctxs[id].clearRect(0, 0, canvas.width, canvas.height);
-        });
-        $('#dynamicRows').html($('.target-row[data-row="1"]'));
-      }
-    });
-  });
 </script>
 </body>
 </html>

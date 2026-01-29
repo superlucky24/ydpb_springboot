@@ -80,7 +80,7 @@ public class JoinController {
 
     // 아이디 중복 체크
     @ResponseBody //json 응답으로 변경
-    @GetMapping("checkId")
+    @GetMapping("checkid")
     // 키 문자열, 밸류 boolean 타입 Map으로 리턴, 입력한 회원 아이디로 체크
     public Map<String, Boolean> checkId(@RequestParam String memId) {
         // 중복 체크 메서드 실행

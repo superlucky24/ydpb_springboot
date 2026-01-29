@@ -194,7 +194,7 @@
     if(msg) { alert(msg); }
 
     // 2. 유효성 검사 및 전송 차단 로직
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function() { //DOM 먼저 로드
         const modifyForm = document.getElementById("modify_form");
         const memTel = document.getElementById("memTel");
         const telMsg = document.querySelector(".tel_msg");
@@ -262,7 +262,7 @@
                 if(memEmail.value == null || memEmail.value == ""){
                     isEmailValid = false;
                 }
-
+                //유효성 조건
                 const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
                 if(emailRegex.test(this.value)) {
                     emailMsg.textContent = "※ 이메일 입력 완료";
@@ -284,7 +284,7 @@
             const yyyy = today.getFullYear();
             const mm = String(today.getMonth() + 1).padStart(2, '0');
             const dd = String(today.getDate()).padStart(2, '0');
-
+            // 오늘 날짜를 상수에 담음
             const todayStr = `${yyyy}-${mm}-${dd}`;
 
             // 오늘 이후 날짜 선택 불가
@@ -308,7 +308,7 @@
             return /^(010)\d{8}$/.test(value);
         }
         if(memPhone){
-
+            //휴대전화 입력창에 입력한 경우
             memPhone.addEventListener("keyup", function(){
 
                 if(memPhone.value == null || memPhone.value == "" ){
@@ -340,24 +340,25 @@
             });
         }
 
-
-
-
         // 주소 유효성 검사
         if(memAddress && memAddressDetail){
             // if(memAddress.value == null || memAddress.value == "" || memAddressDetail.value ==null || memAddressDetail.value == ""){
             //     isAddressValid = false;
             // }
 
+            // 주소창에 입력이 이루어지면 이벤트 실행
             memAddress.addEventListener("input", function () {
                 console.log("주소 입력 리스너 ");
                 console.log(memAddress.value);
+
                 if (memAddress.value.trim() !== "" && memAddress.value.trim()==null) {
+                    // 주소값이 존재하면
                     console.log("주소값 입력됨");
                     isAddressValid = true;
                     addr_msg.textContent = "※ 기본주소 입력 완료, 상세 주소를 입력해주세요";
                     memAddressDetail.focus();
                 } else {
+                    // 주소값이 없으면
                     console.log("주소값 입력 안됨");
                     memAddressDetail.value = "";
                     addr_msg.textContent = "※ 주소찾기 버튼을 눌러 기본 주소를 먼저 선택해주세요.";
@@ -365,6 +366,7 @@
                 }
             });
 
+            //상세 주소창에 입력한 경우
             memAddressDetail.addEventListener("keyup", function () {
                 let addrDetail = memAddressDetail.value;
                 if (addrDetail === "" || addrDetail === null) {
@@ -381,10 +383,7 @@
             });
         }
 
-
-        // memAddressDetail.readOnly = true;
-
-        //
+        // 상세 주소창 입력을 마쳤을 때
         memAddressDetail.addEventListener("blur", function () {
             let addrDetail = memAddressDetail.value;
             if (addrDetail === "") {
@@ -436,7 +435,6 @@
                 event.preventDefault();
                 return false;
             }
-
 
             if (!isAddressDetailValid) {
                 alert("상세주소 입력을 확인해주세요.");

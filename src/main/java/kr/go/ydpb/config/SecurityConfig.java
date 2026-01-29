@@ -34,8 +34,8 @@ public class SecurityConfig  {
     // HttpSecurity 설정을 통해 구성된 필터들의 목록을 가지고 있으며, 현재 요청이 이 필터들을 거쳐야 하는지 결정
     // Spring Security는 서블릿 컨테이너(Tomcat 등)의 필터 체인에 DelegatingFilterProxy라는 이름으로 등록
     // 이 프록시가 실제 보안 로직을 수행하는 FilterChainProxy에게 처리를 위임 => 우리가 정의한 SecurityFilterChain이 동작
-    // 상속이 아닌 빈 등록 방식을 사용하여 다른 빈(예: CustomOAuth2UserService)을 주입받아 사용하기가 훨씬 자유움
-    // API 보안 체인과 일반 웹페이지용 보안 체인을 나누어 설정 가능 <- 여러개의 SecurityFilterChain을  빈으로 등록
+    // 상속이 아닌 빈 등록 방식을 사용하여 다른 빈(예: CustomOAuth2UserService)을 주입받아 사용하기가 훨씬 자유로움
+    // API 보안 체인과 일반 웹페이지용 보안 체인을 나누어 설정 가능 <- 여러개의 SecurityFilterChain을 빈으로 등록해 사용
     public SecurityFilterChain filterChain(HttpSecurity http, CustomOAuth2UserService customOAuth2UserService) throws Exception {
         // HttpSecurity HTTP 요청에 대한 보안 설정을 구성하는 메인 객체 <- 스프링이 자동으로 넣어줌
         // CustomOAuth2UserService customOAuth2UserService 소셜 로그인 성공 후 가져온 유저 정보를 처리하는 비즈니스 로직 클래스

@@ -1,0 +1,301 @@
+@charset "utf-8";
+
+.form-container {
+    position: relative;
+    width: 100%;
+    margin-top: 30px;
+    border: 1px solid #ddd;
+    line-height: 0;
+    overflow: hidden;
+}
+.form-img {
+    width: 100%;
+    display: block;
+    user-select: none;
+}
+/* 입력 필드 공통 스타일 */
+.form-field {
+    position: absolute;
+    background: rgba(53, 107, 190, 0.1);
+    border: 1px solid #356bbe;
+    padding: 0 10px;
+    height: 44px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #000;
+    outline: none;
+    z-index: 20;
+    transform: translateY(-50%);
+    box-sizing: border-box;
+    transition: background 0.2s;
+}
+
+
+.form-field:focus {
+    background: rgba(53, 107, 190, 0.08);
+    border-bottom: 1px solid #356bbe;
+}
+
+/* 체크박스 공통 스타일 */
+.check-box {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    z-index: 30;
+    border: 1px dashed #ff0000;
+    background: rgba(255, 0, 0, 0.1);
+}
+
+.check-box.active::after {
+    content: '✔';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #000;
+    font-size: 20px;
+    font-weight: bold;
+}
+/* 상단 체크박스 크기 */
+.c_top_1, .c_top_2, .c_top_3 {
+    width: 26px;
+    height: 26px;
+}
+/* 인풋 위치 */
+.c_top_1 {
+    top: 8%;
+    left: 8.9%;
+}
+.c_top_2 {
+    top: 8%;
+    left: 24.8%;
+}
+.c_top_3 {
+    top: 8%;
+    left: 34.1%;
+}
+.f_name {
+    top: 21.1%;
+    left: 20.0%;
+    width: 28%;
+}
+.f_jumin {
+    top: 21.1%;
+    left: 68%;
+    width: 20%;
+}
+.f_rel {
+    top: 24.8%;
+    left: 28.4%;
+    width: 10%;
+}
+.f_tel {
+    top: 24.8%;
+    left: 46.6%;
+    width: 17%;
+}
+.f_phone {
+    top: 25.4%;
+    left: 65%;
+    width: 23%;
+    height: 28px;
+}
+.f_addr {
+    top: 28.5%;
+    left: 20.0%;
+    width: 68%;
+}
+.f_report_content {
+    top: 32.1%;
+    left: 24%;
+    width: 64%;
+    height: 34px;
+}
+.f_prev_master {
+    top: 36.2%;
+    left: 31%;
+    width: 15%;
+    height: 28px;
+}
+.f_curr_master {
+    top: 36.2%;
+    left: 62.4%;
+    width: 15%;
+    height: 28px;
+}
+.row-input.r_rel {
+    top: 44.2%;
+    left: 24%;
+    width: 7.6%;
+    height: 38px;
+    text-align: center;
+}
+.row-input.r_name {
+    top: 44.2%;
+    left: 33.3%;
+    width: 8.7%;
+    height: 38px;
+    text-align: center;
+}
+.row-input.r_jumin {
+    top: 44.2%;
+    left: 43.6%;
+    width: 12.2%;
+    height: 38px;
+    text-align: center;
+}
+.row-input.r_pre {
+    top: 44.2%;
+    left: 57.8%;
+    width: 14%;
+    height: 38px;
+}
+.row-input.r_post {
+    top: 44.2%;
+    left: 74.1%;
+    width: 13.6%;
+    height: 38px;
+}
+.c_mid_1 {
+    top: 61.1%;
+    left: 28%;
+}
+.c_mid_2 {
+    top: 61.1%;
+    left: 41%;
+}
+.c_mid_3 {
+    top: 61.1%;
+    left: 48.3%;
+}
+.mid-date {
+    position: absolute;
+    gap: 13px;
+    top: 63%;
+    left: 69%;
+    width: 20%;
+    z-index: 20;
+    display: flex;
+}
+.mid-date input {
+    width: 60px;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+.f_reporter_name {
+    top: 66.7%;
+    left: 60%;
+    width: 12%;
+    height: 34px;
+}
+.c_btm_1 {
+    top: 78.7%;
+    left: 66.5%;
+}
+.c_btm_2 {
+    top: 78.7%;
+    left: 78.3%;
+}
+.c_btm_3 {
+    top: 78.7%;
+    left: 85%;
+}
+.btm-date {
+    position: absolute;
+    gap: 27px;
+    top: 81.8%;
+    left: 70%;
+    width: 20%;
+    z-index: 20;
+    display: flex;
+}
+.btm-date input {
+    width: 45px;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+.f_delegate_name {
+    top: 84.2%;
+    left: 60%;
+    width: 12%;
+    height: 38px;
+}
+
+/* 서명 박스 */
+.signature-box {
+    position: absolute;
+    border: 1px dashed rgba(53, 107, 190, 0.3);
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 25;
+}
+.sig_prev_master {
+    top: 34%;
+    left: 47.45%;
+    width: 85px;
+    height: 48px;
+}
+.sig_curr_master {
+    top: 34%;
+    left: 78.76%;
+    width: 85px;
+    height: 48px;
+}
+.sig_reporter {
+    top: 65%;
+    left: 75.3%;
+    width: 130px;
+    height: 50px;
+}
+.sig_delegate {
+    top: 83%;
+    left: 76.3%;
+    width: 120px;
+    height: 40px;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* 버튼 */
+.btn-wrap {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 40px 0;
+}
+.btn-wrap .btn {
+    display: inline-block !important;
+    align-items: center;
+    justify-content: center;
+    height: 45px !important;
+    padding: 0 25px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    cursor: pointer;
+}
+#submitBtn.btn_primary {
+    background: #356bbe !important;
+    color: #FFF;
+    border: 1px solid #356bbe !important;
+}
+#clearBtn.btn_cancel {
+    background: #666 !important;
+    color: #fff !important;
+    border: 1px solid #666 !important;
+
+}
+/* 박스 */
+.box.icon .box_wrap.signature_layout:before {
+    background: url("../images/sub/signature02.png") no-repeat center !important;
+    content: "" !important;
+}

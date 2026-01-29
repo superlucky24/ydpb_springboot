@@ -97,6 +97,9 @@ a span {
 .p-table .board_img_view img {
     max-width: 100%;
 }
+.p-table .board_content {
+    white-space: pre-wrap;
+}
 
 /* p-attach */
 .p-attach_item {

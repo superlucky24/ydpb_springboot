@@ -64,11 +64,11 @@
                                         <tr>
                                             <td colspan="2" class="td_text">
                                                 <th:block th:if="${board.files != null and #lists.size(board.files) > 0}">
-                                                    <div class="board_img_view" th:each="file : ${board.files}" th:if="${file.insertYn == 'Y' and (file.fileType.contains('jp') or file.fileType.contains('png'))}">
-                                                        <img th:src="@{/admin/gunews/download(fileId=${file.fileId})}" th:alt="*{file.altText}">
+                                                    <div class="board_img_view" th:each="file : ${board.files}" th:if="${file.insertYn == 'Y' and (file.fileType.contains('jp') or file.fileType.contains('png') or file.fileType.contains('gif'))}">
+                                                        <img th:src="@{/admin/gunews/download(fileId=${file.fileId})}" th:alt="${file.altText != null ? file.altText : board.gnewsTitle}">
                                                     </div>
                                                 </th:block>
-                                                [[${board.gnewsContent}]]
+                                                <div class="board_content" th:text="${board.gnewsContent}"></div>
                                             </td>
                                         </tr>
                                         <tr th:if="${board.gnewsDepartment}">

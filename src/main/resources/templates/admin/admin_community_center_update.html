@@ -116,12 +116,6 @@
                         </div>
                     </form>
 
-                    <!-- 삭제 버튼 별도 폼 -->
-                    <form th:action="@{/admin/community/delete}" method="post" style="display:inline;">
-                        <input type="hidden" name="cmntId" th:value="${board.cmntId}">
-                        <button type="submit" class="btn btn_bordered delete">삭제</button>
-                    </form>
-
                 </div>
             </div>
         </main>

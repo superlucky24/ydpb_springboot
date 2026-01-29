@@ -38,7 +38,7 @@ public class AdminDongNewsController {
         return "admin/admin_dongnews_list";
     }
 
-    // 상세보기
+    // 글보기
     @GetMapping("view")
     public String view(@RequestParam("dnewsId") Long dnewsId,
                        @ModelAttribute("cri") Criteria cri,

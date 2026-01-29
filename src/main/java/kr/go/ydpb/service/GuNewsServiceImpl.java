@@ -71,7 +71,9 @@ public class GuNewsServiceImpl implements GuNewsService {
             fileVO.setInsertYn("on".equals(insertOpt) ? "Y" : "N");
             fileVO.setGnewsId(gnewsId);
 
+            // DB에 신규 파일 정보 저장
             fileMapper.insert(fileVO);
+            // 원본 게시글 VO에 파일 정보 저장
             board.getFiles().add(fileVO);
 
         } catch (Exception e) {
@@ -80,16 +82,19 @@ public class GuNewsServiceImpl implements GuNewsService {
         }
     }
 
+    // 검색조건을 만족하는 게시글 총 개수
     @Override
     public int getTotal(Criteria cri) {
         return mapper.getTotalCount(cri);
     }
 
+    // 검색조건을 만족하는 게시글 목록
     @Override
     public List<GuNewsVO> getList(Criteria cri) {
         return mapper.getList(cri);
     }
 
+    // 글등록 + 파일추가
     @Transactional
     @Override
     public void register(GuNewsVO board,
@@ -111,11 +116,13 @@ public class GuNewsServiceImpl implements GuNewsService {
         }
     }
 
+    // 조회수 증가
     @Override
     public void increaseCount(Long gnewsId) {
         mapper.updateCount(gnewsId);
     }
 
+    // 글보기
     @Override
     public GuNewsVO getBoard(Long gnewsId) {
         GuNewsVO board = mapper.read(gnewsId);
@@ -123,6 +130,7 @@ public class GuNewsServiceImpl implements GuNewsService {
         return board;
     }
 
+    // 글수정 + 파일삭제
     @Transactional
     @Override
     public void updateBoard(GuNewsVO board,
@@ -175,6 +183,7 @@ public class GuNewsServiceImpl implements GuNewsService {
         mapper.update(board);
     }
 
+    // 글삭제 + 파일삭제
     @Transactional
     @Override
     public int deleteBoard(Long gnewsId) {
@@ -197,16 +206,19 @@ public class GuNewsServiceImpl implements GuNewsService {
         return mapper.delete(gnewsId);
     }
 
+    // 개별 파일정보 보기
     @Override
     public GuNewsFileVO getFile(Long fileId) {
         return fileMapper.read(fileId);
     }
 
+    // 이전글
     @Override
     public GuNewsVO getPrev(@Param("gnewsId") Long gnewsId, @Param("cri") Criteria cri) {
         return mapper.getPrev(gnewsId, cri);
     }
 
+    // 다음글
     @Override
     public GuNewsVO getNext(@Param("gnewsId") Long gnewsId, @Param("cri") Criteria cri) {
         return mapper.getNext(gnewsId, cri);

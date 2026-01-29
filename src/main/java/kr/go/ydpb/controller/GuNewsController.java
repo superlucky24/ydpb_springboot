@@ -23,17 +23,20 @@ public class GuNewsController {
     @Setter(onMethod_ = @Autowired)
     private GuNewsService service;
 
-    /* 목록 */
+    // 목록
     @GetMapping("list")
-    public String list(@ModelAttribute("cri") Criteria cri, Model model) {
+    public String list(@ModelAttribute("cri") Criteria cri,
+                       Model model) {
         model.addAttribute("list", service.getList(cri));
         model.addAttribute("pageMaker", new PageDTO(cri, service.getTotal(cri)));
         return "sub/gunews_list";
     }
 
-    /* 상세 보기 */
+    // 글보기
     @GetMapping("view")
-    public String view(@RequestParam("gnewsId") Long gnewsId, @ModelAttribute("cri") Criteria cri, Model model) {
+    public String view(@RequestParam("gnewsId") Long gnewsId,
+                       @ModelAttribute("cri") Criteria cri,
+                       Model model) {
         service.increaseCount(gnewsId);
         model.addAttribute("board", service.getBoard(gnewsId));
         model.addAttribute("prev", service.getPrev(gnewsId, cri));

@@ -38,7 +38,7 @@ public class AdminGuNewsController {
         return "admin/admin_gunews_list";
     }
 
-    // 상세보기
+    // 글보기
     @GetMapping("view")
     public String view(@RequestParam("gnewsId") Long gnewsId,
                        @ModelAttribute("cri") Criteria cri,

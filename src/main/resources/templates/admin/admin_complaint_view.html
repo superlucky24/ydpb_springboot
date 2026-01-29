@@ -178,19 +178,19 @@
         $(document).ready(function() {
             // 폼 할당
             var operForm = $('#operForm');
-
+            // 종합의견 요소
             var comAnswer = $('.com-answer');
             console.log(comAnswer.text());
             //속성 선택자 update 선택
             $("button[data-oper='update']").on('click',function(){
                  operForm.attr("action","/admin/complaint/update").submit()
-
             })
 
             //속성 선택자 list 선택
             $("button[data-oper='list'] ").on('click',function(){
                 // 목록 페이지는 아무런 데이터도 필요 없음 => comId 값을 삭제
                 operForm.find("#comId").remove();
+                // action 속성값 목록 요청으로 변경
                 operForm.attr("action","/admin/complaint/list");
                 operForm.submit();
             });
@@ -200,6 +200,7 @@
                 if (!confirm("정말 삭제하시겠습니까?")) {
                     return; // 취소 시 종료
                 }
+                // action 속성값 삭제 요청으로 변경, method 방식 변경
                 operForm.attr("action",'/admin/complaint/delete').attr("method","get");
                 operForm.submit();
             });

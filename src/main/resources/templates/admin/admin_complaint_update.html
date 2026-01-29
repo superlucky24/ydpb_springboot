@@ -191,19 +191,25 @@
                 var operation  = $(this).data("oper");
                 // 콘솔 출력
                 console.log(operation);
+                //data-oper 값을 조건으로 분기
                 if(operation ==='list'){
+                    // 목록으로 가는 경우 action 값과 method 값 수정
                     formObj.attr("action","/admin/complaint/list").attr("method","get");
+                    // clone으로 유지할 데이터 복사
                     var pageNumTag = $("input[name='pageNum']").clone();
                     var amountTag = $("input[name='amount']").clone();
 
-                    formObj.empty();
+                    formObj.empty(); // 리스트로 갈 시 입력데이터 필요없으므로 제거
 
+                    //clone으로 복사한 데이터 폼에 붙임
                     formObj.append(pageNumTag);
                     formObj.append(amountTag);
 
-                }else if(operation ==='update'){
+                }else if(operation ==='update'){ // 수정인 경우
+                    // action값 수정 요청으로 변경
                     formObj.attr("action","/admin/complaint/update");
                 }
+                // 정상처리되는지 폼 로그 출력
                 console.log(formObj.serialize());
                 // 폼 submit() 실행
                 formObj.submit();

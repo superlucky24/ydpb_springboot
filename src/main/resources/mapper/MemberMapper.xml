@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!--로그인 처리 sql mapper xml - 성민,승환,귀환 -->
 <mapper namespace="kr.go.ydpb.mapper.MemberMapper">
 
     <select id="Login" parameterType="string" resultType="kr.go.ydpb.domain.MemberVO">
@@ -23,6 +24,7 @@
 <!--            MEMID = #{memId}-->
 <!--    </update>-->
 
+<!--    회원 정보 수정 동적 sql - 귀환 -->
     <update id="modifyMember" parameterType="kr.go.ydpb.domain.MemberVO">
         UPDATE TBL_MEMBER
         <set>
@@ -34,7 +36,6 @@
             <if test="memPhone != null">memPhone = #{memPhone},</if>
             <if test="memEmail != null">memEmail = #{memEmail},</if>
             <if test="memNews != null">memNews = #{memNews},</if>
-
         </set>
         WHERE MEMID = #{memId}
     </update>

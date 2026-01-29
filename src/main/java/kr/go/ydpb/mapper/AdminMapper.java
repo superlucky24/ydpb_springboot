@@ -7,11 +7,11 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+//현재 미사용중인 인터페이스
+
 @Mapper
 public interface AdminMapper {
     //메서드
-
-
 
     // 회원
     //public void insertMember(MemberVO mvo);

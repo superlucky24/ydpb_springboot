@@ -7,18 +7,8 @@
 
     <insert id="insertMember" parameterType="kr.go.ydpb.domain.MemberVO">
         INSERT INTO tbl_member (
-            memId,
-            memName,
-            memBirth,
-            memGender,
-            memPassword,
-            memAddress,
-            memAddressDetail,
-            memTel,
-            memPhone,
-            memEmail,
-            memNews,
-            memRole
+            memId,  memName, memBirth,    memGender,   memPassword,   memAddress,
+            memAddressDetail,   memTel,   memPhone,   memEmail,  memNews,   memRole
         ) VALUES (
             #{memId}, #{memName}, #{memBirth, jdbcType=DATE}, #{memGender}, #{memPassword}, #{memAddress},
             #{memAddressDetail}, #{memTel}, #{memPhone}, #{memEmail}, #{memNews}, 0
@@ -38,6 +28,7 @@
         WHERE MEMID = #{memId}
     </select>
 
+<!-- 카카오 가입자 insert-->
     <insert id="insertKaKaoMember" parameterType="kr.go.ydpb.domain.MemberVO">
         INSERT INTO tbl_member (
             MEMID,
@@ -56,6 +47,7 @@
          )
     </insert>
 
+<!-- 네이버 가입자 insert-->
     <insert id="insertNaverMember" parameterType="kr.go.ydpb.domain.MemberVO">
         INSERT INTO tbl_member (
             MEMID,
@@ -74,6 +66,29 @@
              #{memPhone},
              0
          )
+    </insert>
+
+    <!--    두 사이트 가입자 한번에 처리하는 동적 sql-->
+    <insert id="insertNaverKakaoMember" parameterType="kr.go.ydpb.domain.MemberVO">
+        INSERT INTO TBL_MEMBER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="memId != null">memId,</if>
+            <if test="memName != null">memName,</if>
+            <if test="memEmail != null">memEmail,</if>
+            <if test="loginType != null">loginType,</if>
+            <if test="memPassword != null">memPassword,</if>
+            <if test="memPhone != null">memPhone,</if>
+            memRole
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="memId != null">#{memId},</if>
+            <if test="memName != null">#{memName},</if>
+            <if test="memEmail != null">#{memEmail},</if>
+            <if test="loginType != null">#{loginType},</if>
+            <if test="memPassword != null">#{memPassword},</if>
+            <if test="memPhone != null">#{memPhone},</if>
+            0
+        </trim>
     </insert>
 
 

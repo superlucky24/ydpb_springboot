@@ -11,6 +11,7 @@
         WHERE memId = #{memId}
     </select>
 
+    <!-- 기존코드, 수정 시 특정값만 입력후 전송할때 나머지 빈값들이 DB에서 삭제됨 -->
 <!--    <update id="modifyMember">-->
 <!--        UPDATE TBL_MEMBER-->
 <!--        SET-->

@@ -22,7 +22,7 @@ public class MyPageController {
     /* 정보 수정 페이지 통합 입구 */
     @GetMapping({"", "/"})
     public String myPage(HttpSession session, Model model) {
-        // 1. 로그인 체크
+        // 1. 로그인 체크 (비로그인시 로그인 창으로)
         String memId = (String) session.getAttribute("memId");
         if (memId == null) {
             return "redirect:/login";
@@ -32,7 +32,8 @@ public class MyPageController {
         MemberVO member = memberService.getMemberById(memId);
         String loginType = member.getLoginType();
 
-        boolean isFirstInput = (member.getMemGender()==null);
+        /* 최초 입력 확인용, 사용은 안됨 */
+//        boolean isFirstInput = (member.getMemGender()==null);
 
         if(member.getMemNews() ==null){
             member.setMemNews("Y");
@@ -41,9 +42,12 @@ public class MyPageController {
 //            member.setMemGender("남");
 //        }
         model.addAttribute("member", member);
-        model.addAttribute("isFirstInput", isFirstInput);
+
+        /* 수정창 최초 입력시 해당하는 기능 작동가능 */
+//        model.addAttribute("isFirstInput", isFirstInput);
 
         // 3. 로그인 타입에 따라 적절한 수정 페이지로 자동 이동
+        // 일반회원은 loginType이 null
         if (loginType != null) {
             return "member/modify_nk";
         }
@@ -90,6 +94,7 @@ public class MyPageController {
 
         // matches(입력한 평문, DB의 암호화된 값) 비교
         if (member != null && passwordEncoder.matches(currentPassword, member.getMemPassword())) {
+            // 검증 성공 시 세션에 '인증됨' 표시를 남겨 다음 페이지 접근을 허용
             session.setAttribute("passwordVerified", true);
             return "redirect:/mypage/changepassword";
         } else {

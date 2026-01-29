@@ -27,6 +27,7 @@
                             <div class="p-search clearfix">
                                 <div class="p-form-group">
                                     <select name="searchType" class="p-input">
+                                        <!-- 새로고침해도 최근 검색조건 유지되도록 selected -->
                                         <option value="I" th:selected="${pageMaker.cri.searchType eq 'I'}">아이디</option>
                                         <option value="N" th:selected="${pageMaker.cri.searchType eq 'N'}">이름</option>
                                         <option value="P" th:selected="${pageMaker.cri.searchType eq 'P'}">휴대폰번호</option>
@@ -35,7 +36,7 @@
                                     </select>
                                     <input name="searchKeyword" th:value="${pageMaker.cri.searchKeyword}" id="searchKeyword" class="p-input" type="text">
 
-                                    <input type="hidden" name="pageNum" value="1">
+                                    <input type="hidden" name="pageNum" value="1"> <!-- 검색 후 무조건 1페이지로 가도록함 -->
                                     <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
 
                                     <span class="p-form-group__btn">

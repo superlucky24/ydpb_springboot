@@ -4,6 +4,7 @@ import kr.go.ydpb.domain.Criteria;
 import kr.go.ydpb.domain.MemberVO;
 import kr.go.ydpb.domain.PageDTO;
 import kr.go.ydpb.service.AdminMemberService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,19 +13,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+/* 관리자 페이지 회원목록 컨트롤러 */
 @Controller
+@AllArgsConstructor
 @RequestMapping("/admin/member")
 public class AdminMemberController {
 
-    @Autowired
-    private AdminMemberService adminMemberService;
+    private final AdminMemberService adminMemberService;
 
+    // 1. 관리자용 회원 목록 조회 (페이징 및 검색 처리 포함)
     @GetMapping("/list")
     public String list(Criteria cri, Model model) {
+        // 검색 조건에 맞게 전체 회원수 파악하여 페이징 계산
         int total = adminMemberService.getTotalCount(cri);
         model.addAttribute("list", adminMemberService.getMemberList(cri));
+        // 페이지 번호
         model.addAttribute("pageMaker", new PageDTO(cri, total));
+        // 상단 전체 회원 수 표시용
         model.addAttribute("total", total);
         return "admin/admin_member_list";
     }
@@ -34,13 +39,14 @@ public class AdminMemberController {
     public String view(@RequestParam("memId") String memId, Criteria cri, Model model) {
         MemberVO member = adminMemberService.getMemberById(memId);
         model.addAttribute("member", member);
-        model.addAttribute("cri", cri); // HTML에서 `${cri.pageNum}` 등을 쓸 수 있게 함
+        // 목록으로 돌아갈때 내가 보던 페이지로 돌아가기 위함
+        model.addAttribute("cri", cri);
         return "admin/admin_member_view";
     }
 
     // 3. 비밀번호 수정 후 정보 유지
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH},
-            value = "/updatePw",
+            value = "/updatepw",
             consumes = "application/json",
             produces = {MediaType.TEXT_PLAIN_VALUE})
     public ResponseEntity<String> updatePw(@RequestBody MemberVO member) {
@@ -50,6 +56,7 @@ public class AdminMemberController {
                 : new ResponseEntity<>("비밀번호 변경에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /* 뒤로가기 할때 알림창 뜨는 문제를 해결하기위해 기존 방식에서 REST API 방식으로 수정*/
     /*@PostMapping("/updatePw")
     public String updatePw(@RequestParam("memId") String memId,
                            @RequestParam("memPassword") String memPassword,

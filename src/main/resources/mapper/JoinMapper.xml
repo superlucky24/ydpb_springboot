@@ -72,9 +72,9 @@
     <insert id="insertNaverKakaoMember" parameterType="kr.go.ydpb.domain.MemberVO">
         INSERT INTO TBL_MEMBER
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="memId != null">mem_id,</if>
-            <if test="memName != null">mem_name,</if>
-            <if test="memEmail != null">mem_email,</if>
+            <if test="memId != null">memId,</if>
+            <if test="memName != null">memName,</if>
+            <if test="memEmail != null">memEmail,</if>
             <if test="loginType != null">loginType,</if>
             <if test="memPassword != null">memPassword,</if>
             <if test="memPhone != null">memPhone,</if>

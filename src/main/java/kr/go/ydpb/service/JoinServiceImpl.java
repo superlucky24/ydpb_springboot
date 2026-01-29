@@ -66,7 +66,7 @@ public class JoinServiceImpl implements JoinService{
         // 비밀번호는 사용 안 함 (NOT NULL 대응)
         newMember.setMemPassword(encoder.encode(UUID.randomUUID().toString()));
 
-        joinMapper.insertKaKaoMember(newMember);
+        joinMapper.insertNaverKakaoMember(newMember);
 
         return newMember;
     }
@@ -89,7 +89,7 @@ public class JoinServiceImpl implements JoinService{
             naverMember.setLoginType("NAVER");
             naverMember.setMemPassword(encoder.encode(UUID.randomUUID().toString()));
 
-            joinMapper.insertNaverMember(naverMember);
+            joinMapper.insertNaverKakaoMember(naverMember);
         }
 
         session.setAttribute("memId",naverMember.getMemId());

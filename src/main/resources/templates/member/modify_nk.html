@@ -116,6 +116,7 @@
                             <tr>
                                 <th scope="row">주소 <span class="required_mark">필수</span></th>
                                 <td>
+                                    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
                                     <button type="button" class="btn btn_cancel btn_sm" onclick="execDaumPostcode()">주소찾기</button>
                                     <input type="text" th:field="*{memAddress}" id="memAddress" class="input" readonly required style="margin-top:5px;">
                                     <input type="text" th:field="*{memAddressDetail}" id="memAddressDetail" class="input" placeholder="상세주소" style="margin-top:5px;" required >
@@ -346,6 +347,7 @@
             //     isAddressValid = false;
             // }
 
+            isAddressValid = false;
             // 주소창에 입력이 이루어지면 이벤트 실행
             memAddress.addEventListener("input", function () {
                 console.log("주소 입력 리스너 ");

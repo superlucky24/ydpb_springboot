@@ -81,8 +81,17 @@
                                     <li class="sub_complaint">
                                         <p class="sub_complaint_title"><a th:href="@{/complaint/list}">민원안내</a></p>
                                     </li>
-                                    <li class="sub_complaint">
-                                        <p class="sub_complaint_title"><a th:href="@{/sub/complaint_sector}">분야별민원</a></p>
+                                    <li class="sub_group">
+                                        <p class="sub_group_title">분야별민원</p>
+                                        <ul class="sub_group_list">
+                                            <li><a th:href="@{/sub/complaint_sector}">여권개요</a></li>
+
+                                            <li class="side_active">
+                                                <a th:href="@{/sub/signature}">주민등록 변경∙정정 신고</a>
+                                            </li>
+
+                                            <li><a th:href="@{/sub/complete}">가족관계증명서</a></li>
+                                        </ul>
                                     </li>
                                     <li class="sub_complaint">
                                         <p class="sub_complaint_title"><a th:href="@{/complaint/write}" id="btn_write_no_auth">민원신고</a></p>

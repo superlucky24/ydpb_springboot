@@ -5,12 +5,12 @@ import kr.go.ydpb.domain.MemberVO;
 import kr.go.ydpb.domain.PageDTO;
 import kr.go.ydpb.service.AdminMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -39,7 +39,18 @@ public class AdminMemberController {
     }
 
     // 3. 비밀번호 수정 후 정보 유지
-    @PostMapping("/updatePw")
+    @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH},
+            value = "/updatePw",
+            consumes = "application/json",
+            produces = {MediaType.TEXT_PLAIN_VALUE})
+    public ResponseEntity<String> updatePw(@RequestBody MemberVO member) {
+        int result = adminMemberService.updatePassword(member.getMemId(), member.getMemPassword());
+        return (result == 1)
+                ? new ResponseEntity<>("비밀번호가 성공적으로 변경되었습니다.", HttpStatus.OK)
+                : new ResponseEntity<>("비밀번호 변경에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /*@PostMapping("/updatePw")
     public String updatePw(@RequestParam("memId") String memId,
                            @RequestParam("memPassword") String memPassword,
                            Criteria cri, // 페이지 정보 받기
@@ -60,7 +71,7 @@ public class AdminMemberController {
         rttr.addAttribute("searchKeyword", cri.getSearchKeyword());
 
         return "redirect:/admin/member/view";
-    }
+    }*/
 
     // 4. 삭제 후 원래 보던 페이지로 이동
     @GetMapping("/delete")

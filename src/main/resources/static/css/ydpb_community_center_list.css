@@ -128,7 +128,7 @@ select:hover {
 #searchKeyword:hover {
     border-color: #177ac8;
 }
-.p-search #searchType {
+.p-search select {
     width: 120px;
     min-width: 120px;
 }
@@ -220,8 +220,19 @@ em {
 .p_table .p_sub {
     text-align: left;
     box-sizing: border-box;
-
 }
+.p_table .board_new {
+    display: inline-block;
+    width: 23px;
+    height: 23px;
+    margin-left: 2px;
+    margin-top: 1px;
+    font-size: 0;
+    text-indent: -9999px;
+    vertical-align: top;
+    background: url(../images/sub/icon_new.png) no-repeat center;
+}
+
 /* p_ctrl */
 .p_ctrl {
     position: relative;

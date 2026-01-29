@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.ydpb.mapper.JoinMapper">
+
+    <insert id="insertMember" parameterType="kr.go.ydpb.domain.MemberVO">
+        INSERT INTO tbl_member (
+            memId,
+            memName,
+            memBirth,
+            memGender,
+            memPassword,
+            memAddress,
+            memAddressDetail,
+            memTel,
+            memPhone,
+            memEmail,
+            memNews,
+            memRole
+        ) VALUES (
+            #{memId}, #{memName}, #{memBirth, jdbcType=DATE}, #{memGender}, #{memPassword}, #{memAddress},
+            #{memAddressDetail}, #{memTel}, #{memPhone}, #{memEmail}, #{memNews}, 0
+        )
+    </insert>
+
+<!--    아이디 중복 확인-->
+    <select id="countById" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM tbl_member WHERE memId = #{memId}
+    </select>
+
+<!--    네이버 카카오 회원 추가-->
+<!--   존재하는 회원인지 체크 -->
+    <select id="findById" resultType="kr.go.ydpb.domain.MemberVO">
+        SELECT *
+        FROM tbl_member
+        WHERE MEMID = #{memId}
+    </select>
+
+    <insert id="insertKaKaoMember" parameterType="kr.go.ydpb.domain.MemberVO">
+        INSERT INTO tbl_member (
+            MEMID,
+            MEMNAME,
+            MEMEMAIL,
+            LOGINTYPE,
+            MEMPASSWORD,
+            memRole
+        ) VALUES (
+             #{memId},
+             #{memName},
+             #{memEmail},
+             'KAKAO',
+             #{memPassword},
+             0
+         )
+    </insert>
+
+    <insert id="insertNaverMember" parameterType="kr.go.ydpb.domain.MemberVO">
+        INSERT INTO tbl_member (
+            MEMID,
+            MEMNAME,
+            MEMEMAIL,
+            LOGINTYPE,
+            MEMPASSWORD,
+            MEMPHONE,
+            memRole
+        ) VALUES (
+             #{memId},
+             #{memName},
+             #{memEmail},
+             'NAVER',
+             #{memPassword},
+             #{memPhone},
+             0
+         )
+    </insert>
+
+
+</mapper>

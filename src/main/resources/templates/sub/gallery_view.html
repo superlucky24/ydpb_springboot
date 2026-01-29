@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우리동 갤러리 상세 | 자치회관 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_view.css}">
+    <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script>const menuName = '우리동 갤러리';</script>
+    <script th:src="@{/js/ydpb.js}"></script>
+</head>
+<body>
+<div id="wrap">
+    <header class="header" th:replace="~{/common/header_footer_layout :: header}"></header>
+    <div class="search" th:replace="~{/common/header_footer_layout :: search}"></div>
+
+    <div class="container">
+        <div class="contents_wrap safe_area">
+            <!-- side menu -->
+            <aside class="side_menu" th:replace="~{/common/sidemenu_layout :: sidemenu}"></aside>
+            <!-- //side menu -->
+
+            <main>
+                <div class="contents" id="board">
+                    <div class="board clearfix">
+                        <div class="bbs_wrap">
+                            <div class="bbs_info">
+                                <div class="bbs_count">
+                                    <span class="line">
+                                        조회수
+                                        <strong th:text="${board.galCount}"></strong>
+                                    </span>
+                                    <span>
+                                        작성일
+                                        <strong th:text="${#dates.format(board.galDate, 'yyyy-MM-dd')}"></strong>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <table class="p-table">
+                                <colgroup>
+                                    <col class="w20p">
+                                    <col>
+                                </colgroup>
+                                <tbody>
+                                <tr>
+                                    <td colspan="2"><span class="td_title" th:text="${board.galTitle}"></span></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="td_text" th:utext="${board.galContent}"></td>
+                                </tr>
+                                <tr th:if="${board.files != null and #lists.size(board.files) > 0}">
+                                    <td colspan="2">
+                                        <div class="board_img_view" th:each="file : ${board.files}"
+                                             th:if="${file.fileName != null
+                                              and (file.fileName.toLowerCase().endsWith('.jpg')
+                                              or file.fileName.toLowerCase().endsWith('.jpeg')
+                                              or file.fileName.toLowerCase().endsWith('.png')
+                                              or file.fileName.toLowerCase().endsWith('.gif'))}">
+                                            <img th:src="@{/gallery/download(fileId=${file.fileId})}">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">행정동</th>
+                                    <td>영등포본동</td>
+                                </tr>
+
+                                <tr th:if="${board.files != null and #lists.size(board.files) > 0}">
+                                    <th scope="row">파일</th>
+                                    <td>
+                                        <ul class="p-attach">
+                                            <li class="p-attach_item" th:each="file : ${board.files}">
+                                                <a class="p-attach_link" th:href="@{/gallery/downloadAttachment(fileId=${file.fileId})}">
+                                                    <span th:text="*{file.fileName}">파일명 출력</span>
+                                                    <span class="p-down_icon" aria-hidden="true"></span>
+                                                </a>
+                                                <a th:href="@{/gallery/download(fileId=${file.fileId})}" target="_blank" class="p-attach_prv">
+                                                    <span class="p-prv"></span>
+                                                    미리보기
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+
+                                <tr th:if="${board.galDepartment != null}">
+                                    <th scope="row">부서</th>
+                                    <td th:text="${board.galDepartment}"></td>
+                                </tr>
+
+                                <tr th:if="${board.galTel != null}">
+                                    <th scope="row">전화번호</th>
+                                    <td th:text="${board.galTel}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="form_btns_wrap">
+
+                                <div class="btns">
+                                    <a class="p-btn"
+                                       th:href="@{/gallery/list(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}">
+                                        목록
+                                        <span class="p-btn_write"></span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <ul class="p-post">
+                                <li class="p-post-move prev">
+                                    <strong class="p-post-move_title">이전글</strong>
+                                    <a th:if="${prev != null}"
+                                       th:href="@{/gallery/view(galId=${prev.galId}, pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       class="p-post-move_link"
+                                       th:text="${prev.galTitle}"></a>
+
+                                    <span th:if="${prev == null}" class="p-post-move_link">이전글이 없습니다</span>
+                                </li>
+
+                                <li class="p-post-move next">
+                                    <strong class="p-post-move_title">다음글</strong>
+                                    <a th:if="${next != null}"
+                                       th:href="@{/gallery/view(galId=${next.galId}, pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}"
+                                       class="p-post-move_link"
+                                       th:text="${next.galTitle}"></a>
+
+                                    <span th:if="${next == null}" class="p-post-move_link">다음글이 없습니다</span>
+                                </li>
+                            </ul>
+
+
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <!-- footer -->
+    <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
+    <!-- //footer -->
+</div>
+</body>
+</html>

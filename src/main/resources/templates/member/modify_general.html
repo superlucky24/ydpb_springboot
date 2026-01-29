@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>개인정보수정-일반회원</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_member.css}">
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script>const menuName = '개인정보수정-일반회원';</script>
+    <script th:src="@{/js/ydpb.js}"></script>
+    <script th:src="@{/js/ydpb_member.js}"></script>
+</head>
+<body>
+<div id="wrap" class="member_wrap">
+    <header class="header" th:replace="~{/common/header_footer_layout :: header}"></header>
+
+    <div class="search" th:replace="~{/common/header_footer_layout :: search}"></div>
+
+    <div class="container">
+        <div class="contents_wrap safe_area">
+            <aside class="side_menu" th:replace="~{/common/sidemenu_layout :: sidemenu}"></aside>
+
+            <main>
+                <div class="location">
+                    <div class="location_title">
+                        <h2>마이페이지</h2>
+                    </div>
+                    <div class="location_path">
+                        <span class="loc_home"><a th:href="@{/}">홈</a></span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text"><a th:href="@{/}">동주민센터</a></span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text"><a th:href="@{/}">영등포본동</a></span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text">개인정보 수정</span>
+                    </div>
+                    <div class="location_icon">
+                        <ul class="loc_fixed_icon">
+                            <li><button type="button" class="loc_print">프린트</button></li>
+                            <li class="icon_sns">
+                                <button type="button" class="loc_sns">SNS</button>
+                                <div class="sns_list">
+                                    <a th:href="@{/}" class="loc_sns_icon1">a</a>
+                                    <a th:href="@{/}" class="loc_sns_icon2">a</a>
+                                    <a th:href="@{/}" class="loc_sns_icon3">a</a>
+                                    <a th:href="@{/}" class="loc_sns_icon4">a</a>
+                                    <a th:href="@{/}" class="loc_sns_icon5">a</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="member_contents join_contents">
+                    <div class="location_title">
+                        <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">개인정보 수정</h2>
+                    </div>
+                    <form th:action="@{/mypage/modify}" method="post" th:object="${member}" id="modify_form">
+                        <table class="table_form">
+                            <colgroup>
+                                <col class="col1"><col class="col2">
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th scope="row">아이디</th>
+                                <td><span th:text="*{memId}">아이디</span></td>
+                                <input type="hidden" th:field="*{memId}">
+                                <input type="hidden" th:field="*{memPassword}">
+                                <input type="hidden" th:field="*{memName}">
+                                <input type="hidden" th:field="*{memBirth}">
+                                <input type="hidden" th:field="*{memGender}">
+                                <input type="hidden" th:field="*{memPhone}">
+                            </tr>
+                            <tr>
+                                <th scope="row">이름</th>
+                                <td>[[*{memName}]]</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">생년월일</th>
+                                <td>[[*{memBirth}]]</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">성별</th>
+                                <td>[[*{memGender}]]</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">주소 <span class="required_mark">필수</span></th>
+                                <td>
+                                    <button type="button" class="btn btn_cancel btn_sm" onclick="execDaumPostcode()">주소찾기</button>
+                                    <input type="text" th:field="*{memAddress}" id="memAddress" class="input" readonly required style="margin-top:5px;">
+                                    <input type="text" th:field="*{memAddressDetail}" id="memAddressDetail" class="input" placeholder="상세주소" style="margin-top:5px;">
+                                    <p class="addr_msg">※ 상세주소를 입력해주세요.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">일반전화</th>
+                                <td>
+                                    <input type="text" th:field="*{memTel}" id="memTel" class="input input_auto"
+                                           maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    <p class="tel_msg">※ -없이 숫자만 입력해주세요. (최대 11자)</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">휴대폰</th>
+                                <td>
+                                    <span th:if="*{memPhone != null and memPhone.length() == 11}" th:text="|${#strings.substring(member.memPhone,0,3)}-${#strings.substring(member.memPhone,3,7)}-${#strings.substring(member.memPhone,7,11)}|"></span>
+                                    <span th:if="*{memPhone != null and memPhone.length() == 10}" th:text="|${#strings.substring(member.memPhone,0,3)}-${#strings.substring(member.memPhone,3,6)}-${#strings.substring(member.memPhone,6,10)}|"></span>
+                                    <span th:if="*{memPhone == null}" th:text="'번호 정보 없음'"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">이메일 <span class="required_mark">필수</span></th>
+                                <td>
+                                    <input type="text" th:field="*{memEmail}" id="memEmail" class="input input_auto" required>
+                                    <p class="email_msg">※ 이메일을 입력해주세요</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">영등포구소식</th>
+                                <td>
+                                    <div class="radio">
+                                        <input type="radio" th:field="*{memNews}" id="memNewsY" value="Y"><label for="memNewsY">받음</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input type="radio" th:field="*{memNews}" id="memNewsN" value="N"><label for="memNewsN">받지않음</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="btns" style="margin-top:40px; text-align:center;">
+                            <input type="submit" class="btn btn_write" value="정보 수정 완료">
+                            <a th:href="@{/mypage/changepassword}" class="btn btn_write" style="background-color: #666;">비밀번호 변경</a>
+                            <a th:href="@{/}" class="btn btn_cancel">홈으로</a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="charge_info">
+                    <ul>
+                        <li><span class="info_name">담당부서</span><span>영등포본동</span></li>
+                        <li><span class="info_name">담당전화번호</span><span>02-2670-1026</span></li>
+                    </ul>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // 1. 서버 알림
+    const msg = [[${msg}]];
+    if(msg) { alert(msg); }
+
+    // 2. 유효성 검사 및 전송 차단 로직
+    document.addEventListener("DOMContentLoaded", function() {
+        const modifyForm = document.getElementById("modify_form");
+        const memTel = document.getElementById("memTel");
+        const telMsg = document.querySelector(".tel_msg");
+        const memEmail = document.getElementById("memEmail");
+        const emailMsg = document.querySelector(".email_msg");
+
+        // 유효성 상태 저장 변수 (초기값은 기존 데이터가 있으므로 true)
+        let isTelValid = true;
+        let isEmailValid = true;
+
+        // 일반전화 검사
+        if(memTel) {
+            memTel.addEventListener("keyup", function() {
+                const val = this.value;
+                if(val === "") {
+                    telMsg.textContent = "※ -없이 숫자만 입력해주세요. (최대 11자)";
+                    telMsg.classList.remove("cautionText");
+                    memTel.classList.remove("cautionBorder");
+                    isTelValid = true; // 빈 값은 허용
+                } else if(/^(02|031|032|033|041|042|043|044|051|052|053|054|055|061|062|063|064)\d{7,8}$/.test(val)) {
+                    telMsg.textContent = "※ 올바른 형식입니다.";
+                    telMsg.classList.remove("cautionText");
+                    memTel.classList.remove("cautionBorder");
+                    isTelValid = true;
+                } else {
+                    telMsg.textContent = "※ 올바른 지역번호를 포함한 번호를 입력해주세요.";
+                    telMsg.classList.add("cautionText");
+                    memTel.classList.add("cautionBorder");
+                    isTelValid = false;
+                }
+            });
+        }
+
+        // 이메일 검사
+        if(memEmail) {
+            memEmail.addEventListener("keyup", function() {
+                const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+                if(emailRegex.test(this.value)) {
+                    emailMsg.textContent = "※ 이메일 입력 완료";
+                    emailMsg.classList.remove("cautionText");
+                    memEmail.classList.remove("cautionBorder");
+                    isEmailValid = true;
+                } else {
+                    emailMsg.textContent = "※ 이메일 형식이 올바르지 않습니다.";
+                    emailMsg.classList.add("cautionText");
+                    memEmail.classList.add("cautionBorder");
+                    isEmailValid = false;
+                }
+            });
+        }
+
+        // 최종 전송 차단 로직
+        modifyForm.addEventListener("submit", function(event) {
+            if (!isTelValid) {
+                alert("전화번호 형식을 확인해주세요.");
+                memTel.focus();
+                event.preventDefault();
+                return false;
+            }
+            if (!isEmailValid) {
+                alert("이메일 형식을 확인해주세요.");
+                memEmail.focus();
+                event.preventDefault();
+                return false;
+            }
+
+        });
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

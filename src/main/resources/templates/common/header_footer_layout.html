@@ -124,7 +124,7 @@
                                     <!-- GNB 2depth -->
                                     <ul  data-depth="2">
                                         <li >
-                                            <a data-depth="2" href="#">
+                                            <a data-depth="2" th:href="@{/complaint/list}">
                                                 <span>민원안내</span></a>
                                             <ul  data-depth="3">
                                                 <li >
@@ -182,21 +182,21 @@
                                             </ul>
                                         </li>
                                         <li >
-                                            <a data-depth="2" href="#">
+                                            <a data-depth="2" th:href="@{/sub/complaint_sector}">
                                                 <span>분야별민원</span></a>
                                             <!-- GNB 3depth -->
                                             <ul  data-depth="3">
                                                 <li >
-                                                    <a data-depth="3" href="#">
+                                                    <a data-depth="3" th:href="@{/sub/complaint_sector}">
                                                         <span>여권</span></a>
                                                 </li>
                                                 <li >
-                                                    <a data-depth="3" href="#">
-                                                        <span>가족관계등록</span></a>
+                                                    <a data-depth="3" th:href="@{/sub/signature}">
+                                                        <span>주민등록 변경∙정정 신고</span></a>
                                                 </li>
                                                 <li >
-                                                    <a data-depth="3" href="#">
-                                                        <span>전입자 맞춤 안내서비스</span></a>
+                                                    <a data-depth="3" th:href="@{/sub/complete}">
+                                                        <span>가족관계증명서</span></a>
                                                 </li>
                                                 <li >
                                                     <a data-depth="3" href="#">
@@ -225,7 +225,7 @@
                                             </ul>
                                         </li>
                                         <li >
-                                            <a data-depth="2" href="#">
+                                            <a data-depth="2" th:href="@{/complaint/write}" id="btn_write_no_auth">
                                                 <span>민원신고</span></a>
                                             <ul  data-depth="3">
                                                 <li >
@@ -255,7 +255,7 @@
                                             </ul>
                                         </li>
                                         <li >
-                                            <a data-depth="2" href="#">
+                                            <a data-depth="2" th:href="@{/sub/hunjang}">
                                                 <span>행정서비스헌장</span></a>
                                             <ul  data-depth="3">
                                                 <li >
@@ -1466,9 +1466,9 @@
                 <!-- 로그인 회원가입 -->
                 <div class="red_box">
                     <a th:if="${session.memId == null}" th:href="@{/login}" class="icon_login">로그인</a>
-                    <a th:if="${session.memId == null}" th:href="@{/join}" class="icon_join">회원가입</a>
+                    <a th:if="${session.memId == null}" th:href="@{/member/join}" class="icon_join">회원가입</a>
 
-                    <a th:if="${session.memId != null}" th:text="${session.memId} + '님'"></a>
+                    <a th:if="${session.memId != null}" th:href="@{/mypage}" th:text="${session.memName} + '님'" class="icon_mypage"></a>
                     <a th:if="${session.memId != null}" th:href="@{/logout}" class="icon_logout">로그아웃</a>
                     <a th:if="${session.admin == 1}" th:href="@{/admin/member/list}" class="admin_menu" style="background-image:url('/images/sub/blank.png');">관리자메뉴</a>
 
@@ -1477,9 +1477,8 @@
             </div>
         </div>
         <!-- /GNB -->
-        <header class="header" th:insert="~{/admin/common/admin_header_footer::header}"></header>
+        <div class="header" id="adminHeader" th:if="${session.admin == 1}" th:insert="~{/admin/common/admin_header_footer::header}"></div>
     </header>
-    </div>
 
     <!-- search -->
     <div class="search" th:fragment="search">
@@ -1490,19 +1489,19 @@
                         <div>
                             <!-- 날씨 -->
 
-                            <div class="weather">
+                            <div class="weather" id="weather_wrap">
                                 <div class="icon">
-                                    <img th:src="@{/images/common/weather_04.png}" alt="" class="WEATHER_ICON"></div>
+                                    <img th:src="@{/images/common/weather_01.png}" id="weather_temperature_img" alt="날씨 이미지" class="WEATHER_ICON"></div>
                                 <div>
-                                    <p>
-                                        <span id="weather_temperature_num">4.1˚C</span>
-                                        <span id="weather_temperature_text">흐림</span>
+                                    <p class="weather_status">
+                                        <span id="weather_temperature_num">-</span>
+                                        <span id="weather_temperature_text"></span>
                                     </p>
-                                    <dl>
+                                    <dl class="dust_status">
                                         <dt>미세먼지</dt>
-                                        <dd id="air_dust1" class="dust_02">보통</dd>
+                                        <dd id="air_dust1" class="">-</dd>
                                         <dt>초미세먼지</dt>
-                                        <dd id="air_dust2" class="dust_02">보통</dd>
+                                        <dd id="air_dust2" class="">-</dd>
                                     </dl>
                                 </div>
                             </div>
@@ -1859,7 +1858,24 @@
     </footer>
     <!-- //footer -->
 
-
 </div>
+<!-- //wrap -->
+    <script>
+        $(document).ready(function (){
+            // 로그인 상태 아닐 시 글쓰기 버튼 클릭 이벤트
+            $('#btn_write_no_auth').on('click', function(e) {
+                e.preventDefault();
+                alert('로그인 후에 글쓰기 가능합니다.');
+                location.href = $(this).attr('href');
+            });
+
+            // 오류 메세지 출력
+            let errorMsg = `[[${errorMsg}]]`;
+            if(errorMsg) {
+                alert(errorMsg);
+                history.replaceState({}, null, null);
+            }
+        });
+    </script>
 </body>
 </html>

@@ -25,6 +25,13 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-security-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-security-oauth2-client'
+	testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:4.0.1'
@@ -37,6 +44,11 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:4.0.1'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// 인증 관련 의존성 추가
+	implementation 'com.google.firebase:firebase-admin:9.2.0'
+	// 서명 관련 의존성 추가
+	implementation 'org.apache.pdfbox:pdfbox:2.0.30'
+	implementation 'org.apache.pdfbox:fontbox:2.0.30'
 }
 
 tasks.named('test') {

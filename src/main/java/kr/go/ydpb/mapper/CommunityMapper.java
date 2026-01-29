@@ -3,6 +3,7 @@ package kr.go.ydpb.mapper;
 import kr.go.ydpb.domain.CommunityVO;
 import kr.go.ydpb.domain.Criteria;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,5 +16,11 @@ public interface CommunityMapper {
     public CommunityVO read(long bno);
     public int delete(Long bno);
     public int update(CommunityVO board);
-    void updateCount(Long cmntId);
+    public void updateCount(Long cmntId);
+    public CommunityVO getPrev(@Param("cmntId") Long cmntId,
+                               @Param("cri") Criteria cri);
+
+    public CommunityVO getNext(@Param("cmntId") Long cmntId,
+                               @Param("cri") Criteria cri);
+
 }

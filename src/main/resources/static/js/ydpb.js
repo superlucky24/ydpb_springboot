@@ -20,7 +20,39 @@ function initUi() {
         e.preventDefault();
         layerAlert('죄송합니다.<br> 현재 준비중인 메뉴입니다.');
     });
-    
+
+    // **파일명 표시 로직 추가** 260121 윤성민 추가
+    bindFileNameDisplay("file_1");
+    bindFileNameDisplay("file_2");
+    bindFileNameDisplay("slide_file");
+    $('form').on('submit', function(e) {
+        const fileInputs = $('input[type="file"]');
+
+        // 파일이 하나라도 있으면 multipart 설정
+        const hasFile = fileInputs.toArray().some(input => input.value !== "");
+
+        // 파일이 있으면 enctype 설정, 없으면 enctype 제거
+        if (hasFile) {
+            $(this).attr('enctype', 'multipart/form-data');
+        } else {
+            $(this).removeAttr('enctype');
+        }
+
+        // 빈 파일 input은 name 속성 제거
+        fileInputs.each(function() {
+            if (!$(this).val()) {
+                $(this).removeAttr('name');
+            }
+        });
+    });
+
+
+
+
+
+
+
+
     // 헤더,푸터 251218 박귀환 추가
     // Header 
     // .global_menu .top_func 클릭 스크립트
@@ -45,10 +77,16 @@ function initUi() {
         $('.top_menu > ul > li').removeClass('active');
         $(this).parent().addClass('active');
         $('.black_opacity').show();
+
+        // 관리자 헤더 숨기기 20260122 윤성민 추가
+        $('#adminHeader').hide();
     });
     $('.top_menu > ul > li').on('mouseleave', function () {
         $('.top_menu > ul > li').removeClass('active');
         $('.black_opacity').hide();
+
+        // 관리자 헤더 다시 보이기 20260122 윤성민 추가
+        $('#adminHeader').show();
     });
     
     // Footer
@@ -68,51 +106,181 @@ function initUi() {
         }
     });
 
-    // 사이드메뉴 클릭 이벤트 : 20251218 윤성민 추가
-    $('.side_list_menu>div').on('click', function(){        
-        $(this).parent('.side_list_menu').siblings().removeClass('open');
-        $(this).parent().siblings().find('.sub_list').removeClass('show');
-        $(this).parent().siblings().find('.sub_group').removeClass('show');
-        $(this).next('.sub_list').toggleClass('show');
-        $(this).next().find('.sub_group').toggleClass('show');
-        $(this).parent().toggleClass('open');
-    });
+    $(document).ready(function() {
+        // 사이드메뉴 클릭 이벤트 : 20251218 윤성민 추가 / 최연수 20260120 민원안내 추가 / 2차 수정 : 최연수
+        $('.side_list_menu > div').on('click', function () {
+            const $thisMenu = $(this).parent('.side_list_menu');
+            const $thisSubList = $(this).next('.sub_list');
 
-    $('.sub_group_title').on('click', function(){
-        $('.sub_group_title').not(this).removeClass('open');
-        $('.sub_group_list').not($(this).next('.sub_group_list')).removeClass('show');
-        $(this).toggleClass('open');
-        $(this).next('.sub_group_list').toggleClass('show');
-    });
+            $thisMenu.siblings().removeClass('open').find('.sub_list').removeClass('show');
+            $thisMenu.siblings().find('.sub_group, .sub_complaint').removeClass('show');
 
-    // 로케이션 공유 버튼 클릭 이벤트 : 20251219 윤성민 추가
-    $('.loc_sns').on('click', function() {
-        $(this).toggleClass('checked');
-        $('.sns_list').toggleClass('show');
-    });
+            $thisMenu.toggleClass('open');
+            $thisSubList.toggleClass('show');
 
-    // menuName 변수가 있을 경우 해당 값에 해당하는 사이드메뉴 열기 : 20251218 최상림 추가
-    // 사이드메뉴를 jQuery load 메소드로 추가하고, 해당 페이지 메뉴 항목을 열기 위한 코드
-    if(typeof menuName != 'undefined' && menuName.trim() != '') {
-        console.log('현재 메뉴명 => ' + menuName);
-        const subList = $('.side_list .side_list_menu').eq(0).children('.sub_list');
-        const subGroupListItems = subList.find('.sub_group_list > li');
-        let thisItem;
-        for(let i = 0; i < subGroupListItems.length; i++) {
-            if(menuName == subGroupListItems.eq(i).find('a').text().trim()) {
-                thisItem = subGroupListItems.eq(i);
-                break;
+            if ($thisSubList.hasClass('show')) {
+                $thisSubList.find('> ul > li, > .sub_group, > .sub_complaint, > li').addClass('show');
             }
-        }
-        if(thisItem.length > 0) {
-            subGroupListItems.removeClass('side_active');
-            subList.find('.sub_group_list.show').removeClass('show');
-            subList.find('.sub_group_title.open').removeClass('open');
-            thisItem.addClass('side_active');
-            thisItem.closest('.sub_group_list').addClass('show');
-            thisItem.closest('.sub_group_list').siblings('.sub_group_title').addClass('open');
-        }
+        });
+
+        // 2뎁스/3뎁스 타이틀 클릭 이벤트 (분야별민원 3뎁스 대응) : 20260129 추가
+        $(document).on('click', '.sub_group_title, .sub_complaint_title', function (e) {
+            const $groupList = $(this).next('.sub_group_list');
+            if ($groupList.length > 0) {
+                // 하위 메뉴가 있는 경우만 제어
+                if($(this).find('a').length === 0 || $(this).find('a').attr('href') === '#') {
+                    e.preventDefault();
+                }
+                $('.sub_group_title').not(this).removeClass('open');
+                $('.sub_complaint_title').not(this).removeClass('open');
+                $('.sub_group_list').not($groupList).removeClass('show');
+
+                $(this).toggleClass('open');
+                $groupList.toggleClass('show');
+            }
+        });
+
+        // 로케이션 공유 버튼 클릭 이벤트 : 20251219 윤성민 추가
+        $('.loc_sns').on('click', function () {
+            $(this).toggleClass('checked');
+            $('.sns_list').toggleClass('show');
+        });
+
+        // menuName 변수가 있을 경우 해당 값에 해당하는 사이드메뉴 열기 : 20251218 최상림 추가
+        // 민원안내 이벤트 추가 및 로직 수정: 20260120 최연수 / 20260129 3뎁스 역추적 보정
+        $(window).on('load', function () {
+            if (typeof menuName != 'undefined' && menuName.trim() != '') {
+                const locationPathText = $('.location_path').text().trim();
+
+                const $allPotentialTargets = $('.side_list_menu a, .sub_group_title, .sub_complaint_title').filter(function () {
+                    return $(this).text().trim() === menuName;
+                });
+
+                let $target = null;
+                $allPotentialTargets.each(function() {
+                    const containerTitle = $(this).closest('.side_list_menu').find('> div span').text().trim();
+                    if (locationPathText.includes(containerTitle)) {
+                        $target = $(this);
+                        return false;
+                    }
+                });
+
+                if (!$target && $allPotentialTargets.length > 0) $target = $allPotentialTargets.first();
+
+                if ($target && $target.length > 0) {
+                    $('.side_list_menu').removeClass('open');
+                    $('.sub_list, .sub_group, .sub_complaint, .sub_group_list').removeClass('show');
+                    $('.sub_group_title, .sub_complaint_title').removeClass('open side_active');
+                    $('.side_list_menu li').removeClass('side_active');
+
+                    if ($target.is('a')) {
+                        $target.closest('li').addClass('side_active');
+                        if($target.parent().hasClass('sub_complaint_title')) {
+                            $target.parent().addClass('side_active open');
+                        }
+                    } else {
+                        $target.addClass('side_active open');
+                    }
+
+                    const $mySubList = $target.closest('.sub_list');
+                    const $mySideMenu = $target.closest('.side_list_menu');
+
+                    $mySideMenu.addClass('open');
+                    $mySubList.addClass('show');
+                    $mySubList.find('> ul > li, > .sub_group, > .sub_complaint, > li').addClass('show');
+
+                    const $myGroupList = $target.closest('.sub_group_list');
+                    if ($myGroupList.length > 0) {
+                        $myGroupList.addClass('show');
+                        $myGroupList.prev().addClass('open side_active');
+                    }
+                }
+            }
+        });
+    });
+
+    // #weather_wrap 영역 있을 경우에, 날씨 api 실행
+    if($('#weather_wrap').length > 0) {
+        // 날씨 api 연동 : 20260122 최상림
+        $.getJSON('/weather/status', function(data) {
+            // 결과 데이터가 30분 단위로 다수의 데이터를 포함하고 있으므로, 필요한 정보의 최신값만 Map 객체에 담아 사용
+            const dataArray = data.response.body.items.item;
+            const map = new Map();
+            dataArray.forEach(item => {
+                if(!map.has(item.category) && /T1H|SKY|PTY|LGT/.test(item.category)) {
+                    map.set(item.category, item);
+                }
+            });
+            const firstByCategory = Array.from(map.values()).map(item => ({category: item.category, value: item.fcstValue}));
+            const lgt = firstByCategory.filter(item => item.category === 'LGT')[0].value;   // 낙뢰 정보
+            const pty = firstByCategory.filter(item => item.category === 'PTY')[0].value;   // 비, 눈 정보
+            const sky = firstByCategory.filter(item => item.category === 'SKY')[0].value;   // 구름 상태
+            const t1h = firstByCategory.filter(item => item.category === 'T1H')[0].value;   // 온도
+
+            let weatherText = '맑음';
+            let weatherImg = 'weather_01.png';
+
+            // 낙뢰 있을 시
+            if(lgt > 0) {
+                weatherText = '낙뢰주의';
+                weatherImg = 'weather_08.png';
+            }
+            else {
+                // 비 또는 눈 있을 때
+                if(pty%4 > 0) {
+                    if(pty%4 === 3) {
+                        weatherText = '눈';
+                        weatherImg = 'weather_07.png';
+                    }
+                    else if(pty%4 === 2) {
+                        weatherText = '비/눈';
+                        weatherImg = 'weather_06.png';
+                    }
+                    else if(pty%4 === 1) {
+                        weatherText = '비';
+                        weatherImg = 'weather_05.png';
+                    }
+                }
+                else {
+                    // 구름 상태
+                    if(sky === 4) {
+                        weatherText = '흐림';
+                        weatherImg = 'weather_04.png';
+                    }
+                    else if(sky === 3) {
+                        weatherText = '구름많음';
+                        weatherImg = 'weather_03.png';
+                    }
+                }
+            }
+
+            const weatherImgEl = $('#weather_temperature_img');
+            weatherImgEl.attr({'src': weatherImgEl.attr('data-path') + weatherImg, 'alt': weatherText});
+            $('#weather_temperature_num').text(t1h + '˚C');
+            $('#weather_temperature_text').text(weatherText);
+            $('#weather_wrap .icon, #weather_wrap .weather_status').addClass('active');
+        })
+        .fail(function(xhr, status, err) {
+            console.log(err);
+        });
+
+        // 미세먼지 api 연동 : 20260123 최상림
+        $.getJSON('/weather/dust', function(data) {
+            const dataArray = data.response.body.items;
+            const dustInfo = dataArray[0];
+            const pm10Grade = Number(dustInfo.pm10Grade);   // 먼지 등급 1~4
+            const pm25Grade = Number(dustInfo.pm25Grade);   // 미세먼지 등급 1~4
+            const gradeText = ['좋음', '보통', '나쁨', '매우나쁨'];
+
+            $('#air_dust1').addClass('dust_0' + pm10Grade).text(gradeText[pm10Grade - 1]);
+            $('#air_dust2').addClass('dust_0' + pm25Grade).text(gradeText[pm25Grade - 1]);
+            $('#weather_wrap .dust_status').addClass('active');
+        })
+        .fail(function(xhr, status, err) {
+            console.log(err);
+        });
     }
+
 }
 
 /**
@@ -125,7 +293,7 @@ function layerAlert(text) {
     const delayTime = 1000;
 
     // 현재 경고창이 없을 때만 동작
-    if($('.layer_alert').length == 0) {
+    if($('.layer_alert').length === 0) {
         let html = '<div class="layer_alert">' + text + '</div>';
         $('body').append(html);
         $('.layer_alert').stop().fadeIn(fadeInTime);
@@ -135,4 +303,21 @@ function layerAlert(text) {
             });
         }, delayTime);
     }
+}
+
+/* 260121 윤성민 추가 파일 업로드 관련 */
+function bindFileNameDisplay(fileInputId) {
+    const fileInput = $("#" + fileInputId);
+
+    fileInput.on("change", function () {
+        const fileName = this.files && this.files.length ? this.files[0].name : "";
+        // input disabled span에 파일명 표시
+        $(this).siblings("span.input").text(fileName);
+    });
+
+    // 삭제 버튼 기능
+    fileInput.closest(".file_group").find(".clear_file").on("click", function () {
+        fileInput.val("");
+        fileInput.siblings("span.input").text("");
+    });
 }

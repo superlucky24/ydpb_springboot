@@ -46,7 +46,7 @@
                             <span class="loc_arrow">></span>
                             <span class="loc_text"><a th:href="@{/}">영등포본동</a></span>
                             <span class="loc_arrow">></span>
-                            <span class="loc_text"><a href="#">자치회관</a></span>
+                            <span class="loc_text"><a href="/community/list">자치회관</a></span>
                             <span class="loc_arrow">></span>
                             <span class="loc_text">자치회관 게시판</span>
                         </div>
@@ -78,9 +78,9 @@
                                         <div class="p-form-group">
                                             <label for="searchType" class="skip">검색항목선택</label>
                                             <select name="searchType" id="searchType" title="검색항목선택" class="p-input">
-                                                <option value="T" th:selected="${cri.searchType == 'T' || cri.searchType == null}">제목</option>
-                                                <option value="C" th:selected="${cri.searchType == 'C'}">내용</option>
-                                                <option value="D" th:selected="${cri.searchType == 'D'}">부서</option>
+                                                <option value="T" th:selected="${cri.searchType eq 'T' || cri.searchType == null}">제목</option>
+                                                <option value="C" th:selected="${cri.searchType eq 'C'}">내용</option>
+                                                <option value="D" th:selected="${cri.searchType eq 'D'}">부서</option>
                                             </select>
 
                                             <label for="searchKeyword" class="skip">검색어 입력</label>

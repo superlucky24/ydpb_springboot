@@ -24,7 +24,8 @@ public class ComplaintController {
     private ComplaintService complaintService;
 
     @GetMapping("list")
-    public String complaintList(Model model, @ModelAttribute("cri") Criteria cri){
+    public String complaintList(Model model,
+                                @ModelAttribute("cri") Criteria cri){
         List<ComplaintVO> complaintList = complaintService.getComplaintWithPaging(cri);
         if(complaintList==null){
             complaintList= new ArrayList<>();
@@ -40,15 +41,31 @@ public class ComplaintController {
     }
 
     @GetMapping("view")
-    public String complaintView(@ModelAttribute("comId") int comId, @ModelAttribute("cri") Criteria cri, Model model){
-        model.addAttribute("complaint", complaintService.getOneComplaint(comId));
-        return "sub/complaint_view";
+    public String complaintView(@ModelAttribute("comId") int comId,
+                                @ModelAttribute("cri") Criteria cri,
+                                RedirectAttributes rttr,
+                                HttpSession session,
+                                Model model){
+        String loginId = (String)session.getAttribute("memId");
+        boolean isAdmin = session.getAttribute("admin") != null && (Integer)session.getAttribute("admin") == 1;
+        ComplaintVO complaint = complaintService.getOneComplaint(comId);
+        // 비공개 and 타인이 작성한 글 and 관리자 아님 => 목록으로 돌려보내기
+        if(complaint.getComPublic() == 0 && !complaint.getMemId().equals(loginId) && !isAdmin) {
+            rttr.addFlashAttribute("errorMsg", "권한이 없습니다.");
+            return "redirect:/complaint/list";
+        }
+        else {
+            model.addAttribute("complaint", complaint);
+            return "sub/complaint_view";
+        }
     }
 
     @GetMapping("write")
-    public String complaintWriteFrom(@ModelAttribute("cri") Criteria cri, HttpSession session) {
+    public String complaintWriteFrom(@ModelAttribute("cri") Criteria cri,
+                                     HttpSession session) {
+        // 비로그인 상태에서 강제로 접속했을 때, 로그인 화면으로 이동
         if(session.getAttribute("memId") == null) {
-            return "redirect:/complaint/list";
+            return "redirect:/login";
         }
         else {
             return "sub/complaint_write";
@@ -56,30 +73,41 @@ public class ComplaintController {
     }
 
     @PostMapping("write")
-    public String complaintWrite(ComplaintVO cvo, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+    public String complaintWrite(ComplaintVO cvo,
+                                 @ModelAttribute("cri") Criteria cri,
+                                 RedirectAttributes rttr) {
         int result = complaintService.insertComplaint(cvo);
+        // 글작성 성공 시 목록 화면으로 이동
         if(result == 1) {
             return "redirect:/complaint/list";
         }
+        // 글작성 실패 시 페이징 정보 가지고 글쓰기 폼 화면으로 이동
         else {
-            rttr.addFlashAttribute("pageNum", cri.getPageNum());
-            rttr.addFlashAttribute("amount", cri.getAmount());
-            rttr.addFlashAttribute("searchType", cri.getSearchType());
-            rttr.addFlashAttribute("searchKeyword", cri.getSearchKeyword());
+            rttr.addAttribute("pageNum", cri.getPageNum());
+            rttr.addAttribute("amount", cri.getAmount());
+            rttr.addAttribute("searchType", cri.getSearchType());
+            rttr.addAttribute("searchKeyword", cri.getSearchKeyword());
             rttr.addFlashAttribute("errorMsg", "서버 오류입니다.\\n다시 시도해주세요.");
             return "redirect:/complaint/write";
         }
     }
 
     @GetMapping("update")
-    public String complaintUpdateFrom(@ModelAttribute("comId") int comId, @ModelAttribute("cri") Criteria cri, Model model, HttpSession session, RedirectAttributes rttr) {
+    public String complaintUpdateFrom(@ModelAttribute("comId") int comId,
+                                      @ModelAttribute("cri") Criteria cri,
+                                      RedirectAttributes rttr,
+                                      HttpSession session,
+                                      Model model) {
         String loginId = (String)session.getAttribute("memId");
-        if(loginId == null || loginId.isEmpty()) {
+        boolean isAdmin = session.getAttribute("admin") != null && (Integer)session.getAttribute("admin") == 1;
+        ComplaintVO complaint = complaintService.getOneComplaint(comId);
+        // 타인이 작성한 글 or 관리자 아님 => 목록으로 돌려보내기
+        if(!complaint.getMemId().equals(loginId) && !isAdmin) {
             rttr.addFlashAttribute("errorMsg", "권한이 없습니다.");
             return "redirect:/complaint/list";
         }
         else {
-            model.addAttribute("complaint", complaintService.getOneComplaint(comId));
+            model.addAttribute("complaint", complaint);
             return "sub/complaint_update";
         }
     }
@@ -105,7 +133,7 @@ public class ComplaintController {
         rttr.addAttribute("amount", cri.getAmount());
         rttr.addAttribute("searchType", cri.getSearchType());
         rttr.addAttribute("searchKeyword", cri.getSearchKeyword());
-        return "redirect:/complaint/list";
+        return "redirect:/admin/dongnews/list";
     }
 
 }

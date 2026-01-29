@@ -1,40 +1,225 @@
 package kr.go.ydpb.service;
 
+import kr.go.ydpb.domain.CommunityFileVO;
 import kr.go.ydpb.domain.CommunityVO;
 import kr.go.ydpb.domain.Criteria;
+import kr.go.ydpb.mapper.CommunityFileMapper;
 import kr.go.ydpb.mapper.CommunityMapper;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
-@Slf4j
-@AllArgsConstructor
 @Service
-public class CommunityServiceImpl implements CommunityService{
-    @Autowired
-    private CommunityMapper mapper;
+@RequiredArgsConstructor
+@Slf4j
+public class CommunityServiceImpl implements CommunityService {
 
+    private final CommunityMapper mapper;
+    private final CommunityFileMapper fileMapper;
+
+    @Value("${file.upload-dir}")
+    private String uploadDir;
+
+    // ===========================
+    // 1️⃣ 게시글 등록
+    // ===========================
+    @Transactional
     @Override
-    public void register(CommunityVO board) {
-        mapper.insert(board);
+    public void register(
+            CommunityVO board,
+            MultipartFile file1,
+            MultipartFile file2,
+            String fileText1,
+            String fileText2,
+            String fileOpt1,
+            String fileOpt2
+    ) {
+
+        mapper.insertSelectKey(board);
+
+        int uploadCount = 0;
+        if (file1 != null && !file1.isEmpty()) uploadCount++;
+        if (file2 != null && !file2.isEmpty()) uploadCount++;
+
+        if (uploadCount > 2) {
+            throw new IllegalStateException("파일은 최대 2개까지 업로드 가능합니다.");
+        }
+
+        if (file1 != null && !file1.isEmpty()) {
+            saveFile(file1, board.getCmntId(), fileText1, fileOpt1);
+        }
+
+        if (file2 != null && !file2.isEmpty()) {
+            saveFile(file2, board.getCmntId(), fileText2, fileOpt2);
+        }
+
+        mapper.update(board);
     }
 
+    // ===========================
+    // 2️⃣ 게시글 수정
+    // ===========================
+    @Transactional
     @Override
-    public CommunityVO get(Long cmntId) {
-        return mapper.read(cmntId);
-    }
+    public boolean modify(
+            CommunityVO board,
+            MultipartFile file1,
+            MultipartFile file2,
+            String fileText1,
+            String fileText2,
+            String fileOpt1,
+            String fileOpt2,
+            List<Long> deleteFileIds
+    ) {
 
-    @Override
-    public boolean modify(CommunityVO board) {
+        int existingCount = fileMapper.countByCmntId(board.getCmntId());
+        int deleteCount = deleteFileIds != null ? deleteFileIds.size() : 0;
+
+        int newCount = 0;
+        if (file1 != null && !file1.isEmpty()) newCount++;
+        if (file2 != null && !file2.isEmpty()) newCount++;
+
+        if (existingCount - deleteCount + newCount > 2) {
+            throw new IllegalStateException("파일은 최대 2개까지 업로드 가능합니다.");
+        }
+
+        // 1) 파일 삭제
+        if (deleteFileIds != null) {
+            for (Long fileId : deleteFileIds) {
+                CommunityFileVO fileVO = fileMapper.read(fileId);
+                if (fileVO == null) continue;
+
+                File file = new File(
+                        fileVO.getUploadPath(),
+                        fileVO.getUuid() + "_" + fileVO.getFileName()
+                );
+
+                if (file.exists() && !file.delete()) {
+                    log.warn("파일 삭제 실패: {}", file.getAbsolutePath());
+                }
+
+                fileMapper.deleteFileByFileId(fileId);
+            }
+        }
+
+        // 2) 새 파일 저장
+        if (file1 != null && !file1.isEmpty()) {
+            saveFile(file1, board.getCmntId(), fileText1, fileOpt1);
+        }
+
+        if (file2 != null && !file2.isEmpty()) {
+            saveFile(file2, board.getCmntId(), fileText2, fileOpt2);
+        }
+
         return mapper.update(board) == 1;
     }
 
+    // ===========================
+    // 3️⃣ 게시글 삭제
+    // ===========================
+    @Transactional
     @Override
     public boolean remove(Long cmntId) {
+
+        List<CommunityFileVO> files = fileMapper.getFilesByCmntId(cmntId);
+
+        if (files != null) {
+            for (CommunityFileVO f : files) {
+                File file = new File(
+                        f.getUploadPath(),
+                        f.getUuid() + "_" + f.getFileName()
+                );
+
+                if (file.exists() && !file.delete()) {
+                    log.warn("파일 삭제 실패: {}", file.getAbsolutePath());
+                }
+            }
+        }
+
+        fileMapper.deleteFileByCmntId(cmntId);
         return mapper.delete(cmntId) == 1;
+    }
+
+    // ===========================
+    // 파일 저장 공통 메서드
+    // ===========================
+    private void saveFile(
+            MultipartFile file,
+            Long cmntId,
+            String altText,
+            String insertOpt
+    ) {
+
+
+        try {
+            // 1️⃣ 원본 파일명 (경로 제거)
+            String originalName = Paths.get(file.getOriginalFilename())
+                    .getFileName()
+                    .toString();
+
+            // 2️⃣ UUID + 저장 파일명
+            String uuid = UUID.randomUUID().toString();
+            String saveName = uuid + "_" + originalName;
+
+            // 3️⃣ 프로젝트 루트 기준 상대경로 처리
+            String basePath = System.getProperty("user.dir"); // 프로젝트 루트
+            File uploadPath = new File(basePath, uploadDir);
+
+            // 4️⃣ upload 디렉토리 없으면 생성
+            if (!uploadPath.exists()) {
+                boolean created = uploadPath.mkdirs();
+                if (!created) {
+                    throw new RuntimeException("업로드 디렉토리 생성 실패");
+                }
+            }
+
+            // 5️⃣ 실제 저장될 파일
+            File saveFile = new File(uploadPath, saveName);
+
+            // 6️⃣ 파일 저장
+            file.transferTo(saveFile);
+
+            // 7️⃣ DB 저장 정보
+            CommunityFileVO fileVO = new CommunityFileVO();
+            fileVO.setCmntId(cmntId);
+            fileVO.setUuid(uuid);
+            fileVO.setFileName(originalName);
+
+            // ⭐ 절대경로 저장 (중요)
+            fileVO.setUploadPath(uploadPath.getAbsolutePath());
+
+            fileVO.setAltText(altText != null ? altText : "");
+            fileVO.setInsertYn("on".equals(insertOpt) ? "Y" : "N");
+
+            fileMapper.insert(fileVO);
+
+
+
+        } catch (Exception e) {
+            log.error("파일 저장 실패", e);
+            throw new RuntimeException("파일 저장 실패", e);
+        }
+
+
+    }
+
+
+    // ===========================
+    // 기본 조회
+    // ===========================
+    @Override
+    public CommunityVO get(Long cmntId) {
+        CommunityVO board = mapper.read(cmntId);
+        board.setFiles(fileMapper.getFilesByCmntId(cmntId));
+        return board;
     }
 
     @Override
@@ -51,4 +236,23 @@ public class CommunityServiceImpl implements CommunityService{
     public void increaseCount(Long cmntId) {
         mapper.updateCount(cmntId);
     }
+
+    @Override
+    public CommunityFileVO getFile(Long fileId) {
+        return fileMapper.read(fileId);
+    }
+
+    @Override
+    public CommunityVO getPrev(Long cmntId, Criteria cri) {
+        return mapper.getPrev(cmntId, cri);
+    }
+
+    @Override
+    public CommunityVO getNext(Long cmntId, Criteria cri) {
+        return mapper.getNext(cmntId, cri);
+    }
 }
+
+
+
+

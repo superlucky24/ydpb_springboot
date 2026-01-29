@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+    // 메인 동/구 클릭시 관련 리스트 나오게 하는 코드
     $('.main3_dong').on('click', function() {
         $('.main3_title>li').removeClass('checked');
         $(this).addClass('checked');
@@ -12,7 +12,7 @@ $(document).ready(function(){
         $('.main3_contents').removeClass('show');
         $('.m3gu').addClass('show');
     });
-
+    // sns 클릭시 관련 아이콘 나오게 하는 코드
     $('.loc_sns').on('click', function() {
         $(this).toggleClass('checked');
         $('.sns_list').toggleClass('show');

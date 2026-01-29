@@ -14,7 +14,7 @@ public class CommunityVO {
     private Date cmntUpdatedate;
     private String cmntDepartment;
     private String cmntContent;
-    private int cmntCount;
+    private int cmntCount; // 조회수
     private String memId;
 
     // ✅ 첨부파일 목록 (수정/조회 화면용)

@@ -27,7 +27,10 @@ public class CommunityController {
     /* 상세 보기 */
     @GetMapping("/view")
     public String view(@RequestParam("cmntId") Long cmntId, @ModelAttribute("cri") Criteria cri, Model model) {
+        // 조회수 증가
         service.increaseCount(cmntId);
+
+        // 필요한 데이터 받음(board, prev, next)
         model.addAttribute("board", service.get(cmntId));
         model.addAttribute("prev", service.getPrev(cmntId, cri));
         model.addAttribute("next", service.getNext(cmntId, cri));

@@ -107,6 +107,7 @@ function initUi() {
     });
 
     // 사이드메뉴 클릭 이벤트 : 20251218 윤성민 추가
+    // 사이드메뉴를 클릭시 그 메뉴의 depth가 열리고 나머지는 닫히게 처리하는 코드
     $('.side_list_menu>div').on('click', function(){        
         $(this).parent('.side_list_menu').siblings().removeClass('open');
         $(this).parent().siblings().find('.sub_list').removeClass('show');

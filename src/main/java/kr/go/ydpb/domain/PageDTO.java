@@ -33,6 +33,7 @@ public class PageDTO {
         // 다음(next) 계산 = 다음으로 가는 링크의 경우 realEnd가 끝번호(endPage)보다 큰경우에만 존재
         this.next = this.endPage < this.realEnd;
 
+        // 총 갯수가 0이면 모든 값을 1로 초기화
         if (total == 0) {
             this.startPage = 1;
             this.endPage = 1;

@@ -229,13 +229,14 @@
         <!-- //footer -->
     </div>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function(){ // 요소 먼저 로드
         // 페이지 번호 클릭 시 이벤트
             var actionForm=	$('#actionForm');
-            //이벤트
+            // 페이징 목록 버튼 클릭 시 이벤트
             $('.p_ctrl .p_control .p-link_b a').on('click',function(e){
                 e.preventDefault();// 이벤트 차단
                 // alert('aa');
+                // action 목록 요청으로 수정
                 actionForm.attr("action","/admin/complaint/list");
                 /* 폼 input name 속성값 pageNum의 value 값을 .p-link_b a href 값으로 변경  */
                 actionForm.find("input[name='pageNum']").val($(this).attr("href"));
@@ -249,9 +250,12 @@
                 var comId = $(this).data("comid");
                 //move 클래스에 hidden으로 번호 전송하기 위해 append()사용
                 // $("#comIdInput").val($(this).attr("href"));
+                // 글번호 input 데이터를 비움 <- 계속 누적
                 actionForm.find("input[name='comId']").remove();
+                // 글번호를 폼의 input hidden 데이터로 추가
                 actionForm.append("<input type='hidden' name='comId' value='"
                     + $(this).attr("href")+ "'>");
+                // action 상세보기 요청
                 actionForm.attr("action","/admin/complaint/view");
                 actionForm.submit();
             });
@@ -259,24 +263,26 @@
 
         // 검색 시 입력 값 변경
         $('.board_searchform').on('submit', function () {
-
+            // 검색 키워드
             let keyword = $('#searchKeyword').val();
+            // 검색 종류
             let type = $('#searchType').val();
-            // 삼항 조건 연산자
+            // 삼항 조건 연산자 : 공개여부를 DB에 저장된 숫자값으로 변경
             if(type === 'P'){
                 keyword = ($('input[name="searchKeyword"]').val()==='Y')?1:0;
-
             }
             console.log('before submit =', $('input[name="searchKeyword"]').val());
+            // 폼 입력 검색 키워드를 내가 가져온 값으로 변경
             $('input[name="searchKeyword"]').val(keyword);
         });
 
         /* 검색버튼 이벤트 처리 */
         let searchForm=  $('.board_searchform');
+        // 검색버튼 submit 클릭 시
         $(".board_searchform input[type='submit']").on('click',function(e){
             // alert("검색버튼 클릭");
             //option의 select값 선택하지 않았을 때
-            // 필터 선택자 사용
+            // 필터 선택자 사용 => 선택된 값이 없으면
             if(!searchForm.find("option:selected").val()){
                 alert('검색종류를 입력하세요');
                 return false;

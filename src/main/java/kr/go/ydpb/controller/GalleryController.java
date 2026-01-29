@@ -50,15 +50,19 @@ public class GalleryController {
 
         return "sub/gallery_view";
     }
+
+    /* 보기 + 다운로드 기능 (ResponseEntity<Resource> → 상태코드 + 헤더 + 파일 데이터를 직접 제어) */
     @GetMapping("/download")
     public ResponseEntity<Resource> downloadFile(@RequestParam("fileId") Long fileId) {
 
         GalleryFileVO fileVO = service.getFile(fileId);
 
+        /* 파일 정보 없을 때 */
         if (fileVO == null) {
             return ResponseEntity.notFound().build();
         }
 
+        /* 실제 file(object) 생성 */
         File file = new File(
                 fileVO.getUploadPath(),
                 fileVO.getUuid() + "_" + fileVO.getFileName()
@@ -68,10 +72,11 @@ public class GalleryController {
             return ResponseEntity.notFound().build();
         }
 
+        /* 파일/스트림을 추상화한 객체 : ResponseEntity의 body로 사용 가능 */
         Resource resource = new FileSystemResource(file);
-
+        /* 파일명 인코딩 (한글 깨짐 방지) */
         String encodedFileName = URLEncoder.encode(fileVO.getFileName(), StandardCharsets.UTF_8);
-
+        /* MIME 타입 설정 (MIME = 파일의 정체성(데이터 종류) ex. jpg, png, json, html.... ) */
         MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
         try {
             String mimeType = Files.probeContentType(file.toPath());
@@ -79,7 +84,7 @@ public class GalleryController {
                 mediaType = MediaType.parseMediaType(mimeType);
             }
         } catch (Exception e) {}
-
+        /* 브라우저가 바로 열 수 있으면 열어줌 >> 이미지 / PDF → 미리보기 */
         String contentDisposition = "inline; filename=\"" + encodedFileName + "\"";
 
         return ResponseEntity.ok()
@@ -88,15 +93,16 @@ public class GalleryController {
                 .body(resource);
     }
 
-    @GetMapping("/downloadAttachment")
+    /* 오직 다운로드 기능 (ResponseEntity<Resource> → 상태코드 + 헤더 + 파일 데이터를 직접 제어) */
+    @GetMapping("/downloadattachment")
     public ResponseEntity<Resource> downloadAttachment(@RequestParam("fileId") Long fileId) {
 
         GalleryFileVO fileVO = service.getFile(fileId);
-
+        /* 파일 정보 없을 때 */
         if (fileVO == null) {
             return ResponseEntity.notFound().build();
         }
-
+        /* 실제 file(object) 생성 */
         File file = new File(
                 fileVO.getUploadPath(),
                 fileVO.getUuid() + "_" + fileVO.getFileName()
@@ -106,11 +112,12 @@ public class GalleryController {
             return ResponseEntity.notFound().build();
         }
 
+        /* 파일/스트림을 추상화한 객체 : ResponseEntity의 body로 사용 가능 */
         Resource resource = new FileSystemResource(file);
-
+        /* 파일명 인코딩 (한글 깨짐 방지) */
         String encodedFileName = URLEncoder.encode(fileVO.getFileName(), StandardCharsets.UTF_8)
                 .replaceAll("\\+", "%20");
-
+        /* MIME 타입 설정 */
         MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
         try {
             String mimeType = Files.probeContentType(file.toPath());
@@ -118,7 +125,7 @@ public class GalleryController {
                 mediaType = MediaType.parseMediaType(mimeType);
             }
         } catch (Exception e) {}
-
+        /* 무조건 다운로드 창 열기 */
         String contentDisposition = "attachment; filename=\"" + encodedFileName + "\"";
 
         return ResponseEntity.ok()

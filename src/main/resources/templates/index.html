@@ -220,7 +220,7 @@
                             <div class="main3_box2_photo">
 
                                 <!-- 게시글 없으면 -->
-                                <a th:if="${list == null || #lists.isEmpty(list)}"
+                                <a th:if="${gallery_list == null || #lists.isEmpty(gallery_list)}"
                                    th:href="@{/gallery/list}"
                                    class="no_data"
                                    th:style="|background-image:url('@{/images/sub/no_image_icon.png}');|">
@@ -230,19 +230,19 @@
                                 </a>
 
                                 <!-- 게시글 있을 때 -->
-                                <a th:if="${list != null && #lists.size(list) > 0}"
-                                   th:href="@{/gallery/view(galId=${list[0].galId})}"
-                                   th:style="|background-image:url('@{${list[0].files != null && #lists.size(list[0].files) > 0 ? '/admin/gallery/download?fileId=' + list[0].files[0].fileId : '/images/sub/no_image_icon.png'}}');|">
+                                <a th:if="${gallery_list != null && #lists.size(gallery_list) > 0}"
+                                   th:href="@{/gallery/view(galId=${gallery_list[0].galId})}"
+                                   th:style="|background-image:url('@{${gallery_list[0].files != null && #lists.size(gallery_list[0].files) > 0 ? '/admin/gallery/download?fileId=' + gallery_list[0].files[0].fileId : '/images/sub/no_image_icon.png'}}');|">
                                     <div class="main_photo_text">
-                                        <span th:text="${list[0].galTitle}"></span>
+                                        <span th:text="${gallery_list[0].galTitle}"></span>
                                     </div>
                                 </a>
 
-                                <a th:if="${list != null && #lists.size(list) > 1}"
-                                   th:href="@{/gallery/view(galId=${list[1].galId})}"
-                                   th:style="|background-image:url('@{${list[1].files != null && #lists.size(list[1].files) > 0 ? '/admin/gallery/download?fileId=' + list[1].files[0].fileId : '/images/sub/no_image_icon.png'}}');|">
+                                <a th:if="${gallery_list != null && #lists.size(gallery_list) > 1}"
+                                   th:href="@{/gallery/view(galId=${gallery_list[1].galId})}"
+                                   th:style="|background-image:url('@{${gallery_list[1].files != null && #lists.size(gallery_list[1].files) > 0 ? '/admin/gallery/download?fileId=' + gallery_list[1].files[0].fileId : '/images/sub/no_image_icon.png'}}');|">
                                     <div class="main_photo_text">
-                                        <span th:text="${list[1].galTitle}"></span>
+                                        <span th:text="${gallery_list[1].galTitle}"></span>
                                     </div>
                                 </a>
 

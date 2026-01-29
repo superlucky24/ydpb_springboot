@@ -21,8 +21,9 @@ public class MainController {
 
     @GetMapping("/")
     public String index(@ModelAttribute("cri") Criteria cri, Model model){
-        model.addAttribute("list", service.getList(cri));
-        model.addAttribute("slides", slideService.getMainList());
+        
+        model.addAttribute("gallery_list", service.getList(cri)); // 갤러리 값
+        model.addAttribute("slides", slideService.getMainList()); // 슬라이드 값
         return "index";
     }
 }

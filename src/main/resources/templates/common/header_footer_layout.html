@@ -187,16 +187,16 @@
                                             <!-- GNB 3depth -->
                                             <ul  data-depth="3">
                                                 <li >
-                                                    <a data-depth="3" href="#">
+                                                    <a data-depth="3" th:href="@{/sub/complaint_sector}">
                                                         <span>여권</span></a>
                                                 </li>
                                                 <li >
-                                                    <a data-depth="3" href="#">
-                                                        <span>가족관계등록</span></a>
+                                                    <a data-depth="3" th:href="@{/sub/signature}">
+                                                        <span>주민등록 변경∙정정 신고</span></a>
                                                 </li>
                                                 <li >
-                                                    <a data-depth="3" href="#">
-                                                        <span>전입자 맞춤 안내서비스</span></a>
+                                                    <a data-depth="3" th:href="@{/sub/complete}">
+                                                        <span>가족관계증명서</span></a>
                                                 </li>
                                                 <li >
                                                     <a data-depth="3" href="#">
@@ -1491,7 +1491,7 @@
 
                             <div class="weather" id="weather_wrap">
                                 <div class="icon">
-                                    <img th:src="@{/images/common/weather_01.png}" alt="" class="WEATHER_ICON"></div>
+                                    <img th:src="@{/images/common/weather_01.png}" id="weather_temperature_img" alt="날씨 이미지" class="WEATHER_ICON"></div>
                                 <div>
                                     <p class="weather_status">
                                         <span id="weather_temperature_num">-</span>

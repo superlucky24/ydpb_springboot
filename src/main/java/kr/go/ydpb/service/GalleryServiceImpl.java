@@ -157,15 +157,16 @@ public class GalleryServiceImpl implements GalleryService {
             String altText,
             String insertOpt
     ) {
-
+        /* try-catch로 작업하는 이유 : 파일 저장은 IO 작업 >> 언제든 실패 가능 → 예외 처리 필수*/
         try {
             String originalName = Paths.get(file.getOriginalFilename())
                     .getFileName()
-                    .toString();
+                    .toString(); // 파일명만 추출 : 디렉토리 제거 → 보안 강화
 
             String uuid = UUID.randomUUID().toString();
             String saveName = uuid + "_" + originalName;
 
+            /* 업로드 기본경로 설정 */
             String basePath = System.getProperty("user.dir");
             File uploadPath = new File(basePath, uploadDir);
 
@@ -175,6 +176,7 @@ public class GalleryServiceImpl implements GalleryService {
             }
 
             File saveFile = new File(uploadPath, saveName);
+            /* 업로드된 파일을 실제 디스크에 저장 */
             file.transferTo(saveFile);
 
             GalleryFileVO fileVO = new GalleryFileVO();

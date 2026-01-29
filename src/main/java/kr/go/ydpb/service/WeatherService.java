@@ -23,12 +23,14 @@ public class WeatherService {
     private static final String API_URL = "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst";
     private static final String DUST_API_URL = "https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty";
 
+    // REST API 사용을 위한 객체 주입
     @Setter(onMethod_ = @Autowired)
     private RestTemplate restTemplate;
 
+    // 날씨 정보 가져오기
     public String getWeather() {
+        // 공공데이터포털 날씨 API는 30분 간격으로 데이터를 수집하기 때문에, 요청 시 시간을 30분 단위로 조정
         LocalDateTime now = LocalDateTime.now();
-
         int year = now.getYear();
         int month = now.getMonthValue();
         int day = now.getDayOfMonth();
@@ -51,7 +53,9 @@ public class WeatherService {
             hour = hour - 1;
         }
 
+        // 날짜 yyyymmdd 형식으로 변환
         String baseDate = String.format("%04d%02d%02d", year, month, day);
+        // 시간 hhmm 형식으로 변환
         String baseTime = String.format("%02d%02d", hour, baseMinute);
 
         URI uri = UriComponentsBuilder
@@ -70,7 +74,9 @@ public class WeatherService {
         return restTemplate.getForObject(uri, String.class);
     }
 
+    // 미세먼지 정보 가져오기
     public String getDust() {
+        // http 요청을 위해 한글 인코딩
         String stationName = URLEncoder.encode("영등포구", StandardCharsets.UTF_8);
 
         URI uri = UriComponentsBuilder

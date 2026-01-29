@@ -12,6 +12,7 @@ import java.io.IOException;
 @Configuration
 public class FirebaseConfig {
 
+    // 구글 인증 사용을 위한 초기화 (1번만 실행)
     @PostConstruct
     public void initialize() {
         try {

@@ -8,10 +8,10 @@ import java.sql.Date;
 public class MainSlideVO {
     private Long slideId;
     private String title;
-    private String imagePath;
+    private String imagePath; // 이미지 경로
     private String linkUrl;
-    private int sortOrder;
-    private String useYn;
+    private int sortOrder; // 정렬 순위
+    private String useYn; // 사용 여부
     private Date regDate;
 }
 

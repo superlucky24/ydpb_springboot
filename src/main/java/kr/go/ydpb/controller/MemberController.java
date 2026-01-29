@@ -1,6 +1,7 @@
 package kr.go.ydpb.controller;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import kr.go.ydpb.domain.MemberVO;
 import kr.go.ydpb.service.MemberService;
@@ -34,8 +35,13 @@ public class MemberController {
     private MemberService service;
 
     @GetMapping("/login")
-    public String Login() {
-        return "member/login"; // 로그인 HTML 경로
+    public String Login(HttpServletRequest request, HttpSession session) {
+        String referer = request.getHeader("Referer");
+
+        // 로그인 페이지로 바로 접근한 경우 방어
+        if (referer != null && !referer.contains("/login")) {
+            session.setAttribute("prevPage", referer);
+        }return "member/login"; // 로그인 HTML 경로
     }
 
     @PostMapping("/login")
@@ -58,7 +64,11 @@ public class MemberController {
 //            SecurityContextHolder.getContext().setAuthentication(authentication);
 //            System.out.println("로그인 권한 처리 완료 loginMember.getMemRole() => " + (loginMember.getMemRole() == 1 ? "ROLE_ADMIN" : "ROLE_USER"));
 
-            return "redirect:/"; // 메인 페이지 이동
+            // 이전 페이지로 이동
+            String prevPage = (String) session.getAttribute("prevPage");
+            session.removeAttribute("prevPage"); // 사용 후 제거
+
+            return "redirect:" + (prevPage != null ? prevPage : "/");
         }
 
         model.addAttribute("errorMsg", "아이디 또는 비밀번호가 일치하지 않습니다.");

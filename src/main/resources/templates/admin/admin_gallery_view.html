@@ -49,7 +49,9 @@
                                     <td colspan="2"><span class="td_title" th:text="${board.galTitle}"></span></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2" class="td_text" th:utext="${board.galContent}"></td>
+                                    <td colspan="2" class="td_text">
+                                        <div class="board_content" th:text="${board.galContent}"></div>
+                                    </td>
                                 </tr>
                                 <tr th:if="${board.files != null and #lists.size(board.files) > 0}">
                                     <td colspan="2">

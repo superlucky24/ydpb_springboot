@@ -221,7 +221,7 @@ public class AdminCommunityController {
     }
 
     /* 오직 다운로드 기능 */
-    @GetMapping("/downloadAttachment")
+    @GetMapping("/downloadattachment")
     public ResponseEntity<Resource> downloadAttachment(@RequestParam("fileId") Long fileId) {
 
         CommunityFileVO fileVO = service.getFile(fileId);

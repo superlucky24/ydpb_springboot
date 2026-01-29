@@ -23,17 +23,20 @@ public class DongNewsController {
     @Setter(onMethod_ = @Autowired)
     private DongNewsService service;
 
-    /* 목록 */
+    // 목록
     @GetMapping("list")
-    public String list(@ModelAttribute("cri") Criteria cri, Model model) {
+    public String list(@ModelAttribute("cri") Criteria cri,
+                       Model model) {
         model.addAttribute("list", service.getList(cri));
         model.addAttribute("pageMaker", new PageDTO(cri, service.getTotal(cri)));
         return "sub/dongnews_list";
     }
 
-    /* 상세 보기 */
+    // 글보기
     @GetMapping("view")
-    public String view(@RequestParam("dnewsId") Long dnewsId, @ModelAttribute("cri") Criteria cri, Model model) {
+    public String view(@RequestParam("dnewsId") Long dnewsId,
+                       @ModelAttribute("cri") Criteria cri,
+                       Model model) {
         service.increaseCount(dnewsId);
         model.addAttribute("board", service.getBoard(dnewsId));
         model.addAttribute("prev", service.getPrev(dnewsId, cri));

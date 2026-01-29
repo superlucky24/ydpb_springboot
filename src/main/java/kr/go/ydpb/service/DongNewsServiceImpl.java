@@ -69,7 +69,9 @@ public class DongNewsServiceImpl implements DongNewsService {
             fileVO.setInsertYn("on".equals(insertOpt) ? "Y" : "N");
             fileVO.setDnewsId(dnewsId);
 
+            // DB에 신규 파일 정보 저장
             fileMapper.insert(fileVO);
+            // 원본 게시글 VO에 파일 정보 저장
             board.getFiles().add(fileVO);
 
         } catch (Exception e) {
@@ -78,16 +80,19 @@ public class DongNewsServiceImpl implements DongNewsService {
         }
     }
 
+    // 검색조건을 만족하는 게시글 총 개수
     @Override
     public int getTotal(Criteria cri) {
         return mapper.getTotalCount(cri);
     }
 
+    // 검색조건을 만족하는 게시글 목록
     @Override
     public List<DongNewsVO> getList(Criteria cri) {
         return mapper.getList(cri);
     }
 
+    // 글등록 + 파일추가
     @Transactional
     @Override
     public void register(DongNewsVO board,
@@ -109,11 +114,13 @@ public class DongNewsServiceImpl implements DongNewsService {
         }
     }
 
+    // 조회수 증가
     @Override
     public void increaseCount(Long dnewsId) {
         mapper.updateCount(dnewsId);
     }
 
+    // 글보기
     @Override
     public DongNewsVO getBoard(Long dnewsId) {
         DongNewsVO board = mapper.read(dnewsId);
@@ -121,6 +128,7 @@ public class DongNewsServiceImpl implements DongNewsService {
         return board;
     }
 
+    // 글수정 + 파일삭제
     @Transactional
     @Override
     public void updateBoard(DongNewsVO board,
@@ -173,6 +181,7 @@ public class DongNewsServiceImpl implements DongNewsService {
         mapper.update(board);
     }
 
+    // 글삭제 + 파일삭제
     @Transactional
     @Override
     public int deleteBoard(Long dnewsId) {
@@ -195,16 +204,19 @@ public class DongNewsServiceImpl implements DongNewsService {
         return mapper.delete(dnewsId);
     }
 
+    // 개별 파일정보 보기
     @Override
     public DongNewsFileVO getFile(Long fileId) {
         return fileMapper.read(fileId);
     }
 
+    // 이전글
     @Override
     public DongNewsVO getPrev(@Param("dnewsId") Long dnewsId, @Param("cri") Criteria cri) {
         return mapper.getPrev(dnewsId, cri);
     }
 
+    // 다음글
     @Override
     public DongNewsVO getNext(@Param("dnewsId") Long dnewsId, @Param("cri") Criteria cri) {
         return mapper.getNext(dnewsId, cri);

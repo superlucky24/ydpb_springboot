@@ -232,7 +232,7 @@
                                 <!-- 게시글 있을 때 -->
                                 <a th:if="${gallery_list != null && #lists.size(gallery_list) > 0}"
                                    th:href="@{/gallery/view(galId=${gallery_list[0].galId})}"
-                                   th:style="|background-image:url('@{${gallery_list[0].files != null && #lists.size(gallery_list[0].files) > 0 ? '/admin/gallery/download?fileId=' + gallery_list[0].files[0].fileId : '/images/sub/no_image_icon.png'}}');|">
+                                   th:style="|background-image:url('@{${gallery_list[0].files != null && #lists.size(gallery_list[0].files) > 0 ? '/gallery/download?fileId=' + gallery_list[0].files[0].fileId : '/images/sub/no_image_icon.png'}}');|">
                                     <div class="main_photo_text">
                                         <span th:text="${gallery_list[0].galTitle}"></span>
                                     </div>
@@ -240,7 +240,7 @@
 
                                 <a th:if="${gallery_list != null && #lists.size(gallery_list) > 1}"
                                    th:href="@{/gallery/view(galId=${gallery_list[1].galId})}"
-                                   th:style="|background-image:url('@{${gallery_list[1].files != null && #lists.size(gallery_list[1].files) > 0 ? '/admin/gallery/download?fileId=' + gallery_list[1].files[0].fileId : '/images/sub/no_image_icon.png'}}');|">
+                                   th:style="|background-image:url('@{${gallery_list[1].files != null && #lists.size(gallery_list[1].files) > 0 ? '/gallery/download?fileId=' + gallery_list[1].files[0].fileId : '/images/sub/no_image_icon.png'}}');|">
                                     <div class="main_photo_text">
                                         <span th:text="${gallery_list[1].galTitle}"></span>
                                     </div>

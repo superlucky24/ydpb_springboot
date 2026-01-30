@@ -4,134 +4,146 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>자치회관 게시판 | 자치회관 | 영등포본동 주민센터</title>
+    <title>자치회관 게시판 | 관리자 메뉴</title>
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb_community_center_write.css}">
-    <script th:src="@{/js/admin.js}"></script>
-    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/prefixfree.min.js}"></script>
-    <script>const menuName = '자치회관 게시판';</script>
     <script th:src="@{/js/ydpb.js}"></script>
 </head>
 <body>
+    <div id="wrap">
+        <!-- header -->
+        <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
+        <!-- //header -->
 
-<div id="wrap">
-    <!-- header -->
-    <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
-    <!-- //header -->
-    <div class="contents_wrap safe_area">
+        <!-- container -->
+        <div class="container">
+            <div class="contents_wrap safe_area">
+                <!-- 사이드 메뉴 -->
+                <aside class="side_menu" th:replace="~{/admin/common/admin_sidemenu::side}"></aside>
 
-        <!-- 사이드 메뉴 -->
-        <aside class="side_menu"
-               th:replace="~{/admin/common/admin_sidemenu::side}">
-        </aside>
-
-        <main>
-            <div class="contents">
-                <div class="board_write">
-
-                    <p class="text_alert alert_write">
-                        <span class="required_mark">필수항목</span> 표시는 필수 항목 입니다.
-                    </p>
-
-                    <!-- 글쓰기 폼 -->
-                    <form th:action="@{/admin/community/write}" method="post" >
-
-                        <table class="table_form">
-                            <caption class="blind">자치회관 게시판 글쓰기</caption>
-
-                            <tbody>
-                            <tr>
-                                <th>
-                                    제목 <span class="required_mark">필수</span>
-                                </th>
-                                <td>
-                                    <input type="text"
-                                           name="cmntTitle"
-                                           class="input form_input"
-                                           required>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th>
-                                    내용 <span class="required_mark">필수</span>
-                                </th>
-                                <td>
-                                    <textarea name="cmntContent"
-                                              rows="10"
-                                              class="input"
-                                              required></textarea>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">파일</th>
-                                <td>
-                                    <div class="file_group">
-                                        <div class="file_input">
-                                            <input type="file" name="file_1" id="file_1" >
-                                            <span class="input disabled"></span>
-                                            <button type="button" class="clear_file" title="1번 파일 삭제">1번 파일 삭제</button>
-                                        </div>
-                                        <div class="file_btn">
-                                            <label for="file_1" class="btn btn_primary btn_sm">파일선택</label>
-                                        </div>
-                                        <div class="file_option">
-                                            <div class="checkbox">
-                                                <input type="checkbox" name="file_opt_1" id="file_opt_1">
-                                                <label for="file_opt_1">본문삽입</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <input type="text" name="file_text_1" id="file_text_1" class="input form_input" placeholder="첨부 이미지 대체 텍스트 입력">
-                                    <div class="file_group">
-                                        <div class="file_input">
-                                            <input type="file" name="file_2" id="file_2" >
-                                            <span class="input disabled"></span>
-                                            <button type="button" class="clear_file" title="2번 파일 삭제">2번 파일 삭제</button>
-                                        </div>
-                                        <div class="file_btn">
-                                            <label for="file_2" class="btn btn_primary btn_sm">파일선택</label>
-                                        </div>
-                                        <div class="file_option">
-                                            <div class="checkbox">
-                                                <input type="checkbox" name="file_opt_2" id="file_opt_2">
-                                                <label for="file_opt_2">본문삽입</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <input type="text" name="file_text_2" id="file_text_2" class="input form_input" placeholder="첨부 이미지 대체 텍스트 입력">
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th>부서</th>
-                                <td>
-                                    <input type="text"
-                                           name="cmntDepartment"
-                                           class="input form_input">
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-                        <div class="btns">
-                            <a th:href="@{/admin/community/list}"
-                               class="btn btn_default">목록</a>
-
-                            <button type="submit"
-                                    class="btn btn_write">저장</button>
+                <!-- main -->
+                <main>
+                    <!-- location -->
+                    <div class="location">
+                        <div class="location_title">
+                            <h2>자치회관 게시판</h2>
                         </div>
+                    </div>
+                    <!-- //location -->
 
-                    </form>
-                </div>
+                    <div class="contents">
+                        <div class="board_write">
+
+                            <p class="text_alert alert_write">
+                                <span class="required_mark">필수항목</span> 표시는 필수 항목 입니다.
+                            </p>
+
+                            <!-- 글쓰기 폼 -->
+                            <form th:action="@{/admin/community/write}" method="post" >
+
+                                <table class="table_form">
+                                    <caption class="blind">자치회관 게시판 글쓰기</caption>
+
+                                    <tbody>
+                                    <tr>
+                                        <th>
+                                            제목 <span class="required_mark">필수</span>
+                                        </th>
+                                        <td>
+                                            <input type="text"
+                                                   name="cmntTitle"
+                                                   class="input form_input"
+                                                   required>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>
+                                            내용 <span class="required_mark">필수</span>
+                                        </th>
+                                        <td>
+                                            <textarea name="cmntContent"
+                                                      rows="10"
+                                                      class="input"
+                                                      required></textarea>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">파일</th>
+                                        <td>
+                                            <div class="file_group">
+                                                <div class="file_input">
+                                                    <input type="file" name="file_1" id="file_1" >
+                                                    <span class="input disabled"></span>
+                                                    <button type="button" class="clear_file" title="1번 파일 삭제">1번 파일 삭제</button>
+                                                </div>
+                                                <div class="file_btn">
+                                                    <label for="file_1" class="btn btn_primary btn_sm">파일선택</label>
+                                                </div>
+                                                <div class="file_option">
+                                                    <div class="checkbox">
+                                                        <input type="checkbox" name="file_opt_1" id="file_opt_1">
+                                                        <label for="file_opt_1">본문삽입</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="text" name="file_text_1" id="file_text_1" class="input form_input" placeholder="첨부 이미지 대체 텍스트 입력">
+                                            <div class="file_group">
+                                                <div class="file_input">
+                                                    <input type="file" name="file_2" id="file_2" >
+                                                    <span class="input disabled"></span>
+                                                    <button type="button" class="clear_file" title="2번 파일 삭제">2번 파일 삭제</button>
+                                                </div>
+                                                <div class="file_btn">
+                                                    <label for="file_2" class="btn btn_primary btn_sm">파일선택</label>
+                                                </div>
+                                                <div class="file_option">
+                                                    <div class="checkbox">
+                                                        <input type="checkbox" name="file_opt_2" id="file_opt_2">
+                                                        <label for="file_opt_2">본문삽입</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="text" name="file_text_2" id="file_text_2" class="input form_input" placeholder="첨부 이미지 대체 텍스트 입력">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>부서</th>
+                                        <td>
+                                            <input type="text"
+                                                   name="cmntDepartment"
+                                                   class="input form_input">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="btns">
+                                    <a th:href="@{/admin/community/list}"
+                                       class="btn btn_default">목록</a>
+
+                                    <button type="submit"
+                                            class="btn btn_write">저장</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </main>
             </div>
-        </main>
-    </div>
-</div>
 
+        </div>
+        <!-- //container -->
+
+        <!-- footer -->
+        <footer class="footer" th:replace="~{/admin/common/admin_header_footer::footer}"></footer>
+        <!-- //footer -->
+    </div>
 </body>
 </html>

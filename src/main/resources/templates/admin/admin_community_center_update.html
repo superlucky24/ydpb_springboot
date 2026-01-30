@@ -4,123 +4,135 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>자치회관 게시판 | 자치회관 | 영등포본동 주민센터</title>
+    <title>자치회관 게시판 | 관리자 메뉴</title>
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb_community_center_write.css}">
-    <script th:src="@{/js/admin.js}"></script>
-    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/prefixfree.min.js}"></script>
-    <script>const menuName = '자치회관 게시판';</script>
     <script th:src="@{/js/ydpb.js}"></script>
 </head>
 <body>
+    <div id="wrap">
+        <!-- header -->
+        <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
+        <!-- //header -->
 
-<div id="wrap">
-    <!-- header -->
-    <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
-    <!-- //header -->
+        <!-- container -->
+        <div class="container">
+            <div class="contents_wrap safe_area">
 
-    <div class="contents_wrap safe_area">
+                <!-- 사이드 메뉴 -->
+                <aside class="side_menu" th:replace="~{/admin/common/admin_sidemenu::side}"></aside>
 
-        <!-- 사이드 메뉴 -->
-        <aside class="side_menu" th:replace="~{/admin/common/admin_sidemenu::side}"></aside>
-
-        <main>
-            <div class="contents">
-                <div class="board_write">
-
-                    <p class="text_alert alert_write">
-                        <span class="required_mark">필수항목</span> 표시는 필수 항목 입니다.
-                    </p>
-
-                    <!-- 업데이트 폼 -->
-                    <form th:action="@{/admin/community/update}" method="post">
-                        <input type="hidden" name="cmntId" th:value="${board.cmntId}">
-                        <input type="hidden" name="pageNum" th:value="${cri.pageNum}">
-                        <input type="hidden" name="amount" th:value="${cri.amount}">
-                        <input type="hidden" name="searchType" th:value="${cri.searchType}">
-                        <input type="hidden" name="searchKeyword" th:value="${cri.searchKeyword}">
-
-                        <table class="table_form">
-                            <caption class="blind">자치회관 게시판 글쓰기</caption>
-                            <tbody>
-                            <tr>
-                                <th><label for="cmntTitle">제목</label> <span class="required_mark">필수</span></th>
-                                <td>
-                                    <input type="text"
-                                           name="cmntTitle"
-                                           id="cmntTitle"
-                                           class="input form_input"
-                                           th:value="${board.cmntTitle}"
-                                           required>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th><label for="cmntContent">내용</label> <span class="required_mark">필수</span></th>
-                                <td>
-                                        <textarea name="cmntContent"
-                                                  id="cmntContent"
-                                                  rows="10"
-                                                  class="input"
-                                                  required
-                                                  th:utext="${board.cmntContent}"></textarea>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">파일</th>
-                                <td>
-
-                                    <!-- 기존 파일 목록 -->
-                                    <div th:if="${board.files != null}">
-                                        <div th:each="file : ${board.files}" class="existing_file">
-                                            <span th:text="${file.fileName}"></span>
-                                            <label>
-                                                <input type="checkbox"
-                                                       name="deleteFileIds"
-                                                       th:value="${file.fileId}">
-                                                삭제
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <hr>
-
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">행정동</th>
-                                <td>영등포본동</td>
-                            </tr>
-
-                            <tr>
-                                <th><label for="cmntDepartment">부서</label></th>
-                                <td>
-                                    <input type="text"
-                                           name="cmntDepartment"
-                                           id="cmntDepartment"
-                                           class="input form_input"
-                                           th:value="${board.cmntDepartment}">
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-                        <div class="btns">
-                            <a th:href="@{/admin/community/list(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="btn btn_default">목록</a>
-                            <button type="submit" class="btn btn_write">저장</button>
+                <main>
+                    <!-- location -->
+                    <div class="location">
+                        <div class="location_title">
+                            <h2>자치회관 게시판</h2>
                         </div>
-                    </form>
+                    </div>
+                    <!-- //location -->
 
-                </div>
+                    <div class="contents">
+                        <div class="board_write">
+
+                            <p class="text_alert alert_write">
+                                <span class="required_mark">필수항목</span> 표시는 필수 항목 입니다.
+                            </p>
+
+                            <!-- 업데이트 폼 -->
+                            <form th:action="@{/admin/community/update}" method="post">
+                                <input type="hidden" name="cmntId" th:value="${board.cmntId}">
+                                <input type="hidden" name="pageNum" th:value="${cri.pageNum}">
+                                <input type="hidden" name="amount" th:value="${cri.amount}">
+                                <input type="hidden" name="searchType" th:value="${cri.searchType}">
+                                <input type="hidden" name="searchKeyword" th:value="${cri.searchKeyword}">
+
+                                <table class="table_form">
+                                    <caption class="blind">자치회관 게시판 글쓰기</caption>
+                                    <tbody>
+                                    <tr>
+                                        <th><label for="cmntTitle">제목</label> <span class="required_mark">필수</span></th>
+                                        <td>
+                                            <input type="text"
+                                                   name="cmntTitle"
+                                                   id="cmntTitle"
+                                                   class="input form_input"
+                                                   th:value="${board.cmntTitle}"
+                                                   required>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th><label for="cmntContent">내용</label> <span class="required_mark">필수</span></th>
+                                        <td>
+                                                <textarea name="cmntContent"
+                                                          id="cmntContent"
+                                                          rows="10"
+                                                          class="input"
+                                                          required
+                                                          th:utext="${board.cmntContent}"></textarea>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">파일</th>
+                                        <td>
+
+                                            <!-- 기존 파일 목록 -->
+                                            <div th:if="${board.files != null}">
+                                                <div th:each="file : ${board.files}" class="existing_file">
+                                                    <span th:text="${file.fileName}"></span>
+                                                    <label>
+                                                        <input type="checkbox"
+                                                               name="deleteFileIds"
+                                                               th:value="${file.fileId}">
+                                                        삭제
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">행정동</th>
+                                        <td>영등포본동</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th><label for="cmntDepartment">부서</label></th>
+                                        <td>
+                                            <input type="text"
+                                                   name="cmntDepartment"
+                                                   id="cmntDepartment"
+                                                   class="input form_input"
+                                                   th:value="${board.cmntDepartment}">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="btns">
+                                    <a th:href="@{/admin/community/list(pageNum=${cri.pageNum}, amount=${cri.amount}, searchType=${cri.searchType}, searchKeyword=${cri.searchKeyword})}" class="btn btn_default">목록</a>
+                                    <button type="submit" class="btn btn_write">저장</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </main>
             </div>
-        </main>
-    </div>
-</div>
+        </div>
+        <!-- //container -->
 
+        <!-- footer -->
+        <footer class="footer" th:replace="~{/admin/common/admin_header_footer::footer}"></footer>
+        <!-- //footer -->
+    </div>
 </body>
 </html>

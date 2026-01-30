@@ -329,8 +329,9 @@ $(document).ready(function (){
                 target.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
                 // 시각적 강조
-                target.style.outline = "5px solid red";
-                setTimeout(() => target.style.outline = "none", 5000);
+                $('[data-group="top_type"]').css('border', '5px solid red');
+                setTimeout(() => $('[data-group="top_type"]').css('border', 'none'), 5000);
+
                 return false;
             }
             if (!data.midType || data.midType.trim() === "") {
@@ -340,8 +341,8 @@ $(document).ready(function (){
                 target.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
                 // 시각적 강조
-                target.style.outline = "5px solid red";
-                setTimeout(() => target.style.outline = "none", 5000);
+                $('[data-group="mid_type"]').css('border', '5px solid red');
+                setTimeout(() => $('[data-group="mid_type"]').css('border', 'none'), 5000);
                 return false;
             }
             if (!data.btmType || data.btmType.trim() === "") {
@@ -351,8 +352,8 @@ $(document).ready(function (){
                 target.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
                 // 시각적 강조
-                target.style.outline = "5px solid red";
-                setTimeout(() => target.style.outline = "none", 5000);
+                $('[data-group="btm_type"]').css('border', '5px solid red');
+                setTimeout(() => $('[data-group="btm_type"]').css('border', 'none'), 5000);
                 return false;
             }
             // if (!data.submitYear || data.submitYear.trim() === "") {

@@ -16,6 +16,9 @@
   <script th:src="@{/js/prefixfree.min.js}"></script>
   <script>const menuName = '서명페이지';</script>
   <script th:src="@{/js/ydpb.js}"></script>
+<!--  api 호출용 스크립트 추가-->
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script th:src="@{/js/ydpb_member.js}"></script>
   <script th:src="@{/js/ydpb_signature.js}"></script>
 </head>
 <body>
@@ -90,9 +93,9 @@
             <input type="text" class="form-field f_name" tabindex="1">
             <input type="text" class="form-field f_jumin" tabindex="2" placeholder="-을 포함하여 작성">
             <input type="text" class="form-field f_rel" tabindex="3">
-            <input type="text" class="form-field f_tel" tabindex="4">
-            <input type="text" class="form-field f_phone" tabindex="5">
-            <input type="text" class="form-field f_addr" tabindex="6">
+            <input type="text" class="form-field f_tel" tabindex="4" placeholder="-을 포함하여 작성">
+            <input type="text" class="form-field f_phone" tabindex="5" placeholder="-을 포함하여 작성">
+            <input type="text" class="form-field f_addr" tabindex="6" placeholder="기본 주소 추가 후 상세주소 입력">
             <!-- 신고사항 -->
             <input type="text" class="form-field f_report_content">
             <input type="text" class="form-field f_prev_master">

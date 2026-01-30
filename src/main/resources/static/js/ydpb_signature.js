@@ -120,6 +120,21 @@ $(document).ready(function (){
         }
     });
 
+    // 주소 입력 부분 포커스 시 주소 입력 API 호출 0130 귀환
+    const addrInput = document.querySelector('.f_addr');
+
+    // 포커스 이벤트 리스너 추가
+    $('.f_addr').on('focus', function() {
+        if (!this.value.trim()) {
+
+            execDaumPostcode('.f_addr');
+            console.log('주소찾기 api 실행');
+            // 포커스 시 브라우저 기본 파란 테두리가 남지 않도록 포커스 해제 (선택 사항)
+            this.blur();
+        }
+    });
+
+
     // 주민등록 신고서 제출 로직 추가 - 최연수
     $('#submitBtn').off('click').on('click', function (e) {
         e.preventDefault();
@@ -180,27 +195,58 @@ $(document).ready(function (){
                 alert("신고인 성명을 입력해주세요.");
                 return false;
             }
+            const nameReg = /^(?:[가-힣]{1,16})$/;
+            if (!nameReg.test(data.reporterName)) {
+                alert("이름 형식이 올바르지 않습니다. \n16자 이내 한글을 입력해주세요");
+                $('.f_name').focus();
+                return false;
+            }
 
 
+            // 주민등록번호 확인
             if (!data.reporterJumin || data.reporterJumin.trim() === "") {
                 alert("주민등록번호를 입력해주세요.");
                 $('.f_jumin').focus();
                 return false;
             }
-
-            // 주민등록번호 간략 확인
             const juminReg = /^[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])-[1-4][0-9]{6}$/;
-
-
+            if (!juminReg.test(data.reporterJumin)) {
+                alert("주민등록번호 형식이 올바르지 않습니다.");
+                $('.f_jumin').focus();
+                return false;
+            }
+            //세대주와의 관계
             if (!data.reporterRel || data.reporterRel.trim() === "") {
                 alert("세대주와의 관계를 입력해주세요.");
                 $('.f_rel').focus();
                 return false;
             }
+            const relReg = /^([가-힣]{1,10})$/;
+            if (!relReg.test(data.reporterRel)) {
+                alert("세대주와의 형식이 올바르지 않습니다. \n10자 이내 한글을 입력해주세요");
+                $('.f_rel').focus();
+                return false;
+            }
 
+            //일반전화 유효성
+            const telReg = /^(02|03[1-3]|04[1-4]|05[1-5]|06[1-4])-(\d{3,4})-(\d{4})$/;
+            if(data.reporterTel){
+                if (!telReg.test(data.reporterTel)) {
+                    alert("일반전화 형식이 올바르지 않습니다.\n다시 입력해주세요");
+                    $('.f_tel').focus();
+                    return false;
+                }
+            }
 
+            //휴대 전화
             if (!data.reporterPhone || data.reporterPhone.trim() === "") {
                 alert("휴대전화번호를 입력해주세요.");
+                $('.f_phone').focus();
+                return false;
+            }
+            const phoneReg = /^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
+            if (!phoneReg.test(data.reporterPhone.trim())) {
+                alert("휴대전화 형식이 올바르지 않습니다.\n다시 입력해주세요");
                 $('.f_phone').focus();
                 return false;
             }
@@ -212,15 +258,22 @@ $(document).ready(function (){
                 return false;
             }
 
-
+            // 신고내용
             if (!data.reportContent || data.reportContent.trim() === "") {
                 alert("신고 내용을 입력해주세요.");
                 $('.f_report_content').focus();
                 return false;
             }
 
+            //세대주명
             if (!data.prevMaster  || data.prevMaster.trim() === "") {
                 alert("전 세대주명을 입력해주세요.");
+                $('.f_prev_master').focus();
+                return false;
+            }
+            const prevOwnerReg = /^(?:[가-힣]{1,16})$/;
+            if (!prevOwnerReg.test(data.prevMaster)) {
+                alert("이름 형식이 올바르지 않습니다. \n16자 이내 한글을 입력해주세요");
                 $('.f_prev_master').focus();
                 return false;
             }
@@ -230,10 +283,23 @@ $(document).ready(function (){
                 $('.f_curr_master').focus();
                 return false;
             }
+            const currOwnerReg = /^(?:[가-힣]{1,16})$/;
+            if (!currOwnerReg.test(data.currMaster)) {
+                alert("이름 형식이 올바르지 않습니다. \n16자 이내 한글을 입력해주세요");
+                $('.f_curr_master').focus();
+                return false;
+            }
+
             // 대상자 목록이 비어있는지 확인
             if (!data.targets || data.targets.length === 0) {
                 alert("신고 대상자를 최소 한 명 이상 추가해주세요.");
                 $('.r_rel').focus();
+                return false;
+            }
+            const rJumin =$('.r_jumin').val().trim();
+            if (!juminReg.test(rJumin)) {
+                alert("주민등록번호 형식이 올바르지 않습니다.");
+                $('.r_jumin').focus();
                 return false;
             }
 
@@ -252,24 +318,28 @@ $(document).ready(function (){
                 $('.c_btm_1').focus();
                 return false;
             }
-            if (!data.submitYear || data.submitYear.trim() === "") {
-                alert("제출 연도를 입력해주세요.");
-                $('.f_year').focus();
-                return false;
-            }
-            if (!data.submitMonth || data.submitMonth.trim() === "") {
-                alert("제출 월을 입력해주세요.");
-                $('.f_month').focus();
-                return false;
-            }
-            if (!data.submitDay  || data.submitDay.trim() === "") {
-                alert("제출 일을 입력해주세요.");
-                $('.f_day').focus();
-                return false;
-            }
+            // if (!data.submitYear || data.submitYear.trim() === "") {
+            //     alert("제출 연도를 입력해주세요.");
+            //     $('.f_year').focus();
+            //     return false;
+            // }
+            // if (!data.submitMonth || data.submitMonth.trim() === "") {
+            //     alert("제출 월을 입력해주세요.");
+            //     $('.f_month').focus();
+            //     return false;
+            // }
+            // if (!data.submitDay  || data.submitDay.trim() === "") {
+            //     alert("제출 일을 입력해주세요.");
+            //     $('.f_day').focus();
+            //     return false;
+            // }
             //  서명 유무 체크 : Canvas 데이터가 초기값인지 확인
             // 빈 캔버스의 dataURL 길이는 보통 아주 짧음 대략 2000~3000자 이하
 
+            console.log("sigReporter.length -> "+ data.sigReporter.length);
+            console.log("sigDelegate.length-> "+ data.sigReporter.length);
+            console.log("sigPrev.length -> "+ data.sigReporter.length);
+            console.log("sigCurr.length -> "+ data.sigReporter.length);
             if (data.sigReporter.length < 3000) {
                 alert("신고인 서명이 누락되었습니다.");
                 $('#sig-pad-1').focus();
@@ -339,7 +409,7 @@ $(document).ready(function (){
                         window.URL.revokeObjectURL(url);
                     }, 100);
 
-                    location.href = '/';
+                    // location.href = '/';
                 },
                 error: function(xhr, status, error) {
                     console.error("제출 에러 상세:", error);

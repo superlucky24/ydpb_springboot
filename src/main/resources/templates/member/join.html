@@ -158,7 +158,7 @@
                                         </th>
                                         <td>
                                             <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-                                            <button type="button" class="btn btn_cancel btn_sm" onclick="execDaumPostcode()">주소찾기</button>
+                                            <button type="button" class="btn btn_cancel btn_sm" onclick="execDaumPostcode('#memAddress')">주소찾기</button>
                                             <span class="text_alert">우편번호 검색창이 새창으로 열립니다.</span>
                                             <label for="memAddress" class="blind">주소</label>
                                             <input type="text" th:field="*{memAddress}" id="memAddress" class="input" maxlength="200" placeholder="주소" readonly required>

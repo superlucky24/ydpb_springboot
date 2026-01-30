@@ -1,7 +1,8 @@
 /**
  * 주소찾기 팝업, 데이터 입력 함수 (다음 카카오)
  */
-function execDaumPostcode() {
+//  공통으로 사용될 수 있도록 구조 수정 0130 귀환
+function execDaumPostcode(target) {
     new daum.Postcode({
         oncomplete: function(data) {
             // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -31,10 +32,22 @@ function execDaumPostcode() {
             }
 
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
-            document.getElementById("memAddress").value = roadAddr;
+            // document.getElementById("memAddress").value = roadAddr;
 
             // 0120 이벤트 연결용 추가 귀환
-            document.getElementById("memAddress").dispatchEvent(new Event("input"));
+            // document.getElementById("memAddress").dispatchEvent(new Event("input"));
+
+            const targetElement = document.querySelector(target);
+            if (targetElement) {
+                targetElement.value = roadAddr;
+                // 수동 입력 이벤트 발생 (유효성 체크 연동용)
+                targetElement.dispatchEvent(new Event("input"));
+
+                // 상세주소로 자동 이동 (규칙: 주소ID + Detail)
+                const detailField = document.getElementById(target + "Detail");
+                if (detailField) detailField.focus();
+            }
+
         }
     }).open();
 }

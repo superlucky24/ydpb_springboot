@@ -170,6 +170,7 @@ $(document).ready(function (){
             prevMaster: $('.f_prev_master').val().trim(),
             currMaster: $('.f_curr_master').val().trim(),
             targets: targetList,
+            delegateName: $('.f_delegate_name').val().trim(),
             topType: $('.c_top_1.active, .c_top_2.active, .c_top_3.active').attr('class') || "",
             midType: $('.c_mid_1.active, .c_mid_2.active, .c_mid_3.active').attr('class') || "",
             btmType: $('.c_btm_1.active, .c_btm_2.active, .c_btm_3.active').attr('class') || "",

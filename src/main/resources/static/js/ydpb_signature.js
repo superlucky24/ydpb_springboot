@@ -122,7 +122,6 @@ $(document).ready(function (){
 
     // 주소 입력 부분 포커스 시 주소 입력 API 호출 0130 귀환
     const addrInput = document.querySelector('.f_addr');
-
     // 포커스 이벤트 리스너 추가
     $('.f_addr').on('focus', function() {
         if (!this.value.trim()) {
@@ -183,12 +182,12 @@ $(document).ready(function (){
             sigCurr: document.getElementById('sig-pad-curr').toDataURL('image/png')
         };
 
-        console.log("전 세대주 서명란 길이 : "+formData.sigPrev );
-        console.log("세대주 서명란 길이 : "+formData.sigCurr );
-        console.log("신고인 서명란 길이 : "+formData.sigPrev );
-        console.log("위임한 세대주 서명란 길이 : "+formData.sigDelegate );
+        console.log("전 세대주 서명란 길이 : "+formData.sigPrev.length );
+        console.log("세대주 서명란 길이 : "+formData.sigCurr.length );
+        console.log("신고인 서명란 길이 : "+formData.sigPrev.length );
+        console.log("위임한 세대주 서명란 길이 : "+formData.sigDelegate.length );
 
-        //  유효성 체크 메서드
+        //  유효성 체크 메서드 - 귀환
         function validateForm(data) {
             // 신고인 이름 체크
             if (!data.reporterName || data.reporterName.trim() === "") {
@@ -296,26 +295,64 @@ $(document).ready(function (){
                 $('.r_rel').focus();
                 return false;
             }
+
+            const rRel =$('.r_rel').val().trim();
+            const rName =$('.r_name').val().trim();
             const rJumin =$('.r_jumin').val().trim();
-            if (!juminReg.test(rJumin)) {
+            const rPre =$('.r_pre').val().trim();
+            const rPost =$('.r_post').val().trim();
+            if (!rRel || rRel === "") {
+                alert("세대주와의 관계를 입력해주세요");
+                $('.r_rel').focus();
+                return false;
+            }if (!rName || rName === "") {
+                alert("이름을 입력해주세요.");
+                $('.r_name').focus();
+                return false;
+            }if (!juminReg.test(rJumin)) {
                 alert("주민등록번호 형식이 올바르지 않습니다.");
                 $('.r_jumin').focus();
+                return false;
+            }if (!rPre || rPre === "") {
+                alert("정정 전 내용을 입력해주세요.");
+                $('.r_pre').focus();
+                return false;
+            }if (!rPost || rPost === "") {
+                alert("정정 후 내용을 입력해주세요");
+                $('.r_post').focus();
                 return false;
             }
 
             if (!data.topType  || data.topType.trim() === "") {
                 alert("최상단의 신고 종류를 체크해주세요.");
-                $('.c_top_1').focus();
+                const target = document.querySelector('.c_top_1');
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // 시각적 강조
+                target.style.outline = "5px solid red";
+                setTimeout(() => target.style.outline = "none", 5000);
                 return false;
             }
             if (!data.midType || data.midType.trim() === "") {
                 alert("신고서 하단의 신고 종류를 체크해주세요.");
-                $('.c_mid_1').focus();
+
+                const target = document.querySelector('.c_mid_1');
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // 시각적 강조
+                target.style.outline = "5px solid red";
+                setTimeout(() => target.style.outline = "none", 5000);
                 return false;
             }
             if (!data.btmType || data.btmType.trim() === "") {
                 alert("위임장 아래 신고 종류를 체크해주세요.");
-                $('.c_btm_1').focus();
+
+                const target = document.querySelector('.c_btm_1');
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // 시각적 강조
+                target.style.outline = "5px solid red";
+                setTimeout(() => target.style.outline = "none", 5000);
                 return false;
             }
             // if (!data.submitYear || data.submitYear.trim() === "") {
@@ -333,31 +370,62 @@ $(document).ready(function (){
             //     $('.f_day').focus();
             //     return false;
             // }
+
+            //
+            const fReporterName =$('.f_reporter_name').val().trim();
+            if (!fReporterName || fReporterName === "") {
+                alert("신고인을 입력해주세요");
+                $('.f_reporter_name').focus();
+                return false;
+            }
+            const fDelegateName =$('.f_delegate_name').val().trim();
+            if (!fDelegateName || fDelegateName === "") {
+                alert("위임한 사람을 입력해주세요");
+                $('.f_delegate_name').focus();
+                return false;
+            }
+
             //  서명 유무 체크 : Canvas 데이터가 초기값인지 확인
             // 빈 캔버스의 dataURL 길이는 보통 아주 짧음 대략 2000~3000자 이하
 
-            console.log("sigReporter.length -> "+ data.sigReporter.length);
-            console.log("sigDelegate.length-> "+ data.sigReporter.length);
-            console.log("sigPrev.length -> "+ data.sigReporter.length);
-            console.log("sigCurr.length -> "+ data.sigReporter.length);
-            if (data.sigReporter.length < 3000) {
+            if (data.sigReporter.length < 1000) {
                 alert("신고인 서명이 누락되었습니다.");
-                $('#sig-pad-1').focus();
+                const target = document.querySelector('#sig-pad-1');
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // 시각적 강조
+                target.style.outline = "5px solid red";
+                setTimeout(() => target.style.outline = "none", 5000);
                 return false;
             }
-            if (data.sigDelegate.length < 3000) {
+            if (data.sigDelegate.length < 1000) {
                 alert("위임한 사람의 서명이 누락되었습니다.");
-                $('#sig-pad-2').focus();
+                const target = document.querySelector('#sig-pad-2');
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // 시각적 강조
+                target.style.outline = "5px solid red";
+                setTimeout(() => target.style.outline = "none", 5000);
                 return false;
             }
-            if (data.sigPrev.length < 3000) {
+            if (data.sigPrev.length < 1000) {
                 alert("전 세대주 서명이 누락되었습니다.");
-                $('#sig-pad-prev').focus();
+                const target = document.querySelector('#sig-pad-prev');
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // 시각적 강조
+                target.style.outline = "5px solid red";
+                setTimeout(() => target.style.outline = "none", 5000);
                 return false;
             }
-            if (data.sigCurr.length < 3000) {
+            if (data.sigCurr.length < 1000) {
                 alert("세대주 서명이 누락되었습니다.");
-                $('#sig-pad-curr').focus();
+                const target = document.querySelector('#sig-pad-curr');
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // 시각적 강조
+                target.style.outline = "5px solid red";
+                setTimeout(() => target.style.outline = "none", 5000);
                 return false;
             }
 

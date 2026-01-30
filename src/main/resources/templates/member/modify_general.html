@@ -92,7 +92,7 @@
                             <tr>
                                 <th scope="row">주소 <span class="required_mark">필수</span></th>
                                 <td>
-                                    <button type="button" class="btn btn_cancel btn_sm" onclick="execDaumPostcode()">주소찾기</button>
+                                    <button type="button" class="btn btn_cancel btn_sm" onclick="execDaumPostcode('#memAddress')">주소찾기</button>
                                     <input type="text" th:field="*{memAddress}" id="memAddress" class="input" readonly required style="margin-top:5px;">
                                     <input type="text" th:field="*{memAddressDetail}" id="memAddressDetail" class="input" placeholder="상세주소" style="margin-top:5px;">
                                     <p class="addr_msg">※ 상세주소를 입력해주세요.</p>

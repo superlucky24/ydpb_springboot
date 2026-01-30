@@ -128,7 +128,7 @@ $(document).ready(function (){
 
             execDaumPostcode('.f_addr');
             console.log('주소찾기 api 실행');
-            // 포커스 시 브라우저 기본 파란 테두리가 남지 않도록 포커스 해제 (선택 사항)
+            // 포커스 시 브라우저 기본 파란 테두리가 남지 않도록 포커스 해제
             this.blur();
         }
     });

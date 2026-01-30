@@ -308,6 +308,7 @@
         function isValidPhone(value) {
             return /^(010)\d{8}$/.test(value);
         }
+
         if(memPhone){
             //휴대전화 입력창에 입력한 경우
             memPhone.addEventListener("keyup", function(){
@@ -341,68 +342,90 @@
             });
         }
 
+
         // 주소 유효성 검사
-        if(memAddress && memAddressDetail){
-            // if(memAddress.value == null || memAddress.value == "" || memAddressDetail.value ==null || memAddressDetail.value == ""){
-            //     isAddressValid = false;
-            // }
-
-            isAddressValid = false;
-            // 주소창에 입력이 이루어지면 이벤트 실행
-            memAddress.addEventListener("input", function () {
-                console.log("주소 입력 리스너 ");
-                console.log(memAddress.value);
-
-                if (memAddress.value.trim() !== "" && memAddress.value.trim()!==null) {
-                    // 주소값이 존재하면
-                    console.log("주소값 입력됨");
-                    isAddressValid = true;
-                    addr_msg.textContent = "※ 기본주소 입력 완료, 상세 주소를 입력해주세요";
-                    memAddressDetail.focus();
-                } else {
-                    // 주소값이 없으면
-                    console.log("주소값 입력 안됨");
-                    memAddressDetail.value = "";
-                    addr_msg.textContent = "※ 주소찾기 버튼을 눌러 기본 주소를 먼저 선택해주세요.";
-                    isAddressValid = false;
-                }
-            });
-
-            //상세 주소창에 입력한 경우
-            memAddressDetail.addEventListener("keyup", function () {
-                let addrDetail = memAddressDetail.value;
-                if (addrDetail === "" || addrDetail === null) {
-                    addr_msg.textContent = "※ 상세주소를 반드시 입력해주세요";
-                    addr_msg.classList.add("cautionText");
-                    memAddressDetail.classList.add("cautionBorder");
-                    isAddressDetailValid = false;
-                } else {
-                    addr_msg.textContent = "※ 상세주소 입력 완료";
-                    addr_msg.classList.remove("cautionText");
-                    memAddressDetail.classList.remove("cautionBorder");
-                    isAddressDetailValid = true;
-                }
-            });
-
-
-        }
-
-        // 상세 주소창 입력을 마쳤을 때
-        memAddressDetail.addEventListener("blur", function () {
-            let addrDetail = memAddressDetail.value;
-            if (addrDetail === "") {
-                addr_msg.textContent = "※ 상세주소를 반드시 입력해주세요";
-                addr_msg.classList.add("cautionText");
-                memAddressDetail.classList.add("cautionBorder");
-                isAddressDetailValid = false;
-            } else {
-                addr_msg.textContent = "※ 상세주소 입력 완료";
-                addr_msg.classList.remove("cautionText");
-                memAddressDetail.classList.remove("cautionBorder");
-
-                isAddressDetailValid = true;
-            }
-        });
+        // if(memAddress ) {
+        //     // if(memAddress.value == null || memAddress.value == "" || memAddressDetail.value ==null || memAddressDetail.value == ""){
+        //     //     isAddressValid = false;
+        //     // }
+        //     if (memAddress.value.trim() !== "" && memAddress.value.trim() !== null) {
+        //         // 주소값이 존재하면
+        //         console.log("주소값 입력됨");
+        //         isAddressValid = true;
+        //         addr_msg.textContent = "※ 기본주소 입력 완료, 상세 주소를 입력해주세요";
+        //     }
+        //     else {
+        //         // 주소값이 없으면
+        //         console.log("주소값 입력 안됨");
+        //         memAddress.value = "";
+        //         addr_msg.textContent = "※ 주소찾기 버튼을 눌러 기본 주소를 먼저 선택해주세요.";
+        //         isAddressValid = false;
+        //     }
+        //     // 주소창에 입력이 이루어지면 이벤트 실행
+        //     // memAddress.addEventListener("input", function () {
+        //     //     console.log("주소 입력 리스너 ");
+        //     //     console.log(memAddress.value);
+        //     //
+        //     //     if (memAddress.value.trim() !== "" && memAddress.value.trim() !== null) {
+        //     //         // 주소값이 존재하면
+        //     //         console.log("주소값 입력됨");
+        //     //         isAddressValid = true;
+        //     //         addr_msg.textContent = "※ 기본주소 입력 완료, 상세 주소를 입력해주세요";
+        //     //         memAddressDetail.focus();
+        //     //     } else {
+        //     //         // 주소값이 없으면
+        //     //         console.log("주소값 입력 안됨");
+        //     //         memAddressDetail.value = "";
+        //     //         addr_msg.textContent = "※ 주소찾기 버튼을 눌러 기본 주소를 먼저 선택해주세요.";
+        //     //         isAddressValid = false;
+        //     //     }
+        //     // });
+        // }
+        //
+        // if(memAddressDetail){
+        //     let addrDetail = memAddressDetail.value;
+        //     if (addrDetail !== "" || addrDetail !== null) {
+        //         addr_msg.textContent = "※ 상세주소 입력 완료";
+        //         addr_msg.classList.remove("cautionText");
+        //         memAddressDetail.classList.remove("cautionBorder");
+        //         isAddressDetailValid = true;
+        //     }
+        //     //상세 주소창에 입력한 경우
+        //     memAddressDetail.addEventListener("keyup", function () {
+        //         if (addrDetail === "" || addrDetail === null) {
+        //             addr_msg.textContent = "※ 상세주소를 반드시 입력해주세요";
+        //             addr_msg.classList.add("cautionText");
+        //             memAddressDetail.classList.add("cautionBorder");
+        //             isAddressDetailValid = false;
+        //         } else {
+        //             addr_msg.textContent = "※ 상세주소 입력 완료";
+        //             addr_msg.classList.remove("cautionText");
+        //             memAddressDetail.classList.remove("cautionBorder");
+        //             isAddressDetailValid = true;
+        //         }
+        //     });
+        // }
+        //
+        //
+        //
+        //
+        //
+        // // 상세 주소창 입력을 마쳤을 때
+        // memAddressDetail.addEventListener("blur", function () {
+        //     let addrDetail = memAddressDetail.value;
+        //     if (addrDetail === "") {
+        //         addr_msg.textContent = "※ 상세주소를 반드시 입력해주세요";
+        //         addr_msg.classList.add("cautionText");
+        //         memAddressDetail.classList.add("cautionBorder");
+        //         isAddressDetailValid = false;
+        //     } else {
+        //         addr_msg.textContent = "※ 상세주소 입력 완료";
+        //         addr_msg.classList.remove("cautionText");
+        //         memAddressDetail.classList.remove("cautionBorder");
+        //
+        //         isAddressDetailValid = true;
+        //     }
+        // });
 
 
         // 최종 전송 차단 로직
@@ -420,28 +443,29 @@
                 event.preventDefault();
                 return false;
             }
-            if (!isEmailValid) {
+            const emailValue = memEmail.value.trim();
+            if (!isEmailValid || emailValue === null || emailValue ==="") {
                 alert("이메일 형식을 확인해주세요.");
                 memEmail.focus();
                 event.preventDefault();
                 return false;
             }
-
-            if (!isPhoneValid) {
+            const phoneValue = memPhone.value.trim();
+            if (!isPhoneValid || phoneValue === null || phoneValue ==="") {
                 alert("휴대폰 번호 형식을 확인해주세요.");
                 memPhone.focus();
                 event.preventDefault();
                 return false;
             }
-
-            if (!isAddressValid) {
+            const addrValue = memAddress.value.trim();
+            if (addrValue === null || addrValue ==="") {
                 alert("주소 입력을 확인해주세요.");
                 memAddress.focus();
                 event.preventDefault();
                 return false;
             }
-
-            if (!isAddressDetailValid) {
+            const addrDetailValue = memAddressDetail.value.trim();
+            if (addrDetailValue ===null || addrDetailValue =="") {
                 alert("상세주소 입력을 확인해주세요.");
                 memAddressDetail.focus();
                 event.preventDefault();

@@ -7,6 +7,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -27,6 +28,9 @@ public class SignatureController {
     @Autowired
     private ResourceLoader resourceLoader;
 
+    @Value("${file.upload-dir}")
+    private String uploadDir;
+
     // A4 용지 기준 사이즈 (points)
     private static final float PDF_WIDTH = 595.27f;
     private static final float PDF_HEIGHT = 841.89f;
@@ -41,8 +45,9 @@ public class SignatureController {
     @ResponseBody
     public ResponseEntity<Resource> submitReport(@RequestBody SignatureDTO dto) {
         String outputFileName = "signed_report_" + System.currentTimeMillis() + ".pdf";
-        // 서버 실행 루트 경로에 파일 생성
-        File saveFile = new File(outputFileName);
+        // 서버 업로드 경로에 파일 생성
+        String basePath = System.getProperty("user.dir") + uploadDir; // 프로젝트 루트 + 업로드 경로
+        File saveFile = new File(basePath, outputFileName);
 
         try {
             // 리소스 로드 경로 (알려주신 C:\SpringWorks... 경로 기준 클래스패스)
@@ -89,7 +94,7 @@ public class SignatureController {
                         float startY = PDF_HEIGHT * (1 - 0.446f);
                         for (int i = 0; i < dto.getTargets().size(); i++) {
                             SignatureDTO.TargetRowDTO row = dto.getTargets().get(i);
-                            float currentY = startY - (i * 18.2f);
+                            float currentY = startY - (i * 27.3f);
                             drawText(contentStream, font, 9, PDF_WIDTH * 0.240f, currentY, row.getRel());
                             drawText(contentStream, font, 9, PDF_WIDTH * 0.333f, currentY, row.getName());
                             drawText(contentStream, font, 9, PDF_WIDTH * 0.434f, currentY, row.getJumin());

@@ -147,9 +147,11 @@ $(document).ready(function (){
         }
 
         // 2. 데이터 수집 (HTML의 모든 필드 누락 없이)
+        const juminReg = /^[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])-[1-4][0-9]{6}$/;
         const targetList = [];
         $('.target-row').each(function() {
             const row = {
+                el: this,
                 rel: $(this).find('.r_rel').val().trim(),
                 name: $(this).find('.r_name').val().trim(),
                 jumin: $(this).find('.r_jumin').val().trim(),
@@ -157,7 +159,12 @@ $(document).ready(function (){
                 post: $(this).find('.r_post').val().trim()
             };
             if(row.name) targetList.push(row);
+
+
+
         });
+
+
 
         const formData = {
             reporterName: reporterName,
@@ -295,6 +302,40 @@ $(document).ready(function (){
                 alert("신고 대상자를 최소 한 명 이상 추가해주세요.");
                 $('.r_rel').focus();
                 return false;
+            }
+
+
+            for (let i = 0; i < targetList.length; i++) {
+                console.log("행 반복문 실행")
+                const rowList = targetList[i];
+
+                const isRowUsed = rowList.rel || rowList.name || rowList.jumin || rowList.pre || rowList.post;
+
+                if (isRowUsed && !rowList.rel) {
+                    alert(`${i + 1}번째 행: 세대주와의 관계를 입력해주세요`);
+                    $(rowList.el).find('.r_jumin').focus();
+                    return false;
+                }
+                if (isRowUsed && !rowList.name) {
+                    alert(`${i + 1}번째 행: 성명을 입력해주세요`);
+                    $(rowList.el).find('.r_name').focus();
+                    return false;
+                }
+                if (isRowUsed &&( !rowList.jumin || !juminReg.test(rowList.jumin))  ) {
+                    alert(`${i + 1}번째 행: 올바른 주민등록번호를 입력해주세요`);
+                    $(rowList.el).find('.r_jumin').focus();
+                    return false;
+                }
+                if (isRowUsed && !rowList.pre) {
+                    alert(`${i + 1}번째 행: 정정 전 내용을 입력해주세요`);
+                    $(rowList.el).find('.r_pre').focus();
+                    return false;
+                }
+                if (isRowUsed && !rowList.post) {
+                    alert(`${i + 1}번째 행: 정정 후 내용을 입력해주세요`);
+                    $(rowList.el).find('.r_post').focus();
+                    return false;
+                }
             }
 
             const rRel =$('.r_rel').val().trim();

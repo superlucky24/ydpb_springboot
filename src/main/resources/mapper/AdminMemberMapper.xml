@@ -43,16 +43,17 @@
                 FROM TBL_MEMBER
                 WHERE MEMID IS NOT NULL
         ]]>
-        <include refid="criteria"></include>
+        <include refid="criteria"></include>   -- 검색조건이 끼어듬(criteria코드 재활용)
         <![CDATA[
-                ORDER BY MEMREGDATE DESC
+                ORDER BY MEMREGDATE DESC    -- 최신가입자부터 정렬
             )
-            WHERE rownum <= #{pageNum} * #{amount}
+            WHERE rownum <= #{pageNum} * #{amount}  -- 페이지넘버 x 한페이지갯수(10)까지 가져옴
         )
-        WHERE rn > (#{pageNum} - 1) * #{amount}
+        WHERE rn > (#{pageNum} - 1) * #{amount}  -- 가져온 결과물에서 앞 페이지만큼 버림
         ]]>
     </select>
 
+<!--    페이징 버튼 갯수 계산용-->
     <select id="getTotalCount" resultType="int">
         SELECT count(*) FROM TBL_MEMBER
         WHERE MEMID IS NOT NULL

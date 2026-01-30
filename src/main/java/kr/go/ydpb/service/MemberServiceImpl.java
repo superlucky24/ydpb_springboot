@@ -15,7 +15,7 @@ import java.util.Objects;
 @Service
 public class MemberServiceImpl implements MemberService{
     private final BCryptPasswordEncoder encoder; //암호화용 필드
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder; // 암호화 실행용
 
     private MemberMapper Mapper;
 
@@ -61,7 +61,7 @@ public class MemberServiceImpl implements MemberService{
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(memPassword);
 
-        // 암호화된 비밀번호 저장
+        // 암호화된 비밀번호 매퍼로 전달
         return Mapper.updatePassword(memId, encodedPassword);
     }
  }

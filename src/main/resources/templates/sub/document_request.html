@@ -46,7 +46,9 @@
           <h3 class="title">발급 대상자 정보 확인</h3>
           <div class="temp_box type1">
             <div class="temp_box_wrap">
+              <!-- action은 결제 후 추가 -->
               <form id="requestForm">
+                <!-- VO 데이터 받아서 넘기는 용 -->
                 <input type="hidden" name="userName" th:value="${member?.memName}">
                 <input type="hidden" name="userBirthDate" th:value="${#temporals.format(member?.memBirth, 'yyyy-MM-dd')}">
                 <input type="hidden" name="userGender" th:value="${member != null ? (member.memGender == 'M' || member.memGender == '남' ? '남' : '여') : ''}">
@@ -60,6 +62,8 @@
                   <tbody>
                   <tr>
                     <th>성명</th>
+                    <!-- ? : 화이트라벨에러방지, 값 없으면 빈값으로 화면 띄우도록해줌 -->
+                    <!-- 이후 스크립트에서 확인 후 처리되어 이중 안전장치 -->
                     <td th:text="${member?.memName}">-</td>
                   </tr>
                   <tr>
@@ -93,10 +97,13 @@
 </div>
 
 <script th:inline="javascript">
+  // html 문법 충돌 방지
   /*<![CDATA[*/
   // 1. 보안 및 데이터 체크
   (function() {
+    // 세션에서 id 확인
     const memId = [[${session.memId}]] || "";
+    // 모델에서 회원 객체 확인
     const member = /*[[${member}]]*/ null;
 
     // [A] 로그인 여부 먼저 확인
@@ -106,28 +113,21 @@
       return;
     }
 
-    // [B] 필수 정보(생년월일, 성별) 누락 여부 확인
+    // [B] 필수 정보(생년월일, 성별) 누락 여부 확인 (카카오/네이버 회원 추가 정보 필요)
     if (member === null || !member.memBirth || !member.memGender) {
       alert("서류 발급을 위해 추가 정보(생년월일, 성별) 입력이 필요합니다. 회원정보 수정 페이지로 이동합니다.");
 
-      // DB의 LOGINTYPE 컬럼 값에 따라 이동 경로 설정
-      const loginType = /*[[${member?.loginType}]]*/ "GENERAL";
+      // 로그인타입 상관없이 통합 마이페이지로 보냄
+      location.href = "/mypage";
 
-      if (loginType === "KAKAO") {
-        location.href = "/member/modifyKakao";
-      } else if (loginType === "NAVER") {
-        location.href = "/member/modifyNaver";
-      } else {
-        // 일반 회원 또는 기타
-        location.href = "/member/modifyGeneral";
-      }
       return;
     }
   })();
 
-  // 2. 페이지 로드 시 실행 (기존 로직 유지)
+  // 2. 페이지 전부 로드된 이후 실행
   window.onload = function() {
-    const hasMember = /*[[${member != null}]]*/ false;
+    // member가 있으면 true
+    const hasMember = /*[[${member != null}]]*/ false; // 비상용 디폴트값
     if (hasMember) {
       calculateHiddenRegNo();
     }
@@ -136,6 +136,7 @@
   // 3. 주민등록번호 가공 함수 (LocalDate 대응 수정)
   function calculateHiddenRegNo() {
     // 타임리프 유틸리티를 사용하여 yyyy-MM-dd 문자열로 확실히 변환해서 가져옴
+    // #temporals.format : 자바의 LocalDate 객체를 HTML input에 맞는 문자열 형식으로 변환
     const memBirth = /*[[${#temporals.format(member?.memBirth, 'yyyy-MM-dd')}]]*/ "";
     const memGender = [[${member?.memGender}]] || "";
 
@@ -146,22 +147,23 @@
 
     // 문자열형태
     const cleanBirth = memBirth.replace(/-/g, ''); // "20260127"
-    const year = parseInt(cleanBirth.substring(0, 4));
+    const year = parseInt(cleanBirth.substring(0, 4)); // "2026(int)"
     const front = cleanBirth.substring(2, 8); // "260127"
 
     let genderCode = "";
     const isMale = (memGender === "M" || memGender === "남");
 
+    // 주민번호 뒷자리 첫번째 숫자 계산
     if (year < 2000) {
       genderCode = isMale ? "1" : "2";
     } else {
       genderCode = isMale ? "3" : "4";
     }
 
-    const regNoField = document.getElementById('totalRegNo');
-    if (regNoField) {
+    const regNoField = document.getElementById('totalRegNo'); // 완성된 주민등록번호
+    if (regNoField) { // id가진 태그 존재시
       regNoField.value = front + "-" + genderCode + "******";
-      console.log("주민번호 생성 완료: " + regNoField.value); // 디버깅용
+      // console.log("주민번호 생성 완료: " + regNoField.value); // 디버깅용
     }
   }
 
@@ -170,7 +172,7 @@
     const regNo = document.getElementById('totalRegNo').value;
     const memName = [[${member?.memName}]] || "";
 
-    if (regNo === "") {
+    if (regNo === "") { // 주민등록번호 생성 여부 체크
       alert("발급 정보를 생성할 수 없습니다. 회원 정보를 확인해 주세요.");
       return;
     }
@@ -179,26 +181,28 @@
       return;
     }
 
+    /* 포트원 API */
     try {
       const response = await PortOne.requestPayment({
-        storeId: "store-b4f6c958-2d99-4d7c-bc10-7ce431dab851",
-        channelKey: "channel-key-ff34e2fa-6621-4673-be89-daf679a0d7f5",
-        paymentId: "DOC_" + new Date().getTime(),
+        storeId: "store-b4f6c958-2d99-4d7c-bc10-7ce431dab851", // 사이트에서 확인
+        channelKey: "channel-key-ff34e2fa-6621-4673-be89-daf679a0d7f5", // 사이트에서 확인
+        paymentId: "DOC_" + new Date().getTime(), // 결제 건마다 고유번호 생성
         orderName: "가족관계증명서 발급 수수료",
-        totalAmount: 1000,
+        totalAmount: 1000, // 수수료 1000원
         currency: "CURRENCY_KRW",
         payMethod: "EASY_PAY",
-        easyPay: { giftCertificateType: "KAKAOPAY" },
+        easyPay: { giftCertificateType: "KAKAOPAY" }, // 결제수단 : 카카오페이
         customer: { fullName: memName }
       });
 
+      /* 결제창 닫힌 후 성공 여부 확인 */
       if (response.code !== null && response.code !== undefined) {
         alert("결제 실패: " + response.message);
         return;
       }
 
       alert("결제가 완료되었습니다! 발급 페이지로 이동합니다.");
-
+      // 성공시 form 태그 확인 후 데이터 전송
       const form = document.getElementById('requestForm');
       if (form) {
         form.action = "/document/complete";

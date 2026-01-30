@@ -91,20 +91,30 @@
 </div>
 
 <script th:inline="javascript">
+    /* 증명서 출력용 팝업창 엶 */
     function openPrintWindow() {
         // 데이터는 세션에 있으므로 추가 파라미터 없이 인쇄 경로만 호출
         const printUrl = "/document/print";
 
         const popupWidth = 900;
         const popupHeight = 1000;
+        // 화면 정중앙에 띄우도록 설정
         const left = (window.screen.width / 2) - (popupWidth / 2);
         const top = (window.screen.height / 2) - (popupHeight / 2);
 
-        window.open(
+        const newWindow = window.open( // 팝업창 띄움
+            // 창 주소
             printUrl,
+            // 창 이름
             "FamilyCertificatePrint",
+            // 창 설정
             `width=${popupWidth}, height=${popupHeight}, left=${left}, top=${top}, scrollbars=yes, toolbars=no, status=no`
         );
+
+        // 브라우저 팝업 차단 설정 되어있을때 대비
+        if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+            alert("브라우저의 팝업 차단 설정으로 인해 창이 열리지 않았습니다. 팝업 허용 후 다시 시도해 주세요.");
+        }
     }
 </script>
 </body>

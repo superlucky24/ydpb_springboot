@@ -15,6 +15,7 @@ public class AdminMemberServiceImpl implements AdminMemberService {
     private final AdminMemberMapper adminMemberMapper;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    // 페이징 및 검색 조건에 따른 회원 목록 조회
     @Override
     public List<MemberVO> getMemberList(Criteria cri) {
         return adminMemberMapper.getMemberList(cri);
@@ -25,6 +26,7 @@ public class AdminMemberServiceImpl implements AdminMemberService {
         return adminMemberMapper.getMemberById(memId);
     }
 
+    // 관리자가 회원 비밀번호 강제로 수정 후 암호화하여 저장
     @Override
     public int updatePassword(String memId, String memPassword) {
         // 비밀번호 암호화

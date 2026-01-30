@@ -215,8 +215,8 @@
         let isTelValid = true;
         let isEmailValid = true;
         let isPhoneValid = true;
-        let isAddressValid = true;
-        let isAddressDetailValid = true;
+        let isAddressValid = false;
+        let isAddressDetailValid = false;
         let isBirthValid = true;
 
         // if(memEmail.value == null || memEmail.value == ""){
@@ -383,6 +383,8 @@
                     isAddressDetailValid = true;
                 }
             });
+
+
         }
 
         // 상세 주소창 입력을 마쳤을 때
@@ -392,12 +394,13 @@
                 addr_msg.textContent = "※ 상세주소를 반드시 입력해주세요";
                 addr_msg.classList.add("cautionText");
                 memAddressDetail.classList.add("cautionBorder");
+                isAddressDetailValid = false;
             } else {
                 addr_msg.textContent = "※ 상세주소 입력 완료";
                 addr_msg.classList.remove("cautionText");
                 memAddressDetail.classList.remove("cautionBorder");
 
-                isAddressValid = true;
+                isAddressDetailValid = true;
             }
         });
 

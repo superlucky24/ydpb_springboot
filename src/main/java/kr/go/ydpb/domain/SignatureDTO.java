@@ -35,7 +35,10 @@ public class SignatureDTO {
     private String submitMonth;
     private String submitDay;
 
-    // 6. 서명 데이터 (Base64 문자열)
+    // 6. 위임하는 사람
+    private String delegateName;
+
+    // 7. 서명 데이터 (Base64 문자열)
     private String sigReporter;   // 신고인 서명
     private String sigDelegate;   // 대리인 서명
     private String sigPrev;       // 전 세대주 서명

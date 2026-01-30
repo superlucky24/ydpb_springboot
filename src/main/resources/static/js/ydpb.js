@@ -286,11 +286,11 @@ function initUi() {
 
         // 1. 유효성 검사 (Validation)
         const reporterName = $('.f_name').val().trim();
-        // if (!reporterName) {
-        //     alert("신고인 성명을 입력해주세요.");
-        //     $('.f_name').focus();
-        //     return false;
-        // }
+        if (!reporterName) {
+            alert("신고인 성명을 입력해주세요.");
+            $('.f_name').focus();
+            return false;
+        }
 
         // 2. 데이터 수집 (HTML의 모든 필드 누락 없이)
         const targetList = [];
@@ -329,7 +329,7 @@ function initUi() {
         };
 
         // 3. 서버 전송
-        if (true) {
+        if (confirm('작성하신 내용으로 신고서를 제출하시겠습니까?')) {
             $.ajax({
                 url: '/sub/submit',
                 type: 'POST',
@@ -350,24 +350,24 @@ function initUi() {
                     }
 
                     // 3. 자동 다운로드 실행
-                    // const link = document.createElement('a');
-                    // link.href = url;
-                    // // 파일명을 현재 시간과 조합하여 고유하게 설정
-                    // const fileName = '주민등록신고서_' + new Date().toISOString().slice(0,10).replace(/-/g, '') + '.pdf';
-                    // link.download = fileName;
-                    // document.body.appendChild(link);
-                    // link.click();
-                    // document.body.removeChild(link);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    // 파일명을 현재 시간과 조합하여 고유하게 설정
+                    const fileName = '주민등록신고서_' + new Date().toISOString().slice(0,10).replace(/-/g, '') + '.pdf';
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
 
                     // 4. 완료 메시지 및 페이지 이동
-                    // alert('신고서가 성공적으로 생성되었습니다.');
+                    alert('신고서가 성공적으로 생성되었습니다.');
 
                     // 임시 URL 해제 (메모리 관리)
                     setTimeout(function() {
                         window.URL.revokeObjectURL(url);
                     }, 100);
 
-                    // location.href = '/';
+                    location.href = '/';
                 },
                 error: function(xhr, status, error) {
                     console.error("제출 에러 상세:", error);

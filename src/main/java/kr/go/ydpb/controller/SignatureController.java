@@ -72,44 +72,65 @@ public class SignatureController {
                     }
 
                     // 2. 신고인 정보 기입 (PDF 분석 기반 Y축 정밀 조정)
-                    drawText(contentStream, font, 10, PDF_WIDTH * 0.202f, PDF_HEIGHT * (1 - 0.221f), dto.getReporterName());
+                    drawText(contentStream, font, 10, PDF_WIDTH * 0.238f, PDF_HEIGHT * (1 - 0.221f), dto.getReporterName());
                     drawText(contentStream, font, 10, PDF_WIDTH * 0.685f, PDF_HEIGHT * (1 - 0.221f), dto.getReporterJumin());
-                    drawText(contentStream, font, 10, PDF_WIDTH * 0.286f, PDF_HEIGHT * (1 - 0.259f), dto.getReporterRel());
-                    drawText(contentStream, font, 10, PDF_WIDTH * 0.476f, PDF_HEIGHT * (1 - 0.259f), dto.getReporterTel());
-                    drawText(contentStream, font, 10, PDF_WIDTH * 0.685f, PDF_HEIGHT * (1 - 0.259f), dto.getReporterPhone());
-                    drawText(contentStream, font, 10, PDF_WIDTH * 0.202f, PDF_HEIGHT * (1 - 0.296f), dto.getReporterAddr());
+                    drawText(contentStream, font, 10, PDF_WIDTH * 0.286f, PDF_HEIGHT * (1 - 0.258f), dto.getReporterRel());
+                    drawText(contentStream, font, 10, PDF_WIDTH * 0.476f, PDF_HEIGHT * (1 - 0.258f), dto.getReporterTel());
+                    drawText(contentStream, font, 10, PDF_WIDTH * 0.718f, PDF_HEIGHT * (1 - 0.258f), dto.getReporterPhone());
+                    drawText(contentStream, font, 10, PDF_WIDTH * 0.202f, PDF_HEIGHT * (1 - 0.295f), dto.getReporterAddr());
 
                     // 3. 신고 사항 기입
-                    drawText(contentStream, font, 10, PDF_WIDTH * 0.250f, PDF_HEIGHT * (1 - 0.328f), dto.getReportContent());
+                    drawText(contentStream, font, 10, PDF_WIDTH * 0.250f, PDF_HEIGHT * (1 - 0.326f), dto.getReportContent());
                     drawText(contentStream, font, 10, PDF_WIDTH * 0.327f, PDF_HEIGHT * (1 - 0.368f), dto.getPrevMaster());
                     drawText(contentStream, font, 10, PDF_WIDTH * 0.629f, PDF_HEIGHT * (1 - 0.368f), dto.getCurrMaster());
 
                     // 4. 대상자 리스트 처리 (표 칸 높이 18.2f로 정밀 조정)
                     if (dto.getTargets() != null) {
-                        float startY = PDF_HEIGHT * (1 - 0.450f);
+                        float startY = PDF_HEIGHT * (1 - 0.446f);
                         for (int i = 0; i < dto.getTargets().size(); i++) {
                             SignatureDTO.TargetRowDTO row = dto.getTargets().get(i);
                             float currentY = startY - (i * 18.2f);
-                            drawText(contentStream, font, 10, PDF_WIDTH * 0.240f, currentY, row.getRel());
-                            drawText(contentStream, font, 10, PDF_WIDTH * 0.333f, currentY, row.getName());
-                            drawText(contentStream, font, 10, PDF_WIDTH * 0.436f, currentY, row.getJumin());
-                            drawText(contentStream, font, 10, PDF_WIDTH * 0.578f, currentY, row.getPre());
-                            drawText(contentStream, font, 10, PDF_WIDTH * 0.742f, currentY, row.getPost());
+                            drawText(contentStream, font, 9, PDF_WIDTH * 0.240f, currentY, row.getRel());
+                            drawText(contentStream, font, 9, PDF_WIDTH * 0.333f, currentY, row.getName());
+                            drawText(contentStream, font, 9, PDF_WIDTH * 0.434f, currentY, row.getJumin());
+                            drawText(contentStream, font, 9, PDF_WIDTH * 0.578f, currentY, row.getPre());
+                            drawText(contentStream, font, 9, PDF_WIDTH * 0.742f, currentY, row.getPost());
                         }
                     }
 
-                    // 5. 하단 날짜 및 최종 성명 (하단부 위치 조정)
-                    drawText(contentStream, font, 10, PDF_WIDTH * 0.690f, PDF_HEIGHT * (1 - 0.630f) - 18, dto.getSubmitYear());
-                    drawText(contentStream, font, 10, PDF_WIDTH * 0.600f, PDF_HEIGHT * (1 - 0.667f) - 15, dto.getReporterName());
+                    // 5. 중단 체크박스 (Spoqa 폰트 호환성을 위해 'V' 사용)
+                    if (dto.getMidType() != null) {
+                        float checkY = PDF_HEIGHT * (1 - 0.621f);
+                        if (dto.getMidType().contains("c_mid_1")) drawText(contentStream, font, 10, PDF_WIDTH * 0.283f, checkY, "V");
+                        if (dto.getMidType().contains("c_mid_2")) drawText(contentStream, font, 10, PDF_WIDTH * 0.412f, checkY, "V");
+                        if (dto.getMidType().contains("c_mid_3")) drawText(contentStream, font, 10, PDF_WIDTH * 0.487f, checkY, "V");
+                    }
 
-                    drawText(contentStream, font, 10, PDF_WIDTH * 0.700f, PDF_HEIGHT * (1 - 0.818f) - 18, dto.getSubmitYear());
-                    drawText(contentStream, font, 10, PDF_WIDTH * 0.600f, PDF_HEIGHT * (1 - 0.842f) - 18, dto.getReporterName());
+                    // 6. 신고 날짜 및 신고인
+                    drawText(contentStream, font, 9, PDF_WIDTH * 0.690f, PDF_HEIGHT * (1 - 0.640f), dto.getSubmitYear());
+                    drawText(contentStream, font, 9, PDF_WIDTH * 0.778f, PDF_HEIGHT * (1 - 0.640f), dto.getSubmitMonth());
+                    drawText(contentStream, font, 9, PDF_WIDTH * 0.837f, PDF_HEIGHT * (1 - 0.640f), dto.getSubmitDay());
+                    drawText(contentStream, font, 12, PDF_WIDTH * 0.633f, PDF_HEIGHT * (1 - 0.675f), dto.getReporterName());
 
-                    // 6. 서명 이미지 합성 (중앙 배치를 위한 좌표 조정)
-                    drawImage(document, contentStream, dto.getSigPrev(), PDF_WIDTH * 0.4745f, PDF_HEIGHT * (1 - 0.34f) - 28, 65, 30);
-                    drawImage(document, contentStream, dto.getSigCurr(), PDF_WIDTH * 0.7876f, PDF_HEIGHT * (1 - 0.34f) - 28, 65, 30);
-                    drawImage(document, contentStream, dto.getSigReporter(), PDF_WIDTH * 0.753f, PDF_HEIGHT * (1 - 0.65f) - 25, 80, 40);
-                    drawImage(document, contentStream, dto.getSigDelegate(), PDF_WIDTH * 0.763f, PDF_HEIGHT * (1 - 0.83f) - 25, 80, 35);
+                    // 7. 하단 체크박스 (Spoqa 폰트 호환성을 위해 'V' 사용)
+                    if (dto.getMidType() != null) {
+                        float checkY = PDF_HEIGHT * (1 - 0.797f);
+                        if (dto.getBtmType().contains("c_btm_1")) drawText(contentStream, font, 10, PDF_WIDTH * 0.669f, checkY, "V");
+                        if (dto.getBtmType().contains("c_btm_2")) drawText(contentStream, font, 10, PDF_WIDTH * 0.786f, checkY, "V");
+                        if (dto.getBtmType().contains("c_btm_3")) drawText(contentStream, font, 10, PDF_WIDTH * 0.855f, checkY, "V");
+                    }
+
+                    // 8. 위임 날짜 및 위임한 사람
+                    drawText(contentStream, font, 9, PDF_WIDTH * 0.690f, PDF_HEIGHT * (1 - 0.8276f), dto.getSubmitYear());
+                    drawText(contentStream, font, 9, PDF_WIDTH * 0.778f, PDF_HEIGHT * (1 - 0.8276f), dto.getSubmitMonth());
+                    drawText(contentStream, font, 9, PDF_WIDTH * 0.837f, PDF_HEIGHT * (1 - 0.8276f), dto.getSubmitDay());
+                    drawText(contentStream, font, 10, PDF_WIDTH * 0.633f, PDF_HEIGHT * (1 - 0.853f), dto.getDelegateName());
+
+                    // 9. 서명 이미지 합성 (중앙 배치를 위한 좌표 조정)
+                    drawImage(document, contentStream, dto.getSigPrev(), PDF_WIDTH * 0.512f - 30, PDF_HEIGHT * (1 - 0.365f) - 15, 60, 30);
+                    drawImage(document, contentStream, dto.getSigCurr(), PDF_WIDTH * 0.827f - 30, PDF_HEIGHT * (1 - 0.365f) - 15, 60, 30);
+                    drawImage(document, contentStream, dto.getSigReporter(), PDF_WIDTH * 0.827f - 40, PDF_HEIGHT * (1 - 0.670f) - 15, 80, 30);
+                    drawImage(document, contentStream, dto.getSigDelegate(), PDF_WIDTH * 0.827f - 40, PDF_HEIGHT * (1 - 0.852f) - 13, 80, 26);
                 }
                 // 파일 저장
                 document.save(saveFile);

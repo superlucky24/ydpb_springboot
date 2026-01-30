@@ -145,9 +145,6 @@
           <div class="form_btn_wrap btn-wrap">
             <button type="button" id="clearBtn" class="btn btn_cancel">초기화</button>
             <button type="button" id="submitBtn" class="btn btn_primary">제출하기</button>
-            <style>
-              #submitBtn {position: fixed; right: 20px; top: 50%; z-index: 9999;}
-            </style>
           </div>
         </div>
 
@@ -160,44 +157,6 @@
       </main>
     </div>
   </div>
-
-  <div class="aaa">
-    <span>가로</span>
-    <input type="number" id="www" class="input"><br>
-    <span>결과</span>
-    <input type="number" id="wr" class="input"><br>
-    <br>
-    <span>세로</span>
-    <input type="number" id="hhh" class="input"><br>
-    <span>결과</span>
-    <input type="number" id="hr" class="input">
-  </div>
-  <style>
-    .aaa {
-      position: fixed;
-      right: 20px;
-      top: 50px;
-      width: 170px;
-      padding: 10px;
-      text-align: right;
-      background: #f9f9f9;
-      z-index: 9999;
-    }
-    .aaa .input {
-      width: 100px;
-    }
-  </style>
-  <script>
-    $('#www').on('keyup', function() {
-      let result = Math.round((this.value / 2480) * 1000) / 1000;
-      $('#wr').val(result);
-    });
-
-    $('#hhh').on('keyup', function() {
-      let result = Math.round((this.value / 3508) * 1000) / 1000;
-      $('#hr').val(result);
-    });
-  </script>
 
   <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
 </div>

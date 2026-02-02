@@ -149,7 +149,7 @@ function initUi() {
         // menuName 변수가 있을 경우 해당 값에 해당하는 사이드메뉴 열기 : 20251218 최상림 추가
         // 민원안내 이벤트 추가 및 로직 수정: 20260120 최연수 / 20260129 3뎁스 역추적 보정
         $(window).on('load', function () {
-            if (typeof menuName != 'undefined' && menuName.trim() != '') {
+            if (typeof menuName != 'undefined' && menuName.trim() !== '') {
                 const locationPathText = $('.location_path').text().trim();
 
                 const $allPotentialTargets = $('.side_list_menu a, .sub_group_title, .sub_complaint_title').filter(function () {
@@ -166,6 +166,17 @@ function initUi() {
                 });
 
                 if (!$target && $allPotentialTargets.length > 0) $target = $allPotentialTargets.first();
+
+                // 2뎁스와 3뎁스 메뉴명이 같은 경우 -> 3뎁스가 있을 경우 3뎁스 메뉴를 타겟으로 변경
+                if($target && $target.is('p')) {
+                    const $childrenTargets = $target.next('ul').find('> li > a');
+                    if($childrenTargets.length > 0) {
+                        $childrenTargets.filter(function() {
+                            return $(this).text().trim() === menuName;
+                        });
+                        $target = $childrenTargets.first();
+                    }
+                }
 
                 if ($target && $target.length > 0) {
                     $('.side_list_menu').removeClass('open');
@@ -293,12 +304,13 @@ function layerAlert(text) {
     const delayTime = 1000;
 
     // 현재 경고창이 없을 때만 동작
-    if($('.layer_alert').length === 0) {
+    const $layerAlert = $('.layer_alert');
+    if($layerAlert.length === 0) {
         let html = '<div class="layer_alert">' + text + '</div>';
         $('body').append(html);
-        $('.layer_alert').stop().fadeIn(fadeInTime);
+        $layerAlert.stop().fadeIn(fadeInTime);
         setTimeout(function() {
-            $('.layer_alert').stop().fadeOut(fadeOutTime, function() {
+            $layerAlert.stop().fadeOut(fadeOutTime, function() {
                 $(this).remove();
             });
         }, delayTime);

@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>민원 처리 | 관리자페이지 | 영등포본동 주민센터</title>
+    <title>민원 처리 | 관리자 메뉴</title>
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb_community_center_list.css}">
     <script th:src="@{/js/admin.js}"></script>
-    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/prefixfree.min.js}"></script>
 <!--    <script>const menuName = '민원답변';</script>-->
     <script th:src="@{/js/ydpb.js}"></script>
@@ -18,7 +18,7 @@
 <body>
     <div id="wrap">
         <!-- header -->
-        <header class="header" th:replace="admin/common/admin_header_footer :: header"></header>
+        <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
         <!-- //header -->
 
         <!-- search -->
@@ -29,7 +29,7 @@
         <div class="container">
             <div class="contents_wrap safe_area">
                 <!-- side menu -->
-                <aside class="side_menu" th:replace="admin/common/admin_sidemenu :: side"></aside>
+                <aside class="side_menu" th:replace="~{/admin/common/admin_sidemenu::side}"></aside>
                 <!-- //side menu -->
 
                 <!-- main -->
@@ -39,40 +39,6 @@
                         <div class="location_title">
                             <h2>민원 처리</h2>
                         </div>
-<!--                        <div class="location_path">-->
-<!--                            <span class="loc_home">홈</span>-->
-<!--                            <span class="loc_arrow">></span>-->
-<!--                            <span class="loc_text">-->
-<!--                                <a href="..">동주민센터</a>-->
-<!--                            </span>-->
-<!--                            <span class="loc_arrow">></span>-->
-<!--                            <span class="loc_text">-->
-<!--                                <a href="..">영등포본동</a>-->
-<!--                            </span>-->
-<!--                            <span class="loc_arrow">></span>-->
-<!--                            <span class="loc_text">-->
-<!--                                <a href="..">관리자 페이지</a>-->
-<!--                            </span>-->
-<!--                            <span class="loc_arrow">></span>-->
-<!--                            <span class="loc_text">-->
-<!--                                <a href="civil_complaint_list.html">민원답변 목록</a>-->
-<!--                            </span>-->
-<!--                        </div>-->
-<!--                        <div class="location_icon">-->
-<!--                            <ul class="loc_fixed_icon">-->
-<!--                                <li><button type="button" class="loc_print">프린트</button></li>-->
-<!--                                <li class="icon_sns">-->
-<!--                                    <button type="button" class="loc_sns">SNS</button>-->
-<!--                                    <div class="sns_list">-->
-<!--                                        <a href="#" class="loc_sns_icon1">a</a>-->
-<!--                                        <a href="#" class="loc_sns_icon2">a</a>-->
-<!--                                        <a href="#" class="loc_sns_icon3">a</a>-->
-<!--                                        <a href="#" class="loc_sns_icon4">a</a>-->
-<!--                                        <a href="#" class="loc_sns_icon5">a</a>-->
-<!--                                    </div>-->
-<!--                                </li>-->
-<!--                            </ul>-->
-<!--                        </div>-->
                     </div>
                     <!-- location -->
 
@@ -204,20 +170,7 @@
                     </form>
                     <!-- //contents -->
                     
-                    <!-- charge info -->
-<!--                    <div class="charge_info">-->
-<!--                        <ul>-->
-<!--                            <li>-->
-<!--                                <span class="info_name">담당부서</span>-->
-<!--                                <span>영등포본동</span>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <span class="info_name">담당전화번호</span>-->
-<!--                                <span>02-2670-1026</span>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-                    <!-- //charge info -->
+
                 </main>
                 <!-- //main -->
             </div>
@@ -225,7 +178,7 @@
         <!-- //container -->
 
         <!-- footer -->
-        <footer class="footer" th:replace="admin/common/admin_header_footer :: footer"></footer>
+        <footer class="footer" th:replace="~{/admin/common/admin_header_footer::footer}"></footer>
         <!-- //footer -->
     </div>
     <script>

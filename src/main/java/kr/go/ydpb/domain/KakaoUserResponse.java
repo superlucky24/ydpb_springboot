@@ -14,24 +14,4 @@ public class KakaoUserResponse {
     private String nickname;
     private String email;
 
-//    private Long id;
-//
-//    @JsonProperty("kakao_account")
-//    private KakaoAccount kakaoAccount;
-//
-//    @Getter
-//    @NoArgsConstructor
-//    public static class KakaoAccount {
-//
-//        private String email;
-//
-//        private Profile profile;
-//    }
-//
-//    @Getter
-//    @NoArgsConstructor
-//    public static class Profile {
-//
-//        private String nickname;
-//    }
 }

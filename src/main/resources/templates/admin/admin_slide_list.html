@@ -4,21 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>슬라이드 목록 | 관리자페이지 | 영등포본동 주민센터</title>
+    <title>슬라이드 관리 | 관리자 메뉴</title>
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb_community_center_list.css}">
     <script th:src="@{/js/admin.js}"></script>
-    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
-    <script th:src="@{/js/prefixfree.min.js}"></script>
-    <!--    <script>const menuName = '민원답변';</script>-->
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/ydpb.js}"></script>
 </head>
 <body>
 <div id="wrap">
     <!-- header -->
-    <header class="header" th:replace="admin/common/admin_header_footer :: header"></header>
+    <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
     <!-- //header -->
 
     <!-- search -->
@@ -29,7 +27,7 @@
     <div class="container">
         <div class="contents_wrap safe_area">
             <!-- side menu -->
-            <aside class="side_menu" th:replace="admin/common/admin_sidemenu :: side"></aside>
+            <aside class="side_menu" th:replace="~{/admin/common/admin_sidemenu::side}"></aside>
             <!-- //side menu -->
 
             <!-- main -->
@@ -37,7 +35,7 @@
                 <!-- location -->
                 <div class="location">
                     <div class="location_title">
-                        <h2>슬라이드 목록</h2>
+                        <h2>슬라이드 관리</h2>
                     </div>
                 </div>
                 <!-- //location -->
@@ -95,7 +93,7 @@
     </div>
     <!-- //container -->
     <!-- footer -->
-    <footer class="footer" th:replace="admin/common/admin_header_footer :: footer"></footer>
+    <footer class="footer" th:replace="~{/admin/common/admin_header_footer::footer}"></footer>
     <!-- //footer -->
 </div>
 </body>

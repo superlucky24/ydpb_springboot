@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>분야별민원 | 우리동이야기 | 영등포본동 주민센터</title>
+    <title>여권개요 | 분야별민원 | 민원안내 | 영등포본동 주민센터</title>
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb_complaint_sector.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb_status.css}">
-    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
-    <script th:src="@{/js/prefixfree.min.js}"></script>
-    <script>const menuName = '분야별민원';</script>
+    <script>const menuName = '여권개요';</script>
     <script th:src="@{/js/ydpb.js}"></script>
 </head>
 <body>
@@ -43,11 +41,11 @@
                         <div class="location_path">
                             <span class="loc_home"><a th:href="@{/}">홈</a></span>
                             <span class="loc_arrow">></span>
+                            <span class="loc_text"><a th:href="@{/}">동주민센터</a></span>
+                            <span class="loc_arrow">></span>
                             <span class="loc_text"><a th:href="@{/}">민원안내</a></span>
                             <span class="loc_arrow">></span>
-                            <span class="loc_text"><a th:href="@{/}">분야별민원</a></span>
-                            <span class="loc_arrow">></span>
-                            <span class="loc_text"><a th:href="@{/}">여권</a></span>
+                            <span class="loc_text"><a th:href="@{/sub/complaint_sector}">분야별민원</a></span>
                             <span class="loc_arrow">></span>
                             <span class="loc_text">여권개요</span>
                         </div>

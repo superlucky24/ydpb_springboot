@@ -4,17 +4,15 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>서명페이지 | 분야별민원 | 영등포본동 주민센터</title>
+  <title>주민등록 변경∙정정 신고 | 분야별민원 | 영등포본동 주민센터</title>
   <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
   <link rel="stylesheet" th:href="@{/css/reset.css}">
   <link rel="stylesheet" th:href="@{/css/ydpb.css}">
   <link rel="stylesheet" th:href="@{/css/ydpb_complaint_sector.css}">
   <link rel="stylesheet" th:href="@{/css/ydpb_status.css}">
   <link rel="stylesheet" th:href="@{/css/ydpb_signature.css}">
-  <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
   <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
-  <script th:src="@{/js/prefixfree.min.js}"></script>
-  <script>const menuName = '서명페이지';</script>
+  <script>const menuName = '주민등록 변경∙정정 신고';</script>
   <script th:src="@{/js/ydpb.js}"></script>
 <!--  api 호출용 스크립트 추가-->
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -43,17 +41,18 @@
         <!-- location -->
         <div class="location">
           <div class="location_title">
-            <h2>주민등록정정신고</h2>
+            <h2>주민등록 변경∙정정 신고</h2>
           </div>
           <div class="location_path">
             <span class="loc_home"><a th:href="@{/}">홈</a></span>
+            <span class="loc_arrow">></span>
+            <span class="loc_text"><a th:href="@{/}">동주민센터</a></span>
             <span class="loc_arrow">></span>
             <span class="loc_text"><a th:href="@{/}">민원안내</a></span>
             <span class="loc_arrow">></span>
             <span class="loc_text"><a th:href="@{/}">분야별민원</a></span>
             <span class="loc_arrow">></span>
-            <span class="loc_text"><a th:href="@{/}">주민등록정정신고</a></span>
-            <span class="loc_arrow">></span>
+            <span class="loc_text">주민등록 변경∙정정 신고</span>
           </div>
           <div class="location_icon">
             <ul class="loc_fixed_icon">

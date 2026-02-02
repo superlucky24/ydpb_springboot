@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>가족관계증명서 신청 | 영등포본동 주민센터</title>
+  <title>가족관계증명서 | 분야별민원 | 영등포본동 주민센터</title>
   <link rel="stylesheet" th:href="@{/css/reset.css}">
   <link rel="stylesheet" th:href="@{/css/ydpb.css}">
   <link rel="stylesheet" th:href="@{/css/ydpb_status.css}">
   <link rel="stylesheet" th:href="@{/css/ydpb_SHAdd.css}">
   <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+  <script>const menuName = '가족관계증명서';</script>
   <script th:src="@{/js/ydpb.js}"></script>
   <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 </head>
@@ -25,11 +26,15 @@
 
       <main>
         <div class="location">
-          <div class="location_title"><h2>가족관계증명서 신청</h2></div>
+          <div class="location_title"><h2>가족관계증명서</h2></div>
           <div class="location_path">
             <span class="loc_home"><a th:href="@{/}">홈</a></span>
             <span class="loc_arrow">></span>
-            <span class="loc_text">민원안내</span>
+            <span class="loc_text"><a th:href="@{/}">동주민센터</a></span>
+            <span class="loc_arrow">></span>
+            <span class="loc_text"><a th:href="@{/}">민원안내</a></span>
+            <span class="loc_arrow">></span>
+            <span class="loc_text"><a th:href="@{/sub/complaint_sector}">분야별민원</a></span>
             <span class="loc_arrow">></span>
             <span class="loc_text">가족관계증명서</span>
           </div>

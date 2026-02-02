@@ -9,7 +9,6 @@
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb_community_center_list.css}">
-    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/prefixfree.min.js}"></script>
     <script>const menuName = '민원신청';</script>
@@ -37,7 +36,7 @@
                     <!-- location -->
                     <div class="location">
                         <div class="location_title">
-                            <h2>영등포본동 주민센터</h2>
+                            <h2>민원신청</h2>
                         </div>
                         <div class="location_path">
                             <span class="loc_home">홈</span>
@@ -78,18 +77,18 @@
                                         <div class="p-form-group">
                                             <label for="searchType" class="skip">검색항목선택</label>
                                             <select name="searchType" id="searchType" title="검색항목선택" class="p-input">
-                                                <option value="T" th:selected="${pageMaker.cri.searchType == 'T'}">제목</option>
-                                                <option value="I" th:selected="${pageMaker.cri.searchType == 'I'}">글번호</option>
-                                                <option value="P" th:selected="${pageMaker.cri.searchType == 'P'}">공개 여부</option>
-                                                <option value="S" th:selected="${pageMaker.cri.searchType == 'S'}">처리 상황</option>
-                                                <option value="D" th:selected="${pageMaker.cri.searchType == 'D'}">신청일</option>
+                                                <option value="T" th:selected="${cri.searchType == 'T' || cri.searchType == null}">제목</option>
+                                                <option value="I" th:selected="${cri.searchType == 'I'}">글번호</option>
+                                                <option value="P" th:selected="${cri.searchType == 'P'}">공개 여부</option>
+                                                <option value="S" th:selected="${cri.searchType == 'S'}">처리 상황</option>
+                                                <option value="D" th:selected="${cri.searchType == 'D'}">신청일</option>
                                             </select>
 
                                             <label for="searchKeyword" class="skip"></label>
-                                            <input name="searchKeyword" id="searchKeyword" class="p-input" type="text" >
+                                            <input name="searchKeyword" id="searchKeyword" class="p-input" type="text" th:value="${cri.searchKeyword}">
                                             <!--                                        페이징용 데이터 같이 전송-->
-                                            <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum }"/>
-                                            <input type="hidden" name="amount" th:value="${pageMaker.cri.amount }"/>
+                                            <input type="hidden" name="pageNum" th:value="${cri.pageNum }"/>
+                                            <input type="hidden" name="amount" th:value="${cri.amount }"/>
                                             <span class="p-form-group__btn">
                                                     <input value="검색" type="submit" class="p-button">
                                                 </span>
@@ -103,7 +102,7 @@
                                     총
                                     <em class="em_black">[[${pageMaker.total}]]</em>
                                     개 &nbsp;[
-                                    <em class="em_b_black">[[${pageMaker.cri.pageNum}]]</em>
+                                    <em class="em_b_black">[[${cri.pageNum}]]</em>
                                     / [[${pageMaker.realEnd}]] 페이지]
                                 </p>
                             </div>
@@ -299,10 +298,10 @@
         });
     </script>
 
-    <script th:if="${errorMsg != null and !#strings.isEmpty(errorMsg.trim())}">
+    <script th:inline="javascript" th:if="${errorMsg != null and !#strings.isEmpty(errorMsg.trim())}">
         $(document).ready(function() {
             // 오류 메세지 출력
-            let errorMsg = `[[${errorMsg}]]`;
+            let errorMsg = /*[[${errorMsg}]]*/null;
             if(errorMsg) {
                 alert(errorMsg);
                 history.replaceState({}, null, null);

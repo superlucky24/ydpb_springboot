@@ -48,6 +48,12 @@ function initUi() {
 
 
 
+    // 인쇄 버튼 활성화
+    // 인쇄 버튼 클릭 시
+    $('.loc_print').on('click', function() {
+        window.print(); // 새 창 없이 바로 인쇄
+    });
+
 
 
 

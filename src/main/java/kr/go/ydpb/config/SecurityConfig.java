@@ -56,6 +56,7 @@ public class SecurityConfig  {
                                 "/gunews/**",
                                 "/gallery/**",
 //                                "/document/**",
+                                "/upload/**",
                                 "/community/**",
                                 "/css/**", "/js/**", "/images/**"
                         ).permitAll()

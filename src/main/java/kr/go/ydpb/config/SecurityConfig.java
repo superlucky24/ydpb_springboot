@@ -55,6 +55,8 @@ public class SecurityConfig  {
                                 "/dongnews/**",
                                 "/gunews/**",
                                 "/gallery/**",
+
+                                "/member/**",
 //                                "/document/**",
                                 "/upload/**",
                                 "/community/**",

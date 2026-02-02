@@ -1,0 +1,17 @@
+@charset "utf-8";
+
+/* admin 메인화면 */
+.admin_main_sec {
+    margin: 0 0 40px;
+}
+.admin_main_sec .title_wrap {
+    display: flex;
+    justify-content: space-between;
+}
+.admin_title {
+    color: #222;
+    font-size: 2.4rem;
+}
+.select_category {
+    display: flex;
+}

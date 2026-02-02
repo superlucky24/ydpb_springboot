@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 메뉴</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_admin.css}">
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script th:src="@{/js/ydpb.js}"></script>
+</head>
+<body>
+    <div id="wrap">
+        <!-- header -->
+        <header class="header" th:replace="~{/admin/common/admin_header_footer::header}"></header>
+        <!-- //header -->
+
+        <!-- container -->
+        <div class="container">
+            <div class="contents_wrap safe_area">
+                <!-- side menu -->
+                <aside class="side_menu" th:replace="~{/admin/common/admin_sidemenu::side}"></aside>
+                <!-- //side menu -->
+
+                <!-- main -->
+                <main>
+                    <!-- location -->
+                     <div class="location">
+                        <div class="location_title">
+                            <h2>관리자메뉴</h2>
+                        </div>
+                    </div>
+                    <!-- //location -->
+
+                    <!-- contents -->
+                    <div class="contents contents_admin_main">
+                        <section class="admin_main_sec admin_main_count">
+                            <div class="title_wrap">
+                                <h3 class="admin_title">현황</h3>
+                                <div class="select_category">
+                                    <div class="cagegory_radio">
+                                        <input type="radio" name="countRecent" id="countRecentDay" value="D">
+                                        <label for="countRecentDay">Day</label>
+                                    </div>
+                                    <div class="cagegory_radio">
+                                        <input type="radio" name="countRecent" id="countRecentMonth" value="M">
+                                        <label for="countRecentMonth">Month</label>
+                                    </div>
+                                    <div class="cagegory_radio">
+                                        <input type="radio" name="countRecent" id="countRecentYear" value="D">
+                                        <label for="countRecentYear">Year</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="admin_main_sec admin_main_recent">
+                            <h3 class="admin_title blind">최신글 보기</h3>
+                            <div class="recent_container">
+                                <!-- 회원 -->
+                                <div class="recent">
+                                    <h4>회원</h4>
+                                    <ul class="recent_list">
+                                        <li>
+                                            <a href="#">
+                                                <span class="recent_name">이름</span>
+                                                <span class="recent_name">010-1111-2222</span>
+                                                <span class="recent_type">네이버</span>
+                                                <time class="recent_date" datetime="2026-02-02">2026-02-02</time>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <a th:href="@{/}" class="btn_more"><span class="blind">회원 더보기</span></a>
+                                </div>
+                                <!-- //회원 -->
+                                <!-- 우리동소식 -->
+                                <div class="recent">
+                                    <h4>우리동소식</h4>
+                                    <ul class="recent_list">
+                                        <li>
+                                            <a href="#">
+                                                <span class="recent_title">제목 표시</span>
+                                                <time class="recent_date" datetime="2026-02-02">2026-02-02</time>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <a th:href="@{/}" class="btn_more"><span class="blind">우리동소식 더보기</span></a>
+                                </div>
+                                <!-- //우리동소식 -->
+                                <!-- 구청동소식 -->
+                                <div class="recent">
+                                    <h4>우리동소식</h4>
+                                    <ul class="recent_list">
+                                        <li>
+                                            <a href="#">
+                                                <span class="recent_title">제목 표시</span>
+                                                <time class="recent_date" datetime="2026-02-02">2026-02-02</time>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <a th:href="@{/}" class="btn_more"><span class="blind">구청동소식 더보기</span></a>
+                                </div>
+                                <!-- //구청동소식 -->
+                                <!-- 민원신청 -->
+                                <div class="recent">
+                                    <h4>민원신청</h4>
+                                    <ul class="recent_list">
+                                        <li>
+                                            <a href="#">
+                                                <span class="recent_title">제목 표시</span>
+                                                <time class="recent_date" datetime="2026-02-02">2026-02-02</time>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <a th:href="@{/}" class="btn_more"><span class="blind">민원신청 더보기</span></a>
+                                </div>
+                                <!-- //민원신청 -->
+                                <!-- 자치회관 게시판 -->
+                                <div class="recent">
+                                    <h4>자치회관 게시판</h4>
+                                    <ul class="recent_list">
+                                        <li>
+                                            <a href="#">
+                                                <span class="recent_title">제목 표시</span>
+                                                <time class="recent_date" datetime="2026-02-02">2026-02-02</time>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <a th:href="@{/}" class="btn_more"><span class="blind">자치회관 게시판 더보기</span></a>
+                                </div>
+                                <!-- //자치회관 게시판 -->
+                                <!-- 포토갤러리 -->
+                                <div class="recent">
+                                    <h4>포토갤러리</h4>
+                                    <ul class="recent_list">
+                                        <li>
+                                            <a href="#">
+                                                <span class="recent_title">제목 표시</span>
+                                                <time class="recent_date" datetime="2026-02-02">2026-02-02</time>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <a th:href="@{/}" class="btn_more"><span class="blind">포토갤러리 더보기</span></a>
+                                </div>
+                                <!-- //포토갤러리 -->
+                            </div>
+                        </section>
+                    </div>
+                    <!-- //contents -->
+
+                </main>
+                <!-- //main -->
+            </div>
+        </div>
+        <!-- //container -->
+
+        <!-- footer -->
+        <footer class="footer" th:replace="~{/admin/common/admin_header_footer::footer}"></footer>
+        <!-- //footer -->
+    </div>
+</body>
+</html>

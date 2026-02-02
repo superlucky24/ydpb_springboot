@@ -1,18 +1,7 @@
 package kr.go.ydpb.controller;
 
-import jakarta.servlet.http.HttpSession;
-import kr.go.ydpb.domain.NaverUserResponse;
-import kr.go.ydpb.service.NaverService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor

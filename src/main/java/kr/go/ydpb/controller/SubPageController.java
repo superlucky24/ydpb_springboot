@@ -36,5 +36,9 @@ public class SubPageController {
     public String hunjang(){
         return "sub/hunjang";
     }
+    @GetMapping("/business_guide")
+    public String businessGuide(){
+        return "sub/business_guide";
+    }
 
 }

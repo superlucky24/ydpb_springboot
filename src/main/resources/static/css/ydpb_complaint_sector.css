@@ -139,6 +139,9 @@ h5:before {
 .h3_with_a h3 {
     display: inline-block;
 }
+.magin_t_20 {
+    margin-top: 20px;
+}
 /* 박스 */
 .box {
     position: relative;
@@ -156,6 +159,10 @@ h5:before {
 }
 .box.icon .box_wrap:before {
     background: url("../images/sub/sector01.png") no-repeat;
+    content: "";
+}
+.box.icon .box_wrap#guide:before {
+    background: url("../images/sub/guide_01.png") no-repeat;
     content: "";
 }
 .box.icon .box_wrap:before {
@@ -308,7 +315,8 @@ ul.bu ul li:before {
     height: 2px;
     background-color: #3e4052;
 }
-/* 테이블 */
+/* 여권개요 테이블 */
+
 table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -355,8 +363,40 @@ thead, tr, tbody {
 table.table td:first-child {
     border-left: none;
 }
+/* 직원별업무안내 테이블 */
+/* 공통 */
+.p-table.simple {
+    border-top: 2px solid #222;
+    display: table;
+    table-layout: fixed;
+    padding-top: 6px;
+}
+.p-table {
+    position: relative;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2px 0 8px;
+}
+.p-table th {
+    padding: 13px 11px;
+    background: #f6f6f6;
+    color: #000;
+    text-align: center;
+    font-weight: 400;
+    vertical-align: middle;
+    border-bottom: 1px solid #d9d9d9;
+}
+.p-table td {
+    padding: 11px;
+    box-sizing: border-box;
+    vertical-align: middle;
+    border-bottom: 1px solid #d9d9d9;
+}
 .text_center {
     text-align: center;
+}
+.text_left {
+    text-align: left !important;
 }
 td ul.bu {
     margin: 0;

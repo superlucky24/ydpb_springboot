@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>직원별업무안내 | 우리동이야기 | 영등포본동 주민센터</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_complaint_sector.css}">
+    <script th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/prefixfree.min.js}"></script>
+    <script>const menuName = '직원별업무안내';</script>
+    <script th:src="@{/js/ydpb.js}"></script>
+</head>
+<body>
+<div id="wrap">
+    <!-- header -->
+    <header class="header" th:replace="~{/common/header_footer_layout :: header}"></header>
+    <!-- //header -->
+
+    <!-- search -->
+    <div class="search" th:replace="~{/common/header_footer_layout :: search}"></div>
+    <!-- //search -->
+
+    <!-- container -->
+    <div class="container">
+        <div class="contents_wrap safe_area">
+            <!-- side menu -->
+            <aside class="side_menu" th:replace="~{/common/sidemenu_layout :: sidemenu}"></aside>
+            <!-- //side menu -->
+
+            <!-- main -->
+            <main>
+                <!-- location -->
+                <div class="location">
+                    <div class="location_title">
+                        <h2>직원별업무안내</h2>
+                    </div>
+                    <div class="location_path">
+                        <span class="loc_home"><a th:href="@{/}">홈</a></span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text"><a th:href="@{/}">동주민센터</a></span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text"><a th:href="@{/}">영등포본동</a></span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text"><a th:href="@{/}">우리동이야기</a></span>
+                        <span class="loc_arrow">></span>
+                        <span class="loc_text">직원별업무안내</span>
+                    </div>
+                    <div class="location_icon">
+                        <ul class="loc_fixed_icon">
+                            <li><button type="button" class="loc_print">프린트</button></li>
+                            <li class="icon_sns">
+                                <button type="button" class="loc_sns">SNS</button>
+                                <div class="sns_list">
+                                    <a th:href="@{/}" class="loc_sns_icon1">a</a>
+                                    <a th:href="@{/}" class="loc_sns_icon2">a</a>
+                                    <a th:href="@{/}" class="loc_sns_icon3">a</a>
+                                    <a th:href="@{/}" class="loc_sns_icon4">a</a>
+                                    <a th:href="@{/}" class="loc_sns_icon5">a</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- location -->
+                <!-- contents -->
+                <div class="contents">
+                    <div class="box icon">
+                        <div class="box_wrap" id="guide">
+                            <div class="box_title">직원별업무안내</div>
+                            동주민센터 별로 직원을 조회합니다.
+                            <br>
+                            주민센터내의 시설별 전화번호는 일반현황을 참고하시기 바랍니다.
+                        </div>
+                    </div>
+                    <h3 class="magin_t_20">
+                        영등포본동
+                    </h3>
+                    <table class="p-table simple">
+                        <caption>
+                            직원정보 목록-직원업무목록이며 부서명, 담당, 성명, 전화번호, 담당업무의 정보를 제공합니다.
+                        </caption>
+                        <colgroup>
+                            <col>
+                            <col style="width: 20%">
+                            <col style="width: 45%">
+                        </colgroup>
+                        <thead class="th list">
+                            <th scope="col">소속부서</th>
+                            <th scope="col">전화번호</th>
+                            <th scope="col">담당업무</th>
+                        </thead>
+                        <tbody class="text_center">
+                            <tr>
+                                <td>영등포본동</td>
+                                <td>02-2670-1021</td>
+                                <td class="text_left">동업무 총괄</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4 class="magin_t_20">
+                        행정팀
+                    </h4>
+                    <table class="p-table simple">
+                        <caption>
+                            직원정보 목록-직원업무목록이며 부서명, 담당, 성명, 전화번호, 담당업무의 정보를 제공합니다.
+                        </caption>
+                        <colgroup>
+                            <col>
+                            <col style="width: 20%">
+                            <col style="width: 45%">
+                        </colgroup>
+                        <thead class="th list">
+                            <th scope="col">소속부서</th>
+                            <th scope="col">전화번호</th>
+                            <th scope="col">담당업무</th>
+                        </thead>
+                        <!-- 행정팀 -->
+                        <tbody class="text_center">
+                            <tr>
+                                <td>행정팀</td>
+                                <td>02-2670-1024</td>
+                                <td class="text_left">행정팀 업무총괄</td>
+                            </tr>
+                            <tr>
+                                <td>행정팀</td>
+                                <td>02-2670-1025</td>
+                                <td class="text_left">동업무 총괄</td>
+                            </tr>
+                            <tr>
+                                <td>행정팀</td>
+                                <td>02-2670-1039</td>
+                                <td class="text_left">동 서무, 선거, 예산회계 등</td>
+                            </tr>
+                            <tr>
+                                <td>행정팀</td>
+                                <td>02-2670-1026</td>
+                                <td class="text_left"> 청소, 동행일자리사업, 수방, 제설</td>
+                            </tr>
+                            <tr>
+                                <td>행정팀</td>
+                                <td>02-2670-1031</td>
+                                <td class="text_left">주민자치, 일반서무, 마을변호사, 작은도서관 등</td>
+                            </tr>
+                            <tr>
+                                <td>행정팀</td>
+                                <td>02-2670-1046</td>
+                                <td class="text_left">차량관리 등</td>
+                            </tr>
+                            <tr>
+                                <td>행정팀</td>
+                                <td>02-2670-1032</td>
+                                <td class="text_left">취학, 전입, 전입세대 열람, 통합민원</td>
+                            </tr>
+                            <tr>
+                                <td>행정팀</td>
+                                <td>02-2670-1029</td>
+                                <td class="text_left">등초본·, 가족관계 서류 발급, 외국인 관련 업무, 대형폐기물 총괄, 통합민원</td>
+                            </tr>
+                            <tr>
+                                <td>행정팀</td>
+                                <td>02-2670-1030</td>
+                                <td class="text_left">인감, 통합민원, 어디서나 민원, 농지원부, 무인발급기 정산 관리, 인증기 관리</td>
+                            </tr>
+                            <tr>
+                                <td>행정팀</td>
+                                <td>02-2670-1028</td>
+                                <td class="text_left">민방위, 재난관리, 공구대여, 문화체육 업무 등</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                        <!-- 복지1팀 -->
+                    <h4 class="magin_t_20">
+                        행정팀
+                    </h4>
+                    <table class="p-table simple">
+                        <caption>
+                            직원정보 목록-직원업무목록이며 부서명, 담당, 성명, 전화번호, 담당업무의 정보를 제공합니다.
+                        </caption>
+                        <colgroup>
+                            <col>
+                            <col style="width: 20%">
+                            <col style="width: 45%">
+                        </colgroup>
+                        <thead class="th list">
+                        <th scope="col">소속부서</th>
+                        <th scope="col">전화번호</th>
+                        <th scope="col">담당업무</th>
+                        </thead>
+                        <tbody class="text_center">
+                        <tr>
+                            <td>복지1팀</td>
+                            <td>02-2670-1035</td>
+                            <td class="text_left">복지1팀 총괄</td>
+                        </tr>
+                        <tr>
+                            <td>복지1팀</td>
+                            <td>02-2670-1037</td>
+                            <td class="text_left">찾아가는동주민센터, 사례관리 담당</td>
+                        </tr>
+                        <tr>
+                            <td>복지1팀</td>
+                            <td>02-3457-7037</td>
+                            <td class="text_left">청년월세, 자활, 주거복지, 희망키움통장, 주택바우처, 긴급지원</td>
+                        </tr>
+                        <tr>
+                            <td>복지1팀</td>
+                            <td>02-3457-7043</td>
+                            <td class="text_left">기초생활보장, 차상위 등</td>
+                        </tr>
+                        <tr>
+                            <td>복지1팀</td>
+                            <td>02-3457-7032</td>
+                            <td class="text_left">어르신업무,의료급여</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- 복지2팀 -->
+                    <h4 class="magin_t_20">
+                        복지2팀
+                    </h4>
+                    <table class="p-table simple">
+                        <caption>
+                            직원정보 목록-직원업무목록이며 부서명, 담당, 성명, 전화번호, 담당업무의 정보를 제공합니다.
+                        </caption>
+                        <colgroup>
+                            <col>
+                            <col style="width: 20%">
+                            <col style="width: 45%">
+                        </colgroup>
+                        <thead class="th list">
+                        <th scope="col">소속부서</th>
+                        <th scope="col">전화번호</th>
+                        <th scope="col">담당업무</th>
+                        </thead>
+                        <tbody class="text_center">
+                        <tr>
+                            <td>복지2팀</td>
+                            <td>02-2670-1041</td>
+                            <td class="text_left">복지2팀 업무총괄</td>
+                        </tr>
+                        <tr>
+                            <td>복지2팀</td>
+                            <td>02-3457-7038</td>
+                            <td class="text_left">지역사회보장협의체, 따뜻한 겨울나기, 서비스연계</td>
+                        </tr>
+                        <tr>
+                            <td>복지2팀</td>
+                            <td>02-2670-1038</td>
+                            <td class="text_left">청년지원 및 사회복지기획 공모사업, 국가유공자 관려업무,
+                                청소년드림코칭, 서울형통장사업
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>복지2팀</td>
+                            <td>02-2670-1027</td>
+                            <td class="text_left">돌봄SOS, 에너지바우처</td>
+                        </tr>
+                        <tr>
+                            <td>복지2팀</td>
+                            <td>02-3457-7036</td>
+                            <td class="text_left">보육, 아동청소년, 다문화, 문화누리카드</td>
+                        </tr>
+                        <tr>
+                            <td>복지2팀</td>
+                            <td>02-3457-7044</td>
+                            <td class="text_left"> 장애인복지 업무 등</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- //contents -->
+
+                <!-- charge info -->
+                <div class="charge_info">
+                    <ul>
+                        <li>
+                            <span class="info_name">담당부서</span>
+                            <span>영등포본동</span>
+                        </li>
+                        <li>
+                            <span class="info_name">담당전화번호</span>
+                            <span>02-2670-1026</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- //charge info -->
+            </main>
+            <!-- //main -->
+        </div>
+    </div>
+    <!-- //container -->
+
+    <!-- footer -->
+    <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
+    <!-- //footer -->
+</div>
+</body>
+</html>

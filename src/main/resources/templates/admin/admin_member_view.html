@@ -53,6 +53,11 @@
                                 <th scope="row" style="padding: 15px; background: #f9f9f9; text-align: left; font-weight: 600; color: #333; border-bottom: 1px solid #ececec;">가입일</th>
                                 <td th:text="${#dates.format(member.memRegDate, 'yyyy-MM-dd HH:mm:ss')}" style="padding: 15px; border-bottom: 1px solid #ececec;">2025-01-15</td>
                             </tr>
+<!--                            0202 귀환 추가 -->
+                            <tr>
+                                <th scope="row" style="padding: 15px; background: #f9f9f9; text-align: left; font-weight: 600; color: #333; border-bottom: 1px solid #ececec;">로그인 종류</th>
+                                <td th:text="${member.loginType} ?: '일반'" style="padding: 15px; border-bottom: 1px solid #ececec;">일반</td>
+                            </tr>
                             <tr>
                                 <th scope="row" style="padding: 15px; background: #f9f9f9; text-align: left; font-weight: 600; color: #333; border-bottom: 1px solid #ececec;">
                                     <label for="memPassword">비밀번호 변경</label>

@@ -63,6 +63,7 @@
                             <col style="width: 18%;">
                             <col style="width: 30%;">
                             <col style="width: 15%;">
+                            <col style="width: 15%;">
                         </colgroup>
                         <thead>
                         <tr>
@@ -72,6 +73,8 @@
                             <th scope="col">휴대폰</th>
                             <th scope="col">이메일</th>
                             <th scope="col">가입일</th>
+<!--                            0202 귀환 추가-->
+                            <th scope="col">로그인 종류</th>
                         </tr>
                         </thead>
                         <tbody class="tb_text">
@@ -89,6 +92,8 @@
                             <td th:text="${member.memEmail}" th:title="${member.memEmail}">test@test.com</td>
 
                             <td><time th:text="${#dates.format(member.memRegDate, 'yyyy-MM-dd')}"></time></td>
+<!--                            0202 귀환 추가-->
+                            <td th:text="${member.loginType} ?: '일반'" style="padding: 15px; border-bottom: 1px solid #ececec;">일반</td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(list)}">
                             <td colspan="6" class="no_data">등록된 회원이 없습니다.</td>

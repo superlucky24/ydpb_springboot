@@ -25,13 +25,14 @@
         </if>
     </sql>
 
+<!--    0202 귀환 수정-->
     <select id="getMemberList" resultType="kr.go.ydpb.domain.MemberVO">
         <![CDATA[
         SELECT
-            memId, memName, memPhone, memEmail, memAddress, memRegDate
+            memId, memName, memPhone, memEmail, memAddress, memRegDate, loginType
         FROM (
             SELECT
-                rownum rn, memId, memName, memPhone, memEmail, memAddress, memRegDate
+                rownum rn, memId, memName, memPhone, memEmail, memAddress, memRegDate , loginType
             FROM (
                 SELECT
                     MEMID as memId,
@@ -39,7 +40,8 @@
                     MEMPHONE as memPhone,
                     MEMEMAIL as memEmail,
                     MEMADDRESS as memAddress,
-                    MEMREGDATE as memRegDate
+                    MEMREGDATE as memRegDate,
+                    LOGINTYPE as loginType
                 FROM TBL_MEMBER
                 WHERE MEMID IS NOT NULL
         ]]>

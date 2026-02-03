@@ -1237,3 +1237,31 @@ table tr .no_data {
         transform:translate(-50%, -50%) rotate(360deg);
     }
 }
+
+/* 인쇄 전용 */
+@media print {
+    /* header, footer, side menu, 버튼 등 숨기기 */
+    header, footer, .side_menu, .loc_print, .loc_sns, .slider_controls, .top {
+        display: none !important;
+    }
+
+    /* main 컨테이너만 출력 */
+    #wrap, .container, .contents_wrap {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    main {
+        display: block !important;
+        position: static !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+    }
+
+    /* 필요시 main 안에서도 버튼, 광고, 배너 숨기기 */
+    .loc_print, .loc_sns, .slider_controls, .main3_more, .main3_more2, .main4_more {
+        display: none !important;
+    }
+}
+

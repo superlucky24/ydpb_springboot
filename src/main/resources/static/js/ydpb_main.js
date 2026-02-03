@@ -12,11 +12,6 @@ $(document).ready(function(){
         $('.main3_contents').removeClass('show');
         $('.m3gu').addClass('show');
     });
-    // sns 클릭시 관련 아이콘 나오게 하는 코드
-    $('.loc_sns').on('click', function() {
-        $(this).toggleClass('checked');
-        $('.sns_list').toggleClass('show');
-    });
 
     // 슬라이더 기능 추가
     var $slider = $('.slider_list');

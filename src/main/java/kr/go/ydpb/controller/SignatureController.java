@@ -131,11 +131,17 @@ public class SignatureController {
                     drawText(contentStream, font, 9, PDF_WIDTH * 0.837f, PDF_HEIGHT * (1 - 0.8276f), dto.getSubmitDay());
                     drawText(contentStream, font, 10, PDF_WIDTH * 0.633f, PDF_HEIGHT * (1 - 0.853f), dto.getDelegateName());
 
-                    // 9. 서명 이미지 합성 (중앙 배치를 위한 좌표 조정)
-                    drawImage(document, contentStream, dto.getSigPrev(), PDF_WIDTH * 0.512f - 30, PDF_HEIGHT * (1 - 0.365f) - 15, 60, 30);
-                    drawImage(document, contentStream, dto.getSigCurr(), PDF_WIDTH * 0.827f - 30, PDF_HEIGHT * (1 - 0.365f) - 15, 60, 30);
-                    drawImage(document, contentStream, dto.getSigReporter(), PDF_WIDTH * 0.827f - 40, PDF_HEIGHT * (1 - 0.670f) - 15, 80, 30);
-                    drawImage(document, contentStream, dto.getSigDelegate(), PDF_WIDTH * 0.827f - 40, PDF_HEIGHT * (1 - 0.852f) - 13, 80, 26);
+                    // 9. 서명 이미지 합성 (중앙 배치를 위한 좌표 조정 및 CSS 박스 비율 반영)
+                    // [수정] 배경 PDF 칸 이탈 방지를 위해 이미지 크기를 과감히 축소하고 Y 오프셋을 더 내림
+                    // 전/현 세대주: (기존 64x36 -> 48x28 축소 / Y오프셋 -22로 하향 조정)
+                    drawImage(document, contentStream, dto.getSigPrev(), PDF_WIDTH * 0.512f - 24, PDF_HEIGHT * (1 - 0.365f) - 22, 48, 28);
+                    drawImage(document, contentStream, dto.getSigCurr(), PDF_WIDTH * 0.827f - 24, PDF_HEIGHT * (1 - 0.365f) - 22, 48, 28);
+
+                    // 신고인: (기존 80x30 -> 60x24 축소 / Y오프셋 -24로 하향 조정)
+                    drawImage(document, contentStream, dto.getSigReporter(), PDF_WIDTH * 0.827f - 30, PDF_HEIGHT * (1 - 0.670f) - 24, 60, 24);
+
+                    // 위임인: (기존 72x24 -> 56x20 축소 / Y오프셋 -20으로 하향 조정)
+                    drawImage(document, contentStream, dto.getSigDelegate(), PDF_WIDTH * 0.827f - 28, PDF_HEIGHT * (1 - 0.852f) - 20, 56, 20);
                 }
                 // 파일 저장
                 document.save(saveFile);

@@ -33,6 +33,12 @@ $(document).ready(function (){
         }
 
         $(canvas).on('mousedown touchstart', function(e){
+            // [위임장 서명패드 제어] 위임인 성명이 없을 경우 서명 차단
+            if(id === 'sig-pad-2' && $('.f_delegate_name').val().trim() === ""){
+                alert("위임한 사람의 성명을 먼저 입력해주세요.");
+                $('.f_delegate_name').focus();
+                return;
+            }
             drawing = true;
             ctx.beginPath();
             const pos = getPos(e);
@@ -46,6 +52,20 @@ $(document).ready(function (){
             if(e.type==='touchmove') e.preventDefault();
         }).on('mouseup mouseleave touchend', function(){ drawing = false; });
     });
+
+    // [추가] 위임인 성명 입력 여부에 따른 서명란 시각적 비활성화 제어
+    $('.f_delegate_name').on('input', function() {
+        const isNotEmpty = $(this).val().trim() !== "";
+        const $sigPad2 = $('#sig-pad-2');
+        if(isNotEmpty) {
+            $sigPad2.css({'background-color': '#fff', 'cursor': 'crosshair', 'opacity': '1'});
+        } else {
+            // 이름이 비면 서명을 초기화하고 비활성화 표시
+            const canvas = document.getElementById('sig-pad-2');
+            ctxs['sig-pad-2'].clearRect(0, 0, canvas.width, canvas.height);
+            $sigPad2.css({'background-color': '#f0f0f0', 'cursor': 'not-allowed', 'opacity': '0.6'});
+        }
+    }).trigger('input'); // 페이지 로드 시 초기 상태 적용
 
     // 체크박스
     $('.check-box').on('click', function (){
@@ -117,6 +137,7 @@ $(document).ready(function (){
                 if(canvas) ctxs[id].clearRect(0, 0, canvas.width, canvas.height);
             });
             $('#dynamicRows').html($('.target-row[data-row="1"]'));
+            $('.f_delegate_name').trigger('input'); // 위임장 서명패드 상태 복구
         }
     });
 
@@ -159,12 +180,7 @@ $(document).ready(function (){
                 post: $(this).find('.r_post').val().trim()
             };
             if(row.name) targetList.push(row);
-
-
-
         });
-
-
 
         const formData = {
             reporterName: reporterName,
@@ -190,11 +206,6 @@ $(document).ready(function (){
             sigCurr: document.getElementById('sig-pad-curr').toDataURL('image/png')
         };
 
-        console.log("전 세대주 서명란 길이 : "+formData.sigPrev.length );
-        console.log("세대주 서명란 길이 : "+formData.sigCurr.length );
-        console.log("신고인 서명란 길이 : "+formData.sigPrev.length );
-        console.log("위임한 세대주 서명란 길이 : "+formData.sigDelegate.length );
-
         //  유효성 체크 메서드 - 귀환
         function validateForm(data) {
             // 신고인 이름 체크
@@ -208,278 +219,57 @@ $(document).ready(function (){
                 $('.f_name').focus();
                 return false;
             }
+            // [추가] 상단 신고인 성명과 하단 서명란 성명 일치 여부 확인 - 연수
+            const reporterNameTop = data.reporterName;
+            const reporterNameBottom = $('.f_reporter_name').val().trim();
 
-
-            // 주민등록번호 확인
-            if (!data.reporterJumin || data.reporterJumin.trim() === "") {
-                alert("주민등록번호를 입력해주세요.");
-                $('.f_jumin').focus();
-                return false;
-            }
-            const juminReg = /^[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])-[1-4][0-9]{6}$/;
-            if (!juminReg.test(data.reporterJumin)) {
-                alert("주민등록번호 형식이 올바르지 않습니다.");
-                $('.f_jumin').focus();
-                return false;
-            }
-            //세대주와의 관계
-            if (!data.reporterRel || data.reporterRel.trim() === "") {
-                alert("세대주와의 관계를 입력해주세요.");
-                $('.f_rel').focus();
-                return false;
-            }
-            const relReg = /^([가-힣]{1,10})$/;
-            if (!relReg.test(data.reporterRel)) {
-                alert("세대주와의 형식이 올바르지 않습니다. \n10자 이내 한글을 입력해주세요");
-                $('.f_rel').focus();
-                return false;
-            }
-
-            //일반전화 유효성
-            const telReg = /^(02|03[1-3]|04[1-4]|05[1-5]|06[1-4])-(\d{3,4})-(\d{4})$/;
-            if(data.reporterTel){
-                if (!telReg.test(data.reporterTel)) {
-                    alert("일반전화 형식이 올바르지 않습니다.\n다시 입력해주세요");
-                    $('.f_tel').focus();
-                    return false;
-                }
-            }
-
-            //휴대 전화
-            if (!data.reporterPhone || data.reporterPhone.trim() === "") {
-                alert("휴대전화번호를 입력해주세요.");
-                $('.f_phone').focus();
-                return false;
-            }
-            const phoneReg = /^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
-            if (!phoneReg.test(data.reporterPhone.trim())) {
-                alert("휴대전화 형식이 올바르지 않습니다.\n다시 입력해주세요");
-                $('.f_phone').focus();
-                return false;
-            }
-
-            // 주소 체크
-            if (!data.reporterAddr || data.reporterAddr.trim() === "") {
-                alert("기본 주소를 입력해주세요.");
-                $('.f_addr').focus();
-                return false;
-            }
-
-            // 신고내용
-            if (!data.reportContent || data.reportContent.trim() === "") {
-                alert("신고 내용을 입력해주세요.");
-                $('.f_report_content').focus();
-                return false;
-            }
-
-            //세대주명
-            if (!data.prevMaster  || data.prevMaster.trim() === "") {
-                alert("전 세대주명을 입력해주세요.");
-                $('.f_prev_master').focus();
-                return false;
-            }
-            const prevOwnerReg = /^(?:[가-힣]{1,16})$/;
-            if (!prevOwnerReg.test(data.prevMaster)) {
-                alert("이름 형식이 올바르지 않습니다. \n16자 이내 한글을 입력해주세요");
-                $('.f_prev_master').focus();
-                return false;
-            }
-
-            if (!data.currMaster || data.currMaster.trim() === "") {
-                alert("현 세대주 명을 입력해주세요.");
-                $('.f_curr_master').focus();
-                return false;
-            }
-            const currOwnerReg = /^(?:[가-힣]{1,16})$/;
-            if (!currOwnerReg.test(data.currMaster)) {
-                alert("이름 형식이 올바르지 않습니다. \n16자 이내 한글을 입력해주세요");
-                $('.f_curr_master').focus();
-                return false;
-            }
-
-            // 대상자 목록이 비어있는지 확인
-            if (!data.targets || data.targets.length === 0) {
-                alert("신고 대상자를 최소 한 명 이상 추가해주세요.");
-                $('.r_rel').focus();
-                return false;
-            }
-
-
-            for (let i = 0; i < targetList.length; i++) {
-                console.log("행 반복문 실행")
-                const rowList = targetList[i];
-
-                const isRowUsed = rowList.rel || rowList.name || rowList.jumin || rowList.pre || rowList.post;
-
-                if (isRowUsed && !rowList.rel) {
-                    alert(`${i + 1}번째 행: 세대주와의 관계를 입력해주세요`);
-                    $(rowList.el).find('.r_jumin').focus();
-                    return false;
-                }
-                if (isRowUsed && !rowList.name) {
-                    alert(`${i + 1}번째 행: 성명을 입력해주세요`);
-                    $(rowList.el).find('.r_name').focus();
-                    return false;
-                }
-                if (isRowUsed &&( !rowList.jumin || !juminReg.test(rowList.jumin))  ) {
-                    alert(`${i + 1}번째 행: 올바른 주민등록번호를 입력해주세요`);
-                    $(rowList.el).find('.r_jumin').focus();
-                    return false;
-                }
-                if (isRowUsed && !rowList.pre) {
-                    alert(`${i + 1}번째 행: 정정 전 내용을 입력해주세요`);
-                    $(rowList.el).find('.r_pre').focus();
-                    return false;
-                }
-                if (isRowUsed && !rowList.post) {
-                    alert(`${i + 1}번째 행: 정정 후 내용을 입력해주세요`);
-                    $(rowList.el).find('.r_post').focus();
-                    return false;
-                }
-            }
-
-            const rRel =$('.r_rel').val().trim();
-            const rName =$('.r_name').val().trim();
-            const rJumin =$('.r_jumin').val().trim();
-            const rPre =$('.r_pre').val().trim();
-            const rPost =$('.r_post').val().trim();
-            if (!rRel || rRel === "") {
-                alert("세대주와의 관계를 입력해주세요");
-                $('.r_rel').focus();
-                return false;
-            }if (!rName || rName === "") {
-                alert("이름을 입력해주세요.");
-                $('.r_name').focus();
-                return false;
-            }if (!juminReg.test(rJumin)) {
-                alert("주민등록번호 형식이 올바르지 않습니다.");
-                $('.r_jumin').focus();
-                return false;
-            }if (!rPre || rPre === "") {
-                alert("정정 전 내용을 입력해주세요.");
-                $('.r_pre').focus();
-                return false;
-            }if (!rPost || rPost === "") {
-                alert("정정 후 내용을 입력해주세요");
-                $('.r_post').focus();
-                return false;
-            }
-
-            if (!data.topType  || data.topType.trim() === "") {
-                alert("최상단의 신고 종류를 체크해주세요.");
-                const target = document.querySelector('.c_top_1');
-                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                // 시각적 강조
-                $('[data-group="top_type"]').css('border', '5px solid red');
-                setTimeout(() => $('[data-group="top_type"]').css('border', 'none'), 5000);
-
-                return false;
-            }
-            if (!data.midType || data.midType.trim() === "") {
-                alert("신고서 하단의 신고 종류를 체크해주세요.");
-
-                const target = document.querySelector('.c_mid_1');
-                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                // 시각적 강조
-                $('[data-group="mid_type"]').css('border', '5px solid red');
-                setTimeout(() => $('[data-group="mid_type"]').css('border', 'none'), 5000);
-                return false;
-            }
-            if (!data.btmType || data.btmType.trim() === "") {
-                alert("위임장 아래 신고 종류를 체크해주세요.");
-
-                const target = document.querySelector('.c_btm_1');
-                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                // 시각적 강조
-                $('[data-group="btm_type"]').css('border', '5px solid red');
-                setTimeout(() => $('[data-group="btm_type"]').css('border', 'none'), 5000);
-                return false;
-            }
-            // if (!data.submitYear || data.submitYear.trim() === "") {
-            //     alert("제출 연도를 입력해주세요.");
-            //     $('.f_year').focus();
-            //     return false;
-            // }
-            // if (!data.submitMonth || data.submitMonth.trim() === "") {
-            //     alert("제출 월을 입력해주세요.");
-            //     $('.f_month').focus();
-            //     return false;
-            // }
-            // if (!data.submitDay  || data.submitDay.trim() === "") {
-            //     alert("제출 일을 입력해주세요.");
-            //     $('.f_day').focus();
-            //     return false;
-            // }
-
-            //
-            const fReporterName =$('.f_reporter_name').val().trim();
-            if (!fReporterName || fReporterName === "") {
-                alert("신고인을 입력해주세요");
+            if (reporterNameTop !== reporterNameBottom) {
+                alert("상단의 신고인 성명과 하단의 서명인 성명이 일치하지 않습니다.\n동일한 성명을 입력해주세요.");
                 $('.f_reporter_name').focus();
                 return false;
             }
-            const fDelegateName =$('.f_delegate_name').val().trim();
-            if (!fDelegateName || fDelegateName === "") {
-                alert("위임한 사람을 입력해주세요");
-                $('.f_delegate_name').focus();
+
+            // 주민등록번호 확인
+            if (!data.reporterJumin || !juminReg.test(data.reporterJumin)) {
+                alert("주민등록번호를 올바르게 입력해주세요.");
+                $('.f_jumin').focus();
                 return false;
             }
 
-            //  서명 유무 체크 : Canvas 데이터가 초기값인지 확인
-            // 빈 캔버스의 dataURL 길이는 보통 아주 짧음 대략 2000~3000자 이하
+            // 필수 필드 체크 (관계, 휴대전화, 주소, 내용, 세대주)
+            if (!data.reporterRel) { alert("세대주와의 관계를 입력해주세요."); $('.f_rel').focus(); return false; }
+            if (!data.reporterPhone) { alert("휴대전화번호를 입력해주세요."); $('.f_phone').focus(); return false; }
+            if (!data.reporterAddr) { alert("기본 주소를 입력해주세요."); $('.f_addr').focus(); return false; }
+            if (!data.reportContent) { alert("신고 내용을 입력해주세요."); $('.f_report_content').focus(); return false; }
+            if (!data.prevMaster) { alert("전 세대주명을 입력해주세요."); $('.f_prev_master').focus(); return false; }
+            if (!data.currMaster) { alert("현 세대주 명을 입력해주세요."); $('.f_curr_master').focus(); return false; }
 
-            if (data.sigReporter.length < 1000) {
-                alert("신고인 서명이 누락되었습니다.");
-                const target = document.querySelector('#sig-pad-1');
-                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // 신고 종류 체크박스 필수
+            if (!data.topType) { alert("최상단의 신고 종류를 체크해주세요."); return false; }
+            if (!data.midType) { alert("신고서 하단의 신고 종류를 체크해주세요."); return false; }
 
-                // 시각적 강조
-                target.style.outline = "5px solid red";
-                setTimeout(() => target.style.outline = "none", 5000);
-                return false;
-            }
-            if (data.sigDelegate.length < 1000) {
-                alert("위임한 사람의 서명이 누락되었습니다.");
-                const target = document.querySelector('#sig-pad-2');
-                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                // 시각적 강조
-                target.style.outline = "5px solid red";
-                setTimeout(() => target.style.outline = "none", 5000);
-                return false;
-            }
-            if (data.sigPrev.length < 1000) {
-                alert("전 세대주 서명이 누락되었습니다.");
-                const target = document.querySelector('#sig-pad-prev');
-                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                // 시각적 강조
-                target.style.outline = "5px solid red";
-                setTimeout(() => target.style.outline = "none", 5000);
-                return false;
-            }
-            if (data.sigCurr.length < 1000) {
-                alert("세대주 서명이 누락되었습니다.");
-                const target = document.querySelector('#sig-pad-curr');
-                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                // 시각적 강조
-                target.style.outline = "5px solid red";
-                setTimeout(() => target.style.outline = "none", 5000);
-                return false;
+            // [위임장 유효성 검사] 성명 입력 시 체크박스와 서명 필수
+            const currentDelegateName = $('.f_delegate_name').val().trim();
+            if (currentDelegateName !== "") {
+                if (!data.btmType) {
+                    alert("위임한 사람의 성명을 입력하셨으므로, 위임장 아래 신고 종류를 반드시 체크해야 합니다.");
+                    return false;
+                }
+                if (data.sigDelegate.length < 1000) {
+                    alert("위임한 사람의 서명이 누락되었습니다.");
+                    return false;
+                }
             }
 
-            return true; // 모든 통과 시 true 반환
+            // 서명란 체크 (신고인, 전/현 세대주)
+            if (data.sigReporter.length < 1000) { alert("신고인 서명이 누락되었습니다."); return false; }
+            if (data.sigPrev.length < 1000) { alert("전 세대주 서명이 누락되었습니다."); return false; }
+            if (data.sigCurr.length < 1000) { alert("세대주 서명이 누락되었습니다."); return false; }
+
+            return true;
         }
 
-        // 유효성 처리
-        if (!validateForm(formData)) {
-            return; // 유효성 검사 실패 시 여기서 중단 (AJAX 실행 안 함)
-        }
-
+        if (!validateForm(formData)) return;
 
         // 3. 서버 전송
         if (confirm('작성하신 내용으로 신고서를 제출하시겠습니까?')) {
@@ -488,43 +278,19 @@ $(document).ready(function (){
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(formData),
-                xhrFields: {
-                    responseType: 'blob' // [추가] PDF 바이너리 데이터를 받기 위함
-                },
+                xhrFields: { responseType: 'blob' },
                 success: function(blob) {
-                    // [추가] PDF 새 창 열기 및 다운로드 로직
-                    // 1. Blob 객체를 사용하여 임시 URL 생성
                     const url = window.URL.createObjectURL(blob);
-
-                    // 2. 새 창으로 PDF 미리보기 열기
                     const newWindow = window.open(url, '_blank');
-                    if(!newWindow || newWindow.closed || typeof newWindow.closed=='undefined') {
-                        alert('팝업 차단이 설정되어 있습니다. 팝업을 허용해주세요.');
-                    }
-
-                    // 3. 자동 다운로드 실행
                     const link = document.createElement('a');
                     link.href = url;
-                    // 파일명을 현재 시간과 조합하여 고유하게 설정
-                    const fileName = '주민등록신고서_' + new Date().toISOString().slice(0,10).replace(/-/g, '') + '.pdf';
-                    link.download = fileName;
-                    document.body.appendChild(link);
+                    link.download = '주민등록신고서_' + new Date().toISOString().slice(0,10).replace(/-/g, '') + '.pdf';
                     link.click();
-                    document.body.removeChild(link);
-
-                    // 4. 완료 메시지 및 페이지 이동
                     alert('신고서가 성공적으로 생성되었습니다.');
-
-                    // 임시 URL 해제 (메모리 관리)
-                    setTimeout(function() {
-                        window.URL.revokeObjectURL(url);
-                    }, 100);
-
-                    // location.href = '/';
+                    setTimeout(() => window.URL.revokeObjectURL(url), 100);
                 },
-                error: function(xhr, status, error) {
-                    console.error("제출 에러 상세:", error);
-                    alert('제출 중 오류가 발생했습니다. 서버 로그를 확인해주세요.');
+                error: function() {
+                    alert('제출 중 오류가 발생했습니다.');
                 }
             });
         }

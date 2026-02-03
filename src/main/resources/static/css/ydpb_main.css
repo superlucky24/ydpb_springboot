@@ -226,40 +226,41 @@
 }
 
 
-.main3_list {
-    height: 176px;
-}
-.main3_dong, .main3_gu {
-    width: 120px;
-}
-.main3_dong.checked {
-    font-weight: 600;
-    border-color: #000;
-}
-.main3_gu.checked {
-    font-weight: 600;
-    border-color: #000;
-}
-
-
-
 .main3_title{
     display: flex;
-    flex-flow: row nowrap;    
+    flex-flow: row nowrap;
     color: #727272;
     font-size: 16px;
     letter-spacing: -0.03em;
 }
+.main3_title li + li {
+    border-left: none; /* 겹치는 테두리 제거 */
+}
 .main3_title li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     white-space: nowrap;
     border: 1px solid #727272;
     padding: 13px 22px;
     line-height: 22px;
     cursor: pointer;
 }
-
-.main3_title li + li {
-    border-left: none; /* 겹치는 테두리 제거 */
+.main3_title li:hover {
+    border-color: #000;
+    color: #222;
+}
+.main3_list {
+    height: 176px;
+}
+.main3_dong, .main3_gu {
+    width: 120px;
+}
+.main3_title li.main3_dong.checked,
+.main3_title li.main3_gu.checked {
+    font-weight: 600;
+    border-color: #000;
+    color: #222;
 }
 
 .main3_contents {
@@ -303,6 +304,7 @@
 .main3_contents ul li a {
     padding-right: 28px;
     height: 24px;
+    color: #222;
 }
 
 .main3_c_title {
@@ -439,40 +441,45 @@
     font-weight: 400;
     letter-spacing: -0.03em;
 }
-
-tbody tr:first-child td {
-    box-sizing: border-box;
-    padding-top: 17px; 
-}
-tbody tr td:first-child {
-    box-sizing: border-box;
-    padding-left: 55px;
-    width: 300px;   
-    text-align: left;
-}
-
-tbody tr td:first-child > div {
-    margin-left: 55px;
-}
-
-tbody tr td:first-child::before {    
-    display: block;
-    position: relative;
-    top: 11px;
-    left: 40px;
-    width: 3px;
-    height: 2px;
-    background-color: #222222;
-    content: '';
-}
-
-.main4_program tbody td {       
+.main4_program tbody td {
     padding: 5px 8px;
     line-height: 24px;
     text-align: center;
     color: #222222;
     font-size: 16px;
-    letter-spacing: -0.03em;         
+    letter-spacing: -0.03em;
+}
+
+.main4_program tbody tr:first-child td {
+    box-sizing: border-box;
+    padding-top: 17px;
+}
+.main4_program tbody tr td:first-child {
+    box-sizing: border-box;
+    width: 300px;
+    text-align: left;
+    position: relative;
+    padding-left: 0;
+}
+
+.main4_program tbody tr td:first-child > div {
+    display: block;    /* flex 대신 block으로 단순화 */
+    padding-left: 55px;
+}
+
+.main4_program tbody tr td:first-child::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 42px;
+    top: 50%;
+    width: 3px;
+    height: 2px;
+    transform: translateY(-50%);
+    background-color: #222222;
+}
+.main4_program tbody tr:first-child td:first-child::before {
+    top: calc(50% + 3.5px); /* 상단 패딩 절반만큼 미세 조정 */
 }
 .main4_program tbody td:not(:first-child) div {
     display: flex;

@@ -1213,6 +1213,14 @@ table tr .no_data {
     white-space: nowrap;
     z-index: 1;
 }
+.admin_footer {
+    margin-bottom: 0 !important;
+    padding: 14px 0;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    z-index: 1;
+}
 
 /* 로딩 애니메이션 */
 .loading_container {

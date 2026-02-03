@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>가족관계증명서 | 분야별민원 | 영등포본동 주민센터</title>
+  <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
   <link rel="stylesheet" th:href="@{/css/reset.css}">
   <link rel="stylesheet" th:href="@{/css/ydpb.css}">
   <link rel="stylesheet" th:href="@{/css/ydpb_status.css}">
@@ -174,6 +175,12 @@
 
   // 4. 결제 시스템
 
+  // 공용화를 위한 변수 설정
+  const CURRENT_DOC_TYPE = "가족관계증명서";
+  const CURRENT_AMOUNT = 1000;
+
+
+
   // 포트원 키값
   const PORTONE_STORE_ID = [[${portoneStoreId}]];
   const PORTONE_CHANNEL_KEY = [[${portoneChannelKey}]];
@@ -181,10 +188,20 @@
   // 결제 요청 함수
   async function goPayment() {
     const regNo = document.getElementById('totalRegNo').value;
-    const memName = [[${member?.memName}]] || "";
+    const memName = [[${member?.memName}]] ||"";
+
+    // 결제 여부 확인
+    const isAlreadyPaid = [[${alreadyPaid}]];
 
     if (regNo === "") { // 주민등록번호 생성 여부 체크
       alert("발급 정보를 생성할 수 없습니다. 회원 정보를 확인해 주세요.");
+      return;
+    }
+
+    // 결제 이력이 있는 경우
+    if (isAlreadyPaid) {
+      alert("이미 결제된 내역이 확인되었습니다. 발급 페이지로 이동합니다.");
+      submitCompleteForm();
       return;
     }
 
@@ -198,12 +215,12 @@
         storeId: PORTONE_STORE_ID, // 사이트에서 확인
         channelKey: PORTONE_CHANNEL_KEY, // 사이트에서 확인
         paymentId: "DOC_" + new Date().getTime(), // 결제 건마다 고유번호 생성
-        orderName: "가족관계증명서 발급 수수료",
-        totalAmount: 1000, // 수수료 1000원
+        orderName: CURRENT_DOC_TYPE + " 발급 수수료", // 동적 이름
+        totalAmount: CURRENT_AMOUNT, // 동적 금액
         currency: "CURRENCY_KRW",
         payMethod: "EASY_PAY",
-        easyPay: { giftCertificateType: "KAKAOPAY" }, // 결제수단 : 카카오페이
-        customer: { fullName: memName }
+        easyPay: {giftCertificateType: "KAKAOPAY"}, // 결제수단 : 카카오페이
+        customer: {fullName: memName}
       });
 
       /* 결제창 닫힌 후 성공 여부 확인 */
@@ -214,27 +231,57 @@
 
       const verifyResponse = await fetch("/api/payment/verify", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
-          imp_uid: response.txId,           // 포트원 결제 고유 ID
-          merchant_uid: response.paymentId // 우리 시스템 주문번호
+          txId: response.txId,           // 포트원 결제 고유 ID
+          paymentId: response.paymentId, // 우리 시스템 주문번호
+          docType: CURRENT_DOC_TYPE,
+          amount: CURRENT_AMOUNT
         })
       });
 
-      alert("결제가 완료되었습니다! 발급 페이지로 이동합니다.");
-      // 성공시 form 태그 확인 후 데이터 전송
-      const form = document.getElementById('requestForm');
-      if (form) {
-        form.action = "/document/complete";
-        form.method = "POST";
-        form.submit();
-      } else {
-        alert("결제 검증에 실패했습니다. 관리자에게 문의하세요.");
+      // 로그인 이중체크
+      if (verifyResponse.status === 401) {
+        alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+        location.href = "/login";
+        return;
       }
+
+      if (!verifyResponse.ok) {
+        alert("결제 검증 중 오류가 발생했습니다. 관리자에게 문의하세요.");
+        return;
+      }
+
+      alert("결제가 완료되었습니다! 발급 페이지로 이동합니다.");
+      // 공용 데이터 전송 함수
+      submitCompleteForm();
+
     } catch (error) {
+      console.error(error);
       alert("결제 오류 발생");
     }
-  }
+  } // end of goPayment()
+
+    // 공용 데이터 전송 함수
+  function submitCompleteForm() {
+    const form = document.getElementById('requestForm');
+    if (form) {
+        // 폼 안에 docType 없으면 생성 추가
+        if (!form.querySelector('input[name="docType"]')) {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "docType";
+        input.value = CURRENT_DOC_TYPE;
+        form.appendChild(input);
+      }
+
+      form.action = "/document/complete";
+      form.method = "POST";
+      form.submit();
+      } else {
+      alert("폼 데이터를 찾을 수 없습니다.");
+    }
+  } // end of submitCompleteForm()
   /*]]>*/
 </script>
 </body>

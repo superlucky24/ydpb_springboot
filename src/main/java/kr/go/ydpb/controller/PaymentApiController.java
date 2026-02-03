@@ -13,6 +13,10 @@ import java.util.Map;
 @RequestMapping("/api/payment")
 public class PaymentApiController {
 
+
+    // 여기부터
+
+
     /* 결제 검증 및 DB 기록을 위한 API, 클라이언트(브라우저)에서 결제가 끝난 후 호출 */
     @PostMapping("/verify")
     public ResponseEntity<?> verifyPayment(@RequestBody Map<String, String> data) {

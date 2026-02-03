@@ -5,6 +5,7 @@ import kr.go.ydpb.domain.DocumentDTO;
 import kr.go.ydpb.domain.MemberVO;
 import kr.go.ydpb.service.MemberService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +13,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 /* 결제 및 문서 출력 페이지 컨트롤러 */
 @Controller
-@AllArgsConstructor
 @RequestMapping("/document")
 public class DocumentController {
 
     // 가족관계증명서 신청폼 데이터를 받기 위함
     private final MemberService memberService;
+
+
+    @Value("${portone.store.id}")
+    private String storeId;
+
+    @Value("${portone.channel.key}")
+    private String channelKey;
+
+    public DocumentController(MemberService memberService) {
+        this.memberService = memberService;
+    }
 
     // /있을때 없을때 구분되어 둘다 처리, 기본경로 접속시 신청페이지로 연결
     @GetMapping({"", "/"})
@@ -36,6 +47,10 @@ public class DocumentController {
         } else {
             MemberVO member = memberService.getMemberById(memId);
             model.addAttribute("member", member);
+
+            model.addAttribute("portoneStoreId", storeId);
+            model.addAttribute("portoneChannelKey", channelKey);
+
             return "sub/document_request";
         }
     }

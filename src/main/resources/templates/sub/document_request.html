@@ -172,7 +172,13 @@
     }
   }
 
-  // 4. 결제 요청 함수 (기존 로직 유지)
+  // 4. 결제 시스템
+
+  // 포트원 키값
+  const PORTONE_STORE_ID = [[${portoneStoreId}]];
+  const PORTONE_CHANNEL_KEY = [[${portoneChannelKey}]];
+
+  // 결제 요청 함수
   async function goPayment() {
     const regNo = document.getElementById('totalRegNo').value;
     const memName = [[${member?.memName}]] || "";
@@ -189,8 +195,8 @@
     /* 포트원 API */
     try {
       const response = await PortOne.requestPayment({
-        storeId: "store-b4f6c958-2d99-4d7c-bc10-7ce431dab851", // 사이트에서 확인
-        channelKey: "channel-key-ff34e2fa-6621-4673-be89-daf679a0d7f5", // 사이트에서 확인
+        storeId: PORTONE_STORE_ID, // 사이트에서 확인
+        channelKey: PORTONE_CHANNEL_KEY, // 사이트에서 확인
         paymentId: "DOC_" + new Date().getTime(), // 결제 건마다 고유번호 생성
         orderName: "가족관계증명서 발급 수수료",
         totalAmount: 1000, // 수수료 1000원
@@ -206,6 +212,15 @@
         return;
       }
 
+      const verifyResponse = await fetch("/api/payment/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          imp_uid: response.txId,           // 포트원 결제 고유 ID
+          merchant_uid: response.paymentId // 우리 시스템 주문번호
+        })
+      });
+
       alert("결제가 완료되었습니다! 발급 페이지로 이동합니다.");
       // 성공시 form 태그 확인 후 데이터 전송
       const form = document.getElementById('requestForm');
@@ -213,8 +228,9 @@
         form.action = "/document/complete";
         form.method = "POST";
         form.submit();
+      } else {
+        alert("결제 검증에 실패했습니다. 관리자에게 문의하세요.");
       }
-
     } catch (error) {
       alert("결제 오류 발생");
     }

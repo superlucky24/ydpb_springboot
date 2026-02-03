@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>접근 권한 없음 | 영등포본동 주민센터</title>
+
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_member.css}">
+</head>
+<body>
+
+<div class="auth_phone">
+
+    <h1>접근 제한</h1>
+
+    <section style="margin-top:40px; text-align:center;">
+        <h2>
+            <b>접근 권한이 없습니다</b><br>
+            관리자만 이용 가능한 페이지입니다
+        </h2>
+
+        <p class="auth_text" style="margin-top:20px;">
+            권한이 없는 상태에서 관리자 페이지에 접근하였습니다.<br>
+            아래 버튼을 이용해 이동해 주세요.
+        </p>
+
+        <div style="margin-top:40px; display:flex; flex-direction:column; align-items:center; gap:15px;">
+            <button type="button"
+                    class="btn_auth"
+                    onclick="history.back()"
+                    style="width:700px;">
+                <span>이전 페이지로</span>
+            </button>
+
+            <button type="button"
+                    class="btn_auth"
+                    onclick="location.href='/'"
+                    style="width:700px;">
+                <span>홈으로 이동</span>
+            </button>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

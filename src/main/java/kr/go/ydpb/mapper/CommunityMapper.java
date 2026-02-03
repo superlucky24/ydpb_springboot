@@ -5,6 +5,7 @@ import kr.go.ydpb.domain.Criteria;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Mapper
@@ -22,5 +23,5 @@ public interface CommunityMapper {
 
     public CommunityVO getNext(@Param("cmntId") Long cmntId,
                                @Param("cri") Criteria cri);
-
+    int getCountPeriod(LocalDate startDate, LocalDate endDate);
 }

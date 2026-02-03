@@ -6,6 +6,7 @@ import kr.go.ydpb.domain.Criteria;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface DongNewsService {
@@ -32,4 +33,5 @@ public interface DongNewsService {
     DongNewsFileVO getFile(Long fileId);
     DongNewsVO getPrev(@Param("dnewsId") Long dnewsId, @Param("cri") Criteria cri);
     DongNewsVO getNext(@Param("dnewsId") Long dnewsId, @Param("cri") Criteria cri);
+    int getCountPeriod(LocalDate startDate, LocalDate endDate);
 }

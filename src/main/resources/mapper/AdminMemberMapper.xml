@@ -74,4 +74,13 @@
         DELETE FROM tbl_member WHERE memId = #{memId}
     </delete>
 
+    <!-- 일정 기간 개수 조회 -->
+    <select id="getCountPeriod" resultType="int">
+        <![CDATA[
+        select count(*)
+        from tbl_member
+        where memRegDate >= #{startDate} and memRegDate < #{endDate}
+        ]]>
+    </select>
+
 </mapper>

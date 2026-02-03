@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -256,6 +257,12 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public CommunityVO getNext(Long cmntId, Criteria cri) {
         return mapper.getNext(cmntId, cri);
+    }
+
+    // 일정 기간 개수 조회
+    @Override
+    public int getCountPeriod(LocalDate startDate, LocalDate endDate) {
+        return mapper.getCountPeriod(startDate, endDate);
     }
 }
 

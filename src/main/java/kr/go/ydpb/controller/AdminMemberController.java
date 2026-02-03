@@ -5,7 +5,6 @@ import kr.go.ydpb.domain.MemberVO;
 import kr.go.ydpb.domain.PageDTO;
 import kr.go.ydpb.service.AdminMemberService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
+
 /* 관리자 페이지 회원목록 컨트롤러 */
 @Controller
 @AllArgsConstructor
@@ -95,5 +97,12 @@ public class AdminMemberController {
         rttr.addAttribute("searchKeyword", cri.getSearchKeyword());
 
         return "redirect:/admin/member/list";
+    }
+
+    // 가장 최근에 가입한 회원 목록
+    @GetMapping(value = "recent", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<MemberVO>> recent() {
+        List<MemberVO> list = adminMemberService.getMemberList(new Criteria(1, 5));
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

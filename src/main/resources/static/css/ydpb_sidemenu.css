@@ -232,16 +232,25 @@
 }
 .location_title {
     margin-bottom: 18px;
+}
+.location_title h2 {
+    color: #222;
     font-size: 26px;
+    font-weight: normal;
+    line-height: 26px;
+    letter-spacing: -1px;
+    word-break: keep-all;
 }
 .location_path {
     display: inline-block;
     height: 20px;
     margin-right: 13px;
-    color: #7c7c7c;
+    color: #4c4c4c;
     vertical-align: top;
 }
-
+.location_path .loc_text:last-child {
+    font-weight: 600;
+}
 .loc_text {
     font-size: 16px;
     margin: 0 6px;
@@ -251,8 +260,9 @@
 .loc_home {
     color: transparent;
     font-size: 22px;
-    width: 16px;
-    height: 18px;
+    width: 18px;
+    height: 16px;
+    margin-bottom: 2px;
     position: relative;
     top: 8px;
     background: url(../images/common/location_home.png) no-repeat;

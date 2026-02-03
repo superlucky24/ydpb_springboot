@@ -5,6 +5,7 @@ import kr.go.ydpb.domain.CommunityVO;
 import kr.go.ydpb.domain.Criteria;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface CommunityService {
@@ -41,4 +42,5 @@ public interface CommunityService {
 
     CommunityVO getPrev(Long cmntId, Criteria cri);
     CommunityVO getNext(Long cmntId, Criteria cri);
+    int getCountPeriod(LocalDate startDate, LocalDate endDate);
 }

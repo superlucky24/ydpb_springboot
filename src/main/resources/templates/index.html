@@ -18,10 +18,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <script>
+    <script th:inline="javascript">
         $(document).ready(function() {
             // 최신글 불러오기 | ydpb_main.js
-            mainRecent('[[@{/}]]');
+            const rootPath = /*[[@{/}]]*/null;
+            mainRecent(rootPath);
         });
     </script>
 </head>

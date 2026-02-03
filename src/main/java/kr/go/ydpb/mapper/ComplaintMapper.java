@@ -4,6 +4,7 @@ import kr.go.ydpb.domain.ComplaintVO;
 import kr.go.ydpb.domain.Criteria;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.time.LocalDate;
 import java.util.List;
 @Mapper
 public interface ComplaintMapper {
@@ -19,4 +20,5 @@ public interface ComplaintMapper {
     //페이징용 목록 메서드
     public List<ComplaintVO> getComplaintWithPaging(Criteria cri);
     public int getAllSearchCount(Criteria cri); // 검색 결과 갯수 파악
+    int getCountPeriod(LocalDate startDate, LocalDate endDate);
 }

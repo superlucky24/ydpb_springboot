@@ -3,6 +3,7 @@ package kr.go.ydpb.service;
 import kr.go.ydpb.domain.ComplaintVO;
 import kr.go.ydpb.domain.Criteria;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ComplaintService {
@@ -17,4 +18,5 @@ public interface ComplaintService {
     //페이징용 목록 메서드
     public List<ComplaintVO> getComplaintWithPaging(Criteria cri);
     public int getAllSearchCount(Criteria cri); // 검색 결과 갯수
+    int getCountPeriod(LocalDate startDate, LocalDate endDate);
 }

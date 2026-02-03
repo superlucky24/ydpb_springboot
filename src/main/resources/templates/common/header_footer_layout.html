@@ -1468,7 +1468,7 @@
 
                     <a th:if="${session.memId != null}" th:href="@{/mypage}" th:text="${session.memName} + '님'" class="icon_mypage"></a>
                     <a th:if="${session.memId != null}" th:href="@{/logout}" class="icon_logout">로그아웃</a>
-                    <a th:if="${session.admin == 1}" th:href="@{/admin/member/list}" class="admin_menu" style="background-image:url('/images/sub/blank.png');">관리자메뉴</a>
+                    <a th:if="${session.admin == 1}" th:href="@{/admin/home}" class="admin_menu" style="background-image:url('/images/sub/blank.png');">관리자메뉴</a>
 
 
                 </div>
@@ -1858,22 +1858,5 @@
 
 </div>
 <!-- //wrap -->
-    <script>
-        $(document).ready(function (){
-            // 로그인 상태 아닐 시 글쓰기 버튼 클릭 이벤트
-            $('#btn_write_no_auth').on('click', function(e) {
-                e.preventDefault();
-                alert('로그인 후에 글쓰기 가능합니다.');
-                location.href = $(this).attr('href');
-            });
-
-            // 오류 메세지 출력
-            let errorMsg = `[[${errorMsg}]]`;
-            if(errorMsg) {
-                alert(errorMsg);
-                history.replaceState({}, null, null);
-            }
-        });
-    </script>
 </body>
 </html>

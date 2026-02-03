@@ -7,6 +7,9 @@ import kr.go.ydpb.service.ComplaintService;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -110,6 +113,13 @@ public class AdminComplaintController {
 
         // 삭제 후 목록 화면 실행
         return "redirect:/admin/complaint/list";
+    }
+
+    // 최신글 불러오기
+    @GetMapping(value = "recent", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ComplaintVO>> recent() {
+        List<ComplaintVO> list = complaintService.getComplaintWithPaging(new Criteria(1, 5));
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
 }

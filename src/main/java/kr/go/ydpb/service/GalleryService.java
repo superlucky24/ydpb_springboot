@@ -5,6 +5,7 @@ import kr.go.ydpb.domain.GalleryFileVO;
 import kr.go.ydpb.domain.GalleryVO;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface GalleryService {
@@ -41,4 +42,5 @@ public interface GalleryService {
 
     GalleryVO getPrev(Long galId, Criteria cri);
     GalleryVO getNext(Long galId, Criteria cri);
+    int getCountPeriod(LocalDate startDate, LocalDate endDate);
 }

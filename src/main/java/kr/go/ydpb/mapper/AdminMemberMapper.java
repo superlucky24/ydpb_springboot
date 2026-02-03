@@ -5,6 +5,7 @@ import kr.go.ydpb.domain.MemberVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Mapper
@@ -20,4 +21,5 @@ public interface AdminMemberMapper {
     int deleteMember(String memId);
     // 5. 전체 데이터 개수 가져오기 (페이징 버튼 계산용)
     int getTotalCount(Criteria cri);
+    int getCountPeriod(LocalDate startDate, LocalDate endDate);
 }

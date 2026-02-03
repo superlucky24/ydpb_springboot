@@ -26,6 +26,7 @@ public class SecurityConfig  {
     private final CustomOAuth2UserService customOAuth2UserService;
 //    private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final CustomLoginSuccessHandler customLoginSuccessHandler; // 주입
 
     @Bean // 스프링 컨테이너가 관리하는 빈으로 등록
     // SecurityFilterChain => Spring Security의 보안 처리를 담당하는 가장 핵심적인 인터페이스
@@ -42,31 +43,27 @@ public class SecurityConfig  {
         http // 보안 관련 설정을 메서드 체이닝으로 추가
                 // authorizeHttpRequests URL별로 접근 권한을 설정
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN") //관리자 접근
-                        .anyRequest().permitAll() // 모든 요청을 다 열어둠 - 귀환  => 로그인 여부와 관계없이 모든 페이지와 API에 누구나 접근할 수 있도록 완전히 개방된 상태
-//                        .requestMatchers( //비인증 접근 처리
-//                                "/",                 // 메인
-//                                "/login",             // 커스텀 로그인 페이지
-//                                "/oauth2/**",         // OAuth2 인증 엔드포인트
-//                                "/member/**",
-//                                "/complaint/**",
-//                                "/community/**",
-//                                "/css/**", "/js/**", "/images/**"
-//                                ,"/admin/**" // 관리자 임시
-//                        ).permitAll()
+//                        .anyRequest().permitAll() // 모든 요청을 다 열어둠 - 귀환  => 로그인 여부와 관계없이 모든 페이지와 API에 누구나 접근할 수 있도록 완전히 개방된 상태
+                        .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN") //관리자 접근
+                        .requestMatchers( //비인증 접근 처리
+                                "/",                 // 메인
+                                "/login",             // 커스텀 로그인 페이지
+                                "/oauth2/**",         // OAuth2 인증 엔드포인트
+//                                "/mypage/**",
+                                "/complaint/**",
+                                "/sub/**",
+                                "/dongnews/**",
+                                "/gunews/**",
+                                "/gallery/**",
+
+                                "/member/**",
+//                                "/document/**",
+                                "/upload/**",
+                                "/community/**",
+                                "/css/**", "/js/**", "/images/**"
+                        ).permitAll()
+                        .anyRequest().authenticated()
                 )
-//                .exceptionHandling(exc -> exc
-//                        // 권한 없는 사람이 올 때 (일반유저가 /admin 올 때)
-//                        .accessDeniedHandler((request, response, accessDeniedException) -> {
-//                            response.sendRedirect("/?error=denied");
-//                        })
-//                        // 인증 안 된 사람이 올 때 (Security가 로그인 정보를 모를 때)
-//                        .authenticationEntryPoint((request, response, authException) -> {
-//                            // 여기서 로그인 페이지로 보내지 말고, 메인으로 보내거나
-//                            // 기존 Interceptor가 처리하도록 그냥 둡니다.
-//                            response.sendRedirect("/");
-//                        })
-//                )
                 // oauth2Login OAuth2 로그인 기능을 활성화
                 .oauth2Login(oauth -> oauth
                         .loginPage("/login") // 사용자가 인증되지 않았을 때 이동할 커스텀 로그인 페이지 경로
@@ -118,20 +115,16 @@ public class SecurityConfig  {
                         .deleteCookies("JSESSIONID") // 브라우저에 남은 세션 쿠키를 삭제
                 )
                 .formLogin(form -> form
-                          .disable() // 기본 제공되는 폼 로그인 기능을 끔
-
-//                        .loginPage("/login")
-//                        .loginProcessingUrl("/login")
-//
-//                        .usernameParameter("memId") // HTML의 <input name="memId">와 일치해야 함
-//                        .passwordParameter("memPassword") // HTML의 <input name="memPassword">와 일치해야 함
-//
-//                        .defaultSuccessUrl("/", true)
-//                        .failureHandler((request, response, exception) -> {
-//                            System.out.println("로그인 실패 이유: " + exception.getMessage());
-//                            response.sendRedirect("/login?error");
-//                        })
-//                        .permitAll()
+                        .loginPage("/login")                // 커스텀 로그인 페이지 URL
+                        .loginProcessingUrl("/login/process")   // HTML Form의 action과 일치해야 함
+                        .usernameParameter("memId")         // HTML input의 name (기본값: username)
+                        .passwordParameter("memPassword")   // HTML input의 name (기본값: password)
+                        .successHandler(customLoginSuccessHandler)
+                        .permitAll()
+                )
+                .sessionManagement(session -> session
+                        .sessionFixation().changeSessionId() // 세션 고정 보호 설정
+                        .maximumSessions(1) // 중복 로그인 방지
                 )
                 .csrf(csrf -> csrf.disable()) // CSRF 보호 기능을 끔
                 .httpBasic(basic -> basic.disable()); // HTTP 기본 인증(ID/PW를 헤더에 담는 방식)을 사용하지 않음
@@ -141,22 +134,5 @@ public class SecurityConfig  {
         return http.build();
     }
 
-
-//    @Bean
-//    public AuthenticationManager authenticationManager(HttpSecurity http,
-//                                                       DaoAuthenticationProvider authProvider) throws Exception {
-//        return http.getSharedObject(AuthenticationManagerBuilder.class)
-//                .authenticationProvider(authProvider)
-//                .build();
-//    }
-
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider(UserDetailsServiceImpl userDetailsService,
-//                                                            BCryptPasswordEncoder passwordEncoder) {
-//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//        authProvider.setUserDetailsService(userDetailsService);  // setter로 주입
-//        authProvider.setPasswordEncoder(passwordEncoder);     // setter로 주입
-//        return authProvider;
-//    }
 
 }

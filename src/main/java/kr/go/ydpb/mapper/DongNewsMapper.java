@@ -5,6 +5,7 @@ import kr.go.ydpb.domain.Criteria;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Mapper
@@ -19,4 +20,5 @@ public interface DongNewsMapper {
     int update(DongNewsVO board);
     DongNewsVO getPrev(@Param("dnewsId") Long dnewsId, @Param("cri") Criteria cri);
     DongNewsVO getNext(@Param("dnewsId") Long dnewsId, @Param("cri") Criteria cri);
+    int getCountPeriod(LocalDate startDate, LocalDate endDate);
 }

@@ -2,6 +2,8 @@ package kr.go.ydpb.service;
 
 import kr.go.ydpb.domain.Criteria;
 import kr.go.ydpb.domain.MemberVO;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public interface AdminMemberService {
@@ -20,4 +22,6 @@ public interface AdminMemberService {
 
     // 5. 전체 데이터 개수
     int getTotalCount(Criteria cri);
+
+    int getCountPeriod(LocalDate startDate, LocalDate endDate);
 }

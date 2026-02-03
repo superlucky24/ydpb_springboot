@@ -1,9 +1,6 @@
 package kr.go.ydpb.controller;
 
-import kr.go.ydpb.domain.Criteria;
-import kr.go.ydpb.domain.GalleryFileVO;
-import kr.go.ydpb.domain.GalleryVO;
-import kr.go.ydpb.domain.PageDTO;
+import kr.go.ydpb.domain.*;
 import kr.go.ydpb.service.GalleryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -237,5 +235,12 @@ public class AdminGalleryController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .contentType(mediaType)
                 .body(resource);
+    }
+
+    // 최신글 불러오기
+    @GetMapping(value = "recent", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<GalleryVO>> recent() {
+        List<GalleryVO> list = service.getList(new Criteria(1, 5));
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

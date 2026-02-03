@@ -6,6 +6,8 @@ import kr.go.ydpb.mapper.AdminMemberMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -44,5 +46,11 @@ public class AdminMemberServiceImpl implements AdminMemberService {
     @Override
     public int getTotalCount(Criteria cri) {
         return adminMemberMapper.getTotalCount(cri);
+    }
+
+    // 일정 기간 개수 조회
+    @Override
+    public int getCountPeriod(LocalDate startDate, LocalDate endDate) {
+        return adminMemberMapper.getCountPeriod(startDate, endDate);
     }
 }

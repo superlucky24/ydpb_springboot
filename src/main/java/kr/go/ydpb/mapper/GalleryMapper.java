@@ -5,6 +5,7 @@ import kr.go.ydpb.domain.GalleryVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 // 포토갤러리 sql Mapper - 귀환
 @Mapper
@@ -25,4 +26,5 @@ public interface GalleryMapper {
     //다음글
     GalleryVO getNext(@Param("galId") Long galId,
                       @Param("cri") Criteria cri);
+    int getCountPeriod(LocalDate startDate, LocalDate endDate);
 }

@@ -46,17 +46,18 @@ public class DocumentController {
         String memId = (String) session.getAttribute("memId");
 
         if (memId == null) {
-            // 서버체크 : 비로그인시 로그인창으로
-            return "redirect:/login";
+            // 주소 저장
+            session.setAttribute("prevPage", "/document/request");
+
+//            return "redirect:/login";
         }
 
         // 공용화용 변수 프론트와 동일하게 수정
         String currentDoc = "가족관계증명서";
 
-        // 이미 결제한 내역이 있는지 확인 (중복 결제 방지)
-        int alreadyPaid = paymentMapper.checkPaymentExists(memId, currentDoc);
-
-        MemberVO member = memberService.getMemberById(memId);
+        // 이미 결제한 내역이 있는지 확인 (중복 결제 방지) + 에러 방지용 기본값 세팅
+        int alreadyPaid = (memId != null)? paymentMapper.checkPaymentExists(memId, currentDoc) : 0;
+        MemberVO member = (memId != null)? memberService.getMemberById(memId): null;
         model.addAttribute("member", member);
         // 결제 여부 전달
         model.addAttribute("alreadyPaid", alreadyPaid > 0);

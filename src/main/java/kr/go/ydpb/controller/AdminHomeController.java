@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("admin")
 public class AdminHomeController {
     @Setter(onMethod_ = @Autowired)
     private AdminMemberService adminMemberService;
@@ -42,7 +42,7 @@ public class AdminHomeController {
 
     @GetMapping(value = {"", "/", "/home"})
     public String adminHome() {
-        return "/admin/admin_index";
+        return "admin/admin_index";
     }
 
     // 일정 기간 개수 조회

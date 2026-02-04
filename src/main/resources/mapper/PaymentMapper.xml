@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.go.ydpb.mapper.PaymentMapper">
+
+    <insert id="insertPayment">
+        INSERT INTO tbl_payment (
+            payNo, memId, txId, paymentId, docType, amount, payDate
+        ) VALUES (
+                     seq_payment.NEXTVAL,
+                     #{memId},
+                     #{txId},
+                     #{paymentId},
+                     #{docType},
+                     #{amount},
+                     #{payDate}  )
+    </insert>
+
+    <select id="checkPaymentExists" resultType="int">
+        SELECT COUNT(*)
+        FROM tbl_payment
+        WHERE memId = #{memId}
+        AND docType = #{docType}
+    </select>
+
+    <select id="getLatestPayment" resultType="kr.go.ydpb.domain.PaymentVO">
+        SELECT * FROM (
+                          SELECT * FROM tbl_payment
+                          WHERE memId = #{memId} AND docType = #{docType}
+                          ORDER BY payDate DESC
+                      ) WHERE ROWNUM = 1
+    </select>
+
+</mapper>

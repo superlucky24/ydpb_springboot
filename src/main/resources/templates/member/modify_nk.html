@@ -17,13 +17,13 @@
 </head>
 <body>
 <div id="wrap" class="member_wrap">
-    <header class="header" th:replace="~{/common/header_footer_layout :: header}"></header>
+    <header class="header" th:replace="~{common/header_footer_layout :: header}"></header>
 
-    <div class="search" th:replace="~{/common/header_footer_layout :: search}"></div>
+    <div class="search" th:replace="~{common/header_footer_layout :: search}"></div>
 
     <div class="container">
         <div class="contents_wrap safe_area">
-            <aside class="side_menu" th:replace="~{/common/sidemenu_layout :: sidemenu}"></aside>
+            <aside class="side_menu" th:replace="~{common/sidemenu_layout :: sidemenu}"></aside>
 
             <main>
                 <div class="location">
@@ -180,7 +180,7 @@
         </div>
     </div>
 
-    <footer class="footer" th:replace="~{/common/header_footer_layout :: footer}"></footer>
+    <footer class="footer" th:replace="~{common/header_footer_layout :: footer}"></footer>
 </div>
 
 <script th:inline="javascript">

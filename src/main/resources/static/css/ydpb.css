@@ -1192,17 +1192,34 @@ table tr .no_data {
 }
 
 /* 관리자 */
-.admin_header .gnb .admin_title {
+.admin_header .safe_area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     height: 79px;
+}
+.admin_header .gnb .admin_title {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
     color: #000;
     font-size: 26px;
     font-weight: 600;
-    line-height: 79px;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    z-index: 1;
 }
 .admin_footer {
     margin-bottom: 0 !important;
     padding: 14px 0;
+    line-height: 1;
     text-align: center;
+    white-space: nowrap;
+    z-index: 1;
 }
 
 /* 로딩 애니메이션 */

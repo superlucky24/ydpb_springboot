@@ -1,13 +1,11 @@
 package kr.go.ydpb.controller;
 
 import jakarta.servlet.http.HttpSession;
-import kr.go.ydpb.domain.CommunityFileVO;
-import kr.go.ydpb.domain.CommunityVO;
-import kr.go.ydpb.domain.Criteria;
-import kr.go.ydpb.domain.PageDTO;
+import kr.go.ydpb.domain.*;
 import kr.go.ydpb.service.CommunityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -261,5 +259,12 @@ public class AdminCommunityController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .contentType(mediaType)
                 .body(resource);
+    }
+
+    // 최신글 불러오기
+    @GetMapping(value = "recent", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CommunityVO>> recent() {
+        List<CommunityVO> list = service.getList(new Criteria(1, 5));
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -218,5 +219,12 @@ public class AdminGuNewsController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .contentType(mediaType)
                 .body(resource);
+    }
+
+    // 최신글 불러오기
+    @GetMapping(value = "recent", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<GuNewsVO>> recent() {
+        List<GuNewsVO> list = service.getList(new Criteria(1, 5));
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

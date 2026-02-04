@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -87,5 +88,11 @@ public class ComplaintServiceImpl implements ComplaintService { // 인터페이�
     @Override
     public void updateComplaintUser(ComplaintVO cvo) {
         complaintMapper.updateComplaintUser(cvo);
+    }
+
+    // 일정 기간 개수 조회
+    @Override
+    public int getCountPeriod(LocalDate startDate, LocalDate endDate) {
+        return complaintMapper.getCountPeriod(startDate, endDate);
     }
 }

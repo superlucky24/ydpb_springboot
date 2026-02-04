@@ -259,12 +259,12 @@
 
 .loc_home {
     color: transparent;
-    font-size: 22px;
+    font-size: 18px;
     width: 18px;
-    height: 16px;
+    height: 18px;
     margin-bottom: 2px;
     position: relative;
-    top: 8px;
+    top: 7px;
     background: url(../images/common/location_home.png) no-repeat;
     background-size: contain;
     cursor: pointer;

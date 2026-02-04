@@ -39,13 +39,13 @@
                 <!-- 관리자 -->
 
                     <a th:if="${isAdminPage}"
-                       th:href="@{/admin/member/list}"
+                       th:href="@{/admin/home}"
                        class="admin_menu"
                        style="background-image:url('/images/sub/blank.png');">
                         관리자메뉴
                     </a>
 
-                    <a th:if="${isAdminPage}" th:text="${session.memId} + '님'"></a>
+                    <a th:if="${isAdminPage}" th:text="${session.memId} + '님'" style="background-image:url('/images/common/icon_mypage.png');"></a>
                     <a th:if="${isAdminPage}" th:href="@{/logout}" class="icon_logout">로그아웃</a>
                 </div>
             </div>

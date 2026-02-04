@@ -5,6 +5,7 @@ import kr.go.ydpb.domain.GuNewsVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Mapper
@@ -19,4 +20,5 @@ public interface GuNewsMapper {
     int update(GuNewsVO board);
     GuNewsVO getPrev(@Param("gnewsId") Long gnewsId, @Param("cri") Criteria cri);
     GuNewsVO getNext(@Param("gnewsId") Long gnewsId, @Param("cri") Criteria cri);
+    int getCountPeriod(LocalDate startDate, LocalDate endDate);
 }

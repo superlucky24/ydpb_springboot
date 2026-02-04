@@ -157,5 +157,14 @@
         WHERE comId = #{comId}
     </update>
 
+    <!-- 일정 기간 개수 조회 -->
+    <select id="getCountPeriod" resultType="int">
+        <![CDATA[
+        select count(*)
+        from tbl_complaint
+        where comDate >= #{startDate} and comDate < #{endDate}
+        ]]>
+    </select>
+
 
 </mapper>

@@ -131,4 +131,13 @@
         where rn = 1
     </select>
 
+    <!-- 일정 기간 개수 조회 -->
+    <select id="getCountPeriod" resultType="int">
+        <![CDATA[
+        select count(*)
+        from tbl_gallery
+        where galDate >= #{startDate} and galDate < #{endDate}
+        ]]>
+    </select>
+
 </mapper>

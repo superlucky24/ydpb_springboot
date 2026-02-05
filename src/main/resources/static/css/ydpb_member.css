@@ -232,7 +232,7 @@
 }
 .member_service li {
     position: relative;
-    padding: 0 30px;
+    padding: 0 20px;
 }
 .member_service li:not(:first-child)::before {
     content: "";

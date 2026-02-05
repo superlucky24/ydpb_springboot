@@ -65,11 +65,11 @@
 /* 인풋 위치 */
 .c_top_1 {
     top: 8%;
-    left: 8.9%;
+    left: 8.75%;
 }
 .c_top_2 {
     top: 8%;
-    left: 24.8%;
+    left: 24.75%;
 }
 .c_top_3 {
     top: 8%;
@@ -159,11 +159,11 @@
 }
 .c_mid_1 {
     top: 61.1%;
-    left: 28%;
+    left: 27.9%;
 }
 .c_mid_2 {
     top: 61.1%;
-    left: 41%;
+    left: 40.9%;
 }
 .c_mid_3 {
     top: 61.1%;
@@ -187,7 +187,7 @@
     font-weight: bold;
 }
 .f_reporter_name {
-    top: 66.7%;
+    top: 66%;
     left: 60%;
     width: 12%;
     height: 34px;

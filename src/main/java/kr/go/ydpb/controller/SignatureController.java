@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.Base64;
 
 @Controller
@@ -31,7 +32,6 @@ public class SignatureController {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    // A4 용지 기준 사이즈 (points)
     private static final float PDF_WIDTH = 595.27f;
     private static final float PDF_HEIGHT = 841.89f;
 
@@ -40,35 +40,38 @@ public class SignatureController {
         return "sub/signature";
     }
 
-    // 데이터 제출 및 PDF 생성 응답 / JS의 Ajax에서 /sub/submit으로 호출
     @PostMapping("/submit")
     @ResponseBody
     public ResponseEntity<Resource> submitReport(@RequestBody SignatureDTO dto) {
         String outputFileName = "signed_report_" + System.currentTimeMillis() + ".pdf";
-        // 서버 업로드 경로에 파일 생성
-        String basePath = System.getProperty("user.dir") + uploadDir; // 프로젝트 루트 + 업로드 경로
+        String basePath = System.getProperty("user.dir") + uploadDir;
         File saveFile = new File(basePath, outputFileName);
 
         try {
-            // 리소스 로드 경로 (알려주신 C:\SpringWorks... 경로 기준 클래스패스)
             Resource pdfTemplate = resourceLoader.getResource("classpath:static/images/sub/signature.pdf");
             Resource fontResource = resourceLoader.getResource("classpath:static/font/SpoqaHanSans-Regular.ttf");
+            Resource stampResource = resourceLoader.getResource("classpath:static/images/sub/signature03.png");
 
-            // 파일 로드 및 문서 생성
             try (InputStream pdfIs = pdfTemplate.getInputStream();
                  PDDocument document = PDDocument.load(pdfIs)) {
 
                 PDPage page = document.getPage(0);
-
-                // 폰트 로드 (별도 스트림으로 관리하여 안정성 확보)
                 PDType0Font font;
                 try (InputStream fontIs = fontResource.getInputStream()) {
                     font = PDType0Font.load(document, fontIs);
                 }
 
+                PDImageXObject staffStamp = null;
+                try (InputStream stampIs = stampResource.getInputStream()) {
+                    byte[] stampBytes = stampIs.readAllBytes();
+                    staffStamp = PDImageXObject.createFromByteArray(document, stampBytes, "staff_stamp");
+                } catch (Exception e) {
+                    System.err.println("인감도장 로드 실패");
+                }
+
                 try (PDPageContentStream contentStream = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND, true, true)) {
 
-                    // 1. 상단 체크박스 (Spoqa 폰트 호환성을 위해 'V' 사용)
+                    // 1. 상단 체크박스
                     if (dto.getTopType() != null) {
                         float checkY = PDF_HEIGHT * (1 - 0.094f);
                         if (dto.getTopType().contains("c_top_1")) drawText(contentStream, font, 12, PDF_WIDTH * 0.093f, checkY, "V");
@@ -76,7 +79,7 @@ public class SignatureController {
                         if (dto.getTopType().contains("c_top_3")) drawText(contentStream, font, 12, PDF_WIDTH * 0.347f, checkY, "V");
                     }
 
-                    // 2. 신고인 정보 기입 (PDF 분석 기반 Y축 정밀 조정)
+                    // 2. 신고인 정보 기입
                     drawText(contentStream, font, 10, PDF_WIDTH * 0.238f, PDF_HEIGHT * (1 - 0.221f), dto.getReporterName());
                     drawText(contentStream, font, 10, PDF_WIDTH * 0.685f, PDF_HEIGHT * (1 - 0.221f), dto.getReporterJumin());
                     drawText(contentStream, font, 10, PDF_WIDTH * 0.286f, PDF_HEIGHT * (1 - 0.258f), dto.getReporterRel());
@@ -89,7 +92,7 @@ public class SignatureController {
                     drawText(contentStream, font, 10, PDF_WIDTH * 0.327f, PDF_HEIGHT * (1 - 0.368f), dto.getPrevMaster());
                     drawText(contentStream, font, 10, PDF_WIDTH * 0.629f, PDF_HEIGHT * (1 - 0.368f), dto.getCurrMaster());
 
-                    // 4. 대상자 리스트 처리 (표 칸 높이 18.2f로 정밀 조정)
+                    // 4. 대상자 리스트 처리
                     if (dto.getTargets() != null) {
                         float startY = PDF_HEIGHT * (1 - 0.446f);
                         for (int i = 0; i < dto.getTargets().size(); i++) {
@@ -103,7 +106,7 @@ public class SignatureController {
                         }
                     }
 
-                    // 5. 중단 체크박스 (Spoqa 폰트 호환성을 위해 'V' 사용)
+                    // 5. 중단 체크박스
                     if (dto.getMidType() != null) {
                         float checkY = PDF_HEIGHT * (1 - 0.621f);
                         if (dto.getMidType().contains("c_mid_1")) drawText(contentStream, font, 10, PDF_WIDTH * 0.283f, checkY, "V");
@@ -117,8 +120,8 @@ public class SignatureController {
                     drawText(contentStream, font, 9, PDF_WIDTH * 0.837f, PDF_HEIGHT * (1 - 0.640f), dto.getSubmitDay());
                     drawText(contentStream, font, 12, PDF_WIDTH * 0.633f, PDF_HEIGHT * (1 - 0.675f), dto.getReporterName());
 
-                    // 7. 하단 체크박스 (Spoqa 폰트 호환성을 위해 'V' 사용)
-                    if (dto.getMidType() != null) {
+                    // 7. 하단 체크박스
+                    if (dto.getBtmType() != null) {
                         float checkY = PDF_HEIGHT * (1 - 0.797f);
                         if (dto.getBtmType().contains("c_btm_1")) drawText(contentStream, font, 10, PDF_WIDTH * 0.669f, checkY, "V");
                         if (dto.getBtmType().contains("c_btm_2")) drawText(contentStream, font, 10, PDF_WIDTH * 0.786f, checkY, "V");
@@ -131,23 +134,44 @@ public class SignatureController {
                     drawText(contentStream, font, 9, PDF_WIDTH * 0.837f, PDF_HEIGHT * (1 - 0.8276f), dto.getSubmitDay());
                     drawText(contentStream, font, 10, PDF_WIDTH * 0.633f, PDF_HEIGHT * (1 - 0.853f), dto.getDelegateName());
 
-                    // 9. 서명 이미지 합성 (중앙 배치를 위한 좌표 조정 및 CSS 박스 비율 반영)
-                    // [수정] 배경 PDF 칸 이탈 방지를 위해 이미지 크기를 과감히 축소하고 Y 오프셋을 더 내림
-                    // 전/현 세대주: (기존 64x36 -> 48x28 축소 / Y오프셋 -22로 하향 조정)
-                    drawImage(document, contentStream, dto.getSigPrev(), PDF_WIDTH * 0.512f - 24, PDF_HEIGHT * (1 - 0.365f) - 22, 48, 28);
-                    drawImage(document, contentStream, dto.getSigCurr(), PDF_WIDTH * 0.827f - 24, PDF_HEIGHT * (1 - 0.365f) - 22, 48, 28);
+                    // 9. 서명 이미지 합성
+                    drawImage(document, contentStream, dto.getSigPrev(), PDF_WIDTH * 0.512f - 30, PDF_HEIGHT * (1 - 0.365f) - 15, 60, 30);
+                    drawImage(document, contentStream, dto.getSigCurr(), PDF_WIDTH * 0.827f - 30, PDF_HEIGHT * (1 - 0.365f) - 15, 60, 30);
+                    drawImage(document, contentStream, dto.getSigReporter(), PDF_WIDTH * 0.827f - 40, PDF_HEIGHT * (1 - 0.670f) - 15, 80, 30);
+                    drawImage(document, contentStream, dto.getSigDelegate(), PDF_WIDTH * 0.827f - 40, PDF_HEIGHT * (1 - 0.852f) - 13, 80, 26);
 
-                    // 신고인: (기존 80x30 -> 60x24 축소 / Y오프셋 -24로 하향 조정)
-                    drawImage(document, contentStream, dto.getSigReporter(), PDF_WIDTH * 0.827f - 30, PDF_HEIGHT * (1 - 0.670f) - 24, 60, 24);
+                    // 10. 행정 처리 영역 (이미지의 상단 회색 칸 위치로 대폭 상향 조정)
+                    LocalDate now = LocalDate.now();
+                    String receiptNo = now.getYear() + "-0001";
 
-                    // 위임인: (기존 72x24 -> 56x20 축소 / Y오프셋 -20으로 하향 조정)
-                    drawImage(document, contentStream, dto.getSigDelegate(), PDF_WIDTH * 0.827f - 28, PDF_HEIGHT * (1 - 0.852f) - 20, 56, 20);
+                    // 날짜 간격: 이미지의 "년 월 일" 텍스트 위치에 맞게 공백 대폭 추가
+                    String yearStr = String.valueOf(now.getYear());
+                    String monthStr = String.format("%d", now.getMonthValue());
+                    String dayStr = String.format("%d", now.getDayOfMonth());
+                    String todayFormatted = yearStr + "        " + monthStr + "        " + dayStr;
+
+                    // adminY: PDF 상단 회색 칸(접수번호 칸)의 대략적인 위치 (상단에서 약 18% 지점)
+                    float adminY = PDF_HEIGHT * (1 - 0.185f);
+
+                    // A. 접수번호 / 신고일자
+                    drawText(contentStream, font, 9, PDF_WIDTH * 0.080f, adminY, receiptNo);
+                    drawText(contentStream, font, 9, PDF_WIDTH * 0.270f, adminY, todayFormatted);
+
+                    // B. 주민등록표 처리 (박뽀삐)
+                    drawText(contentStream, font, 9, PDF_WIDTH * 0.485f, adminY, "박뽀삐");
+                    if (staffStamp != null) contentStream.drawImage(staffStamp, PDF_WIDTH * 0.532f, adminY - 3, 15, 15);
+
+                    // C. 관련업무 담당경유 (이뽀삐)
+                    drawText(contentStream, font, 9, PDF_WIDTH * 0.641f, adminY, "이뽀삐");
+                    if (staffStamp != null) contentStream.drawImage(staffStamp, PDF_WIDTH * 0.688f, adminY - 3, 15, 15);
+
+                    // D. 관계기관 통보 (최뽀삐)
+                    drawText(contentStream, font, 9, PDF_WIDTH * 0.799f, adminY, "최뽀삐");
+                    if (staffStamp != null) contentStream.drawImage(staffStamp, PDF_WIDTH * 0.846f, adminY - 3, 15, 15);
                 }
-                // 파일 저장
                 document.save(saveFile);
             }
 
-            // 결과 리턴
             Resource fileResource = new FileSystemResource(saveFile);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_PDF)
@@ -155,14 +179,11 @@ public class SignatureController {
                     .body(fileResource);
 
         } catch (Exception e) {
-            // 에러 발생 시 로그 상세 출력
-            System.err.println("PDF 생성 오류 발생: " + e.getMessage());
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    // 편의 메서드
     private void drawText(PDPageContentStream stream, PDType0Font font, int size, float x, float y, String text) throws Exception {
         if (text == null || text.trim().isEmpty()) return;
         stream.beginText();

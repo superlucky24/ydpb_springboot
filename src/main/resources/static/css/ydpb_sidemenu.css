@@ -260,8 +260,8 @@
 .loc_home {
     color: transparent;
     font-size: 18px;
-    width: 18px;
-    height: 18px;
+    width: 18px !important;
+    height: 18px !important;
     margin-bottom: 2px;
     position: relative;
     top: 7px;

@@ -151,7 +151,7 @@
                     return; // 취소 시 종료
                 }
                 // action 속성값 삭제 요청으로 변경, method 방식 변경
-                operForm.attr("action",'/admin/complaint/delete').attr("method","get");
+                operForm.attr("action",'/admin/complaint/delete').attr("method","post");
                 operForm.submit();
             });
         });

@@ -260,14 +260,15 @@
 .loc_home {
     color: transparent;
     font-size: 18px;
-    width: 18px !important;
-    height: 18px !important;
+    width: 18px;
+    height: 18px;
     margin-bottom: 2px;
     position: relative;
     top: 7px;
     background: url(../images/common/location_home.png) no-repeat;
     background-size: contain;
     cursor: pointer;
+
 }
 
 .loc_arrow {
@@ -447,4 +448,8 @@
 .side_list_menu.open .sub_list.show {
     max-height: 2000px !important;
     overflow: visible;
+}
+/* 20260206 귀환 추가 : 텍스트 제거 시 이미지 안보이는 이슈*/
+.loc_home{
+    display: inline-block;
 }

@@ -86,6 +86,7 @@
                                 <col style="width: 120px;">
                                 <col style="width: 120px;">
                                 <col style="width: 100px;">
+                                <col style="width: 100px;">
                             </colgroup>
                             <thead>
                                 <tr>
@@ -94,6 +95,7 @@
                                     <th scope="col">신청일</th>
                                     <th scope="col">공개여부</th>
                                     <th scope="col">처리상황</th>
+                                    <th scope="col">작성자</th>
                                 </tr>
                             </thead>
                             <tbody class="tb_text" >
@@ -109,11 +111,12 @@
                                     <td th:text="${#dates.format(complaint.comDate,'yyyy/MM/dd')}"></td>
                                     <td th:text="${complaint.comPublic} == 1?'Y':'N'">[[${complaint.comPublic}]]</td>
                                     <td>[[${complaint.comStatus}]]</td>
+                                    <td>[[${complaint.memId}]]</td>
                                 </tr>
 
                                 <tr th:if="${complaintList == null or #lists.isEmpty(complaintList)}">
 
-                                    <td colspan="5" class="no_data">
+                                    <td colspan="6" class="no_data">
                                         민원 검색 결과가 없습니다
                                     </td>
                                 </tr>

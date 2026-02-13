@@ -63,6 +63,10 @@
                                             <td colspan="2"><span class="td_title" th:text="${complaint.getComTitle()}">지하철역 미화개선</span></td>
                                         </tr>
                                         <tr>
+                                            <th scope="row">작성자</th>
+                                            <td th:text="${complaint.getMemId()}"></td>
+                                        </tr>
+                                        <tr>
                                             <td colspan="2" class="td_text" th:text="${complaint.getComContent()}">
                                                 구로디지탈단지역 계단이 미끄럽고 보기에 너무 안 좋습니다...
                                             </td>

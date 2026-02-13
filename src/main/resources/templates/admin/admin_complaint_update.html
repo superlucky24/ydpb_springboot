@@ -111,7 +111,7 @@
                             </table>
                             <div class="btns">
                                 <button data-oper="list"  type="submit"  class="btn btn_default">목록</button>
-                                <button data-oper="update" type="submit" class="btn btn_write" >저장</button>
+                                <input data-oper="update" type="submit" class="btn btn_write" value="저장" >
                                 <button type="reset" class="btn btn_cancel" >삭제</button>
                             </div>
                         </form>
@@ -156,10 +156,11 @@
                     formObj.append(pageNumTag);
                     formObj.append(amountTag);
 
-                }else if(operation ==='update'){ // 수정인 경우
-                    // action값 수정 요청으로 변경
-                    formObj.attr("action","/admin/complaint/update");
                 }
+<!--                else if(operation ==='update'){ // 수정인 경우-->
+<!--                    // action값 수정 요청으로 변경-->
+<!--                    formObj.attr("action","/admin/complaint/update");-->
+<!--                }-->
                 // 정상처리되는지 폼 로그 출력
                 console.log(formObj.serialize());
                 // 폼 submit() 실행

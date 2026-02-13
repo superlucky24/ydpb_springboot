@@ -13,6 +13,33 @@
     <script th:src="@{/js/ydpb.js}"></script>
 </head>
 <body>
+<!--<style id="flicker-style">-->
+<!--    body { visibility: hidden !important; }-->
+<!--</style>-->
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    (function() {
+        const errorMsg = [[${errorMsg}]];
+        console.log("전달된 에러 메시지:", errorMsg);
+
+        // 1. 메시지가 있다면 즉시 alert 실행 (이 동안 브라우저는 렌더링을 멈춤)
+        if (errorMsg && errorMsg.trim() !== "" && errorMsg !== "null") {
+            alert(errorMsg);
+            // 확인 버튼 누른 후 주소창 파라미터 제거 (선택 사항)
+            history.replaceState({}, null, location.pathname);
+        }
+
+        // 2. alert 확인 후 혹은 메시지가 없을 때 화면을 즉시 보이게 처리
+        document.documentElement.classList.add('ready');
+    })();
+    /*]]>*/
+</script>
+
+<!--<style>-->
+<!--    /* ready 클래스가 붙으면 화면을 보이게 함 */-->
+<!--    .ready body { visibility: visible !important; }-->
+<!--</style>-->
     <div id="wrap" class="member_wrap">
         <!-- member header -->
         <header class="member_header">

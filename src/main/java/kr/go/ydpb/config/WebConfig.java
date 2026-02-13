@@ -1,9 +1,7 @@
 package kr.go.ydpb.config;
 
-import kr.go.ydpb.interceptor.AdminCheckInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -13,6 +11,7 @@ import java.nio.file.Paths;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
+    /* 시큐리티로 대체
     private final AdminCheckInterceptor adminCheckInterceptor;
 
     @Override
@@ -20,6 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(adminCheckInterceptor)
                 .addPathPatterns("/admin/**");
     }
+    */
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

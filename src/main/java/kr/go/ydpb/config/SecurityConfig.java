@@ -87,7 +87,7 @@ public class SecurityConfig  {
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             // 권한이 없는 사용자가 접근하면 여기로
-                            response.sendRedirect("/login?error=denied");
+                            response.sendRedirect("/access-denied");
                         })
                 )
                 // oauth2Login OAuth2 로그인 기능을 활성화

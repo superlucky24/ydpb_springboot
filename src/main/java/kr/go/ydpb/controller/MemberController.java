@@ -87,12 +87,8 @@ public class MemberController {
         if ("auth".equals(msg)) {
             model.addAttribute("errorMsg", "로그인이 필요한 서비스입니다.");
         }
-        // 2. 권한 부족 시
-        if ("denied".equals(error)) {
-            model.addAttribute("errorMsg", "접근 권한이 없습니다.");
-        }
 
-        // 3. 로그인 실패 시 메세지
+        // 2. 로그인 실패 시 메세지
         if ("fail".equals(error)) {
             model.addAttribute("errorMsg", "아이디 또는 비밀번호가 일치하지 않습니다.");
         }

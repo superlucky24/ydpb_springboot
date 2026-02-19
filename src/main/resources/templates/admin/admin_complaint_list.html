@@ -101,7 +101,7 @@
                             <tbody class="tb_text" >
 <!--                            반복 구간-->
                                 <tr th:each="complaint, stat : ${complaintList}"
-                                    th:if="${complaintList != null and !#lists.isEmpty(complaintList)}">
+                                    th:if="${ complaintList != null and !#lists.isEmpty(complaintList)  }">
                                     <td>
                                         [[${pageMaker.total
                                         - ((pageMaker.cri.pageNum - 1) * pageMaker.cri.amount)

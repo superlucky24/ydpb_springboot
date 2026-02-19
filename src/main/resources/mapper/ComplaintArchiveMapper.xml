@@ -7,7 +7,7 @@
 <mapper namespace="kr.go.ydpb.mapper.ComplaintArchiveMapper">
 
     <!-- 모든 민원 아카이브 조회 sql-->
-    <select id="getOneComplaintArc" resultType="kr.go.ydpb.domain.ComplaintArchiveVO">
+    <select id="getAllComplaintArc" resultType="kr.go.ydpb.domain.ComplaintArchiveVO">
         <![CDATA[
         select * from tbl_complaint_arc order by comId desc;
         ]]>

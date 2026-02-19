@@ -1,6 +1,7 @@
 package kr.go.ydpb.controller;
 
 import jakarta.servlet.http.HttpSession;
+import kr.go.ydpb.domain.ComplaintArchiveVO;
 import kr.go.ydpb.domain.ComplaintVO;
 import kr.go.ydpb.domain.Criteria;
 import kr.go.ydpb.domain.PageDTO;
@@ -24,19 +25,18 @@ public class ComplaintController {
     @Setter(onMethod_ = @Autowired)
     private ComplaintService complaintService;
 
-    //아카이브
-    @Setter(onMethod_ = @Autowired)
-    private ComplaintArchiveService complaintArchiveService;
 
     // 목록
     @GetMapping("list")
     public String complaintList(Model model,
                                 @ModelAttribute("cri") Criteria cri){
         List<ComplaintVO> complaintList = complaintService.getComplaintWithPaging(cri);
+
         if(complaintList==null){
             complaintList= new ArrayList<>();
         }
         model.addAttribute("complaintList", complaintList);
+
         int total = complaintService.getAllCount(cri);
         if(cri.getSearchType()!=null){
             total = complaintService.getAllSearchCount(cri);
@@ -87,8 +87,6 @@ public class ComplaintController {
                                  RedirectAttributes rttr) {
         int result = complaintService.insertComplaint(cvo);
 
-        //아카이브 추가
-        int arcResult = complaintArchiveService.insertComplaintArchive(cvo);
 
         // 글작성 성공 시 목록 화면으로 이동
         if(result == 1) {
@@ -132,8 +130,6 @@ public class ComplaintController {
     public String complaintUpdate(@ModelAttribute("complaint") ComplaintVO complaint, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
         complaintService.updateComplaintUser(complaint);
 
-        // 아카이브 추가
-        complaintArchiveService.updateComplaintUserArchive(complaint);
 
         rttr.addAttribute("comId", complaint.getComId());
         rttr.addAttribute("pageNum", cri.getPageNum());
@@ -147,9 +143,6 @@ public class ComplaintController {
     @PostMapping("delete")
     public String complaintDelete(int comId, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
         int result = complaintService.deleteComplaint(comId);
-
-        // 아카이브 추가
-        complaintArchiveService.deleteComplaintArchive(comId);
 
         if(result > 0) {
             rttr.addFlashAttribute("errorMsg", "정상적으로 삭제되었습니다.");

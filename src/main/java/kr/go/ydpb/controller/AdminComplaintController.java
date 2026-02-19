@@ -1,5 +1,6 @@
 package kr.go.ydpb.controller;
 
+import kr.go.ydpb.domain.ComplaintArchiveVO;
 import kr.go.ydpb.domain.ComplaintVO;
 import kr.go.ydpb.domain.Criteria;
 import kr.go.ydpb.domain.PageDTO;
@@ -28,21 +29,20 @@ public class AdminComplaintController {
     @Setter(onMethod_ = @Autowired)
     private ComplaintService complaintService;
 
-    //아카이브
-    @Setter(onMethod_ = @Autowired)
-    private ComplaintArchiveService complaintArchiveService;
 
     //목록 요청 처리 컨트롤러
     @GetMapping("list")
     public String complaintList(Model model, Criteria cri){
         // 페이징 기능 적용한 민원 리스트 생성
         List<ComplaintVO> complaintList = complaintService.getComplaintWithPaging(cri);
+
         if(complaintList==null){
             // 리스트값이 없으면 새 리스트 생성
             complaintList= new ArrayList<>();
         }
         // 처리된 민원 리스트 모델에 바인딩
         model.addAttribute("complaintList", complaintList);
+
         // 민원 총 갯수 확보
         int total = complaintService.getAllCount(cri);
         if(cri.getSearchType()!=null){
@@ -91,8 +91,6 @@ public class AdminComplaintController {
         // 넘어온 민원 정보로 수정 sql 실행
         complaintService.updateComplaint(vo);
 
-        // 아카이브 추가
-        complaintArchiveService.updateComplaintArchive(vo);
 
         // 페이징 정보 RedirectAttributes에 바인딩
         rttr.addAttribute("pageNum", cri.getPageNum());
@@ -113,9 +111,6 @@ public class AdminComplaintController {
                                   RedirectAttributes rttr) {
         // 글번호를 이용, 해당 글 삭제 실행
         complaintService.deleteComplaint(comId);
-
-        //아카이브 추가
-        complaintArchiveService.deleteComplaintArchive(comId);
 
         // 페이징 정보 RedirectAttributes에 바인딩
         rttr.addAttribute("pageNum", cri.getPageNum());

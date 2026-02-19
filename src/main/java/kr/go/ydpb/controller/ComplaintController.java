@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import kr.go.ydpb.domain.ComplaintVO;
 import kr.go.ydpb.domain.Criteria;
 import kr.go.ydpb.domain.PageDTO;
+import kr.go.ydpb.service.ComplaintArchiveService;
 import kr.go.ydpb.service.ComplaintService;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -22,6 +23,10 @@ import java.util.List;
 public class ComplaintController {
     @Setter(onMethod_ = @Autowired)
     private ComplaintService complaintService;
+
+    //아카이브
+    @Setter(onMethod_ = @Autowired)
+    private ComplaintArchiveService complaintArchiveService;
 
     // 목록
     @GetMapping("list")
@@ -81,6 +86,10 @@ public class ComplaintController {
                                  @ModelAttribute("cri") Criteria cri,
                                  RedirectAttributes rttr) {
         int result = complaintService.insertComplaint(cvo);
+
+        //아카이브 추가
+        int arcResult = complaintArchiveService.insertComplaintArchive(cvo);
+
         // 글작성 성공 시 목록 화면으로 이동
         if(result == 1) {
             return "redirect:/complaint/list";
@@ -106,6 +115,7 @@ public class ComplaintController {
         String loginId = (String)session.getAttribute("memId");
         boolean isAdmin = session.getAttribute("admin") != null && (Integer)session.getAttribute("admin") == 1;
         ComplaintVO complaint = complaintService.getOneComplaint(comId);
+
         // 타인이 작성한 글 or 관리자 아님 => 목록으로 돌려보내기
         if(!complaint.getMemId().equals(loginId) && !isAdmin) {
             rttr.addFlashAttribute("errorMsg", "권한이 없습니다.");
@@ -121,6 +131,10 @@ public class ComplaintController {
     @PostMapping("update")
     public String complaintUpdate(@ModelAttribute("complaint") ComplaintVO complaint, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
         complaintService.updateComplaintUser(complaint);
+
+        // 아카이브 추가
+        complaintArchiveService.updateComplaintUserArchive(complaint);
+
         rttr.addAttribute("comId", complaint.getComId());
         rttr.addAttribute("pageNum", cri.getPageNum());
         rttr.addAttribute("amount", cri.getAmount());
@@ -133,6 +147,10 @@ public class ComplaintController {
     @PostMapping("delete")
     public String complaintDelete(int comId, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
         int result = complaintService.deleteComplaint(comId);
+
+        // 아카이브 추가
+        complaintArchiveService.deleteComplaintArchive(comId);
+
         if(result > 0) {
             rttr.addFlashAttribute("errorMsg", "정상적으로 삭제되었습니다.");
         }

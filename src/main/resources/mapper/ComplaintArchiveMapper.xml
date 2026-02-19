@@ -6,7 +6,21 @@
 <!-- 민원 아카이브 sql 등록 xml - 귀환 -->
 <mapper namespace="kr.go.ydpb.mapper.ComplaintArchiveMapper">
 
-    <!--    사용자 민원 등록 sql-->
+    <!-- 모든 민원 아카이브 조회 sql-->
+    <select id="getOneComplaintArc" resultType="kr.go.ydpb.domain.ComplaintArchiveVO">
+        <![CDATA[
+        select * from tbl_complaint_arc order by comId desc;
+        ]]>
+    </select>
+
+    <!-- 하나의 민원 아카이브 조회 sql-->
+    <select id="getOneComplaintArc" resultType="kr.go.ydpb.domain.ComplaintArchiveVO">
+        <![CDATA[SELECT * FROM tbl_complaint_arc
+                 WHERE ]]>
+        <![CDATA[comId = #{comId}]]>
+    </select>
+
+    <!--    사용자 민원 아카이브 등록 sql-->
     <insert id="insertComplaintArc">
         insert into tbl_complaint_arc(
         comId, comTitle, comDate, comPublic, comStatus, comContent,
@@ -15,7 +29,7 @@
         #{comId},  #{comTitle}, sysdate,   #{comPublic},         null,        #{comContent},
         #{comAnswer},   #{memId},   0 );
     </insert>
-    <!--    관리자 민원 답변 sql 답변처리까지 걸린 일수는 자바에서 계산-->
+    <!--    관리자 민원 답변 아카이브 sql 답변처리까지 걸린 일수는 자바에서 계산-->
     <update id="updateComplaintArc" >
         UPDATE tbl_complaint_arc
         SET
@@ -27,7 +41,7 @@
         WHERE comId = #{comId}
     </update>
 
-    <!--  사용자 민원 수정 sql-->
+    <!--  사용자 민원 아카이브 수정 sql-->
     <update id="updateComplaintUserArc" >
         UPDATE tbl_complaint_arc
         SET
@@ -37,7 +51,7 @@
         WHERE comId = #{comId}
     </update>
 
-    <!--    민원 삭제 sql-->
+    <!--    민원 아카이브 삭제 sql-->
     <update id="deleteComplaintArc">
         UPDATE  tbl_complaint_arc
         SET deleteYn = 1

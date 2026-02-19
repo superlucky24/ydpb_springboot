@@ -3,6 +3,7 @@ package kr.go.ydpb.controller;
 import kr.go.ydpb.domain.ComplaintVO;
 import kr.go.ydpb.domain.Criteria;
 import kr.go.ydpb.domain.PageDTO;
+import kr.go.ydpb.service.ComplaintArchiveService;
 import kr.go.ydpb.service.ComplaintService;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -26,6 +27,10 @@ public class AdminComplaintController {
     //주입
     @Setter(onMethod_ = @Autowired)
     private ComplaintService complaintService;
+
+    //아카이브
+    @Setter(onMethod_ = @Autowired)
+    private ComplaintArchiveService complaintArchiveService;
 
     //목록 요청 처리 컨트롤러
     @GetMapping("list")
@@ -85,6 +90,10 @@ public class AdminComplaintController {
     public String complaintUpdate(ComplaintVO vo , @ModelAttribute Criteria cri , RedirectAttributes rttr){
         // 넘어온 민원 정보로 수정 sql 실행
         complaintService.updateComplaint(vo);
+
+        // 아카이브 추가
+        complaintArchiveService.updateComplaintArchive(vo);
+
         // 페이징 정보 RedirectAttributes에 바인딩
         rttr.addAttribute("pageNum", cri.getPageNum());
         rttr.addAttribute("amount", cri.getAmount());
@@ -104,6 +113,10 @@ public class AdminComplaintController {
                                   RedirectAttributes rttr) {
         // 글번호를 이용, 해당 글 삭제 실행
         complaintService.deleteComplaint(comId);
+
+        //아카이브 추가
+        complaintArchiveService.deleteComplaintArchive(comId);
+
         // 페이징 정보 RedirectAttributes에 바인딩
         rttr.addAttribute("pageNum", cri.getPageNum());
         rttr.addAttribute("amount", cri.getAmount());

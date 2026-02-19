@@ -13,5 +13,6 @@ public class ComplaintVO {
     private String comStatus;
     private String comContent;
     private String comAnswer;
+    private String answerId; // 아카이브 추가
     private String memId;
 }

@@ -27,7 +27,7 @@
         comAnswer, memId,  deleteYn)
         values(
         #{comId},  #{comTitle}, sysdate,   #{comPublic},         null,        #{comContent},
-        #{comAnswer},   #{memId},   0 );
+        #{comAnswer , jdbcType=VARCHAR},   #{memId},   0 )
     </insert>
     <!--    관리자 민원 답변 아카이브 sql 답변처리까지 걸린 일수는 자바에서 계산-->
     <update id="updateComplaintArc" >
@@ -35,9 +35,9 @@
         SET
         comAnswer = #{comAnswer},
         comStatus = #{comStatus},
-        answerId = #{answerId},
+        answerId = #{answerId, jdbcType=VARCHAR},
         answerDate= sysdate,
-        answerPeriod= CEIL(#{answerPeriod}) ,
+        answerPeriod= CEIL(sysdate -comDate )
         WHERE comId = #{comId}
     </update>
 

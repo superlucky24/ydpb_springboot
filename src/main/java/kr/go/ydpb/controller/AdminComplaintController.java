@@ -29,6 +29,9 @@ public class AdminComplaintController {
     @Setter(onMethod_ = @Autowired)
     private ComplaintService complaintService;
 
+    @Setter(onMethod_ = @Autowired)
+    private ComplaintArchiveService complaintArchiveService;
+
 
     //목록 요청 처리 컨트롤러
     @GetMapping("list")
@@ -91,6 +94,8 @@ public class AdminComplaintController {
         // 넘어온 민원 정보로 수정 sql 실행
         complaintService.updateComplaint(vo);
 
+        //아카이브
+        complaintArchiveService.updateComplaintArchive(vo);
 
         // 페이징 정보 RedirectAttributes에 바인딩
         rttr.addAttribute("pageNum", cri.getPageNum());
@@ -111,6 +116,9 @@ public class AdminComplaintController {
                                   RedirectAttributes rttr) {
         // 글번호를 이용, 해당 글 삭제 실행
         complaintService.deleteComplaint(comId);
+
+        //아카이브
+        complaintArchiveService.deleteComplaintArchive(comId);
 
         // 페이징 정보 RedirectAttributes에 바인딩
         rttr.addAttribute("pageNum", cri.getPageNum());

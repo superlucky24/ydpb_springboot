@@ -9,6 +9,7 @@ import kr.go.ydpb.service.ComplaintArchiveService;
 import kr.go.ydpb.service.ComplaintService;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +22,13 @@ import java.util.List;
 @Controller
 @AllArgsConstructor
 @RequestMapping("/complaint/*")
+@Slf4j
 public class ComplaintController {
     @Setter(onMethod_ = @Autowired)
     private ComplaintService complaintService;
 
+    @Setter(onMethod_ = @Autowired)
+    private ComplaintArchiveService complaintArchiveService;
 
     // 목록
     @GetMapping("list")
@@ -87,6 +91,9 @@ public class ComplaintController {
                                  RedirectAttributes rttr) {
         int result = complaintService.insertComplaint(cvo);
 
+        // 아카이브
+//        log.info("아카이브 글번호 : "+cvo.getComId());
+        int resultArc = complaintArchiveService.insertComplaintArchive(cvo);
 
         // 글작성 성공 시 목록 화면으로 이동
         if(result == 1) {
@@ -130,6 +137,8 @@ public class ComplaintController {
     public String complaintUpdate(@ModelAttribute("complaint") ComplaintVO complaint, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
         complaintService.updateComplaintUser(complaint);
 
+        // 아카이브
+        complaintArchiveService.updateComplaintUserArchive(complaint);
 
         rttr.addAttribute("comId", complaint.getComId());
         rttr.addAttribute("pageNum", cri.getPageNum());
@@ -143,6 +152,9 @@ public class ComplaintController {
     @PostMapping("delete")
     public String complaintDelete(int comId, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
         int result = complaintService.deleteComplaint(comId);
+
+        // 아카이브
+        complaintArchiveService.deleteComplaintArchive(comId);
 
         if(result > 0) {
             rttr.addFlashAttribute("errorMsg", "정상적으로 삭제되었습니다.");

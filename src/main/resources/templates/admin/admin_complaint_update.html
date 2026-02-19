@@ -51,6 +51,7 @@
                             <input type="hidden" name="amount" th:value= "${cri.amount }"  />
 <!--                        수정용 글번호 데이터 추가-->
                             <input type="hidden" name="comId" th:value= "${complaint.comId }"  />
+                            <input type="hidden" name="comId" th:value= "${complaint.comDate }"  />
 <!--                        검색용 데이터-->
                             <input name="searchKeyword"  type="hidden" th:value="${cri.searchKeyword }" >
                             <input name="searchType"  type="hidden" th:value="${cri.searchType }" >
@@ -107,6 +108,17 @@
                                         </div>
                                     </td>
                                 </tr>
+
+                                <tr>
+                                    <th scope="row">
+                                        답변 작성자
+                                    </th>
+                                    <td>
+                                        <input type="text" name="answerId" id="answerId" class="input form_input" maxlength="300"
+                                               th:value="${session.memId}" readonly>
+                                    </td>
+                                </tr>
+
                                 </tbody>
                             </table>
                             <div class="btns">

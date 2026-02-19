@@ -128,6 +128,7 @@
         UPDATE tbl_complaint
         SET
             comAnswer = #{comAnswer},
+            answerId = #{answerId},
             comStatus = #{comStatus}
         WHERE comId = #{comId}
     </update>
@@ -143,8 +144,11 @@
 
 <!--    사용자 민원 등록 sql-->
     <insert id="insertComplaint">
+        <selectKey keyProperty="comId" resultType="int" order="BEFORE">
+            SELECT seq_complaint.NEXTVAL FROM dual
+        </selectKey>
         INSERT INTO tbl_complaint (comId, comTitle, comPublic, comContent, memId)
-        VALUES (seq_complaint.nextval, #{comTitle}, #{comPublic}, #{comContent}, #{memId})
+        VALUES (#{comId}, #{comTitle}, #{comPublic}, #{comContent}, #{memId})
     </insert>
 
 <!--  사용자 민원 수정 sql-->

@@ -39,6 +39,7 @@ public class ComplaintArchiveServiceImpl implements ComplaintArchiveService {
 
     @Override
     public void updateComplaintArchive(ComplaintVO cvo) {
+
         complaintArchiveMapper.updateComplaintArc(cvo);
     }
 

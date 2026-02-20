@@ -78,7 +78,7 @@
             comId, comTitle, comDate, comPublic, comStatus, comContent,comAnswer,memId
         from
             (
-                select /*+INDEX_DESC(tbl_complaint SYS_C007051) */
+                select /*+INDEX_DESC(tbl_complaint SYS_C007127) */
                     rownum rn, comId, comTitle, comDate, comPublic, comStatus, comContent,comAnswer,memId
                 from
                     tbl_complaint

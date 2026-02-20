@@ -73,24 +73,25 @@
 
 <!--    목록 페이징 sql -->
     <select id="getComplaintWithPaging" resultType="kr.go.ydpb.domain.ComplaintVO">
-		<![CDATA[
-        select
-            comId, comTitle, comDate, comPublic, comStatus, comContent,comAnswer,memId
-        from
-            (
-                select /*+INDEX_DESC(tbl_complaint SYS_C007127) */
-                    rownum rn, comId, comTitle, comDate, comPublic, comStatus, comContent,comAnswer,memId
-                from
-                    tbl_complaint
-                where
-                ]]>
-        <if test="searchType != null and searchKeyword != null and searchKeyword != ''">
-
-            <include refid="criteria"/> AND
-        </if>
-                    <![CDATA[  rownum <= #{pageNum} * #{amount}
-            )
-        where rn > (#{pageNum} -1) * #{amount}
+        <![CDATA[
+        SELECT comId, comTitle, comDate, comPublic, comStatus, comContent, comAnswer, memId
+        FROM (
+            SELECT a.*, ROWNUM rn
+            FROM (
+                SELECT comId, comTitle, comDate, comPublic, comStatus, comContent, comAnswer, memId
+                FROM tbl_complaint
+        ]]>
+                <where>
+                    <if test="searchType != null and searchKeyword != null and searchKeyword != ''">
+                        <include refid="criteria"/>
+                    </if>
+                </where>
+                <![CDATA[
+                ORDER BY comDate DESC, comId DESC
+            ) a
+            WHERE ROWNUM <= #{pageNum} * #{amount}
+        )
+        WHERE rn > (#{pageNum} - 1) * #{amount}
         ]]>
     </select>
 

@@ -126,10 +126,10 @@
                             <div class="p_control">
                                 <span class="p-link_b" >
 
-                                    <th:block th:if="${pageMaker.realEnd>=10}">
+                                    <th:block th:if="${pageMaker.realEnd>10}">
                                         <a th:href="1" class="p_link"><<</a>
                                     </th:block>
-                                    <th:block th:if="${pageMaker.realEnd>=10 }">
+                                    <th:block th:if="${pageMaker.realEnd>10 }">
                                         <a  th:href="${pageMaker.startPage - 1 < 1 ? 1 : pageMaker.startPage - 1}" class="p_link"><</a>
                                     </th:block>
                                     <span th:each="i : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
@@ -143,11 +143,11 @@
                                             <a th:href="${i}" class="p_link">[[${i}]]</a>
                                         </th:block>
                                     </span>
-                                    <th:block th:if="${pageMaker.realEnd>=10}">
-                                        <a th:href="${pageMaker.endPage +1 }" class="p_link">></a>
+                                    <th:block th:if="${pageMaker.realEnd>10}">
+                                        <a th:href="${pageMaker.next ? pageMaker.endPage + 1 : pageMaker.realEnd }" class="p_link">></a>
                                     </th:block>
 
-                                    <th:block th:if="${pageMaker.realEnd>=10}">
+                                    <th:block th:if="${pageMaker.realEnd>10}">
                                         <a th:href="${pageMaker.realEnd }" class="p_link">>></a>
                                     </th:block>
                                 </span>

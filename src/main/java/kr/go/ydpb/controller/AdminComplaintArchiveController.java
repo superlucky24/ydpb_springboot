@@ -68,6 +68,7 @@ public class AdminComplaintArchiveController {
             map.put("민원인", arc.getMemName());
             map.put("아이디", arc.getMemId());
             map.put("신청일", sdf.format(arc.getComDate()));
+            map.put("답변자", arc.getAnswerId());
             map.put("답변일", arc.getAnswerDate() != null ? sdf.format(arc.getAnswerDate()) : "-");
             map.put("민원제목", arc.getComTitle());
             map.put("민원내용", arc.getComContent());

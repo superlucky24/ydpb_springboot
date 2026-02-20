@@ -4,7 +4,9 @@ import kr.go.ydpb.domain.ComplaintArchiveVO;
 import kr.go.ydpb.domain.ComplaintVO;
 //import kr.go.ydpb.domain.Criteria;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 //import java.time.LocalDate;
@@ -22,6 +24,8 @@ public interface ComplaintArchiveMapper {
      void updateComplaintUserArc(ComplaintVO cvo); // 사용자 민원 아카이브 수정
      void deleteComplaintArc(int comId); // 민원 삭제(아카이브에서는 삭제여부만 변경)
 
+     // [추가] XML의 #{start}, #{end}와 매칭
+     List<ComplaintArchiveVO> getWeeklyArchive(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
 //    public List<ComplaintVO> getComplaintWithPaging(Criteria cri);
 //    public int getAllSearchCount(Criteria cri);

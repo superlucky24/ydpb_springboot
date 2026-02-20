@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주간 민원 아카이브 | 관리자 메뉴</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_list.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_SHAdd.css}">
+    <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/ydpb.js}"></script>
+</head>
+<body>
+<div id="wrap">
+    <header class="header" th:replace="~{admin/common/admin_header_footer::header}"></header>
+
+    <div class="container">
+        <div class="contents_wrap safe_area">
+            <aside class="side_menu" th:replace="~{admin/common/admin_sidemenu::side}"></aside>
+
+            <main>
+                <div class="location">
+                    <div class="location_title">
+                        <h2>주간 민원 아카이브</h2>
+                    </div>
+                </div>
+
+                <div id="board" class="clearfix">
+                    <div id="contents">
+                        <div class="board_searchform">
+                            <form th:action="@{/admin/archive}" method="get" id="dateSearchForm">
+                            <fieldset>
+                                <legend>주차 선택 조회</legend>
+                                <div class="p-search clearfix">
+                                    <div class="p-form-group">
+                                        <label for="targetDate">기준 날짜 선택 :</label>
+                                        <input type="date" name="targetDate" id="targetDate"
+                                               class="p-input" th:value="${param.targetDate}">
+
+                                        <span class="p-form-group__btn">
+                        <input value="조회" type="submit" class="btn-archive btn-search">
+                    </span>
+
+                                        <a th:href="@{/admin/archive}" class="btn-archive btn-reset">오늘기준</a>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                        </div>
+
+                        <div class="rpa-period-info">
+                            <p><strong>데이터 추출 범위 : </strong> [[${period}]]</p>
+                            <span class="sub-text">* 매주 월요일, 지난주 월~금 데이터를 자동으로 아카이빙합니다.</span>
+                        </div>
+                    </div>
+
+                    <div class="archive-utils-wrap">
+                        <div class="archive-count-box">
+                            <p>총 <em class="em_black">[[${#lists.size(archiveList)}]]</em> 건의 민원이 추출되었습니다.</p>
+                        </div>
+
+                        <div class="archive-btn-box">
+                            <a th:href="@{/admin/archive/json(targetDate=${param.targetDate})}"
+                               target="_blank"
+                               class="btn-json-export">
+                                JSON 데이터 추출
+                            </a>
+                        </div>
+                    </div>
+
+
+                    <table class="p_table" id="rpaDataTable">
+                        <colgroup>
+                            <col style="width: 50px;">
+                            <col style="width: 80px;">
+                            <col style="width: 70px;">
+                            <col style="width: 70px;">
+                            <col style="width: 140px;">
+                            <col style="width: 200px;">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th scope="col">민원인</th>
+                            <th scope="col">아이디</th>
+                            <th scope="col">신청일시</th>
+                            <th scope="col">답변일시</th>
+                            <th scope="col">민원제목</th>
+                            <th scope="col">민원내용</th>
+                        </tr>
+                        </thead>
+                        <tbody class="tb_text">
+                        <tr th:each="arc : ${archiveList}" th:if="${!#lists.isEmpty(archiveList)}">
+                            <td th:text="${arc.memName}">이름</td>
+                            <td th:text="${arc.memId}">아이디</td>
+                            <td th:text="${#dates.format(arc.comDate, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td th:text="${arc.answerDate != null ? #dates.format(arc.answerDate, 'yyyy-MM-dd HH:mm') : '-'}"></td>
+                            <td th:text="${arc.comTitle}" class="text-left">제목</td>
+                            <td class="p_sub content-cell">
+                                <div class="inner-content" th:text="${arc.comContent}">민원 상세 내용</div>
+                            </td>
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(archiveList)}">
+                            <td colspan="6" class="no_data">
+                                해당 주차에 처리된 아카이브 데이터가 없습니다.
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="rpa-extraction-area">
+                        <h3>[RPA 전용 데이터 익스트랙션 영역]</h3>
+                        <textarea id="jsonRawData"
+                                  class="rpa-json-textarea"
+                                  readonly
+                                  th:text="${jsonList}"></textarea>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer class="footer" th:replace="~{admin/common/admin_header_footer::footer}"></footer>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#dateSearchForm').on('submit', function(e) {
+            var dateVal = $('#targetDate').val();
+
+            // 날짜가 선택되지 않았을 경우
+            if (!dateVal) {
+                e.preventDefault();
+                location.href = '/admin/archive';
+            }
+        });
+    });
+</script>
+</body>
+</html>

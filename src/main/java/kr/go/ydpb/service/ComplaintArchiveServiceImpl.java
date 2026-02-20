@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -54,5 +55,11 @@ public class ComplaintArchiveServiceImpl implements ComplaintArchiveService {
         complaintArchiveMapper.deleteComplaintArc(comId);
         // 삭제한 민원 아카이브 글번호 리턴
         return comId;
+    }
+
+    @Override
+    public List<ComplaintArchiveVO> getWeeklyArchive(LocalDateTime start, LocalDateTime end) {
+        // 매퍼의 getWeeklyArchive를 호출하여 결과 리턴
+        return complaintArchiveMapper.getWeeklyArchive(start, end);
     }
 }

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주간 민원 아카이브 | 관리자 메뉴</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_community_center_list.css}">
+    <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/ydpb.js}"></script>
+    <style>
+        /* RPA 추출을 돕기 위한 텍스트 줄바꿈 유지 및 강조 스타일 */
+        .rpa-period-info {
+            background: #fdfdfd;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .rpa-period-info strong { color: #e74c3c; }
+        .content-cell {
+            text-align: left !important;
+            padding: 15px !important;
+            line-height: 1.5;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+<div id="wrap">
+    <header class="header" th:replace="~{admin/common/admin_header_footer::header}"></header>
+
+    <div class="container">
+        <div class="contents_wrap safe_area">
+            <aside class="side_menu" th:replace="~{admin/common/admin_sidemenu::side}"></aside>
+
+            <main>
+                <div class="location">
+                    <div class="location_title">
+                        <h2>주간 민원 아카이브</h2>
+                    </div>
+                </div>
+
+                <div id="board" class="clearfix">
+                    <div id="contents">
+                        <div class="rpa-period-info">
+                            <p>📅 <strong>데이터 추출 범위:</strong> [[${period}]]</p>
+                            <p style="font-size: 0.9em; color: #666; margin-top: 5px;">* 매주 월요일, 지난주 월~금 데이터를 자동으로 아카이빙합니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="page_cou clearfix">
+                        <p>
+                            총 <em class="em_black">[[${#lists.size(archiveList)}]]</em> 건의 민원이 추출되었습니다.
+                        </p>
+                    </div>
+
+                    <table class="p_table" id="rpaDataTable">
+                        <colgroup>
+                            <col style="width: 120px;"> <col style="width: 150px;"> <col style="width: 150px;"> <col>                       </colgroup>
+                        <thead>
+                        <tr>
+                            <th scope="col">작성자ID</th>
+                            <th scope="col">신청일시</th>
+                            <th scope="col">답변일시</th>
+                            <th scope="col">민원내용</th>
+                        </tr>
+                        </thead>
+                        <tbody class="tb_text">
+                        <tr th:each="arc : ${archiveList}" th:if="${!#lists.isEmpty(archiveList)}">
+                            <td th:text="${arc.memId}">아이디</td>
+                            <td th:text="${#dates.format(arc.comDate, 'yyyy-MM-dd HH:mm')}">2026/02/20</td>
+                            <td th:text="${arc.answerDate != null ? #dates.format(arc.answerDate, 'yyyy-MM-dd HH:mm') : '-'}">-</td>
+                            <td class="p_sub content-cell">
+                                <div th:text="${arc.comContent}">민원 상세 내용</div>
+                            </td>
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(archiveList)}">
+                            <td colspan="4" class="no_data">
+                                해당 주차에 처리된 아카이브 데이터가 없습니다.
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer class="footer" th:replace="~{admin/common/admin_header_footer::footer}"></footer>
+</div>
+</body>
+</html>

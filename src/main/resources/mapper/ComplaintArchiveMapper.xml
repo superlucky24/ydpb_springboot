@@ -58,4 +58,16 @@
         WHERE comId = #{comId}
     </update>
 
+    <!--    UI Path에 넣을 주간데이터 띄우는 프론트용 -->
+    <select id="getWeeklyArchive" resultType="kr.go.ydpb.domain.ComplaintArchiveVO">
+        <![CDATA[
+        SELECT memId, comDate, answerDate, comContent
+        FROM tbl_complaint_arc
+        WHERE comDate >= #{start} AND comDate <= #{end}
+          AND deleteYn = 0
+        ORDER BY comDate ASC
+        ]]>
+    </select>
+
 </mapper>
+

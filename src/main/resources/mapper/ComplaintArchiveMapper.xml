@@ -60,14 +60,21 @@
 
     <!--    UI Path에 넣을 주간데이터 띄우는 프론트용 -->
     <select id="getWeeklyArchive" resultType="kr.go.ydpb.domain.ComplaintArchiveVO">
-        <![CDATA[
-        SELECT memId, comDate, answerDate, comContent
-        FROM tbl_complaint_arc
-        WHERE comDate >= #{start} AND comDate <= #{end}
-          AND deleteYn = 0
-        ORDER BY comDate ASC
+    <![CDATA[
+        SELECT
+            a.memId,
+            m.memName,      /* 회원 테이블에서 조인 */
+            a.comTitle,
+            a.comDate,
+            a.answerDate,
+            a.comContent
+        FROM tbl_complaint_arc a
+                 LEFT JOIN tbl_member m ON a.memId = m.memId
+        WHERE a.comDate >= #{start} AND a.comDate <= #{end}
+          AND a.deleteYn = 0
+        ORDER BY a.comDate ASC
         ]]>
-    </select>
+</select>
 
 </mapper>
 

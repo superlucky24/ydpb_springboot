@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ public class AdminComplaintArchiveController {
     Model model) {
 
         LocalDate referenceDay;
-        if (targetDate != null) {
+        if (targetDate != null && !targetDate.isEmpty()) {
             // 주소창에 ?targetDate=2026-02-10 처럼 넣으면 해당 날짜가 포함된 전주 데이터 추출
             referenceDay = LocalDate.parse(targetDate);
         } else {
@@ -56,4 +57,29 @@ public class AdminComplaintArchiveController {
 
         return "admin/admin_complaint_archive";
     }
+
+    // json 데이터 추출용 메서드
+    @GetMapping("/admin/archive/json")
+    @ResponseBody
+    public List<ComplaintArchiveVO> getRpaWeeklyDataJson(
+            @RequestParam(value = "targetDate", required = false) String targetDate) {
+
+        LocalDate referenceDay;
+        if (targetDate != null && !targetDate.isEmpty()) {
+            referenceDay = LocalDate.parse(targetDate);
+        } else {
+            referenceDay = LocalDate.now();
+        }
+
+        LocalDate thisMonday = referenceDay.with(java.time.temporal.TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY));
+        LocalDate lastMonday = thisMonday.minusDays(7);
+        LocalDate lastFriday = lastMonday.plusDays(4);
+
+        LocalDateTime start = lastMonday.atStartOfDay();
+        LocalDateTime end = lastFriday.atTime(LocalTime.MAX);
+
+        // DB에서 데이터 가져오기
+        return complaintArchiveService.getWeeklyArchive(start, end);
+    }
+
 }

@@ -9,26 +9,10 @@
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb.css}">
     <link rel="stylesheet" th:href="@{/css/ydpb_community_center_list.css}">
+    <link rel="stylesheet" th:href="@{/css/ydpb_SHAdd.css}">
     <script th:src="@{/js/admin.js}"></script>
     <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/js/ydpb.js}"></script>
-    <style>
-        /* RPA 추출을 돕기 위한 텍스트 줄바꿈 유지 및 강조 스타일 */
-        .rpa-period-info {
-            background: #fdfdfd;
-            border: 1px solid #ddd;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-        .rpa-period-info strong { color: #e74c3c; }
-        .content-cell {
-            text-align: left !important;
-            padding: 15px !important;
-            line-height: 1.5;
-            word-break: break-all;
-        }
-    </style>
 </head>
 <body>
 <div id="wrap">
@@ -47,52 +31,104 @@
 
                 <div id="board" class="clearfix">
                     <div id="contents">
+                        <div class="board_searchform">
+                            <form th:action="@{/admin/archive}" method="get" id="dateSearchForm">
+                            <fieldset>
+                                <legend>주차 선택 조회</legend>
+                                <div class="p-search clearfix">
+                                    <div class="p-form-group">
+                                        <label for="targetDate">기준 날짜 선택 :</label>
+                                        <input type="date" name="targetDate" id="targetDate"
+                                               class="p-input" th:value="${param.targetDate}">
+
+                                        <span class="p-form-group__btn">
+                        <input value="조회" type="submit" class="btn-archive btn-search">
+                    </span>
+
+                                        <a th:href="@{/admin/archive}" class="btn-archive btn-reset">오늘기준</a>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                        </div>
+
                         <div class="rpa-period-info">
-                            <p>📅 <strong>데이터 추출 범위:</strong> [[${period}]]</p>
-                            <p style="font-size: 0.9em; color: #666; margin-top: 5px;">* 매주 월요일, 지난주 월~금 데이터를 자동으로 아카이빙합니다.</p>
+                            <p><strong>데이터 추출 범위 : </strong> [[${period}]]</p>
+                            <span class="sub-text">* 매주 월요일, 지난주 월~금 데이터를 자동으로 아카이빙합니다.</span>
                         </div>
                     </div>
 
-                    <div class="page_cou clearfix">
-                        <p>
-                            총 <em class="em_black">[[${#lists.size(archiveList)}]]</em> 건의 민원이 추출되었습니다.
-                        </p>
+                    <div class="archive-utils-wrap">
+                        <div class="archive-count-box">
+                            <p>총 <em class="em_black">[[${#lists.size(archiveList)}]]</em> 건의 민원이 추출되었습니다.</p>
+                        </div>
+
+                        <div class="archive-btn-box">
+                            <a th:href="@{/admin/archive/json(targetDate=${param.targetDate})}"
+                               target="_blank"
+                               class="btn-json-export">
+                                JSON 데이터 추출
+                            </a>
+                        </div>
                     </div>
+
 
                     <table class="p_table" id="rpaDataTable">
                         <colgroup>
-                            <col style="width: 120px;"> <col style="width: 150px;"> <col style="width: 150px;"> <col>                       </colgroup>
+                            <col style="width: 50px;">
+                            <col style="width: 80px;">
+                            <col style="width: 70px;">
+                            <col style="width: 70px;">
+                            <col style="width: 140px;">
+                            <col style="width: 200px;">
+                        </colgroup>
                         <thead>
                         <tr>
-                            <th scope="col">작성자ID</th>
+                            <th scope="col">민원인</th>
+                            <th scope="col">아이디</th>
                             <th scope="col">신청일시</th>
                             <th scope="col">답변일시</th>
+                            <th scope="col">민원제목</th>
                             <th scope="col">민원내용</th>
                         </tr>
                         </thead>
                         <tbody class="tb_text">
                         <tr th:each="arc : ${archiveList}" th:if="${!#lists.isEmpty(archiveList)}">
+                            <td th:text="${arc.memName}">이름</td>
                             <td th:text="${arc.memId}">아이디</td>
-                            <td th:text="${#dates.format(arc.comDate, 'yyyy-MM-dd HH:mm')}">2026/02/20</td>
-                            <td th:text="${arc.answerDate != null ? #dates.format(arc.answerDate, 'yyyy-MM-dd HH:mm') : '-'}">-</td>
+                            <td th:text="${#dates.format(arc.comDate, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td th:text="${arc.answerDate != null ? #dates.format(arc.answerDate, 'yyyy-MM-dd HH:mm') : '-'}"></td>
+                            <td th:text="${arc.comTitle}" class="text-left">제목</td>
                             <td class="p_sub content-cell">
-                                <div th:text="${arc.comContent}">민원 상세 내용</div>
+                                <div class="inner-content" th:text="${arc.comContent}">민원 상세 내용</div>
                             </td>
                         </tr>
 
                         <tr th:if="${#lists.isEmpty(archiveList)}">
-                            <td colspan="4" class="no_data">
+                            <td colspan="6" class="no_data">
                                 해당 주차에 처리된 아카이브 데이터가 없습니다.
                             </td>
                         </tr>
                         </tbody>
                     </table>
-
                 </div>
             </main>
         </div>
     </div>
     <footer class="footer" th:replace="~{admin/common/admin_header_footer::footer}"></footer>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#dateSearchForm').on('submit', function(e) {
+            var dateVal = $('#targetDate').val();
+
+            // 날짜가 선택되지 않았을 경우
+            if (!dateVal) {
+                e.preventDefault();
+                location.href = '/admin/archive';
+            }
+        });
+    });
+</script>
 </body>
 </html>

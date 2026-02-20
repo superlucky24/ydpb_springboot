@@ -416,3 +416,190 @@ ul.bu li {
 #passwordChangeForm .table_form td {
     width: auto;
 }
+
+
+/* 주간 민원 아카이브 전용 스타일 */
+
+/* 상단 추출 정보 박스 */
+.rpa-period-info {
+    background: #fdfdfd;
+    border: solid 1px #979fa8;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.rpa-period-info p {
+    font-size: 16px;
+    color: #4c4c4c;
+}
+
+.rpa-period-info strong {
+    color: #f51600;
+    font-weight: 600;
+}
+
+.rpa-period-info span.sub-text {
+    display: block;
+    font-size: 13px;
+    color: #666;
+    margin-top: 8px;
+}
+
+/* 테이블 내 제목 및 내용 정렬 */
+.p_table .text-left {
+    text-align: left !important;
+    padding-left: 15px !important;
+}
+
+/* 민원내용 셀 */
+.content-cell {
+    text-align: left !important;
+    padding: 15px !important;
+    line-height: 1.6;
+    word-break: break-all; /* 긴 영문이나 숫자도 줄바꿈 처리 */
+    vertical-align: top;
+    color: #333;
+}
+
+.content-cell .inner-content {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* 날짜 선택 폼 영역 */
+.board_searchform .p-form-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.board_searchform {
+    margin-bottom: 20px;
+}
+
+.board_searchform label {
+    font-weight: 600;
+    color: #333;
+}
+
+/* 날짜 입력창 스타일 */
+input[type="date"].p-input {
+    height: 40px;
+    padding: 0 10px;
+    border: 1px solid #979fa8;
+    border-radius: 0;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+/* 버튼 공통 디자인 통일 */
+.board_searchform .btn-archive {
+    display: inline-block;
+    height: 40px;
+    line-height: 38px;
+    padding: 0 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    vertical-align: middle;
+    transition: all 0.2s ease;
+}
+
+/* 조회 버튼 */
+.board_searchform .btn-search {
+    background-color: #356bbe;
+    color: #fff !important;
+}
+.board_searchform .btn-search:hover {
+    background-color: #2a559a;
+}
+
+/* 오늘기준 버튼 */
+.board_searchform .btn-reset {
+    background-color: #666;
+    color: #fff !important;
+    text-decoration: none;
+}
+.board_searchform .btn-reset:hover {
+    background-color: #444;
+}
+
+/* 건수와 버튼을 감싸는 컨테이너 */
+.archive-utils-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 0 5px;
+}
+
+/* 건수 표시 div */
+.archive-count-box p {
+    margin: 0;
+    font-size: 15px;
+    color: #444;
+}
+
+/* 버튼 div */
+.archive-btn-box {
+    display: flex;
+}
+
+/* JSON 버튼 */
+.btn-json-export {
+    display: inline-block;
+    height: 36px;
+    line-height: 34px;
+    padding: 0 18px;
+    background-color: #4c5a67;
+    color: #fff !important;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 4px;
+    text-decoration: none;
+    border: 1px solid #3e4b56;
+    transition: all 0.2s;
+}
+
+.btn-json-export:hover {
+    background-color: #25364c;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* RPA 데이터 익스트랙션 영역 컨테이너 */
+.rpa-extraction-area {
+    margin-top: 40px;
+    padding: 25px 0;
+    border-top: 2px dashed #d1d8e0; /* 절취선 느낌의 대시 보더 */
+}
+
+/* RPA 영역 제목 */
+.rpa-extraction-area h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #8e9aaf;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+/* JSON 데이터 텍스트 영역 */
+.rpa-json-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    color: #495057;
+    font-family: 'Courier New', Courier, monospace; /* 데이터 가독성을 위한 고정폭 글꼴 */
+    font-size: 12px;
+    line-height: 1.5;
+    resize: none; /* 관리자가 크기를 조절하지 못하도록 고정 */
+    outline: none;
+}
+
+.rpa-json-textarea:focus {
+    border-color: #ced4da;
+}

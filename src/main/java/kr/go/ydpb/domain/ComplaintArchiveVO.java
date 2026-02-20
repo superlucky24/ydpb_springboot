@@ -20,4 +20,6 @@ public class ComplaintArchiveVO {
     private Date answerDate;
     private int answerPeriod;
     private int deleteYn;
+    // tbl_member
+    private String memName;
 }

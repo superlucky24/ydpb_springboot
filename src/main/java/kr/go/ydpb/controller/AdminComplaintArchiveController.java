@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import tools.jackson.databind.ObjectMapper;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ import java.util.List;
 public class AdminComplaintArchiveController {
 
     private final ComplaintArchiveService complaintArchiveService;
+    private final ObjectMapper objectMapper;
 
     @GetMapping("/admin/archive")
     public String getRpaWeeklyData (@RequestParam(value = "targetDate", required = false) String targetDate,
@@ -52,8 +54,12 @@ public class AdminComplaintArchiveController {
         // 파라미터로 start, end를 넘겨서 쿼리에서 BETWEEN으로 처리
         List<ComplaintArchiveVO> weeklyList = complaintArchiveService.getWeeklyArchive(start, end);
 
+        // 5. JSON 텍스트 출력용 문자열변환
+        String jsonList = objectMapper.writeValueAsString(weeklyList);
+
         model.addAttribute("archiveList", weeklyList);
         model.addAttribute("period", lastMonday + " ~ " + lastFriday); // RPA 확인용 제목
+        model.addAttribute("jsonList", jsonList);
 
         return "admin/admin_complaint_archive";
     }

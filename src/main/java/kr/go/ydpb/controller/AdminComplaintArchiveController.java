@@ -34,7 +34,7 @@ public class AdminComplaintArchiveController {
 
         LocalDate referenceDay;
         if (targetDate != null && !targetDate.isEmpty()) {
-            // 주소창에 ?targetDate=2026-02-10 처럼 넣으면 해당 날짜가 포함된 전주 데이터 추출
+            // 주소창에 ?targetDate=2026-02-10 처럼 넣어서 그 이전 데이터도 출력가능
             referenceDay = LocalDate.parse(targetDate);
         } else {
             // 아무것도 없으면 원래대로 '오늘' 기준 전주 추출
@@ -48,13 +48,13 @@ public class AdminComplaintArchiveController {
 
 
         // 2. 이번 주 월요일에서 7일을 빼서 '지난주 월요일' 정의
-        LocalDate lastMonday = thisMonday.minusDays(7);
+        LocalDate lastMonday = thisMonday.minusWeeks(1);
         // 지난주 금요일
-        LocalDate lastFriday = lastMonday.plusDays(4);
+        LocalDate lastSunday = thisMonday.minusDays(1);
 
         // 3. DB 조회를 위해 LocalDateTime으로 변환 (00:00:00 ~ 23:59:59)
         LocalDateTime start = lastMonday.atStartOfDay();
-        LocalDateTime end = lastFriday.atTime(LocalTime.MAX);
+        LocalDateTime end = lastSunday.atTime(LocalTime.MAX);
 
         // 4. 해당 기간의 데이터 조회 (comDate 기준)
         // 파라미터로 start, end를 넘겨서 쿼리에서 BETWEEN으로 처리
@@ -79,7 +79,7 @@ public class AdminComplaintArchiveController {
         String jsonList = objectMapper.writeValueAsString(filteredList);
 
         model.addAttribute("archiveList", weeklyList);
-        model.addAttribute("period", lastMonday + " ~ " + lastFriday); // RPA 확인용 제목
+        model.addAttribute("period", lastMonday + " ~ " + lastSunday); // RPA 확인용 제목
         model.addAttribute("jsonList", jsonList);
 
         return "admin/admin_complaint_archive";
@@ -99,11 +99,11 @@ public class AdminComplaintArchiveController {
         }
 
         LocalDate thisMonday = referenceDay.with(java.time.temporal.TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY));
-        LocalDate lastMonday = thisMonday.minusDays(7);
-        LocalDate lastFriday = lastMonday.plusDays(4);
+        LocalDate lastMonday = thisMonday.minusWeeks(1);
+        LocalDate lastSunday = thisMonday.minusDays(1);
 
         LocalDateTime start = lastMonday.atStartOfDay();
-        LocalDateTime end = lastFriday.atTime(LocalTime.MAX);
+        LocalDateTime end = lastSunday.atTime(LocalTime.MAX);
 
         // DB에서 데이터 가져오기
         return complaintArchiveService.getWeeklyArchive(start, end);
@@ -124,11 +124,11 @@ public class AdminComplaintArchiveController {
     }
 
     LocalDate thisMonday = referenceDay.with(java.time.temporal.TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY));
-    LocalDate lastMonday = thisMonday.minusDays(7);
-    LocalDate lastFriday = lastMonday.plusDays(4);
+    LocalDate lastMonday = thisMonday.minusWeeks(1);
+    LocalDate lastSunday = thisMonday.minusDays(1);
 
     LocalDateTime start = lastMonday.atStartOfDay();
-    LocalDateTime end = lastFriday.atTime(LocalTime.MAX);
+    LocalDateTime end = lastSunday.atTime(LocalTime.MAX);
 
     List<ComplaintArchiveVO> weeklyList = complaintArchiveService.getWeeklyArchive(start, end);
 

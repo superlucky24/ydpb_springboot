@@ -67,8 +67,11 @@
             a.comTitle,
             a.comDate,
             a.answerDate,
+            a.comStatus,
+            a.comAnswer,
             a.answerId,
-            a.comContent
+            a.comContent,
+            a.answerPeriod
         FROM tbl_complaint_arc a
                  LEFT JOIN tbl_member m ON a.memId = m.memId
         WHERE a.comDate >= #{start} AND a.comDate <= #{end}

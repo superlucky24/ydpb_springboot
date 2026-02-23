@@ -73,7 +73,7 @@ public class MemberController {
 
         // 2. 시큐리티 장부(SavedRequest) 관리
         // 관리자 페이지 시도가 아닌 정상적인 경로로 왔다면 장부를 비워서 '의도치 않은 403 페이지행'을 막음
-        if (referer != null && !referer.contains("/admin")) {
+        if (msg == null && referer != null && !referer.contains("/admin")) {
             session.removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
         }
 

@@ -78,7 +78,7 @@ public class SecurityConfig  {
                                 .requestMatchers(
                                         "/complaint/write",
                                         "/document/**",
-                                        "/mypage/**").authenticated()
+                                        "/mypage", "/mypage/**").authenticated()
 
                                 // 4. 그 외의 페이지는 일단 허용
                                 .anyRequest().permitAll()

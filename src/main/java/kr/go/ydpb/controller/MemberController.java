@@ -41,6 +41,7 @@ public class MemberController {
                         @RequestParam(value = "error", required = false) String error,
                         HttpServletRequest request,   // 이전 페이지 정보를 가져오기 위해 추가
                         Authentication authentication, // 로그인 여부 확인
+                        HttpSession session, // 일반 페이지에서 로그인 페이지 오는거 저장용
                         Model model) {
 
         /*
@@ -67,22 +68,34 @@ public class MemberController {
         }
         */
 
-        // 1. 이미 로그인된 사용자가 로그인 페이지에 접근할 경우 처리
+        // 1. 이전 페이지 주소 가져오기
+        String referer = request.getHeader("Referer");
+
+        // 2. 시큐리티 장부(SavedRequest) 관리
+        // 관리자 페이지 시도가 아닌 정상적인 경로로 왔다면 장부를 비워서 '의도치 않은 403 페이지행'을 막음
+        if (msg == null && referer != null && !referer.contains("/admin")) {
+            session.removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
+        }
+
+        // 3. 이전 페이지 저장 (로그인 성공 후 돌아갈 용도)
+        if (referer != null && !referer.contains("/login")) {
+            session.setAttribute("prevPage", referer);
+        }
+
+        // 4. 이미 로그인된 사용자가 로그인 페이지에 접근할 경우 처리 (리다이렉트)
         if (authentication != null && authentication.isAuthenticated()
                 && !(authentication instanceof AnonymousAuthenticationToken)) {
 
-            // 이전 페이지 정보(Referer)
-            String referer = request.getHeader("Referer");
-
-            // 이전 페이지 정보가 있고, 자기 자신(로그인 페이지)이 아니라면 그곳으로 이동
-            if (referer != null && !referer.contains("/login")) {
-                return "redirect:" + referer;
+            // 에러나 메시지가 없을 때만 튕겨냄 (시큐리티가 강제 리다이렉트한 경우 예외)
+            if (msg == null && error == null) {
+                if (referer != null && !referer.contains("/login")) {
+                    return "redirect:" + referer;
+                }
+                return "redirect:/";
             }
-
-            // 이전 정보가 없으면 그냥 메인으로 보냅니다.
-            return "redirect:/";
         }
 
+        // 5. 알림창 메시지
         // 1. 로그인 필요한 서비스
         if ("auth".equals(msg)) {
             model.addAttribute("errorMsg", "로그인이 필요한 서비스입니다.");

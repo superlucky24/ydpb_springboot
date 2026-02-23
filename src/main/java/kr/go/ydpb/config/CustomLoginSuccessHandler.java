@@ -91,16 +91,28 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
         log.info("=== 로그인 성공 핸들러 분석 시작 ===");
         if (savedRequest != null) {
-            log.info("시큐리티 장부 발견: {}", savedRequest.getRedirectUrl());
+            // 1. 시큐리티 장부가 있다면 (강제로 튕겨온 경우), 시큐리티 본래의 로직에 맡깁니다.
+            log.info("시큐리티 장부 발견, 해당 위치로 이동: {}", savedRequest.getRedirectUrl());
+            super.onAuthenticationSuccess(request, response, authentication);
         } else {
-            log.info("시큐리티 장부 없음");
+            // 2. 장부가 없다면 (직접 로그인 버튼 클릭), 우리가 저장한 prevPage를 확인합니다.
+            String prevPage = (String) session.getAttribute("prevPage");
+            if (prevPage != null && !prevPage.isEmpty()) {
+                log.info("장부 없음, 세션의 prevPage로 이동: {}", prevPage);
+                session.removeAttribute("prevPage"); // 사용 후 삭제
+                getRedirectStrategy().sendRedirect(request, response, prevPage);
+            } else {
+                // 3. 둘 다 없으면 홈으로
+                log.info("이동할 정보 없음, 홈으로 이동");
+                getRedirectStrategy().sendRedirect(request, response, "/");
+            }
         }
 
 
-        // 로그인 성공 후 이동할 페이지 설정
-        // 시큐리티가 제공하는 기본 로그인 성공 로직을 실행하라는 코드
-        // 장부에 주소가 없으면 이동할 기본 페이지 설정
-        setDefaultTargetUrl("/");
-        super.onAuthenticationSuccess(request, response, authentication);
+//        // 로그인 성공 후 이동할 페이지 설정
+//        // 시큐리티가 제공하는 기본 로그인 성공 로직을 실행하라는 코드
+//        // 장부에 주소가 없으면 이동할 기본 페이지 설정
+//        setDefaultTargetUrl("/");
+//        super.onAuthenticationSuccess(request, response, authentication);
     }
 }

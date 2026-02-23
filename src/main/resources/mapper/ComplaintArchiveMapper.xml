@@ -67,6 +67,7 @@
             a.comTitle,
             a.comDate,
             a.answerDate,
+            a.answerId,
             a.comContent
         FROM tbl_complaint_arc a
                  LEFT JOIN tbl_member m ON a.memId = m.memId

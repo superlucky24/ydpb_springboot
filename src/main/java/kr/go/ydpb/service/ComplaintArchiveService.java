@@ -3,8 +3,8 @@ package kr.go.ydpb.service;
 import kr.go.ydpb.domain.ComplaintArchiveVO;
 import kr.go.ydpb.domain.ComplaintVO;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface ComplaintArchiveService {
 
@@ -15,7 +15,7 @@ public interface ComplaintArchiveService {
      void updateComplaintUserArchive(ComplaintVO cvo);
      int deleteComplaintArchive(int comId);
 
-     // [추가] 주간 아카이브 조회를 위한 메서드
-     List<ComplaintArchiveVO> getWeeklyArchive(LocalDateTime start, LocalDateTime end);
+     // 주간 아카이브 조회를 위한 메서드
+     Map<String, Object> getWeeklyArchiveWithPeriod(String targetDate);
 }
 

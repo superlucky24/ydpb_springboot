@@ -9,15 +9,19 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
 public class ComplaintArchiveServiceImpl implements ComplaintArchiveService {
+
     // 민원 아카이브 sql 처리 Mapper 주입
-    @Setter(onMethod_ = @Autowired)
-    private ComplaintArchiveMapper complaintArchiveMapper;
+    private final ComplaintArchiveMapper complaintArchiveMapper;
 
     @Override
     public ComplaintVO getOneComplaintArchive(int comId) {
@@ -58,8 +62,30 @@ public class ComplaintArchiveServiceImpl implements ComplaintArchiveService {
     }
 
     @Override
-    public List<ComplaintArchiveVO> getWeeklyArchive(LocalDateTime start, LocalDateTime end) {
-        // 매퍼의 getWeeklyArchive를 호출하여 결과 리턴
-        return complaintArchiveMapper.getWeeklyArchive(start, end);
+    public Map<String, Object> getWeeklyArchiveWithPeriod(String targetDate) {
+        LocalDate referenceDay;
+        if (targetDate != null && !targetDate.isEmpty()) {
+            referenceDay = LocalDate.parse(targetDate);
+        } else {
+            referenceDay = LocalDate.now();
+        }
+
+        // 날짜 계산 (월요일 ~ 일요일)
+        LocalDate thisMonday = referenceDay.with(java.time.temporal.TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY));
+        LocalDate lastMonday = thisMonday.minusWeeks(1);
+        LocalDate lastSunday = thisMonday.minusDays(1);
+
+        LocalDateTime start = lastMonday.atStartOfDay();
+        LocalDateTime end = lastSunday.atTime(LocalTime.MAX);
+
+        // 데이터 조회
+        List<ComplaintArchiveVO> weeklyList = complaintArchiveMapper.getWeeklyArchive(start, end);
+
+        // 결과물 포장
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", weeklyList);
+        result.put("period", lastMonday + " ~ " + lastSunday);
+
+        return result;
     }
 }
